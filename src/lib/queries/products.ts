@@ -1,0 +1,181 @@
+import type { Prisma } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
+import { toCardList } from "@/lib/queries/to-card";
+
+export type ProductCard = {
+  id: string;
+  title: string;
+  slug: string;
+  brand: string | null;
+  priceCents: number;
+  compareAtCents: number | null;
+  image: string | null;
+  secondImage: string | null;
+  inStock: boolean;
+  isOutlet: boolean;
+  colors: { name: string; hex: string | null }[];
+};
+
+export type ProductSort = "latest" | "price-asc" | "price-desc" | "featured" | "best-selling";
+
+export type ProductFilter = {
+  categorySlug?: string;
+  brandSlugs?: string[];
+  sizes?: string[];
+  colors?: string[];
+  minCents?: number;
+  maxCents?: number;
+  inStockOnly?: boolean;
+  saleOnly?: boolean;
+  gender?: string;
+  q?: string;
+  sort?: ProductSort;
+  page?: number;
+  pageSize?: number;
+};
+
+const DEFAULT_PAGE_SIZE = 12;
+
+/** Resolve a category slug to itself + all descendants (path-prefixed slugs). */
+async function descendantCategoryIds(slug: string): Promise<string[]> {
+  const cats = await prisma.category.findMany({
+    where: { OR: [{ slug }, { slug: { startsWith: `${slug}-` } }] },
+    select: { id: true },
+  });
+  return cats.map((c) => c.id);
+}
+
+function orderBy(sort?: ProductSort): Prisma.ProductOrderByWithRelationInput[] {
+  switch (sort) {
+    case "price-asc":
+      return [{ priceCents: "asc" }];
+    case "price-desc":
+      return [{ priceCents: "desc" }];
+    case "best-selling":
+      return [{ salesCount: "desc" }, { createdAt: "desc" }];
+    case "featured":
+      return [{ isFeatured: "desc" }, { salesCount: "desc" }];
+    default:
+      return [{ publishedAt: "desc" }, { createdAt: "desc" }];
+  }
+}
+
+async function buildWhere(f: ProductFilter): Promise<Prisma.ProductWhereInput> {
+  const where: Prisma.ProductWhereInput = { status: "ACTIVE" };
+  const and: Prisma.ProductWhereInput[] = [];
+
+  // Outlet is virtual: the "outlet" collection means on-sale products.
+  if (f.categorySlug === "outlet") {
+    where.isOutlet = true;
+  } else if (f.categorySlug) {
+    const ids = await descendantCategoryIds(f.categorySlug);
+    and.push({ categories: { some: { categoryId: { in: ids } } } });
+  }
+
+  if (f.gender) where.gender = f.gender;
+  if (f.saleOnly) where.isOutlet = true;
+  if (f.brandSlugs?.length) and.push({ brand: { slug: { in: f.brandSlugs } } });
+
+  if (f.minCents != null || f.maxCents != null) {
+    where.priceCents = {
+      ...(f.minCents != null ? { gte: f.minCents } : {}),
+      ...(f.maxCents != null ? { lte: f.maxCents } : {}),
+    };
+  }
+
+  if (f.sizes?.length) and.push({ variants: { some: { size: { in: f.sizes }, isActive: true } } });
+  if (f.colors?.length) and.push({ variants: { some: { color: { in: f.colors }, isActive: true } } });
+  if (f.inStockOnly) and.push({ variants: { some: { stock: { gt: 0 }, isActive: true } } });
+
+  if (f.q) {
+    const q = f.q.trim();
+    and.push({
+      // MySQL string comparisons are case-insensitive by default (utf8mb4_*_ci),
+      // so `mode: insensitive` is unnecessary (and unsupported by the MySQL connector).
+      OR: [
+        { title: { contains: q } },
+        { description: { contains: q } },
+        { brand: { name: { contains: q } } },
+        { productType: { contains: q } },
+      ],
+    });
+  }
+
+  if (and.length) where.AND = and;
+  return where;
+}
+
+const cardInclude = {
+  brand: { select: { name: true } },
+  images: { orderBy: { position: "asc" }, take: 2 },
+  variants: { where: { isActive: true }, select: { color: true, colorHex: true, stock: true } },
+} satisfies Prisma.ProductInclude;
+
+export async function listProducts(f: ProductFilter) {
+  const page = Math.max(1, f.page ?? 1);
+  const pageSize = f.pageSize ?? DEFAULT_PAGE_SIZE;
+  const where = await buildWhere(f);
+
+  const [items, total] = await Promise.all([
+    prisma.product.findMany({
+      where,
+      include: cardInclude,
+      orderBy: orderBy(f.sort),
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+    prisma.product.count({ where }),
+  ]);
+
+  return {
+    products: toCardList(items),
+    total,
+    page,
+    pageSize,
+    totalPages: Math.max(1, Math.ceil(total / pageSize)),
+  };
+}
+
+/** Filter facets (available brands/sizes/colors/price range) within a category scope. */
+export async function getFacets(categorySlug?: string) {
+  const scope: Prisma.ProductWhereInput = { status: "ACTIVE" };
+  if (categorySlug === "outlet") {
+    scope.isOutlet = true;
+  } else if (categorySlug) {
+    const ids = await descendantCategoryIds(categorySlug);
+    scope.categories = { some: { categoryId: { in: ids } } };
+  }
+
+  const products = await prisma.product.findMany({
+    where: scope,
+    select: {
+      priceCents: true,
+      brand: { select: { name: true, slug: true } },
+      variants: { where: { isActive: true }, select: { size: true, color: true, colorHex: true } },
+    },
+  });
+
+  const brands = new Map<string, string>();
+  const sizes = new Set<string>();
+  const colors = new Map<string, string | null>();
+  let min = Infinity;
+  let max = 0;
+
+  for (const p of products) {
+    if (p.brand) brands.set(p.brand.slug, p.brand.name);
+    min = Math.min(min, p.priceCents);
+    max = Math.max(max, p.priceCents);
+    for (const v of p.variants) {
+      if (v.size) sizes.add(v.size);
+      if (v.color) colors.set(v.color, v.colorHex);
+    }
+  }
+
+  return {
+    brands: [...brands.entries()].map(([slug, name]) => ({ slug, name })).sort((a, b) => a.name.localeCompare(b.name)),
+    sizes: [...sizes].sort(),
+    colors: [...colors.entries()].map(([name, hex]) => ({ name, hex })),
+    minCents: Number.isFinite(min) ? min : 0,
+    maxCents: max,
+  };
+}

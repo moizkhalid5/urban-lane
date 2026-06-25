@@ -1,0 +1,570 @@
+// Urbane Lane — Prisma schema
+// Money is stored as integer minor units (e.g. paisa/cents) in the store's BASE_CURRENCY.
+// Display conversion/rounding happens at render time via the Currency table.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Enums
+// ──────────────────────────────────────────────────────────────────────────
+
+enum UserRole {
+  CUSTOMER
+  STAFF
+  ADMIN
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum AddressType {
+  SHIPPING
+  BILLING
+}
+
+enum PaymentMethod {
+  COD
+  BANK_TRANSFER
+  CARD
+  STRIPE
+  PAYPAL
+  SAFEPAY
+  PAYFAST
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum FulfillmentStatus {
+  UNFULFILLED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  RETURNED
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+  FREE_SHIPPING
+}
+
+enum RefundStatus {
+  REQUESTED
+  APPROVED
+  REJECTED
+  COMPLETED
+}
+
+enum BannerKind {
+  HERO
+  BRAND_SLIDER
+  PAYMENT
+  PROMO
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Auth & customers
+// ──────────────────────────────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  passwordHash  String?
+  role          UserRole  @default(CUSTOMER)
+  emailVerified DateTime?
+  image         String?
+  isActive      Boolean   @default(true)
+
+  profile       CustomerProfile?
+  addresses     Address[]
+  orders        Order[]
+  carts         Cart[]
+  wishlist      WishlistItem[]
+  tokens        Token[]
+  auditLogs     AuditLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([role])
+}
+
+model CustomerProfile {
+  id              String  @id @default(cuid())
+  userId          String  @unique
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone           String?
+  acceptsMarketing Boolean @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Address {
+  id         String      @id @default(cuid())
+  userId     String
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type       AddressType @default(SHIPPING)
+  isDefault  Boolean     @default(false)
+  firstName  String
+  lastName   String
+  phone      String?
+  line1      String
+  line2      String?
+  city       String
+  state      String?
+  postalCode String
+  country    String      @default("PK")
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@index([userId])
+}
+
+/// Multi-purpose tokens: email verification, password reset.
+model Token {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String // "EMAIL_VERIFY" | "PASSWORD_RESET"
+  token     String   @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, type])
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Catalog
+// ──────────────────────────────────────────────────────────────────────────
+
+model Category {
+  id             String     @id @default(cuid())
+  name           String
+  /// Globally-unique, path-based slug, e.g. "women-trousers-jeans".
+  slug           String     @unique
+  description    String?
+  parentId       String?
+  parent         Category?  @relation("CategoryTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children       Category[] @relation("CategoryTree")
+  /// 0 = root nav group (Women, Men, …); deeper = sub/sub-sub.
+  level          Int        @default(0)
+  position       Int        @default(0)
+  image          String?
+  isActive       Boolean    @default(true)
+  showInNav      Boolean    @default(true)
+  /// Virtual categories (e.g. Outlet) are flag-driven, not direct assignments.
+  isVirtual      Boolean    @default(false)
+  seoTitle       String?
+  seoDescription String?
+
+  products ProductCategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([parentId])
+  @@index([level])
+}
+
+model Brand {
+  id             String   @id @default(cuid())
+  name           String   @unique
+  slug           String   @unique
+  logo           String?
+  banner         String?
+  description    String?
+  isFeatured     Boolean  @default(false)
+  position       Int      @default(0)
+  seoTitle       String?
+  seoDescription String?
+  products       Product[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Product {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  description String?       @db.Text
+  /// Short bullet "details" section, stored as text lines.
+  details     String?       @db.Text
+  material    String?
+  condition   String?
+  status      ProductStatus @default(DRAFT)
+
+  brandId String?
+  brand   Brand?  @relation(fields: [brandId], references: [id], onDelete: SetNull)
+
+  /// Gender / top-level grouping for quick filtering ("women","men","kids","beauty","jewellery","unisex").
+  gender      String?
+  productType String?
+
+  // Money in base-currency minor units.
+  priceCents        Int
+  compareAtCents    Int?
+  costCents         Int?
+
+  sku     String? @unique
+  barcode String?
+
+  // Inventory at product level is the sum of variant stock; these aid display & alerts.
+  trackInventory    Boolean @default(true)
+  lowStockThreshold Int     @default(5)
+
+  isFeatured Boolean @default(false)
+  isOutlet   Boolean @default(false)
+
+  // MySQL has no scalar-list arrays; tags are stored as a JSON array of strings.
+  tags Json?
+
+  seoTitle       String?
+  seoDescription String?
+
+  publishedAt DateTime?
+  salesCount  Int       @default(0)
+
+  variants   ProductVariant[]
+  images     ProductImage[]
+  categories ProductCategory[]
+  orderItems OrderItem[]
+  wishedBy   WishlistItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([brandId])
+  @@index([gender])
+  @@index([isFeatured])
+  @@index([isOutlet])
+}
+
+/// Many-to-many between products and categories (a product can sit in several nodes).
+model ProductCategory {
+  productId  String
+  categoryId String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([productId, categoryId])
+  @@index([categoryId])
+}
+
+model ProductVariant {
+  id            String  @id @default(cuid())
+  productId     String
+  product       Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  /// Human label, e.g. "M / Black".
+  label         String?
+  size          String?
+  color         String?
+  colorHex      String?
+  sku           String? @unique
+  barcode       String?
+  /// Optional per-variant price override (minor units). Falls back to product price.
+  priceCents    Int?
+  stock         Int     @default(0)
+  image         String?
+  position      Int     @default(0)
+  isActive      Boolean @default(true)
+
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+  @@index([size])
+  @@index([color])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String?
+  position  Int     @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Cart
+// ──────────────────────────────────────────────────────────────────────────
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String?
+  user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Anonymous identifier stored in an httpOnly cookie for guests.
+  token     String?    @unique
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([userId])
+}
+
+model CartItem {
+  id        String         @id @default(cuid())
+  cartId    String
+  cart      Cart           @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  variantId String
+  variant   ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  quantity  Int            @default(1)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@unique([cartId, variantId])
+  @@index([cartId])
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Orders
+// ──────────────────────────────────────────────────────────────────────────
+
+model Order {
+  id          String @id @default(cuid())
+  orderNumber String @unique
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  email     String
+  phone     String?
+  firstName String
+  lastName  String
+
+  // Shipping address snapshot
+  shipLine1      String
+  shipLine2      String?
+  shipCity       String
+  shipState      String?
+  shipPostalCode String
+  shipCountry    String
+
+  // Billing address snapshot (optional; falls back to shipping)
+  billLine1      String?
+  billLine2      String?
+  billCity       String?
+  billState      String?
+  billPostalCode String?
+  billCountry    String?
+
+  items OrderItem[]
+
+  currency      String  @default("PKR")
+  subtotalCents Int
+  shippingCents Int     @default(0)
+  discountCents Int     @default(0)
+  taxCents      Int     @default(0)
+  totalCents    Int
+
+  shippingMethod String?
+  couponCode     String?
+
+  paymentMethod     PaymentMethod
+  paymentStatus     PaymentStatus     @default(PENDING)
+  fulfillmentStatus FulfillmentStatus @default(UNFULFILLED)
+
+  trackingNumber  String?
+  trackingCarrier String?
+
+  customerNote String?
+  adminNote    String?
+
+  refunds RefundRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([paymentStatus])
+  @@index([fulfillmentStatus])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id        String @id @default(cuid())
+  orderId   String
+  order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  // Nullable refs (snapshot survives product/variant deletion)
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  variantId String?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+
+  // Snapshot fields
+  productTitle String
+  variantLabel String?
+  sku          String?
+  brandName    String?
+  image        String?
+  unitPriceCents Int
+  quantity     Int
+
+  @@index([orderId])
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Wishlist
+// ──────────────────────────────────────────────────────────────────────────
+
+model WishlistItem {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+  @@index([userId])
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Discounts
+// ──────────────────────────────────────────────────────────────────────────
+
+model Coupon {
+  id              String       @id @default(cuid())
+  code            String       @unique
+  description     String?
+  type            DiscountType @default(PERCENTAGE)
+  /// For PERCENTAGE: basis points-free integer percent (e.g. 10 = 10%). For FIXED: minor units.
+  value           Int          @default(0)
+  minSubtotalCents Int?
+  maxRedemptions  Int?
+  timesRedeemed   Int          @default(0)
+  isActive        Boolean      @default(true)
+  startsAt        DateTime?
+  endsAt          DateTime?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Site config, merchandising, messages
+// ──────────────────────────────────────────────────────────────────────────
+
+/// Singleton row (id = "singleton").
+model SiteSettings {
+  id              String  @id @default("singleton")
+  storeName       String  @default("Urbane Lane")
+  storeEmail      String  @default("orders@urbanelane.com")
+  supportPhone    String?
+  baseCurrency    String  @default("PKR")
+  // Toggle live payment methods
+  enableCOD          Boolean @default(true)
+  enableBankTransfer Boolean @default(true)
+  enableCard         Boolean @default(false)
+  enablePaypal       Boolean @default(false)
+  // COD ceiling in base-currency minor units (issues doc: Rs 10,000)
+  codLimitCents      Int     @default(1000000)
+  // Free shipping threshold + flat shipping fee (minor units)
+  freeShippingThresholdCents Int? @default(1500000)
+  flatShippingCents          Int  @default(30000)
+  bankTransferInstructions   String? @db.Text
+  announcementText           String?
+  socialJson                 Json?
+  updatedAt DateTime @updatedAt
+}
+
+model Currency {
+  code      String  @id // "PKR","USD","GBP","EUR"
+  symbol    String
+  flag      String // emoji or asset key
+  /// Units of this currency per 1 unit of base currency.
+  rate      Float   @default(1)
+  /// Round displayed prices to nearest whole unit (issues doc requirement).
+  roundWhole Boolean @default(true)
+  isBase    Boolean @default(false)
+  isEnabled Boolean @default(true)
+  position  Int     @default(0)
+}
+
+model Banner {
+  id        String     @id @default(cuid())
+  kind      BannerKind
+  title     String?
+  subtitle  String?
+  image     String?
+  link      String?
+  position  Int        @default(0)
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([kind])
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model RefundRequest {
+  id        String       @id @default(cuid())
+  orderId   String?
+  order     Order?       @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  email     String
+  subject   String
+  reason    String       @db.Text
+  attachment String?
+  status    RefundStatus @default(REQUESTED)
+  adminNote String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@index([orderId])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  entity    String?
+  entityId  String?
+  meta      Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([entity, entityId])
+}
