@@ -7,8 +7,6 @@ import { ProductGrid } from "@/components/product/ProductGrid";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { BrandSlider } from "@/components/home/BrandSlider";
 
-export const revalidate = 300;
-
 function SectionHeading({ title, href, cta }: { title: string; href?: string; cta?: string }) {
   return (
     <div className="mb-6 flex items-end justify-between">

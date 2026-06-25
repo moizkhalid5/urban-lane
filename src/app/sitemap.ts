@@ -3,12 +3,24 @@ import { prisma } from "@/lib/prisma";
 
 const APP_URL = process.env.APP_URL || "http://localhost:3000";
 
+// Generated at request time, not at build (the build has no DATABASE_URL).
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [categories, products, brands] = await Promise.all([
-    prisma.category.findMany({ where: { isActive: true }, select: { slug: true, updatedAt: true } }),
-    prisma.product.findMany({ where: { status: "ACTIVE" }, select: { slug: true, updatedAt: true } }),
-    prisma.brand.findMany({ select: { slug: true, updatedAt: true } }),
-  ]);
+  // Resilient: if the DB is unreachable, still return the static pages so the
+  // route never throws (and the build never depends on a database).
+  let categories: { slug: string; updatedAt: Date }[] = [];
+  let products: { slug: string; updatedAt: Date }[] = [];
+  let brands: { slug: string; updatedAt: Date }[] = [];
+  try {
+    [categories, products, brands] = await Promise.all([
+      prisma.category.findMany({ where: { isActive: true }, select: { slug: true, updatedAt: true } }),
+      prisma.product.findMany({ where: { status: "ACTIVE" }, select: { slug: true, updatedAt: true } }),
+      prisma.brand.findMany({ select: { slug: true, updatedAt: true } }),
+    ]);
+  } catch {
+    // DB unavailable (e.g. during build) — fall back to static pages only.
+  }
 
   const staticPages = [
     "",

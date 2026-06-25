@@ -3,8 +3,6 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { BrandSlider } from "@/components/home/BrandSlider";
 
-export const revalidate = 600;
-
 export const metadata: Metadata = {
   title: "All Brands",
   description: "Shop all brands at Urbane Lane.",

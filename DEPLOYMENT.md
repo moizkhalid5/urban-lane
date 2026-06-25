@@ -55,6 +55,26 @@ After Step 0, connect Hostinger to the GitHub repo:
 
 ---
 
+## Hostinger build settings (use these exact values)
+
+When Hostinger asks for / auto-detects the app settings, use:
+
+| Setting | Value |
+|---|---|
+| Framework | **Next.js** (it should auto-detect; if it shows "Other", pick Next.js or set the fields below) |
+| **Node.js version** | **22** (matches `.nvmrc` / `package.json` engines) |
+| **Build command** | `npm run build` |
+| **Run / Start command** | `npm start` |
+| **Output directory** | `.next` |
+| **App / port** | `3000` (the app listens on port 3000 by default) |
+| **Root directory** | the repo root (where `package.json` is) |
+
+> If you ever saw **"unsupported framework" / "invalid project structure"**, it's fixed now:
+> the project uses a plain `next.config.mjs`, `package.json` is at the repo root, Node is
+> pinned to **22**, and `node_modules` is never committed. Re-pull/redeploy after pushing.
+
+---
+
 ## STEP 1 — Create the database (hPanel)
 
 1. Log in to **hPanel** → **Databases** → **Management** (MySQL Databases).
