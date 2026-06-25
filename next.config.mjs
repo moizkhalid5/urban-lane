@@ -1,10 +1,9 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
-    // Local images live under /public/uploads in development.
+    // Local images live under /public/uploads.
     // Remote loaders (Cloudinary, S3, R2) can be added here when configured.
     remotePatterns: [
       { protocol: "https", hostname: "res.cloudinary.com" },

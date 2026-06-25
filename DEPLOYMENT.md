@@ -11,6 +11,48 @@ You have **3 files** in your project folder to upload. That's it:
 > If you ever change products/images locally and want fresh files:
 > `npm run images:bundle` (images) and re-export the DB (see step 2c).
 
+> **Note:** the code goes to Hostinger **via GitHub** (below). The database
+> (`db-bundle.sql`) and images (`uploads-bundle.zip`) do **not** go through
+> GitHub — you upload them once directly (Steps 1 and 6).
+
+---
+
+## STEP 0 — Push the code to GitHub (one time)
+
+The repository is already initialized and committed locally. You just need to
+create an empty repo on GitHub and push.
+
+1. Go to **github.com** → top-right **+** → **New repository**.
+2. Name it `urbane-lane`. Choose **Private** (recommended — it's your business code).
+   **Do NOT** tick "Add a README / .gitignore / license" (the repo must start empty).
+3. Click **Create repository**, then copy the URL it shows (e.g. `https://github.com/YOURNAME/urbane-lane.git`).
+4. In a terminal **in your project folder** (`d:\Urbane Lane`), run:
+   ```bash
+   git remote add origin https://github.com/YOURNAME/urbane-lane.git
+   git push -u origin main
+   ```
+   The first push will ask you to sign in to GitHub (a browser window or a token). After that, your code is on GitHub.
+
+> Later, whenever you change code: `git add -A && git commit -m "what changed" && git push`.
+
+---
+
+## Deploying from GitHub on Hostinger
+
+After Step 0, connect Hostinger to the GitHub repo:
+
+1. hPanel → **Advanced** → **GIT**.
+2. **Create a new repository deployment:**
+   - **Repository:** your GitHub URL.
+   - **Branch:** `main`.
+   - **Directory:** your Node.js app folder.
+   - If the repo is **Private**, hPanel shows an **SSH key** — copy it, then in GitHub go to your repo → **Settings → Deploy keys → Add deploy key**, paste it, save. (Or make the repo public, but private is safer.)
+3. Click **Deploy** — Hostinger pulls your code into the app folder.
+4. Then continue with **Steps 4–8 below** (env vars → install/build → images → domain).
+5. **Future updates:** `git push` from your PC, then in hPanel **GIT → Deploy** (pull), then rebuild + restart the Node app.
+
+> The rest of the steps (database import, env vars, build, images, domain) are the same whether you deploy by GitHub or by zip. Continue below.
+
 ---
 
 ## STEP 1 — Create the database (hPanel)
