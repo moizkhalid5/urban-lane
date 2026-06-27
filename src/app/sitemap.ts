@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
-
-const APP_URL = process.env.APP_URL || "http://localhost:3000";
+import { APP_URL } from "@/lib/site";
 
 // Generated at request time, not at build (the build has no DATABASE_URL).
 export const dynamic = "force-dynamic";

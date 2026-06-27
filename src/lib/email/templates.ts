@@ -3,7 +3,8 @@
  * Each builder returns { subject, html, text } ready for sendEmail().
  */
 
-const APP_URL = process.env.APP_URL || "http://localhost:3000";
+import { APP_URL } from "@/lib/site";
+
 const STORE = "Urban Lane";
 
 function layout(title: string, body: string): string {
