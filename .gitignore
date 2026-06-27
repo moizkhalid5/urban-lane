@@ -32,8 +32,12 @@ yarn-error.log*
 /prisma/*.db-journal
 
 # uploads (local dev image storage)
+# Runtime/admin-uploaded files in /public/uploads stay out of git, BUT the seed
+# catalogue images under /products are committed so they deploy with the code.
 /public/uploads/*
 !/public/uploads/.gitkeep
+!/public/uploads/products/
+!/public/uploads/products/**
 
 # deploy bundles (regenerate as needed)
 /uploads-bundle.zip
