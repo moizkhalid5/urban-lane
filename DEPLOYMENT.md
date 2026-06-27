@@ -109,29 +109,42 @@ app with `npm run start -- -p $PORT`.
 
 ## STEP 4 — Create the database schema + data
 
-Open the Node.js app's **terminal/console** in hPanel (or SSH) **in the app
-root**, then choose ONE path:
+The tables are empty after Step 1. Choose the path that fits your hosting.
 
-**A. Fresh store with demo catalogue (simplest):**
+### A. No terminal on Hostinger → import the SQL bundle (recommended here)
+
+Hostinger's Node.js Web Apps plan has **no app terminal**, so prepare the DB
+directly in **phpMyAdmin** with a ready-made bundle.
+
+1. Generate the bundle locally (run once on your PC, in the project folder):
+   ```bash
+   npm install            # if you haven't already
+   npm run db:sqlfile     # writes db-bundle.sql in the project root
+   ```
+   This produces `db-bundle.sql` — schema + currencies, settings, banners, the
+   full category tree, brands, an **admin user**, and the **real 175-product
+   catalogue** (products, variants, images). It's safe to re-import (it drops the
+   tables first). Admin login is baked from `SEED_ADMIN_EMAIL` /
+   `SEED_ADMIN_PASSWORD` (defaults `admin@urbanlane.com` / `ChangeMe123!`); set
+   those env vars before running the command to choose your own.
+2. hPanel → **Databases → phpMyAdmin** for your database.
+3. Select your database in the left sidebar → **Import** tab → **Choose File** →
+   pick `db-bundle.sql` → **Import**.
+4. Done — every table and all data is created. Skip to Step 5.
+
+> The bundle is for phpMyAdmin only; it is git-ignored and does **not** go
+> through GitHub.
+
+### B. If you DO have a terminal (VPS/SSH)
+
+Run in the app root, then **Restart** the app:
 ```bash
-npm run db:setup
-```
-This runs `prisma migrate deploy` (creates every table from the committed
-migration) and then the seed (categories, brands, currencies, settings, an admin
-user, and demo products).
-
-**B. Fresh store with the real 175-product catalogue:**
-```bash
-npm run prisma:deploy   # create tables
-npm run db:seed         # reference data + admin (clears demo products)
-npm run db:import       # import the real catalogue from prisma/import-data.json
+npm run db:setup    # demo catalogue: migrate + seed
+# — or for the real catalogue —
+npm run prisma:deploy && npm run db:seed && npm run db:import
 ```
 
-> If you prefer the old phpMyAdmin route, you can instead **Import** a SQL dump
-> under hPanel → phpMyAdmin. But `npm run db:setup` is the recommended,
-> repeatable way and needs no dump file.
-
-After the schema/data step, **Restart** the app from hPanel.
+After loading data, **Restart** the app from hPanel.
 
 ---
 

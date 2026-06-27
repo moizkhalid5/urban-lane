@@ -19,6 +19,7 @@
     "db:setup": "prisma migrate deploy && prisma db seed",
     "db:seed": "tsx prisma/seed.ts",
     "db:import": "tsx prisma/import-products.ts",
+    "db:sqlfile": "tsx prisma/generate-sql.ts",
     "db:reset": "prisma migrate reset --force",
     "images:bundle": "powershell -NoProfile -Command \"Compress-Archive -Path public/uploads/* -DestinationPath uploads-bundle.zip -Force\"",
     "images:bundle:unix": "cd public/uploads && zip -r ../../uploads-bundle.zip . -x '.gitkeep'",
