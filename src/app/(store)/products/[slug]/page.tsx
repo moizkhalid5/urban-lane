@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const image = product.images[0]?.url;
   return {
     title: product.seoTitle || product.title,
-    description: product.seoDescription || product.description?.slice(0, 160) || `Shop ${product.title} at Urbane Lane.`,
+    description: product.seoDescription || product.description?.slice(0, 160) || `Shop ${product.title} at Urban Lane.`,
     alternates: { canonical: `/products/${product.slug}` },
     openGraph: {
       title: product.title,

@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { category } = data;
   return {
     title: category.seoTitle || category.name,
-    description: category.seoDescription || `Shop ${category.name} at Urbane Lane.`,
+    description: category.seoDescription || `Shop ${category.name} at Urban Lane.`,
     alternates: { canonical: `/collections/${category.slug}` },
     openGraph: { title: category.name, url: `/collections/${category.slug}` },
   };

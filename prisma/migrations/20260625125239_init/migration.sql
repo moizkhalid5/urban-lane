@@ -324,8 +324,8 @@ CREATE TABLE `Coupon` (
 -- CreateTable
 CREATE TABLE `SiteSettings` (
     `id` VARCHAR(191) NOT NULL DEFAULT 'singleton',
-    `storeName` VARCHAR(191) NOT NULL DEFAULT 'Urbane Lane',
-    `storeEmail` VARCHAR(191) NOT NULL DEFAULT 'orders@urbanelane.com',
+    `storeName` VARCHAR(191) NOT NULL DEFAULT 'Urban Lane',
+    `storeEmail` VARCHAR(191) NOT NULL DEFAULT 'orders@urbanlane.com',
     `supportPhone` VARCHAR(191) NULL,
     `baseCurrency` VARCHAR(191) NOT NULL DEFAULT 'PKR',
     `enableCOD` BOOLEAN NOT NULL DEFAULT true,

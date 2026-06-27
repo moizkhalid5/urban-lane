@@ -3,7 +3,7 @@ import { RefundForm } from "@/components/forms/RefundForm";
 
 export const metadata: Metadata = {
   title: "Returns & Refunds",
-  description: "Start a return or refund request with Urbane Lane.",
+  description: "Start a return or refund request with Urban Lane.",
   alternates: { canonical: "/returns" },
 };
 

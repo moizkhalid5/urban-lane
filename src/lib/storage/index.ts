@@ -2,8 +2,18 @@
  * Pluggable image/file storage.
  *
  * IMAGE_STORAGE:
- *   "local" (default) — writes to /public/uploads, served from /uploads/*.
+ *   "local" (default) — writes to the upload directory, served from /uploads/*.
  *   "cloudinary" | "s3" | "r2" — stubs ready for credentials (see notes below).
+ *
+ * Local storage keeps the store's object storage *inside the website directory*
+ * (the default is <project>/public/uploads, served by Next at /uploads/*). On
+ * Hostinger this folder lives in the app root and is git-ignored, so it survives
+ * code redeploys (a `git pull`/`reset` never deletes ignored, untracked files).
+ *
+ * UPLOAD_DIR may override the filesystem location (absolute, or relative to the
+ * project root). It must resolve to a path that is served at /uploads/* — i.e.
+ * <project>/public/uploads, or a symlink/persistent dir mounted there — so the
+ * saved files stay reachable at the same `/uploads/<key>` URL.
  *
  * All adapters expose the same `saveFile`/`deleteFile` contract so call sites
  * (admin product image upload) never change when you switch providers.
@@ -14,7 +24,9 @@ import { randomBytes } from "crypto";
 
 export type SavedFile = { url: string; key: string };
 
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
+const UPLOAD_DIR = process.env.UPLOAD_DIR
+  ? path.resolve(process.cwd(), process.env.UPLOAD_DIR)
+  : path.join(process.cwd(), "public", "uploads");
 
 function safeName(originalName: string): string {
   const ext = path.extname(originalName).toLowerCase().replace(/[^.a-z0-9]/g, "") || ".bin";

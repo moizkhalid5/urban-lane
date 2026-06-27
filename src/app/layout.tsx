@@ -9,14 +9,14 @@ const APP_URL = process.env.APP_URL || "http://localhost:3000";
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: "Urbane Lane — Premium Fashion & Lifestyle",
-    template: "%s | Urbane Lane",
+    default: "Urban Lane — Premium Fashion & Lifestyle",
+    template: "%s | Urban Lane",
   },
   description:
-    "Urbane Lane — premium fashion, beauty and lifestyle. Women, men, kids, beauty and jewellery with fast delivery.",
+    "Urban Lane — premium fashion, beauty and lifestyle. Women, men, kids, beauty and jewellery with fast delivery.",
   openGraph: {
     type: "website",
-    siteName: "Urbane Lane",
+    siteName: "Urban Lane",
     url: APP_URL,
   },
   robots: { index: true, follow: true },

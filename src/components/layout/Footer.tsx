@@ -32,7 +32,7 @@ export function Footer() {
       <div className="bg-ink text-white">
         <div className="container-site grid gap-6 py-12 md:grid-cols-2 md:items-center">
           <div>
-            <h3 className="text-xl font-medium text-white">Join the Urbane Lane list</h3>
+            <h3 className="text-xl font-medium text-white">Join the Urban Lane list</h3>
             <p className="mt-1 text-sm text-white/70">
               New arrivals, exclusive offers and style edits — straight to your inbox.
             </p>
@@ -45,7 +45,7 @@ export function Footer() {
       <div className="container-site grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <Link href="/" className="text-lg font-semibold uppercase tracking-[0.2em]">
-            Urbane Lane
+            Urban Lane
           </Link>
           <p className="mt-3 max-w-xs text-sm text-ink-muted">
             Premium fashion, beauty and lifestyle. Curated essentials, delivered with care.
@@ -72,7 +72,7 @@ export function Footer() {
 
       <div className="border-t border-line">
         <div className="container-site flex flex-col items-center justify-between gap-2 py-5 text-xs text-ink-muted sm:flex-row">
-          <p>© {new Date().getFullYear()} Urbane Lane. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Urban Lane. All rights reserved.</p>
           <p>Designed & built in-house.</p>
         </div>
       </div>

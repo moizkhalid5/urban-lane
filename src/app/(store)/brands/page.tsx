@@ -5,7 +5,7 @@ import { BrandSlider } from "@/components/home/BrandSlider";
 
 export const metadata: Metadata = {
   title: "All Brands",
-  description: "Shop all brands at Urbane Lane.",
+  description: "Shop all brands at Urban Lane.",
   alternates: { canonical: "/brands" },
 };
 

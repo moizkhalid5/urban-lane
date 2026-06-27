@@ -80,7 +80,7 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
           </button>
 
           <Link href="/" className="shrink-0 text-xl font-semibold uppercase tracking-[0.2em] lg:mr-6">
-            Urbane&nbsp;Lane
+            Urban&nbsp;Lane
           </Link>
 
           {/* desktop nav */}

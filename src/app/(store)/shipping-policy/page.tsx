@@ -3,7 +3,7 @@ import { PageShell } from "@/components/layout/PageShell";
 
 export const metadata: Metadata = {
   title: "Shipping Policy",
-  description: "Urbane Lane shipping options, timelines and costs.",
+  description: "Urban Lane shipping options, timelines and costs.",
   alternates: { canonical: "/shipping-policy" },
 };
 

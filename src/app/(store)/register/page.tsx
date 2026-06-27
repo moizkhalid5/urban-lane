@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Create account", robots: { index: fa
 
 export default function RegisterPage() {
   return (
-    <AuthShell title="Create your account" subtitle="Join Urbane Lane for faster checkout and order tracking">
+    <AuthShell title="Create your account" subtitle="Join Urban Lane for faster checkout and order tracking">
       <RegisterForm />
     </AuthShell>
   );

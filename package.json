@@ -1,8 +1,8 @@
 {
-  "name": "urbane-lane",
+  "name": "urban-lane",
   "version": "0.1.0",
   "private": true,
-  "description": "Urbane Lane — production-ready custom ecommerce store",
+  "description": "Urban Lane — production-ready custom ecommerce store",
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
@@ -16,10 +16,12 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
+    "db:setup": "prisma migrate deploy && prisma db seed",
     "db:seed": "tsx prisma/seed.ts",
     "db:import": "tsx prisma/import-products.ts",
     "db:reset": "prisma migrate reset --force",
     "images:bundle": "powershell -NoProfile -Command \"Compress-Archive -Path public/uploads/* -DestinationPath uploads-bundle.zip -Force\"",
+    "images:bundle:unix": "cd public/uploads && zip -r ../../uploads-bundle.zip . -x '.gitkeep'",
     "postinstall": "prisma generate"
   },
   "prisma": {

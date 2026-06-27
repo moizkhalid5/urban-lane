@@ -1,4 +1,4 @@
-# Urbane Lane
+# Urban Lane
 
 A production-ready custom ecommerce store (fashion / lifestyle), built from scratch to replace a Shopify/WooCommerce setup. Clean, premium, mobile-first storefront plus a full custom admin panel.
 
@@ -54,7 +54,7 @@ Visit http://localhost:3000 — admin at http://localhost:3000/admin.
 
 Set in `.env` (`SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD`). Defaults:
 
-- Email: `admin@urbanelane.com`
+- Email: `admin@urbanlane.com`
 - Password: `ChangeMe123!`  ← change this before deploying.
 
 ## Useful scripts
@@ -101,7 +101,7 @@ public/uploads/   # Local image storage (dev)
 
 | Role | Email | Password |
 |---|---|---|
-| Admin | `admin@urbanelane.com` | `ChangeMe123!` (from `.env`) |
+| Admin | `admin@urbanlane.com` | `ChangeMe123!` (from `.env`) |
 | Customer | `customer@example.com` | `Customer123!` |
 
 ## Features

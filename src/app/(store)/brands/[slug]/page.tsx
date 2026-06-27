@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!brand) return { title: "Brand" };
   return {
     title: brand.seoTitle || `${brand.name} — Shop online`,
-    description: brand.seoDescription || `Shop ${brand.name} at Urbane Lane.`,
+    description: brand.seoDescription || `Shop ${brand.name} at Urban Lane.`,
     alternates: { canonical: `/brands/${brand.slug}` },
   };
 }

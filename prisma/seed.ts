@@ -209,8 +209,8 @@ async function seedProducts(catMap: Map<string, string>, brandMap: Map<string, s
         tags: [spec.gender, spec.brand, spec.productType ?? ""].filter(Boolean),
         publishedAt: new Date(),
         salesCount: (count * 13) % 50,
-        seoTitle: `${spec.title} | ${spec.brand} | Urbane Lane`,
-        seoDescription: `Shop the ${spec.title} from ${spec.brand} at Urbane Lane. Premium fashion with fast delivery.`,
+        seoTitle: `${spec.title} | ${spec.brand} | Urban Lane`,
+        seoDescription: `Shop the ${spec.title} from ${spec.brand} at Urban Lane. Premium fashion with fast delivery.`,
         categories: { create: [{ categoryId }] },
         images: {
           create: [
@@ -232,7 +232,7 @@ async function seedProducts(catMap: Map<string, string>, brandMap: Map<string, s
 // ──────────────────────────────────────────────────────────────────────────
 
 async function seedUsers() {
-  const adminEmail = process.env.SEED_ADMIN_EMAIL || "admin@urbanelane.com";
+  const adminEmail = process.env.SEED_ADMIN_EMAIL || "admin@urbanlane.com";
   const adminPass = process.env.SEED_ADMIN_PASSWORD || "ChangeMe123!";
   const adminHash = await bcrypt.hash(adminPass, 12);
 
@@ -362,14 +362,14 @@ async function seedSettings() {
     update: {},
     create: {
       id: "singleton",
-      storeName: "Urbane Lane",
-      storeEmail: process.env.STORE_NOTIFICATIONS_EMAIL || "orders@urbanelane.com",
+      storeName: "Urban Lane",
+      storeEmail: process.env.STORE_NOTIFICATIONS_EMAIL || "orders@urbanlane.com",
       baseCurrency: "PKR",
       codLimitCents: rs(10000), // issues doc: COD limit Rs 10,000
       freeShippingThresholdCents: rs(15000),
       flatShippingCents: rs(300),
       bankTransferInstructions:
-        "Transfer the total to: Urbane Lane, Bank XYZ, Account 0000-0000-0000. Use your order number as the reference, then email the receipt to orders@urbanelane.com.",
+        "Transfer the total to: Urban Lane, Bank XYZ, Account 0000-0000-0000. Use your order number as the reference, then email the receipt to orders@urbanlane.com.",
       announcementText: "Free shipping on orders over Rs 15,000 · Easy 14-day returns",
     },
   });
@@ -412,7 +412,7 @@ async function clear() {
 }
 
 async function main() {
-  console.log("🌱 Seeding Urbane Lane…");
+  console.log("🌱 Seeding Urban Lane…");
   await clear();
   const catMap = await seedCategories();
   const brandMap = await seedBrands();

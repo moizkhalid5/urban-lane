@@ -17,7 +17,7 @@ export type EmailMessage = {
   replyTo?: string;
 };
 
-const FROM = process.env.EMAIL_FROM || "Urbane Lane <no-reply@urbanelane.com>";
+const FROM = process.env.EMAIL_FROM || "Urban Lane <no-reply@urbanlane.com>";
 
 async function sendViaResend(msg: EmailMessage): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
@@ -106,4 +106,4 @@ export async function sendEmail(msg: EmailMessage): Promise<void> {
 }
 
 export const STORE_NOTIFICATIONS_EMAIL =
-  process.env.STORE_NOTIFICATIONS_EMAIL || "orders@urbanelane.com";
+  process.env.STORE_NOTIFICATIONS_EMAIL || "orders@urbanlane.com";
