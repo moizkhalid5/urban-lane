@@ -198,3 +198,9 @@ them — you upload them once.
   in code.)
 - **Images 404:** confirm files were extracted **inside** `public/uploads`
   (not the app root) and `IMAGE_STORAGE=local`.
+- **Build error `Cannot find module 'tailwindcss'` (or `typescript`/`prisma`):**
+  the platform ran a production-only install (`NODE_ENV=production` makes npm skip
+  `devDependencies`). This repo already keeps every build-time package
+  (`tailwindcss`, `postcss`, `autoprefixer`, `typescript`, `prisma`, `tsx`, the
+  `@types/*`) in `dependencies` so the build works either way. If you still hit
+  it on a fork, set the **Install command** to `npm ci --include=dev`.
