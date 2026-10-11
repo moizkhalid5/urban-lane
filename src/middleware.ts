@@ -10,9 +10,13 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Cookie name + salt depend on whether the connection is HTTPS, NOT NODE_ENV:
-  // `next start` runs with NODE_ENV=production even on http://localhost.
-  const secureCookie = req.nextUrl.protocol === "https:";
+  // Cookie name + salt depend on whether the session was issued over HTTPS, NOT NODE_ENV:
+  // `next start` runs with NODE_ENV=production even on http://localhost. Behind a host's
+  // HTTPS proxy (Hostinger) the app itself may see plain http, so trust the cookie that exists.
+  const secureCookie =
+    req.cookies.has("__Secure-authjs.session-token") ||
+    req.nextUrl.protocol === "https:" ||
+    req.headers.get("x-forwarded-proto") === "https";
   const cookieName = secureCookie ? "__Secure-authjs.session-token" : "authjs.session-token";
   const token = await getToken({
     req,

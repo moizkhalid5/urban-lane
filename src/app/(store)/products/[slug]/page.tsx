@@ -16,9 +16,10 @@ import { TrackRecentlyViewed } from "@/components/product/TrackRecentlyViewed";
 import { WishlistButton } from "@/components/product/WishlistButton";
 import { getCurrentUser } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
-import { APP_URL } from "@/lib/site";
 
 type PageProps = { params: Promise<{ slug: string }> };
+
+import { APP_URL } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;

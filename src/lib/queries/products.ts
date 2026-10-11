@@ -1,6 +1,8 @@
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { toCardList } from "@/lib/queries/to-card";
+import { sizesMatchAges } from "@/lib/kids-age";
+import { compareSizes, normalizeSize } from "@/lib/sizes";
 
 export type ProductCard = {
   id: string;
@@ -22,6 +24,8 @@ export type ProductFilter = {
   categorySlug?: string;
   brandSlugs?: string[];
   sizes?: string[];
+  /** Kids age bands (keys of AGE_BANDS in lib/kids-age), matched against size labels. */
+  ages?: string[];
   colors?: string[];
   minCents?: number;
   maxCents?: number;
@@ -35,6 +39,24 @@ export type ProductFilter = {
 };
 
 const DEFAULT_PAGE_SIZE = 12;
+
+/** Every stored spelling of the selected (normalised) sizes, e.g. "L" → ["L", "Large", "LARGE"]. */
+async function rawSizesFor(selected: string[]): Promise<string[]> {
+  const rows = await prisma.productVariant.findMany({ where: { size: { not: null } }, select: { size: true }, distinct: ["size"] });
+  const wanted = new Set(selected);
+  return rows.map((r) => r.size!).filter((raw) => wanted.has(normalizeSize(raw)));
+}
+
+/** Products with at least one active size label inside the given kids age bands. */
+async function productIdsForAges(ages: string[]): Promise<string[]> {
+  const variants = await prisma.productVariant.findMany({
+    where: { isActive: true, size: { not: null }, product: { status: "ACTIVE" } },
+    select: { productId: true, size: true },
+  });
+  const sizesByProduct = new Map<string, string[]>();
+  for (const v of variants) sizesByProduct.set(v.productId, [...(sizesByProduct.get(v.productId) ?? []), v.size!]);
+  return [...sizesByProduct].filter(([, sizes]) => sizesMatchAges(sizes, ages)).map(([id]) => id);
+}
 
 /** Resolve a category slug to itself + all descendants (path-prefixed slugs). */
 async function descendantCategoryIds(slug: string): Promise<string[]> {
@@ -54,7 +76,7 @@ function orderBy(sort?: ProductSort): Prisma.ProductOrderByWithRelationInput[] {
     case "best-selling":
       return [{ salesCount: "desc" }, { createdAt: "desc" }];
     case "featured":
-      return [{ isFeatured: "desc" }, { salesCount: "desc" }];
+      return [{ isFeatured: "desc" }, { salesCount: "desc" }, { publishedAt: "desc" }, { createdAt: "desc" }];
     default:
       return [{ publishedAt: "desc" }, { createdAt: "desc" }];
   }
@@ -83,7 +105,8 @@ async function buildWhere(f: ProductFilter): Promise<Prisma.ProductWhereInput> {
     };
   }
 
-  if (f.sizes?.length) and.push({ variants: { some: { size: { in: f.sizes }, isActive: true } } });
+  if (f.sizes?.length) and.push({ variants: { some: { size: { in: await rawSizesFor(f.sizes) }, isActive: true } } });
+  if (f.ages?.length) and.push({ id: { in: await productIdsForAges(f.ages) } });
   if (f.colors?.length) and.push({ variants: { some: { color: { in: f.colors }, isActive: true } } });
   if (f.inStockOnly) and.push({ variants: { some: { stock: { gt: 0 }, isActive: true } } });
 
@@ -166,15 +189,16 @@ export async function getFacets(categorySlug?: string) {
     min = Math.min(min, p.priceCents);
     max = Math.max(max, p.priceCents);
     for (const v of p.variants) {
-      if (v.size) sizes.add(v.size);
-      if (v.color) colors.set(v.color, v.colorHex);
+      if (v.size) sizes.add(normalizeSize(v.size));
+      // Colour matching in MySQL is case-insensitive, so one entry per spelling is enough.
+      if (v.color && ![...colors.keys()].some((c) => c.toLowerCase() === v.color!.toLowerCase())) colors.set(v.color, v.colorHex);
     }
   }
 
   return {
     brands: [...brands.entries()].map(([slug, name]) => ({ slug, name })).sort((a, b) => a.name.localeCompare(b.name)),
-    sizes: [...sizes].sort(),
-    colors: [...colors.entries()].map(([name, hex]) => ({ name, hex })),
+    sizes: [...sizes].sort(compareSizes),
+    colors: [...colors.entries()].map(([name, hex]) => ({ name, hex })).sort((a, b) => a.name.localeCompare(b.name)),
     minCents: Number.isFinite(min) ? min : 0,
     maxCents: max,
   };

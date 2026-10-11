@@ -43,7 +43,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
             <p className="text-sm text-ink-muted">{total} result(s)</p>
             <SortSelect value={filter.sort ?? "latest"} />
           </div>
-          <div className="mt-8 flex gap-10">
+          <div className="mt-8 lg:flex lg:gap-10">
             <Filters facets={facets} currencySymbol={currency.symbol} />
             <div className="min-w-0 flex-1">
               {products.length === 0 ? (

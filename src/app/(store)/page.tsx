@@ -1,9 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
+import { cn } from "@/lib/utils";
 import { listProducts } from "@/lib/queries/products";
 import { getActiveCurrency } from "@/lib/currency.server";
 import { ProductGrid } from "@/components/product/ProductGrid";
+import { ProductCard } from "@/components/product/ProductCard";
+import { ScrollRail } from "@/components/ui/ScrollRail";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { BrandSlider } from "@/components/home/BrandSlider";
 
@@ -20,13 +23,20 @@ function SectionHeading({ title, href, cta }: { title: string; href?: string; ct
   );
 }
 
+// "Featured" is split into one horizontally scrolling row per department.
+const FEATURED_ROWS = [
+  { slug: "men", title: "Men" },
+  { slug: "women", title: "Women" },
+  { slug: "kids", title: "Kids" },
+];
+
 export default async function HomePage() {
   const currency = await getActiveCurrency();
 
-  const [heroBanners, promoBanner, featured, newArrivals, outlet, tiles, brands] = await Promise.all([
+  const [heroBanners, promoBanner, featuredRows, newArrivals, outlet, tiles, brands] = await Promise.all([
     prisma.banner.findMany({ where: { kind: "HERO", isActive: true }, orderBy: { position: "asc" } }),
     prisma.banner.findFirst({ where: { kind: "PROMO", isActive: true }, orderBy: { position: "asc" } }),
-    listProducts({ sort: "featured", pageSize: 8 }),
+    Promise.all(FEATURED_ROWS.map((r) => listProducts({ categorySlug: r.slug, sort: "featured", pageSize: 8 }))),
     listProducts({ sort: "latest", pageSize: 8 }),
     listProducts({ saleOnly: true, pageSize: 4 }),
     prisma.category.findMany({
@@ -64,23 +74,67 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Featured */}
+      {/* Shop by brand (directly after the category tiles) */}
+      {brands.length > 0 && (
+        <section className="container-site pb-14">
+          <SectionHeading title="Shop by brand" href="/brands" />
+          <BrandSlider brands={brands.map((b) => ({ name: b.name, slug: b.slug, banner: b.banner }))} />
+        </section>
+      )}
+
+      {/* Featured: one row per department, up to 8 products each */}
       <section className="container-site py-6">
-        <SectionHeading title="Featured" href="/collections/women" cta="Shop new in" />
-        <ProductGrid products={featured.products} currency={currency} />
+        <SectionHeading title="Featured" />
+        <div className="space-y-12">
+          {FEATURED_ROWS.map((row, i) =>
+            featuredRows[i].products.length === 0 ? null : (
+              <div key={row.slug}>
+                <div className="mb-4 flex items-end justify-between">
+                  <h3 className="text-lg font-medium uppercase tracking-wide">{row.title}</h3>
+                  <Link href={`/collections/${row.slug}`} className="link-underline text-sm uppercase tracking-wide text-ink-soft">
+                    View all
+                  </Link>
+                </div>
+                <ScrollRail
+                  label={`${row.title.toLowerCase()} products`}
+                  itemClassName="basis-[calc((100%-1rem)/2)] md:basis-[calc((100%-2rem)/3)] lg:basis-[calc((100%-3rem)/4)]"
+                >
+                  {featuredRows[i].products.map((p) => (
+                    <ProductCard key={p.id} product={p} currency={currency} />
+                  ))}
+                </ScrollRail>
+              </div>
+            ),
+          )}
+        </div>
       </section>
 
       {/* Promo banner */}
       {promoBanner && (
         <section className="container-site py-14">
-          <Link href={promoBanner.link ?? "/collections/outlet"} className="group relative block aspect-[21/9] overflow-hidden bg-line-soft md:aspect-[3/1]">
-            {promoBanner.image && (
-              <Image src={promoBanner.image} alt={promoBanner.title ?? "Promotion"} fill sizes="100vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+          {/* No title = artwork banner with its text in the image: show it uncropped (16:9) with no overlay. */}
+          <Link
+            href={promoBanner.link ?? "/collections/outlet"}
+            className={cn(
+              "group relative block overflow-hidden bg-line-soft",
+              promoBanner.title ? "aspect-[21/9] md:aspect-[3/1]" : "aspect-[16/9]",
             )}
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30 text-center text-white">
-              <h2 className="text-3xl font-medium md:text-4xl">{promoBanner.title}</h2>
-              {promoBanner.subtitle && <p className="mt-2 text-white/85">{promoBanner.subtitle}</p>}
-            </div>
+          >
+            {promoBanner.image && (
+              <Image
+                src={promoBanner.image}
+                alt={promoBanner.title ?? promoBanner.subtitle ?? "Promotion"}
+                fill
+                sizes="(max-width:1400px) 100vw, 1400px"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            )}
+            {promoBanner.title && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30 text-center text-white">
+                <h2 className="text-3xl font-medium md:text-4xl">{promoBanner.title}</h2>
+                {promoBanner.subtitle && <p className="mt-2 text-white/85">{promoBanner.subtitle}</p>}
+              </div>
+            )}
           </Link>
         </section>
       )}
@@ -90,14 +144,6 @@ export default async function HomePage() {
         <SectionHeading title="New arrivals" href="/collections/women" />
         <ProductGrid products={newArrivals.products} currency={currency} />
       </section>
-
-      {/* Brand slider (issues doc) */}
-      {brands.length > 0 && (
-        <section className="container-site py-14">
-          <SectionHeading title="Shop by brand" href="/brands" />
-          <BrandSlider brands={brands.map((b) => ({ name: b.name, slug: b.slug, banner: b.banner }))} />
-        </section>
-      )}
 
       {/* Outlet strip */}
       {outlet.products.length > 0 && (

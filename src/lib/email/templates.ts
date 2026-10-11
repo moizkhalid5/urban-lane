@@ -4,7 +4,6 @@
  */
 
 import { APP_URL } from "@/lib/site";
-
 const STORE = "Urban Lane";
 
 function layout(title: string, body: string): string {

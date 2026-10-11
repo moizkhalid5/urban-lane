@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
+
 import { APP_URL } from "@/lib/site";
 
 // Generated at request time, not at build (the build has no DATABASE_URL).

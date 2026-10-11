@@ -1,22 +1,22 @@
 services:
   db:
     image: mysql:8.4
-    container_name: urban_lane_db
+    container_name: urbane_lane_db
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: urban_lane
-      MYSQL_USER: urban
-      MYSQL_PASSWORD: urban
+      MYSQL_DATABASE: urbane_lane
+      MYSQL_USER: urbane
+      MYSQL_PASSWORD: urbane
     ports:
       - "3306:3306"
     volumes:
-      - urban_mysqldata:/var/lib/mysql
+      - urbane_mysqldata:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uurban", "-purban"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uurbane", "-purbane"]
       interval: 5s
       timeout: 5s
       retries: 10
 
 volumes:
-  urban_mysqldata:
+  urbane_mysqldata:

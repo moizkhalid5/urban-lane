@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { APP_URL } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+
+import { APP_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),

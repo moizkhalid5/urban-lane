@@ -475,7 +475,7 @@ model Coupon {
 model SiteSettings {
   id              String  @id @default("singleton")
   storeName       String  @default("Urban Lane")
-  storeEmail      String  @default("orders@urbanlane.com")
+  storeEmail      String  @default("orders@urbanelane.com")
   supportPhone    String?
   baseCurrency    String  @default("PKR")
   // Toggle live payment methods

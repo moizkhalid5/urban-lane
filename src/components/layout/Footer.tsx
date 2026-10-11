@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { NewsletterForm } from "./NewsletterForm";
+import { InstagramLink, PhoneLink, SocialLinks, TikTokLink } from "./SocialContact";
 
 const shopLinks = [
   { name: "Women", href: "/collections/women" },
@@ -50,6 +51,11 @@ export function Footer() {
           <p className="mt-3 max-w-xs text-sm text-ink-muted">
             Premium fashion, beauty and lifestyle. Curated essentials, delivered with care.
           </p>
+          <div className="mt-5 flex flex-col items-start gap-3 text-sm text-ink-soft">
+            <PhoneLink />
+            <InstagramLink size={18} label />
+            <TikTokLink size={18} label />
+          </div>
         </div>
         <FooterCol title="Shop" links={shopLinks} />
         <FooterCol title="Help" links={helpLinks} />
@@ -73,6 +79,10 @@ export function Footer() {
       <div className="border-t border-line">
         <div className="container-site flex flex-col items-center justify-between gap-2 py-5 text-xs text-ink-muted sm:flex-row">
           <p>© {new Date().getFullYear()} Urban Lane. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <PhoneLink />
+            <SocialLinks />
+          </div>
           <p>Designed & built in-house.</p>
         </div>
       </div>

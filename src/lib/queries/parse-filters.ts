@@ -26,6 +26,7 @@ export function parseFilters(sp: RawSearchParams, currency: DisplayCurrency): Pr
   return {
     brandSlugs: list(sp.brands),
     sizes: list(sp.sizes),
+    ages: list(sp.ages),
     colors: list(sp.colors),
     minCents: minRaw ? toBaseMinor(Number(minRaw), currency) : undefined,
     maxCents: maxRaw ? toBaseMinor(Number(maxRaw), currency) : undefined,

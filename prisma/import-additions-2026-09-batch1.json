@@ -1,0 +1,6307 @@
+{
+  "products": [
+    {
+      "sku": "M06-887",
+      "title": "Next Slim Fit Ultimate Comfort Super Stretch Jeans",
+      "description": "99% Cotton, 1% Lycra Elastane",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1100000,
+      "variants": [
+        {
+          "size": "36R",
+          "color": "Grey",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/M06-887/1.png",
+        "/uploads/products/M06-887/2.png",
+        "/uploads/products/M06-887/3.png",
+        "/uploads/products/M06-887/4.png",
+        "/uploads/products/M06-887/5.png"
+      ],
+      "familySkus": [
+        "M06-887"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\M06-887 edits\\M14-PhotoRoom.png",
+        "Next\\NEXT MEN\\M06-887 edits\\M2-PhotoRoom.png",
+        "Next\\NEXT MEN\\M06-887 edits\\M26-PhotoRoom.png",
+        "Next\\NEXT MEN\\M06-887 edits\\M3-PhotoRoom.png",
+        "Next\\NEXT MEN\\M06-887 edits\\M4-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "805-923",
+      "title": "Next Tipped Pique Grandad Polo Top",
+      "description": "95% Cotton, 5% Elastane",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 850000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Navy/Red",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/805-923/1.png",
+        "/uploads/products/805-923/2.png",
+        "/uploads/products/805-923/3.png",
+        "/uploads/products/805-923/4.png"
+      ],
+      "familySkus": [
+        "805-923"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\805-923 edit\\24-PhotoRoom.png",
+        "Next\\NEXT MEN\\805-923 edit\\25-PhotoRoom.png",
+        "Next\\NEXT MEN\\805-923 edit\\26-PhotoRoom.png",
+        "Next\\NEXT MEN\\805-923 edit\\27-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "995-908",
+      "title": "Next Jeans Trousers",
+      "description": "487-580",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 750000,
+      "variants": [
+        {
+          "size": "32 R",
+          "color": "Navy",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/995-908/1.png",
+        "/uploads/products/995-908/2.png"
+      ],
+      "familySkus": [
+        "995-908"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\995-908-PhotoRoom.png",
+        "Next\\995-908-2-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "677-240",
+      "title": "Next Olive/Navy Shirt",
+      "description": "Cotton shirt",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 850000,
+      "variants": [
+        {
+          "size": "14 R",
+          "color": "Olive/navy",
+          "stock": 2
+        },
+        {
+          "size": "14.5 R",
+          "color": "Olive/navy",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/677-240/1.png",
+        "/uploads/products/677-240/2.png",
+        "/uploads/products/677-240/3.png",
+        "/uploads/products/677-240/4.png",
+        "/uploads/products/677-240/5.png",
+        "/uploads/products/677-240/6.png",
+        "/uploads/products/677-240/7.png",
+        "/uploads/products/677-240/8.png"
+      ],
+      "familySkus": [
+        "677-240"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\677-240 edits\\1-PhotoRoom (2).png",
+        "Next\\677-240 edits\\2-PhotoRoom (1).png",
+        "Next\\677-240 edits\\3-PhotoRoom (2).png",
+        "Next\\677-240 edits\\5-PhotoRoom (2).png",
+        "Next\\677-240 edits\\6-PhotoRoom (1).png",
+        "Next\\677-240 edits\\7-PhotoRoom (1).png",
+        "Next\\677-240 edits\\8-PhotoRoom.png",
+        "Next\\677-240 edits\\9-PhotoRoom (1).png"
+      ]
+    },
+    {
+      "sku": "592-732",
+      "title": "Next Grey/Blue Trousers",
+      "description": "Cotton trousers",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 900000,
+      "variants": [
+        {
+          "size": "32R",
+          "color": "Grey/blue",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/592-732/1.png",
+        "/uploads/products/592-732/2.png",
+        "/uploads/products/592-732/3.png",
+        "/uploads/products/592-732/4.png",
+        "/uploads/products/592-732/5.png",
+        "/uploads/products/592-732/6.png",
+        "/uploads/products/592-732/7.png"
+      ],
+      "familySkus": [
+        "592-732"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\592-732 edits\\1-PhotoRoom (3).png",
+        "Next\\592-732 edits\\2-PhotoRoom (2).png",
+        "Next\\592-732 edits\\3-PhotoRoom (3).png",
+        "Next\\592-732 edits\\4-PhotoRoom (2).png",
+        "Next\\592-732 edits\\5-PhotoRoom (3).png",
+        "Next\\592-732 edits\\6-PhotoRoom (2).png",
+        "Next\\592-732 edits\\7-PhotoRoom (2).png"
+      ]
+    },
+    {
+      "sku": "825-990",
+      "title": "Next Grey Check Trousers",
+      "description": "Check trousers",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1000000,
+      "variants": [
+        {
+          "size": "32R",
+          "color": "Grey",
+          "stock": 3
+        },
+        {
+          "size": "34R",
+          "color": "Grey",
+          "stock": 3
+        },
+        {
+          "size": "36R",
+          "color": "Grey",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/825-990/1.png",
+        "/uploads/products/825-990/2.png",
+        "/uploads/products/825-990/3.png",
+        "/uploads/products/825-990/4.png",
+        "/uploads/products/825-990/5.png",
+        "/uploads/products/825-990/6.png"
+      ],
+      "familySkus": [
+        "825-990"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT WOMEN\\825-990 edits\\1-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\825-990 edits\\2-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\825-990 edits\\3-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\825-990 edits\\4-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\825-990 edits\\5-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\825-990 edits\\6-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "762-777",
+      "title": "Navy Formal Cotton Shirt",
+      "description": "Cotton shirt",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1000000,
+      "variants": [
+        {
+          "size": "14R",
+          "color": "Navy",
+          "stock": 2
+        },
+        {
+          "size": "14.5R",
+          "color": "Navy",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/762-777/1.png",
+        "/uploads/products/762-777/2.png",
+        "/uploads/products/762-777/3.png",
+        "/uploads/products/762-777/4.png",
+        "/uploads/products/762-777/5.png"
+      ],
+      "familySkus": [
+        "762-777"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\2. Next formal shirts D\\762-777\\1-PhotoRoom (2).png",
+        "Next\\NEXT MEN\\2. Next formal shirts D\\762-777\\2-PhotoRoom (2).png",
+        "Next\\NEXT MEN\\2. Next formal shirts D\\762-777\\3-PhotoRoom (2).png",
+        "Next\\NEXT MEN\\2. Next formal shirts D\\762-777\\4-PhotoRoom (1).png",
+        "Next\\NEXT MEN\\2. Next formal shirts D\\762-777\\5-PhotoRoom (2).png"
+      ]
+    },
+    {
+      "sku": "746-052",
+      "title": "Next Stone Trousers",
+      "description": "64% Polyester, 34% Viscose, 2% Elastane",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1150000,
+      "variants": [
+        {
+          "size": "32R",
+          "color": "Stone",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/746-052/1.png",
+        "/uploads/products/746-052/2.png",
+        "/uploads/products/746-052/3.png",
+        "/uploads/products/746-052/4.png",
+        "/uploads/products/746-052/5.png",
+        "/uploads/products/746-052/6.png",
+        "/uploads/products/746-052/7.png",
+        "/uploads/products/746-052/8.png"
+      ],
+      "familySkus": [
+        "746-052"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\746-052 edited\\20230918_112744467_iOS-PhotoRoom.png",
+        "Next\\746-052 edited\\20230918_113011582_iOS-PhotoRoom.png",
+        "Next\\746-052 edited\\20230918_114008614_iOS-PhotoRoom.png",
+        "Next\\746-052 edited\\20230918_114014834_iOS-PhotoRoom.png",
+        "Next\\746-052 edited\\20230918_114026242_iOS-PhotoRoom.png",
+        "Next\\746-052 edited\\20230918_114038620_iOS-PhotoRoom.png",
+        "Next\\746-052 edited\\20230918_114049921_iOS-PhotoRoom.png",
+        "Next\\746-052 edited\\20230918_124833288_iOS-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "949-170",
+      "title": "Next Charcoal Jacket",
+      "description": "Charcoal jacket",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1200000,
+      "variants": [
+        {
+          "size": "36R",
+          "color": "Charcoal",
+          "stock": 4
+        },
+        {
+          "size": "38R",
+          "color": "Charcoal",
+          "stock": 4
+        },
+        {
+          "size": "40R",
+          "color": "Charcoal",
+          "stock": 4
+        },
+        {
+          "size": "42R",
+          "color": "Charcoal",
+          "stock": 4
+        }
+      ],
+      "images": [
+        "/uploads/products/949-170/1.png",
+        "/uploads/products/949-170/2.png",
+        "/uploads/products/949-170/3.png"
+      ],
+      "familySkus": [
+        "949-170"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\4. Next jackets D\\949-170 edits\\170 1-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\949-170 edits\\170.6-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\949-170 edits\\170.9-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "182-804",
+      "title": "Next Navy Jacket",
+      "description": "Navy check Jacket",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1200000,
+      "variants": [
+        {
+          "size": "40S",
+          "color": "Navy",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/182-804/1.png",
+        "/uploads/products/182-804/2.png",
+        "/uploads/products/182-804/3.png",
+        "/uploads/products/182-804/4.png",
+        "/uploads/products/182-804/5.png"
+      ],
+      "familySkus": [
+        "182-804"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\4. Next jackets D\\182-804\\10-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\182-804\\11-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\182-804\\12-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\182-804\\13-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\182-804\\9-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "306-060",
+      "title": "Next Print Linen Blend Tapered Leg Trousers (Petite)",
+      "description": "55% Linen, 45% Viscose.",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "8P",
+          "color": "Navy",
+          "stock": 1
+        },
+        {
+          "size": "10P",
+          "color": "Navy",
+          "stock": 1
+        },
+        {
+          "size": "12P",
+          "color": "Navy",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/306-060/1.png"
+      ],
+      "familySkus": [
+        "306-060"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\306-060-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "410-949",
+      "title": "Next White Trousers",
+      "description": "white women trouser",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "12 R",
+          "color": "White",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/410-949/1.png",
+        "/uploads/products/410-949/2.png",
+        "/uploads/products/410-949/3.png",
+        "/uploads/products/410-949/4.png",
+        "/uploads/products/410-949/5.png",
+        "/uploads/products/410-949/6.png",
+        "/uploads/products/410-949/7.png",
+        "/uploads/products/410-949/8.png"
+      ],
+      "familySkus": [
+        "410-949"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\410-949 edits\\2-PhotoRoom (3).png",
+        "Next\\410-949 edits\\3-PhotoRoom (4).png",
+        "Next\\410-949 edits\\4-PhotoRoom (3).png",
+        "Next\\410-949 edits\\5-PhotoRoom (4).png",
+        "Next\\410-949 edits\\6-PhotoRoom (3).png",
+        "Next\\410-949 edits\\7-PhotoRoom (3).png",
+        "Next\\410-949 edits\\8-PhotoRoom (1).png",
+        "Next\\410-949 edits\\9-PhotoRoom (2).png"
+      ]
+    },
+    {
+      "sku": "678-821",
+      "title": "Next Check Peg Trousers",
+      "description": "Check trousers",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 650000,
+      "variants": [
+        {
+          "size": "10P",
+          "color": "check",
+          "stock": 1
+        },
+        {
+          "size": "12P",
+          "color": "check",
+          "stock": 2
+        },
+        {
+          "size": "14P",
+          "color": "check",
+          "stock": 2
+        },
+        {
+          "size": "16P",
+          "color": "check",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/678-821/1.png",
+        "/uploads/products/678-821/2.png",
+        "/uploads/products/678-821/3.png",
+        "/uploads/products/678-821/4.png",
+        "/uploads/products/678-821/5.png",
+        "/uploads/products/678-821/6.png"
+      ],
+      "familySkus": [
+        "678-821"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\678-821 edits\\1-PhotoRoom (1).png",
+        "Next\\678-821 edits\\3-PhotoRoom (1).png",
+        "Next\\678-821 edits\\4-PhotoRoom (1).png",
+        "Next\\678-821 edits\\5-PhotoRoom (1).png",
+        "Next\\678-821 edits\\7-PhotoRoom.png",
+        "Next\\678-821 edits\\9-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "955-888",
+      "title": "Next Black Skinny Jeans",
+      "description": "Skinny Jeans in black",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 800000,
+      "variants": [
+        {
+          "size": "10R",
+          "color": "Black",
+          "stock": 1
+        },
+        {
+          "size": "12R",
+          "color": "Black",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/955-888/1.png",
+        "/uploads/products/955-888/2.png",
+        "/uploads/products/955-888/3.png",
+        "/uploads/products/955-888/4.png",
+        "/uploads/products/955-888/5.png",
+        "/uploads/products/955-888/6.png"
+      ],
+      "familySkus": [
+        "955-888"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT WOMEN\\955-888\\1-PhotoRoom(1).png",
+        "Next\\NEXT WOMEN\\955-888\\2-PhotoRoom(1).png",
+        "Next\\NEXT WOMEN\\955-888\\3-PhotoRoom(1).png",
+        "Next\\NEXT WOMEN\\955-888\\4-PhotoRoom(1).png",
+        "Next\\NEXT WOMEN\\955-888\\5-PhotoRoom(1).png",
+        "Next\\NEXT WOMEN\\955-888\\6-PhotoRoom(1).png"
+      ]
+    },
+    {
+      "sku": "699-194",
+      "title": "Next Peg Monochrome Check Peg Trousers",
+      "description": "65% Polyester, 32% Viscose, 3% Elastane",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 800000,
+      "variants": [
+        {
+          "size": "10R",
+          "color": "Monochrome",
+          "stock": 1
+        },
+        {
+          "size": "12R",
+          "color": "Monochrome",
+          "stock": 2
+        },
+        {
+          "size": "14R",
+          "color": "Monochrome",
+          "stock": 2
+        },
+        {
+          "size": "16R",
+          "color": "Monochrome",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/699-194/1.png",
+        "/uploads/products/699-194/2.png"
+      ],
+      "familySkus": [
+        "699-194"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\699-194-PhotoRoom.png",
+        "Next\\699-194 (1)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "188-448",
+      "title": "Next Black Stripe Linen Blend Tapered Trousers (Petite)",
+      "description": "55% Linen, 45% Viscose.",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 900000,
+      "variants": [
+        {
+          "size": "10p",
+          "color": "Black",
+          "stock": 1
+        },
+        {
+          "size": "12p",
+          "color": "Black",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/188-448/1.png",
+        "/uploads/products/188-448/2.png"
+      ],
+      "familySkus": [
+        "188-448"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\188-448 (1)-PhotoRoom.png",
+        "Next\\188-448 (2)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "373-276",
+      "title": "Next Linen Blend Trousers",
+      "description": "55% Linen, 45% Viscose.",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 900000,
+      "variants": [
+        {
+          "size": "10 R",
+          "color": "Linen",
+          "stock": 1
+        },
+        {
+          "size": "12 R",
+          "color": "Linen",
+          "stock": 2
+        },
+        {
+          "size": "14 R",
+          "color": "Linen",
+          "stock": 2
+        },
+        {
+          "size": "16 R",
+          "color": "Linen",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/373-276/1.png",
+        "/uploads/products/373-276/2.png",
+        "/uploads/products/373-276/3.png"
+      ],
+      "familySkus": [
+        "373-276"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\373-276 edit\\373-276 1-PhotoRoom.png",
+        "Next\\373-276 edit\\373-276 2-PhotoRoom.png",
+        "Next\\373-276 edit\\373-276 3-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "380-227",
+      "title": "Next F&F Mint Jeans",
+      "description": "F&F Jeans",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 1000000,
+      "variants": [
+        {
+          "size": "16 R",
+          "color": "Mint",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/380-227/1.png",
+        "/uploads/products/380-227/2.png",
+        "/uploads/products/380-227/3.png",
+        "/uploads/products/380-227/4.png",
+        "/uploads/products/380-227/5.png"
+      ],
+      "familySkus": [
+        "380-227"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT WOMEN\\380-227 Next F&F Jeans\\F&F 1-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\380-227 Next F&F Jeans\\F&F 2-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\380-227 Next F&F Jeans\\F&F 3-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\380-227 Next F&F Jeans\\F&F 4-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\380-227 Next F&F Jeans\\F&F 5-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "589-409",
+      "title": "Next Taper Leg Khaki Cotton Tapered Utility",
+      "description": "98% Cotton, 2% Elastane.",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 1150000,
+      "variants": [
+        {
+          "size": "8 R",
+          "color": "Khaki",
+          "stock": 1
+        },
+        {
+          "size": "16 R",
+          "color": "Khaki",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/589-409/1.png",
+        "/uploads/products/589-409/2.png"
+      ],
+      "familySkus": [
+        "589-409"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\589-409-PhotoRoom.png",
+        "Next\\589-409 (1)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "272-229",
+      "title": "Next Boat T-Shirts 3 Pack",
+      "description": "Multi colour Baot T-Shirts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 550000,
+      "variants": [
+        {
+          "size": "9-12 Months",
+          "color": "Multi",
+          "stock": 2
+        },
+        {
+          "size": "12-18 Months",
+          "color": "Multi",
+          "stock": 1
+        },
+        {
+          "size": "2-3 Years",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/272-229/1.png",
+        "/uploads/products/272-229/2.png",
+        "/uploads/products/272-229/3.png",
+        "/uploads/products/272-229/4.png",
+        "/uploads/products/272-229/5.png"
+      ],
+      "familySkus": [
+        "272-229"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\272-229-PhotoRoom.png",
+        "Next\\272-229-1-PhotoRoom.png",
+        "Next\\272-229-2-PhotoRoom.png",
+        "Next\\272-229-3-PhotoRoom.png",
+        "Next\\272-229-4-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "M05-144",
+      "title": "Next Wide Black/White Stripe Linen Trousers",
+      "description": "57% Cotton, 43% Viscose.",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 1150000,
+      "variants": [
+        {
+          "size": "16",
+          "color": "Black/White",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/M05-144/1.png",
+        "/uploads/products/M05-144/2.png",
+        "/uploads/products/M05-144/3.png",
+        "/uploads/products/M05-144/4.png",
+        "/uploads/products/M05-144/5.png",
+        "/uploads/products/M05-144/6.png",
+        "/uploads/products/M05-144/7.png"
+      ],
+      "familySkus": [
+        "M05-144"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\M05-144 (1)-PhotoRoom.png",
+        "Next\\M05-144 (2)-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\M05-144\\M05655s-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\M05-144\\M05655s2-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\M05-144\\M05655s3-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\M05-144\\M05655s4-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\M05-144\\M05655s5-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "669-604",
+      "title": "Next Taper Leg Rose Pink Elasticated Waist Tapered Jeans",
+      "description": "94% Cotton, 5% Polyester, 1% Elastane",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 1150000,
+      "variants": [
+        {
+          "size": "10 R",
+          "color": "Rose Pink",
+          "stock": 1
+        },
+        {
+          "size": "12 R",
+          "color": "Rose Pink",
+          "stock": 1
+        },
+        {
+          "size": "14 R",
+          "color": "Rose Pink",
+          "stock": 1
+        },
+        {
+          "size": "16 R",
+          "color": "Rose Pink",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/669-604/1.png",
+        "/uploads/products/669-604/2.png"
+      ],
+      "familySkus": [
+        "669-604"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\669-604 (1)-PhotoRoom.png",
+        "Next\\669-604 (2)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "304-400",
+      "title": "Next Tailored Light Blue/Turquoise Tailored Fit Check Suit: Jacket",
+      "description": "Main 67% Polyester, 31% Viscose, 2% Elastane. Lining 95% Polyester, 5% Elastane",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1300000,
+      "variants": [
+        {
+          "size": "36 R",
+          "color": "Light Blue/Turquoise",
+          "stock": 3
+        },
+        {
+          "size": "38 S",
+          "color": "Light Blue/Turquoise",
+          "stock": 1
+        },
+        {
+          "size": "38 R",
+          "color": "Light Blue/Turquoise",
+          "stock": 5
+        },
+        {
+          "size": "40 S",
+          "color": "Light Blue/Turquoise",
+          "stock": 3
+        },
+        {
+          "size": "40 R",
+          "color": "Light Blue/Turquoise",
+          "stock": 5
+        },
+        {
+          "size": "42 S",
+          "color": "Light Blue/Turquoise",
+          "stock": 5
+        },
+        {
+          "size": "42 R",
+          "color": "Light Blue/Turquoise",
+          "stock": 5
+        },
+        {
+          "size": "44 R",
+          "color": "Light Blue/Turquoise",
+          "stock": 2
+        },
+        {
+          "size": "46 R",
+          "color": "Light Blue/Turquoise",
+          "stock": 0
+        }
+      ],
+      "images": [
+        "/uploads/products/304-400/1.png"
+      ],
+      "familySkus": [
+        "304-400"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\304-400-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "987-392",
+      "title": "Next Bodysuits 5 pack",
+      "description": "100% Cotton.",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "First Size",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/987-392/1.png",
+        "/uploads/products/987-392/2.png",
+        "/uploads/products/987-392/3.png",
+        "/uploads/products/987-392/4.png",
+        "/uploads/products/987-392/5.png"
+      ],
+      "familySkus": [
+        "987-392"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\987-392\\20231104_120544412_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\987-392\\20231104_120615021_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\987-392\\20231104_120644219_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\987-392\\20231104_120707602_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\987-392\\20231104_120740165_iOS-PhotoRoom-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "M36-599",
+      "title": "Next Mco Grey T-See 2 pack",
+      "description": "Grey T-Shirts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "8-9 Years",
+          "color": "Grey",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/M36-599/1.png",
+        "/uploads/products/M36-599/2.png",
+        "/uploads/products/M36-599/3.png"
+      ],
+      "familySkus": [
+        "M36-599"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\M36-599\\20231104_092544212_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\M36-599\\20231104_092914882_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\M36-599\\Copy of 20231104_092352999_iOS-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "360-580",
+      "title": "Next Fluro Shark Tees 3 pack",
+      "description": "Fluro Shark T-Shirts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "6-9 M",
+          "color": "Multi",
+          "stock": 1
+        },
+        {
+          "size": "9-12 M",
+          "color": "Multi",
+          "stock": 1
+        },
+        {
+          "size": "12-18 M",
+          "color": "Multi",
+          "stock": 1
+        },
+        {
+          "size": "2-3 Y",
+          "color": "Multi",
+          "stock": 1
+        },
+        {
+          "size": "5-6 Y",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/360-580/1.png",
+        "/uploads/products/360-580/2.png",
+        "/uploads/products/360-580/3.png"
+      ],
+      "familySkus": [
+        "360-580"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\360-580 edit\\Screenshot 2023-11-01 174748-PhotoRoom.png",
+        "Next\\360-580 edit\\WhatsApp Image 2023-11-01 at 17.45.56_832ea0c3-PhotoRoom.png",
+        "Next\\360-580 edit\\WhatsApp Image 2023-11-01 at 17.45.56_b6f272c6-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "291-853",
+      "title": "Next 3 Pack Rainbow Shorts",
+      "description": "Boys Rainbow Shorts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "3-6 M",
+          "color": "Multi",
+          "stock": 2
+        },
+        {
+          "size": "9-12 M",
+          "color": "Multi",
+          "stock": 2
+        },
+        {
+          "size": "12-18 M",
+          "color": "Multi",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/291-853/1.png",
+        "/uploads/products/291-853/2.png",
+        "/uploads/products/291-853/3.png",
+        "/uploads/products/291-853/4.png"
+      ],
+      "familySkus": [
+        "291-853"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\291-853\\291-853-PhotoRoom.png",
+        "Next\\NEXT KIDS\\291-853\\291-853 1.png",
+        "Next\\NEXT KIDS\\291-853\\291-853 2.png",
+        "Next\\NEXT KIDS\\291-853\\291-853 3.png"
+      ]
+    },
+    {
+      "sku": "772-388",
+      "title": "Next 3 pack Brights Shorts",
+      "description": "Boys Bright Shorts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "6-9 M",
+          "color": "Multi",
+          "stock": 2
+        },
+        {
+          "size": "12-18 M",
+          "color": "Multi",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/772-388/1.png",
+        "/uploads/products/772-388/2.png",
+        "/uploads/products/772-388/3.png",
+        "/uploads/products/772-388/4.png",
+        "/uploads/products/772-388/5.png",
+        "/uploads/products/772-388/6.png",
+        "/uploads/products/772-388/7.png",
+        "/uploads/products/772-388/8.png"
+      ],
+      "familySkus": [
+        "772-388"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\772-388 edit\\1 blue-PhotoRoom-PhotoRoom.png",
+        "Next\\NEXT KIDS\\772-388 edit\\1 green-PhotoRoom.png",
+        "Next\\NEXT KIDS\\772-388 edit\\1 red-PhotoRoom.png",
+        "Next\\NEXT KIDS\\772-388 edit\\2 blue-PhotoRoom.png",
+        "Next\\NEXT KIDS\\772-388 edit\\2 green-PhotoRoom.png",
+        "Next\\NEXT KIDS\\772-388 edit\\2 red-PhotoRoom.png",
+        "Next\\NEXT KIDS\\772-388 edit\\772-388-PhotoRoom.png",
+        "Next\\NEXT KIDS\\772-388 edit\\green short-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "724-949",
+      "title": "Next Grey/Black Tailored Fit Check Suit: Jacket",
+      "description": "Men's Grey/Black Jacket",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1200000,
+      "variants": [
+        {
+          "size": "40 R",
+          "color": "Grey/Black",
+          "stock": 6
+        },
+        {
+          "size": "42 S",
+          "color": "Grey/Black",
+          "stock": 6
+        },
+        {
+          "size": "42 R",
+          "color": "Grey/Black",
+          "stock": 5
+        },
+        {
+          "size": "44 R",
+          "color": "Grey/Black",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/724-949/1.png",
+        "/uploads/products/724-949/2.png",
+        "/uploads/products/724-949/3.png",
+        "/uploads/products/724-949/4.png",
+        "/uploads/products/724-949/5.png",
+        "/uploads/products/724-949/6.png",
+        "/uploads/products/724-949/7.png"
+      ],
+      "familySkus": [
+        "724-949"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\4. Next jackets D\\724-949\\1-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\724-949\\2-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\724-949\\3.-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\724-949\\5-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\724-949\\6-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\724-949\\7-PhotoRoom(1).png",
+        "Next\\NEXT MEN\\4. Next jackets D\\724-949\\8.1-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "880-557",
+      "title": "Next Charcoal Jacket",
+      "description": "Men's Charcoal Jacket",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1200000,
+      "variants": [
+        {
+          "size": "40 S",
+          "color": "Charcoal",
+          "stock": 3
+        },
+        {
+          "size": "42 S",
+          "color": "Charcoal",
+          "stock": 6
+        },
+        {
+          "size": "44 S",
+          "color": "Charcoal",
+          "stock": 6
+        }
+      ],
+      "images": [
+        "/uploads/products/880-557/1.png",
+        "/uploads/products/880-557/2.png",
+        "/uploads/products/880-557/3.png",
+        "/uploads/products/880-557/4.png"
+      ],
+      "familySkus": [
+        "880-557"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\4. Next jackets D\\880-557\\10-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\880-557\\3-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\880-557\\6-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\880-557\\9-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "885-333",
+      "title": "Next Bright Blue Jacket",
+      "description": "Blue Jacket",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1750000,
+      "variants": [
+        {
+          "size": "40 R",
+          "color": "Bright Blue",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/885-333/1.png",
+        "/uploads/products/885-333/2.png",
+        "/uploads/products/885-333/3.png",
+        "/uploads/products/885-333/4.png",
+        "/uploads/products/885-333/5.png",
+        "/uploads/products/885-333/6.png"
+      ],
+      "familySkus": [
+        "885-333"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\4. Next jackets D\\885-333\\1-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\885-333\\2-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\885-333\\4-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\885-333\\5-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\885-333\\6-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\885-333\\7-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "630-530",
+      "title": "Next Grey Check Jacket",
+      "description": "Men's Grey Check Jacket",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1750000,
+      "variants": [
+        {
+          "size": "42 S",
+          "color": "Grey",
+          "stock": 5
+        },
+        {
+          "size": "44 S",
+          "color": "Grey",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/630-530/1.png",
+        "/uploads/products/630-530/2.png",
+        "/uploads/products/630-530/3.png",
+        "/uploads/products/630-530/4.png",
+        "/uploads/products/630-530/5.png",
+        "/uploads/products/630-530/6.png",
+        "/uploads/products/630-530/7.png",
+        "/uploads/products/630-530/8.png"
+      ],
+      "familySkus": [
+        "630-530"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\630-530 edits\\15-PhotoRoom.png",
+        "Next\\630-530 edits\\17-PhotoRoom.png",
+        "Next\\630-530 edits\\18-PhotoRoom.png",
+        "Next\\630-530 edits\\19-PhotoRoom.png",
+        "Next\\630-530 edits\\2-PhotoRoom.png",
+        "Next\\630-530 edits\\20-PhotoRoom.png",
+        "Next\\630-530 edits\\21-PhotoRoom.png",
+        "Next\\630-530 edits\\5-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "340-832",
+      "title": "Next Black/white Jacket (grey check )",
+      "description": "Men's Black/white Jacket",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1750000,
+      "variants": [
+        {
+          "size": "40 R",
+          "color": "Black/white",
+          "stock": 5
+        },
+        {
+          "size": "42 S",
+          "color": "Black/white",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/340-832/1.png",
+        "/uploads/products/340-832/2.png",
+        "/uploads/products/340-832/3.png",
+        "/uploads/products/340-832/4.png",
+        "/uploads/products/340-832/5.png"
+      ],
+      "familySkus": [
+        "340-832"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\4. Next jackets D\\340-832\\11-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\340-832\\12-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\340-832\\13-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\340-832\\14-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\340-832\\15-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "982-552",
+      "title": "NEXT 2 Pack Low Impact Wire Free Sports Bra Top Yoga Pilates Orange Black",
+      "description": "women Crop tops",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 650000,
+      "variants": [
+        {
+          "size": "8",
+          "color": "Multi",
+          "stock": 2
+        },
+        {
+          "size": "10",
+          "color": "Multi",
+          "stock": 3
+        },
+        {
+          "size": "12",
+          "color": "Multi",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/982-552/1.png",
+        "/uploads/products/982-552/2.png",
+        "/uploads/products/982-552/3.png",
+        "/uploads/products/982-552/4.png"
+      ],
+      "familySkus": [
+        "982-552"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT WOMEN\\3. Croptops\\982-552\\2-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\3. Croptops\\982-552\\3-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\3. Croptops\\982-552\\4-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\3. Croptops\\982-552\\6-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "267-335",
+      "title": "Next Crop Tops 2 Pack",
+      "description": "women Crop tops",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 700000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Multi",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/267-335/1.png",
+        "/uploads/products/267-335/2.png",
+        "/uploads/products/267-335/3.png",
+        "/uploads/products/267-335/4.png",
+        "/uploads/products/267-335/5.png",
+        "/uploads/products/267-335/6.png",
+        "/uploads/products/267-335/7.png"
+      ],
+      "familySkus": [
+        "267-335"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\267-335 edit\\32-PhotoRoom.png",
+        "Next\\267-335 edit\\34-PhotoRoom.png",
+        "Next\\267-335 edit\\35-PhotoRoom.png",
+        "Next\\267-335 edit\\357-PhotoRoom.png",
+        "Next\\267-335 edit\\36-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\3. Croptops\\267-335 edit\\crop-top-1-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\3. Croptops\\267-335 edit\\crop-top-2-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "855-488",
+      "title": "Next FLIPPY SEQUIN GAMING - Print T-shirt - khaki",
+      "description": "Gaming T-Shirt",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "11 Years",
+          "color": "Khaki",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/855-488/1.png",
+        "/uploads/products/855-488/2.png",
+        "/uploads/products/855-488/3.png",
+        "/uploads/products/855-488/4.png"
+      ],
+      "familySkus": [
+        "855-488"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\855-488 edits\\1-PhotoRoom.png",
+        "Next\\NEXT KIDS\\855-488 edits\\2-PhotoRoom.png",
+        "Next\\NEXT KIDS\\855-488 edits\\3-PhotoRoom.png",
+        "Next\\NEXT KIDS\\855-488 edits\\5-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "253-647",
+      "title": "NEXT 3 Pack Grey T-Shirt",
+      "description": "Grey T-Shirts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 550000,
+      "variants": [
+        {
+          "size": "3-6 Months",
+          "color": "Grey",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/253-647/1.png",
+        "/uploads/products/253-647/2.png",
+        "/uploads/products/253-647/3.png",
+        "/uploads/products/253-647/4.png"
+      ],
+      "familySkus": [
+        "253-647"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\253-647\\253-647.png",
+        "Next\\NEXT KIDS\\253-647\\253-647 1.png",
+        "Next\\NEXT KIDS\\253-647\\253-647 2.png",
+        "Next\\NEXT KIDS\\253-647\\253-647 3.png"
+      ]
+    },
+    {
+      "sku": "760-338",
+      "title": "Next Pastel Dino Tees 3 pack",
+      "description": "Dino T-Shirts for Boys",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 550000,
+      "variants": [
+        {
+          "size": "12-18 Months",
+          "color": "Multi",
+          "stock": 1
+        },
+        {
+          "size": "4-5 Years",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/760-338/1.png",
+        "/uploads/products/760-338/2.png",
+        "/uploads/products/760-338/3.png",
+        "/uploads/products/760-338/4.png"
+      ],
+      "familySkus": [
+        "760-338"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\760-338\\760-338-PhotoRoom.png",
+        "Next\\NEXT KIDS\\760-338\\760-338 1.png",
+        "Next\\NEXT KIDS\\760-338\\760-338 2.png",
+        "Next\\NEXT KIDS\\760-338\\760-338 3.png"
+      ]
+    },
+    {
+      "sku": "705-952",
+      "title": "Next Safari Vests 5 Pack",
+      "description": "Safari Vests Pack",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "2-3 Years",
+          "color": "Multi",
+          "stock": 3
+        },
+        {
+          "size": "4-5 Years",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/705-952/1.png",
+        "/uploads/products/705-952/2.png"
+      ],
+      "familySkus": [
+        "705-952"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\705-952 edit\\705-952 1-PhotoRoom.png",
+        "Next\\NEXT KIDS\\705-952 edit\\705-952 2-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "684-039",
+      "title": "Next Crop Leggings 4 pack",
+      "description": "Girls Leggings",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "6-9 Months",
+          "color": "Multi",
+          "stock": 1
+        },
+        {
+          "size": "12-18 Months",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/684-039/1.png",
+        "/uploads/products/684-039/2.png",
+        "/uploads/products/684-039/3.png",
+        "/uploads/products/684-039/4.png",
+        "/uploads/products/684-039/5.png"
+      ],
+      "familySkus": [
+        "684-039"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\684-039\\684-039-PhotoRoom.png",
+        "Next\\NEXT KIDS\\684-039\\684-039 1.png",
+        "Next\\NEXT KIDS\\684-039\\684-039 2.png",
+        "Next\\NEXT KIDS\\684-039\\684-039 3.png",
+        "Next\\NEXT KIDS\\684-039\\684-039 4.png"
+      ]
+    },
+    {
+      "sku": "869-337",
+      "title": "Next Blouses 3 Pack",
+      "description": "Girls Blouses",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 650000,
+      "variants": [
+        {
+          "size": "2-3 Years",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/869-337/1.png",
+        "/uploads/products/869-337/2.png",
+        "/uploads/products/869-337/3.png"
+      ],
+      "familySkus": [
+        "869-337"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\869-337\\869-337-PhotoRoom.png",
+        "Next\\NEXT KIDS\\869-337\\869-337 1.png",
+        "Next\\NEXT KIDS\\869-337\\869-337 2.png"
+      ]
+    },
+    {
+      "sku": "836-685",
+      "title": "Next Vests 5 Pack",
+      "description": "Girls Vests 5 Pack",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 800000,
+      "variants": [
+        {
+          "size": "2-3 Years",
+          "color": "Multi",
+          "stock": 1
+        },
+        {
+          "size": "3-4 Years",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/836-685/1.png",
+        "/uploads/products/836-685/2.png",
+        "/uploads/products/836-685/3.png",
+        "/uploads/products/836-685/4.png",
+        "/uploads/products/836-685/5.png",
+        "/uploads/products/836-685/6.png",
+        "/uploads/products/836-685/7.png",
+        "/uploads/products/836-685/8.png"
+      ],
+      "familySkus": [
+        "836-685"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\836-685 edit\\20231106_103046002_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\836-685 edit\\20231106_103054476_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\836-685 edit\\20231106_103408073_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\836-685 edit\\20231106_103409125_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\836-685 edit\\20231106_104350232_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\836-685 edit\\20231106_104350232_iOS 1-PhotoRoom.png",
+        "Next\\NEXT KIDS\\836-685 edit\\20231106_104355826_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\836-685 edit\\20231106_104445512_iOS-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "275-842",
+      "title": "Next Teal Dress",
+      "description": "Women Teal Dress",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 800000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "Teal",
+          "stock": 1
+        },
+        {
+          "size": "14",
+          "color": "Teal",
+          "stock": 3
+        },
+        {
+          "size": "18",
+          "color": "Teal",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/275-842/1.png",
+        "/uploads/products/275-842/2.png",
+        "/uploads/products/275-842/3.png",
+        "/uploads/products/275-842/4.png",
+        "/uploads/products/275-842/5.png",
+        "/uploads/products/275-842/6.png",
+        "/uploads/products/275-842/7.png",
+        "/uploads/products/275-842/8.png"
+      ],
+      "familySkus": [
+        "275-842"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\275-842 edit\\1-PhotoRoom (3).png",
+        "Next\\275-842 edit\\2-PhotoRoom (3).png",
+        "Next\\275-842 edit\\3-PhotoRoom (4).png",
+        "Next\\275-842 edit\\4-PhotoRoom (3).png",
+        "Next\\275-842 edit\\5-PhotoRoom (4).png",
+        "Next\\275-842 edit\\6-PhotoRoom (4).png",
+        "Next\\275-842 edit\\7-PhotoRoom (3).png",
+        "Next\\275-842 edit\\8-PhotoRoom (3).png"
+      ]
+    },
+    {
+      "sku": "613-762",
+      "title": "Next Burgundy Jersey Hoodie",
+      "description": "Hoody",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1000000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Burgundy",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/613-762/1.png",
+        "/uploads/products/613-762/2.png",
+        "/uploads/products/613-762/3.png",
+        "/uploads/products/613-762/4.png"
+      ],
+      "familySkus": [
+        "613-762"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\4. Next jackets D\\613-762 burgundy hoodie\\10-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\613-762 burgundy hoodie\\16-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\613-762 burgundy hoodie\\17-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\613-762 burgundy hoodie\\9-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "233-817",
+      "title": "Next Green Jersey Hoodie",
+      "description": "Hoody",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1000000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Green",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/233-817/1.png",
+        "/uploads/products/233-817/2.png",
+        "/uploads/products/233-817/3.png",
+        "/uploads/products/233-817/4.png",
+        "/uploads/products/233-817/5.png",
+        "/uploads/products/233-817/6.png"
+      ],
+      "familySkus": [
+        "233-817"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\4. Next jackets D\\233-817 next green hoodie\\1-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\233-817 next green hoodie\\2-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\233-817 next green hoodie\\3-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\233-817 next green hoodie\\4-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\233-817 next green hoodie\\5-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\233-817 next green hoodie\\6-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "980-021",
+      "title": "Next Black Floral Dress",
+      "description": "Floral Dress",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 1000000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "Black",
+          "stock": 1
+        },
+        {
+          "size": "12",
+          "color": "Black",
+          "stock": 1
+        },
+        {
+          "size": "14",
+          "color": "Black",
+          "stock": 1
+        },
+        {
+          "size": "16",
+          "color": "Black",
+          "stock": 1
+        },
+        {
+          "size": "18",
+          "color": "Black",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/980-021/1.png",
+        "/uploads/products/980-021/2.png",
+        "/uploads/products/980-021/3.png",
+        "/uploads/products/980-021/4.png",
+        "/uploads/products/980-021/5.png"
+      ],
+      "familySkus": [
+        "980-021"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT WOMEN\\980-021\\980021s-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\980-021\\980021s2-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\980-021\\980021s3-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\980-021\\980021s4-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\980-021\\980021s5-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "289-136",
+      "title": "Next Black Cherry Dress",
+      "description": "Cherry Dress",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 1050000,
+      "variants": [
+        {
+          "size": "16",
+          "color": "Black",
+          "stock": 2
+        },
+        {
+          "size": "18",
+          "color": "Black",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/289-136/1.png",
+        "/uploads/products/289-136/2.png",
+        "/uploads/products/289-136/3.png",
+        "/uploads/products/289-136/4.png",
+        "/uploads/products/289-136/5.png",
+        "/uploads/products/289-136/6.png",
+        "/uploads/products/289-136/7.png"
+      ],
+      "familySkus": [
+        "289-136"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\289-136 edits\\1-PhotoRoom.png",
+        "Next\\289-136 edits\\2-PhotoRoom.png",
+        "Next\\289-136 edits\\3-PhotoRoom.png",
+        "Next\\289-136 edits\\4-PhotoRoom.png",
+        "Next\\289-136 edits\\5-PhotoRoom.png",
+        "Next\\289-136 edits\\6-PhotoRoom.png",
+        "Next\\289-136 edits\\7-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "857-378",
+      "title": "Next Jungle Vests 5 Pack",
+      "description": "Boys Jungle Vests Pack",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 750000,
+      "variants": [
+        {
+          "size": "12-18 Months",
+          "color": "multi",
+          "stock": 1
+        },
+        {
+          "size": "2-3 Years",
+          "color": "multi",
+          "stock": 3
+        },
+        {
+          "size": "3-4 Years",
+          "color": "multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/857-378/1.png",
+        "/uploads/products/857-378/2.png",
+        "/uploads/products/857-378/3.png",
+        "/uploads/products/857-378/4.png",
+        "/uploads/products/857-378/5.png",
+        "/uploads/products/857-378/6.png",
+        "/uploads/products/857-378/7.png",
+        "/uploads/products/857-378/8.png"
+      ],
+      "familySkus": [
+        "857-378"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\857-378 edit\\20231106_100635892_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\857-378 edit\\20231106_100639559_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\857-378 edit\\20231106_100720033_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\857-378 edit\\20231106_100741223_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\857-378 edit\\20231106_100742152_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\857-378 edit\\20231106_100814236_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\857-378 edit\\20231106_100828806_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\857-378 edit\\20231106_100901596_iOS-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "872-581",
+      "title": "Next Teal Dress",
+      "description": "Women Teal Dress",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 650000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "Teal",
+          "stock": 2
+        },
+        {
+          "size": "12",
+          "color": "Teal",
+          "stock": 3
+        },
+        {
+          "size": "14",
+          "color": "Teal",
+          "stock": 2
+        },
+        {
+          "size": "16",
+          "color": "Teal",
+          "stock": 2
+        },
+        {
+          "size": "18",
+          "color": "Teal",
+          "stock": 0
+        }
+      ],
+      "images": [
+        "/uploads/products/872-581/1.png",
+        "/uploads/products/872-581/2.png",
+        "/uploads/products/872-581/3.png",
+        "/uploads/products/872-581/4.png",
+        "/uploads/products/872-581/5.png",
+        "/uploads/products/872-581/6.png",
+        "/uploads/products/872-581/7.png",
+        "/uploads/products/872-581/8.png"
+      ],
+      "familySkus": [
+        "872-581"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT WOMEN\\872-581 edits\\1-PhotoRoom-PhotoRoom-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\872-581 edits\\2-PhotoRoom-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\872-581 edits\\3-PhotoRoom (1).png",
+        "Next\\NEXT WOMEN\\872-581 edits\\4-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\872-581 edits\\5-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\872-581 edits\\6-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\872-581 edits\\7-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\872-581 edits\\8-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "216-259",
+      "title": "Next Pink Ditsy Dress (Petite)",
+      "description": "Ditsy Dress",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 950000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "Pink",
+          "stock": 1
+        },
+        {
+          "size": "12",
+          "color": "Pink",
+          "stock": 1
+        },
+        {
+          "size": "14",
+          "color": "Pink",
+          "stock": 1
+        },
+        {
+          "size": "16",
+          "color": "Pink",
+          "stock": 1
+        },
+        {
+          "size": "18",
+          "color": "Pink",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/216-259/1.png",
+        "/uploads/products/216-259/2.png",
+        "/uploads/products/216-259/3.png",
+        "/uploads/products/216-259/4.png",
+        "/uploads/products/216-259/5.png",
+        "/uploads/products/216-259/6.png",
+        "/uploads/products/216-259/7.png",
+        "/uploads/products/216-259/8.png"
+      ],
+      "familySkus": [
+        "216-259"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\216-259 edits\\s-l1600 (1)-PhotoRoom (2)-PhotoRoom.png",
+        "Next\\216-259 edits\\s-l1600 (11)-PhotoRoom.png",
+        "Next\\216-259 edits\\s-l1600-PhotoRoom (2)-PhotoRoom.png",
+        "Next\\216-259 edits\\s-l1600 (3)-PhotoRoom (2)-PhotoRoom.png",
+        "Next\\216-259 edits\\s-l1600 (6)-PhotoRoom (1).png",
+        "Next\\216-259 edits\\s-l1600 (7)-PhotoRoom-PhotoRoom.png",
+        "Next\\216-259 edits\\s-l1600 (8)-PhotoRoom.png",
+        "Next\\216-259 edits\\s-l1600 (9)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "927-010",
+      "title": "Next Animal Print Dress (Petite)",
+      "description": "Women Animal Print Dress",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "Animal Print",
+          "stock": 1
+        },
+        {
+          "size": "12",
+          "color": "Animal Print",
+          "stock": 2
+        },
+        {
+          "size": "16",
+          "color": "Animal Print",
+          "stock": 1
+        },
+        {
+          "size": "20",
+          "color": "Animal Print",
+          "stock": 1
+        },
+        {
+          "size": "22",
+          "color": "Animal Print",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/927-010/1.png",
+        "/uploads/products/927-010/2.png",
+        "/uploads/products/927-010/3.png",
+        "/uploads/products/927-010/4.png",
+        "/uploads/products/927-010/5.png",
+        "/uploads/products/927-010/6.png",
+        "/uploads/products/927-010/7.png"
+      ],
+      "familySkus": [
+        "927-010"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT WOMEN\\927-010 edits\\s-l1600-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\927-010 edits\\s-l1600 (1)-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\927-010 edits\\s-l1600 (2)-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\927-010 edits\\s-l1600 (3)-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\927-010 edits\\s-l1600 (4)-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\927-010 edits\\s-l1600 (5)-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\927-010 edits\\s-l1600 (6)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "949-640",
+      "title": "Next Floral Tea Dress (Petite)",
+      "description": "Floral Tea Dress",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 850000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "Floral",
+          "stock": 3
+        },
+        {
+          "size": "12",
+          "color": "Floral",
+          "stock": 2
+        },
+        {
+          "size": "16",
+          "color": "Floral",
+          "stock": 2
+        },
+        {
+          "size": "20",
+          "color": "Floral",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/949-640/1.png",
+        "/uploads/products/949-640/2.png",
+        "/uploads/products/949-640/3.png",
+        "/uploads/products/949-640/4.png"
+      ],
+      "familySkus": [
+        "949-640"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT WOMEN\\949-640\\423097043-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\949-640\\423097044-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\949-640\\423097066-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\949-640\\NextFloralDress1-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "929-836",
+      "title": "Next Grey Skinny Fit Check Jacket",
+      "description": "Jacket",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1200000,
+      "variants": [
+        {
+          "size": "40 S",
+          "color": "Check",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/929-836/1.png",
+        "/uploads/products/929-836/2.png",
+        "/uploads/products/929-836/3.png",
+        "/uploads/products/929-836/4.png"
+      ],
+      "familySkus": [
+        "929-836"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\929-836+606-921\\10-PhotoRoom.png",
+        "Next\\929-836+606-921\\11-PhotoRoom.png",
+        "Next\\929-836+606-921\\12-PhotoRoom.png",
+        "Next\\929-836+606-921\\9-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "863-738",
+      "title": "Next Lw Stone Trousers",
+      "description": "Stone Trousers",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 1150000,
+      "variants": [
+        {
+          "size": "10 R",
+          "color": "Stone",
+          "stock": 1
+        },
+        {
+          "size": "14 R",
+          "color": "Stone",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/863-738/1.png"
+      ],
+      "familySkus": [
+        "863-738"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT WOMEN\\863-738.png"
+      ]
+    },
+    {
+      "sku": "802-363",
+      "title": "Next White/navy Pyjamas",
+      "description": "Pyjamas",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 900000,
+      "variants": [
+        {
+          "size": "Medium",
+          "color": "White/Navy",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/802-363/1.png",
+        "/uploads/products/802-363/2.png",
+        "/uploads/products/802-363/3.png",
+        "/uploads/products/802-363/4.png"
+      ],
+      "familySkus": [
+        "802-363"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\802-363 edit\\802-363-PhotoRoom.png",
+        "Next\\NEXT MEN\\802-363 edit\\802-363 3-PhotoRoom.png",
+        "Next\\NEXT MEN\\802-363 edit\\802-363 4-PhotoRoom.png",
+        "Next\\NEXT MEN\\802-363 edit\\802-363 4-Photo.png"
+      ]
+    },
+    {
+      "sku": "240-778",
+      "title": "Next Unicorn Leggings",
+      "description": "Leggings",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 700000,
+      "variants": [
+        {
+          "size": "6-9 Months",
+          "color": "Unicorn",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/240-778/1.png",
+        "/uploads/products/240-778/2.png",
+        "/uploads/products/240-778/3.png",
+        "/uploads/products/240-778/4.png",
+        "/uploads/products/240-778/5.png",
+        "/uploads/products/240-778/6.png",
+        "/uploads/products/240-778/7.png",
+        "/uploads/products/240-778/8.png"
+      ],
+      "familySkus": [
+        "240-778"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\240-778 edit\\20231104_102632801_iOS-PhotoRoom.png",
+        "Next\\240-778 edit\\20231104_102822068_iOS-PhotoRoom.png",
+        "Next\\240-778 edit\\20231104_102936812_iOS-PhotoRoom.png",
+        "Next\\240-778 edit\\20231104_103041377_iOS-PhotoRoom.png",
+        "Next\\240-778 edit\\20231104_103136374_iOS-PhotoRoom.png",
+        "Next\\240-778 edit\\20231104_103226772_iOS-PhotoRoom.png",
+        "Next\\240-778 edit\\20231104_103226772_iOS (1)-PhotoRoom.png",
+        "Next\\240-778 edit\\20231104_103226772_iOS (2)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "683-682",
+      "title": "Next Charcoal Jacket",
+      "description": "Jacket",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1000000,
+      "variants": [
+        {
+          "size": "38 R",
+          "color": "Charcoal",
+          "stock": 1
+        },
+        {
+          "size": "40 R",
+          "color": "Charcoal",
+          "stock": 1
+        },
+        {
+          "size": "42R",
+          "color": "Charcoal",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/683-682/1.png",
+        "/uploads/products/683-682/2.png",
+        "/uploads/products/683-682/3.png",
+        "/uploads/products/683-682/4.png"
+      ],
+      "familySkus": [
+        "683-682"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\4. Next jackets D\\683-682\\10-PhotoRoom (1).png",
+        "Next\\NEXT MEN\\4. Next jackets D\\683-682\\683 1-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\683-682\\683 2-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\683-682\\683-682  1-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "372-552",
+      "title": "Next 3 Pack T-Shirts",
+      "description": "T-Shirts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 550000,
+      "variants": [
+        {
+          "size": "5-6 Years",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/372-552/1.png",
+        "/uploads/products/372-552/2.png",
+        "/uploads/products/372-552/3.png",
+        "/uploads/products/372-552/4.png",
+        "/uploads/products/372-552/5.png",
+        "/uploads/products/372-552/6.png"
+      ],
+      "familySkus": [
+        "372-552"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\372-552 edit\\20231104_115416641_iOS-PhotoRoom.png",
+        "Next\\372-552 edit\\20231104_115511953_iOS-PhotoRoom.png",
+        "Next\\372-552 edit\\20231104_115626692_iOS-PhotoRoom.png",
+        "Next\\372-552 edit\\20231104_115729592_iOS-PhotoRoom-PhotoRoom.png",
+        "Next\\372-552 edit\\20231104_115800428_iOS-PhotoRoom.png",
+        "Next\\372-552 edit\\20231104_115932282_iOS-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "421-633",
+      "title": "Next 2pk Green/blue Tees",
+      "description": "T-Shirts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 450000,
+      "variants": [
+        {
+          "size": "4 Years",
+          "color": "Green/Blue",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/421-633/1.png",
+        "/uploads/products/421-633/2.png",
+        "/uploads/products/421-633/3.png"
+      ],
+      "familySkus": [
+        "421-633"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\421-633\\421-633-PhotoRoom.png",
+        "Next\\NEXT KIDS\\421-633\\421-633 1.png",
+        "Next\\NEXT KIDS\\421-633\\421-633 2.png"
+      ]
+    },
+    {
+      "sku": "357-314",
+      "title": "Next T-Shirts 3 Pack",
+      "description": "T-Shirts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "2-3 Years",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/357-314/1.png",
+        "/uploads/products/357-314/2.png",
+        "/uploads/products/357-314/3.png",
+        "/uploads/products/357-314/4.png",
+        "/uploads/products/357-314/5.png",
+        "/uploads/products/357-314/6.jpg"
+      ],
+      "familySkus": [
+        "357-314"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\357-314 edit\\357-314 1-PhotoRoom.png",
+        "Next\\357-314 edit\\357314_2-PhotoRoom.png",
+        "Next\\357-314 edit\\357314_3-PhotoRoom.png",
+        "Next\\357-314 edit\\357314_4-PhotoRoom.png",
+        "Next\\357-314 edit\\357314_5-PhotoRoom.png",
+        "Next\\357-314 edit\\357314_6 - Copy.jpg"
+      ]
+    },
+    {
+      "sku": "204-196",
+      "title": "Next T-Shirts 4 Pack",
+      "description": "T-Shirts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 550000,
+      "variants": [
+        {
+          "size": "6-9 Months",
+          "color": "Multi",
+          "stock": 3
+        },
+        {
+          "size": "12-18 Months",
+          "color": "Multi",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/204-196/1.png",
+        "/uploads/products/204-196/2.png",
+        "/uploads/products/204-196/3.png",
+        "/uploads/products/204-196/4.png",
+        "/uploads/products/204-196/5.png",
+        "/uploads/products/204-196/6.png",
+        "/uploads/products/204-196/7.png",
+        "/uploads/products/204-196/8.png"
+      ],
+      "familySkus": [
+        "204-196"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\204-196 edit\\20231104_095141096_iOS-PhotoRoom.png",
+        "Next\\204-196 edit\\20231104_095225324_iOS-PhotoRoom.png",
+        "Next\\204-196 edit\\20231104_095317580_iOS-PhotoRoom.png",
+        "Next\\204-196 edit\\20231104_095340174_iOS-PhotoRoom.png",
+        "Next\\204-196 edit\\20231104_095416050_iOS-PhotoRoom.png",
+        "Next\\204-196 edit\\20231104_095421793_iOS-PhotoRoom.png",
+        "Next\\204-196 edit\\20231104_095421793_iOS (1)-PhotoRoom-PhotoRoom.png",
+        "Next\\204-196 edit\\20231104_095502692_iOS-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "979-975",
+      "title": "Next 3 Pack T-Shirt",
+      "description": "T-Shirts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 550000,
+      "variants": [
+        {
+          "size": "1.5-2 Years",
+          "color": "Multi",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/979-975/1.png",
+        "/uploads/products/979-975/2.png",
+        "/uploads/products/979-975/3.png",
+        "/uploads/products/979-975/4.png",
+        "/uploads/products/979-975/5.png",
+        "/uploads/products/979-975/6.png",
+        "/uploads/products/979-975/7.png"
+      ],
+      "familySkus": [
+        "979-975"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\979-975\\20231106_085623666_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\979-975\\20231106_085825452_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\979-975\\20231106_085854610_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\979-975\\20231106_085914418_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\979-975\\20231106_090051476_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\979-975\\20231106_090108910_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\979-975\\20231106_090329425_iOS-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "857-841",
+      "title": "Next Floral Flippy Dress",
+      "description": "Flippy Dress",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 1050000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "Floral",
+          "stock": 1
+        },
+        {
+          "size": "12",
+          "color": "Floral",
+          "stock": 1
+        },
+        {
+          "size": "14",
+          "color": "Floral",
+          "stock": 1
+        },
+        {
+          "size": "16",
+          "color": "Floral",
+          "stock": 1
+        },
+        {
+          "size": "18",
+          "color": "Floral",
+          "stock": 1
+        },
+        {
+          "size": "20",
+          "color": "Floral",
+          "stock": 1
+        },
+        {
+          "size": "22",
+          "color": "Floral",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/857-841/1.png",
+        "/uploads/products/857-841/2.png",
+        "/uploads/products/857-841/3.png",
+        "/uploads/products/857-841/4.png",
+        "/uploads/products/857-841/5.png",
+        "/uploads/products/857-841/6.png",
+        "/uploads/products/857-841/7.png",
+        "/uploads/products/857-841/8.png"
+      ],
+      "familySkus": [
+        "857-841"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT WOMEN\\857-841 edits\\1-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\857-841 edits\\1-PhotoRoom-PhotoRoom (1).png",
+        "Next\\NEXT WOMEN\\857-841 edits\\10-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\857-841 edits\\11-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\857-841 edits\\12-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\857-841 edits\\2-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\857-841 edits\\3-PhotoRoom (1).png",
+        "Next\\NEXT WOMEN\\857-841 edits\\4-PhotoRoom (1).png"
+      ]
+    },
+    {
+      "sku": "265-668",
+      "title": "Next Bright Tees 5 Pack",
+      "description": "T-Shirts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "6-9 Months",
+          "color": "Multi",
+          "stock": 2
+        },
+        {
+          "size": "12-18 Months",
+          "color": "Multi",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/265-668/1.png",
+        "/uploads/products/265-668/2.png",
+        "/uploads/products/265-668/3.png",
+        "/uploads/products/265-668/4.png",
+        "/uploads/products/265-668/5.png",
+        "/uploads/products/265-668/6.png",
+        "/uploads/products/265-668/7.png",
+        "/uploads/products/265-668/8.png"
+      ],
+      "familySkus": [
+        "265-668"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\265-668 edits\\10-PhotoRoom.png",
+        "Next\\265-668 edits\\11-PhotoRoom.png",
+        "Next\\265-668 edits\\12-PhotoRoom.png",
+        "Next\\265-668 edits\\13-PhotoRoom.png",
+        "Next\\265-668 edits\\2-PhotoRoom.png",
+        "Next\\265-668 edits\\3-PhotoRoom.png",
+        "Next\\265-668 edits\\4-PhotoRoom.png",
+        "Next\\265-668 edits\\5-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "888-357",
+      "title": "Next T-Shirts 5 Pack",
+      "description": "T-Shirts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "6-9 Months",
+          "color": "Multi",
+          "stock": 2
+        },
+        {
+          "size": "12-18 Months",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/888-357/1.png",
+        "/uploads/products/888-357/2.png",
+        "/uploads/products/888-357/3.png",
+        "/uploads/products/888-357/4.png",
+        "/uploads/products/888-357/5.png",
+        "/uploads/products/888-357/6.png"
+      ],
+      "familySkus": [
+        "888-357"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\888-357 edit\\20231104_110403165_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\888-357 edit\\20231104_110806301_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\888-357 edit\\20231104_110906809_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\888-357 edit\\20231104_111042387_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\888-357 edit\\20231104_111230066_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\888-357 edit\\20231104_111802791_iOS-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "821-303",
+      "title": "Next 4 Pack Pastel Vests",
+      "description": "Pastel Vests",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 650000,
+      "variants": [
+        {
+          "size": "6-9 Months",
+          "color": "Multi",
+          "stock": 3
+        },
+        {
+          "size": "12-18 Months",
+          "color": "Multi",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/821-303/1.png",
+        "/uploads/products/821-303/2.png",
+        "/uploads/products/821-303/3.png",
+        "/uploads/products/821-303/4.png",
+        "/uploads/products/821-303/5.png",
+        "/uploads/products/821-303/6.png",
+        "/uploads/products/821-303/7.png",
+        "/uploads/products/821-303/8.png"
+      ],
+      "familySkus": [
+        "821-303"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT KIDS\\821-303 edit\\20231106_093355383_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\821-303 edit\\20231106_093411371_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\821-303 edit\\20231106_093501035_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\821-303 edit\\20231106_093805621_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\821-303 edit\\20231106_093831377_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\821-303 edit\\20231106_093912398_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\821-303 edit\\20231106_093914941_iOS-PhotoRoom.png",
+        "Next\\NEXT KIDS\\821-303 edit\\20231106_094109653_iOS-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "127-167",
+      "title": "Check Suit Jacket",
+      "description": "Check Suit Jacket",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1750000,
+      "variants": [
+        {
+          "size": "38 R",
+          "color": "Check",
+          "stock": 6
+        },
+        {
+          "size": "40 R",
+          "color": "Check",
+          "stock": 6
+        },
+        {
+          "size": "42 R",
+          "color": "Check",
+          "stock": 4
+        },
+        {
+          "size": "44 R",
+          "color": "Check",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/127-167/1.png",
+        "/uploads/products/127-167/2.png",
+        "/uploads/products/127-167/3.png",
+        "/uploads/products/127-167/4.png",
+        "/uploads/products/127-167/5.png"
+      ],
+      "familySkus": [
+        "127-167"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\4. Next jackets D\\127-167\\1-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\127-167\\2-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\127-167\\4-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\127-167\\5-PhotoRoom.png",
+        "Next\\NEXT MEN\\4. Next jackets D\\127-167\\6-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "790-819",
+      "title": "Next Black Floral Tall dress",
+      "description": "Tall Top",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 825000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "Black",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/790-819/1.png",
+        "/uploads/products/790-819/2.png",
+        "/uploads/products/790-819/3.png",
+        "/uploads/products/790-819/4.png",
+        "/uploads/products/790-819/5.png",
+        "/uploads/products/790-819/6.png",
+        "/uploads/products/790-819/7.png",
+        "/uploads/products/790-819/8.png"
+      ],
+      "familySkus": [
+        "790-819"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT WOMEN\\790-819 edits\\1-PhotoRoom (1).png",
+        "Next\\NEXT WOMEN\\790-819 edits\\3-PhotoRoom (2).png",
+        "Next\\NEXT WOMEN\\790-819 edits\\4-PhotoRoom (2).png",
+        "Next\\NEXT WOMEN\\790-819 edits\\5-PhotoRoom (2).png",
+        "Next\\NEXT WOMEN\\790-819 edits\\6-PhotoRoom (2).png",
+        "Next\\NEXT WOMEN\\790-819 edits\\7-PhotoRoom (1).png",
+        "Next\\NEXT WOMEN\\790-819 edits\\790-819.png",
+        "Next\\NEXT WOMEN\\790-819 edits\\8-PhotoRoom (2).png"
+      ]
+    },
+    {
+      "sku": "405-850",
+      "title": "Next Black with Tape Detail Tuxedo Trousers With Contrast Tape Detail",
+      "description": "Black Tuxedo Trousers With Contrast Tape Detail",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1150000,
+      "variants": [
+        {
+          "size": "30 S",
+          "color": "Black",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/405-850/1.png",
+        "/uploads/products/405-850/2.png",
+        "/uploads/products/405-850/3.png",
+        "/uploads/products/405-850/4.png"
+      ],
+      "familySkus": [
+        "405-850"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\405-850 D\\405-850s2-PhotoRoom.png",
+        "Next\\NEXT MEN\\405-850 D\\405-850s5-PhotoRoom.png",
+        "Next\\NEXT MEN\\405-850 D\\405-850s6-PhotoRoom.png",
+        "Next\\NEXT MEN\\405-850 D\\405-850s7-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "620-665",
+      "title": "Next Puppytooth Slim Fit Suit Trousers",
+      "description": "tags attached",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 850000,
+      "variants": [
+        {
+          "size": "34 L",
+          "color": "navy",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/620-665/1.png",
+        "/uploads/products/620-665/2.png",
+        "/uploads/products/620-665/3.png",
+        "/uploads/products/620-665/4.png",
+        "/uploads/products/620-665/5.png"
+      ],
+      "familySkus": [
+        "620-665"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT MEN\\620-665 D\\620-665s-PhotoRoom.png",
+        "Next\\NEXT MEN\\620-665 D\\620665s2-PhotoRoom.png",
+        "Next\\NEXT MEN\\620-665 D\\620665s3-PhotoRoom.png",
+        "Next\\NEXT MEN\\620-665 D\\620665s4-PhotoRoom.png",
+        "Next\\NEXT MEN\\620-665 D\\620665s5-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "820-408",
+      "title": "Next Crop Tops 2 Pack",
+      "description": "95% Cotton 5% Elastane",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "Multi (grey & black)",
+          "stock": 5
+        },
+        {
+          "size": "12",
+          "color": "Multi (grey & black)",
+          "stock": 5
+        },
+        {
+          "size": "14",
+          "color": "Multi (grey & black)",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/820-408/1.png",
+        "/uploads/products/820-408/2.png",
+        "/uploads/products/820-408/3.png"
+      ],
+      "familySkus": [
+        "820-408"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\NEXT WOMEN\\820-408 edit\\820-408 1-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\820-408 edit\\820-408 2-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\820-408 edit\\820-408 3-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "462-450",
+      "title": "Next Shorts 2 Pack",
+      "description": "100% Cotton",
+      "brand": "Next",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1000000,
+      "variants": [
+        {
+          "size": "Medium",
+          "color": null,
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/462-450/1.png",
+        "/uploads/products/462-450/2.png",
+        "/uploads/products/462-450/3.png",
+        "/uploads/products/462-450/4.png",
+        "/uploads/products/462-450/5.png",
+        "/uploads/products/462-450/6.png",
+        "/uploads/products/462-450/7.png",
+        "/uploads/products/462-450/8.png"
+      ],
+      "familySkus": [
+        "462-450"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Next\\462-450 edit\\1-PhotoRoom.png",
+        "Next\\462-450 edit\\10-PhotoRoom.png",
+        "Next\\462-450 edit\\2-PhotoRoom.png",
+        "Next\\462-450 edit\\4-PhotoRoom.png",
+        "Next\\462-450 edit\\5-PhotoRoom.png",
+        "Next\\462-450 edit\\6-PhotoRoom.png",
+        "Next\\462-450 edit\\7-PhotoRoom.png",
+        "Next\\462-450 edit\\8-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "5059019570306",
+      "title": "Burton Indigo Harrington Jacket",
+      "description": "Winter jacket- Navy colour with white stipe on colar",
+      "brand": "Burton",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1250000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Navy",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/5059019570306/1.png",
+        "/uploads/products/5059019570306/2.png",
+        "/uploads/products/5059019570306/3.png",
+        "/uploads/products/5059019570306/4.png"
+      ],
+      "familySkus": [
+        "5059019570306"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "burton\\5059019570306.png",
+        "burton\\5059019570306 (1) -PhotoRoom.png",
+        "burton\\5059019570306 (2)-PhotoRoom.png",
+        "burton\\5059019570306 (3)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "AGG07197-295-35",
+      "title": "Debenhams Oversized Flat Top Aviator Sunglasses NUDE",
+      "description": "Synthetic Materials",
+      "brand": "Debenhams",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 250000,
+      "variants": [
+        {
+          "size": "One",
+          "color": "Nude",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/AGG07197-295-35/1.png"
+      ],
+      "familySkus": [
+        "AGG07197-295-35"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Debenhams\\AGG07197-295-35 dabenhams Oversized Flat Top Aviator Sunglasses NUDE ONE SIZE-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "MPP93172-105-35",
+      "title": "Debenhams Oversized Single Lens Sunglasses BLACK",
+      "description": "Lenses have UV protection. Not for protection against direct sunlight or artificial light e.g. solaria.",
+      "brand": "Debenhams",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "One",
+          "color": "Black",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/MPP93172-105-35/1.png"
+      ],
+      "familySkus": [
+        "MPP93172-105-35"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Debenhams\\MPP93172-105-35 debenhams Oversized Single Lens Sunglasses BLACK ONE SIZE-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "AGG06674-105-35",
+      "title": "Debenhams Iridescent Flat Top Cat Eye Sunglasses BLACK",
+      "description": "Synthetic Materials",
+      "brand": "Debenhams",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 150000,
+      "variants": [
+        {
+          "size": "One",
+          "color": "Black",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/AGG06674-105-35/1.png"
+      ],
+      "familySkus": [
+        "AGG06674-105-35"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Debenhams\\AGG06674-105-35 debenhams Iridescent Flat Top Cat Eye Sunglasses BLACK ONE SIZE-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "MPP93177-105-35",
+      "title": "Debenhams oversized aviator sunglasses BLACK",
+      "description": "100% PLASTIC",
+      "brand": "Debenhams",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "One",
+          "color": "Black",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/MPP93177-105-35/1.png"
+      ],
+      "familySkus": [
+        "MPP93177-105-35"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Debenhams\\MPP93177-105-35 debenhams oversized aviator sunglasses BLACK ONE SIZE-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "AQQ03689-128-57",
+      "title": "Debenhams Gold Aviator Sunglasses GOLD",
+      "description": "With UV Protection.",
+      "brand": "Dorothy Perkins",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 400000,
+      "variants": [
+        {
+          "size": "One",
+          "color": "Gold",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/AQQ03689-128-57/1.png"
+      ],
+      "familySkus": [
+        "AQQ03689-128-57"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Debenhams\\AQQ03689-128-57 debenhams Gold Aviator Sunglasses GOLD ONE SIZE-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "AGG06671-105-35",
+      "title": "Debenhams Frameless Tinted Square Sunglasses BLACK",
+      "description": "Synthetic Materials. One Size.",
+      "brand": "Debenhams",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "One",
+          "color": "Black",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/AGG06671-105-35/1.png"
+      ],
+      "familySkus": [
+        "AGG06671-105-35"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Debenhams\\AGG06671-105-35 debenhams Frameless Tinted Square Sunglasses BLACK ONE SIZE-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "AQQ03704-131-57",
+      "title": "Debenhams Grey Tort Round Sunglasses GREY",
+      "description": "30% Acrylic 20% Polycarbonate 50% Metal",
+      "brand": "Dorothy Perkins",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 400000,
+      "variants": [
+        {
+          "size": "One",
+          "color": "Grey",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/AQQ03704-131-57/1.png",
+        "/uploads/products/AQQ03704-131-57/2.png",
+        "/uploads/products/AQQ03704-131-57/3.png",
+        "/uploads/products/AQQ03704-131-57/4.png"
+      ],
+      "familySkus": [
+        "AQQ03704-131-57"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Debenhams\\AQQ03704-131-57\\AQQ03704-131-57 (1)-PhotoRoom.png",
+        "Debenhams\\AQQ03704-131-57\\AQQ03704-131-57 (2)-PhotoRoom.png",
+        "Debenhams\\AQQ03704-131-57\\AQQ03704-131-57 (3)-PhotoRoom.png",
+        "Debenhams\\AQQ03704-131-57\\AQQ03704-131-57 (4)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "320474399",
+      "title": "Gap Original Logo T-Shirt Fennel Blosom",
+      "description": "Short sleeves.\nGap logo print at front.\nMade with 100% organically grown cotton. Organic cotton is better for people and the environment because it’s grown without the use of harmful synthetic pesticides and fertilizers.\nCrewneck.",
+      "brand": "GAP",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Bright Yellow",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/320474399/1.png",
+        "/uploads/products/320474399/2.png",
+        "/uploads/products/320474399/3.png"
+      ],
+      "familySkus": [
+        "320474399"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Gap\\320474399 (1)-PhotoRoom (1).png",
+        "Gap\\320474399 (2)-PhotoRoom.png",
+        "Gap\\320474399 (3)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "648459244",
+      "title": "Hollister Must-Have Graphic Tee",
+      "description": "MUST-HAVE COLLECTION\nThe go-with-everything outfit starters you'll reach for every day.\n\nDesigned in soft jersey fabric with allover scenic beach graphic, print logo graphics, a crew neckline and short sleeves. Imported.\n\nBody:100% Cotton\nMachine wash cold separately, remove promptly\nOnly non-chlorine bleach\nTumble dry low, remove promptly\nLow iron on reverse side\nDo not dry clean",
+      "brand": "Hollister",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "Medium",
+          "color": "White",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/648459244/1.png",
+        "/uploads/products/648459244/2.png",
+        "/uploads/products/648459244/3.png",
+        "/uploads/products/648459244/4.png",
+        "/uploads/products/648459244/5.png",
+        "/uploads/products/648459244/6.png"
+      ],
+      "familySkus": [
+        "648459244"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Hollister\\648459244.png",
+        "Hollister\\648459244 (1)-PhotoRoom.png",
+        "Hollister\\648459244 (2)-PhotoRoom.png",
+        "Hollister\\648459244 (3)-PhotoRoom.png",
+        "Hollister\\648459244 (3)-PhotoRoom(1).png",
+        "Hollister\\648459244 (4)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "646410586",
+      "title": "Hollister MUST-HAVE V-NECK T-SHIRT 5-PACK",
+      "description": "MUST-HAVE COLLECTION\nThe go-with-everything outfit starters you'll reach for every day.\n\nA tee for every weekday, featuring soft cotton fabric, an icon at left chest, a v neckline and short sleeves. Designed in our original fit that's comfortably slim through the chest and waist. Slim Fit. Imported.\n\nWhite - 100% Cotton / Blue - 100% Cotton / Green - 60% Cotton, 40% Polyester / Navy - 100% Cotton / Black - 100% Cotton\nMachine wash cold, with like colors\nOnly non-chlorine bleach\nTumble dry low\nLow iron if needed\nDo not dry clean",
+      "brand": "Hollister",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1850000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Multi",
+          "stock": 7
+        }
+      ],
+      "images": [
+        "/uploads/products/646410586/1.png"
+      ],
+      "familySkus": [
+        "646410586"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Hollister\\646410586.png"
+      ]
+    },
+    {
+      "sku": "647707576",
+      "title": "Hollister Crewneck T-Shirt 3-Pack",
+      "description": "Pack your long-weekend bag with a tee for every day, featuring our signature crewneck tee in soft jersey fabric with an icon embroidered at left chest and short sleeves. Designed in our original fit that's comfortably slim through the chest and waist. Slim Fit. Imported.\n\nWhite - 100% Cotton / Pink - 60% Cotton, 40% Polyester / Blue - 100% Cotton\nMachine wash cold, with like colors\nOnly non-chlorine bleach\nTumble dry low\nLow iron if needed\nDo not dry clean",
+      "brand": "Hollister",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1200000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Multi",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/647707576/1.png",
+        "/uploads/products/647707576/2.png"
+      ],
+      "familySkus": [
+        "647707576"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Hollister\\647707576 3 pack blue-PhotoRoom.png",
+        "Hollister\\647707576 3 pack white-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "646404469",
+      "title": "Hollister MUST-HAVE CREWNECK T-SHIRT 5-PACK",
+      "description": "MUST-HAVE COLLECTION\nThe go-with-everything outfit starters you'll reach for every day.\n\nA tee for every weekday, featuring soft cotton fabric, icon patterns, a crew neckline and short sleeves. Designed in our original fit that's comfortably slim through the chest and waist. Slim Fit. Imported.\n\nBody:100% Cotton\nMachine wash cold, with like colors\nOnly non-chlorine bleach\nTumble dry low\nLow iron if needed\nDo not dry clean",
+      "brand": "Hollister",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1900000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/646404469/1.png"
+      ],
+      "familySkus": [
+        "646404469"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Hollister\\646404469 HOLLISTER MUST-HAVE CREWNECK T-SHIRT 5-PACK-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "646299662",
+      "title": "Hollister Woven Boxer 3-Pack",
+      "description": "A set of three comfortable, relaxed boxers designed in lightweight cotton fabric, featuring a stretch waistband with logo patch at front and allover pattern. Imported.\n\nBody:100% Cotton\nMachine wash warm, with like colors\nOnly non-chlorine bleach\nTumble dry low\nDo not iron\nDo not dry clean",
+      "brand": "Hollister",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1200000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/646299662/1.png",
+        "/uploads/products/646299662/2.png",
+        "/uploads/products/646299662/3.png",
+        "/uploads/products/646299662/4.png",
+        "/uploads/products/646299662/5.png"
+      ],
+      "familySkus": [
+        "646299662"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Hollister\\646299662 (1).png",
+        "Hollister\\646299662 (2)-PhotoRoom.png",
+        "Hollister\\646299662 (3)-PhotoRoom.png",
+        "Hollister\\646299662 (4)-PhotoRoom(1).png",
+        "Hollister\\646299662 (5)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "646114980",
+      "title": "Hollister APPLIQUE LOGO GRAPHIC TEE Navy",
+      "description": "A soft cotton tee designed with logo graphic applique and embroidery, a crew neckline and short sleeves. Imported.\n\nBody:100% Cotton\nMachine wash cold, with like colors\nOnly non-chlorine bleach\nTumble dry low\nLow iron on reverse side\nDo not dry clean",
+      "brand": "Hollister",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 400000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Navy",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/646114980/1.png"
+      ],
+      "familySkus": [
+        "646114980"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Hollister\\646114980 HOLLISTERV NAVY APPLIQUE LOGO GRAPHIC TEE-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "646114867",
+      "title": "Hollister APPLIQUE LOGO GRAPHIC TEE Black",
+      "description": "A soft cotton tee designed with logo graphic applique and embroidery, a crew neckline and short sleeves. Imported.\n\nBody:100% Cotton\nMachine wash cold, with like colors\nOnly non-chlorine bleach\nTumble dry low\nLow iron on reverse side\nDo not dry clean",
+      "brand": "Hollister",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 400000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Black",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/646114867/1.png",
+        "/uploads/products/646114867/2.png",
+        "/uploads/products/646114867/3.png",
+        "/uploads/products/646114867/4.png"
+      ],
+      "familySkus": [
+        "646114867"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Hollister\\646114867 black-PhotoRoom.png",
+        "Hollister\\646114867 black 2-PhotoRoom.png",
+        "Hollister\\646114867 black3-PhotoRoom.png",
+        "Hollister\\646114867 black4-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "646387494",
+      "title": "Hollister CURVED HEM T-SHIRT 3-PACK",
+      "description": "A set of three cotton tees, each designed in our signature curved hem silhouette with longer length, featuring a crew neckline, icon at left chest and short sleeves. Slim Fit. Imported.\n\nBody:100% Cotton\nMachine wash cold, with like colors\nOnly non-chlorine bleach\nTumble dry low\nLow iron if needed\nDo not dry clean",
+      "brand": "Hollister",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1450000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "MUlti",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/646387494/1.png"
+      ],
+      "familySkus": [
+        "646387494"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Hollister\\646387494 HOLLISTER CURVED HEM T-SHIRT 3-PACK-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "870530074007",
+      "title": "H&M Red Patterned jersey dress 1PC",
+      "description": "Cotton 100%",
+      "brand": "H&M",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 250000,
+      "variants": [
+        {
+          "size": "2-4Y",
+          "color": "Multi",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/870530074007/1.png",
+        "/uploads/products/870530074007/2.png",
+        "/uploads/products/870530074007/3.png",
+        "/uploads/products/870530074007/4.png"
+      ],
+      "familySkus": [
+        "870530074007"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "H&M\\0870530074007 (1)-PhotoRoom.png",
+        "H&M\\0870530074007 (2)-PhotoRoom.png",
+        "H&M\\0870530074007 (3)-PhotoRoom.png",
+        "H&M\\0870530074007 (4)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "5059318210996",
+      "title": "Tu Clothing Mid-Rise Slimming Stretch Jeggings",
+      "description": "stretchable slimfit jegging with two front pocket design (no pockets)",
+      "brand": "Tu Clothing",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 550000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "white",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/5059318210996/1.png",
+        "/uploads/products/5059318210996/2.png",
+        "/uploads/products/5059318210996/3.png",
+        "/uploads/products/5059318210996/4.png",
+        "/uploads/products/5059318210996/5.png"
+      ],
+      "familySkus": [
+        "5059318210996"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "TU Clothing\\TU white jaggings D\\5059318210996-1.png",
+        "TU Clothing\\TU white jaggings D\\5059318210996-2.png",
+        "TU Clothing\\TU white jaggings D\\5059318210996-3.png",
+        "TU Clothing\\TU white jaggings D\\5059318210996-4.png",
+        "TU Clothing\\TU white jaggings D\\5059318210996-5.png"
+      ]
+    },
+    {
+      "sku": "138652925",
+      "title": "TU Clothing DRESS",
+      "description": null,
+      "brand": "Tu Clothing",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 400000,
+      "variants": [
+        {
+          "size": "1.5-2 y",
+          "color": "Yellow",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/138652925/1.png",
+        "/uploads/products/138652925/2.png",
+        "/uploads/products/138652925/3.png",
+        "/uploads/products/138652925/4.png"
+      ],
+      "familySkus": [
+        "138652925"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "TU Clothing\\TU 136852925 yellow kids\\138652925 yellow dress 1.png",
+        "TU Clothing\\TU 136852925 yellow kids\\138652925 yellow dress 2.png",
+        "TU Clothing\\TU 136852925 yellow kids\\138652925 yellow dress 3.png",
+        "TU Clothing\\TU 136852925 yellow kids\\138652925 yellow dress 4.png"
+      ]
+    },
+    {
+      "sku": "25253870",
+      "title": "M&S Slim fit Pure Cotton Shirt",
+      "description": "100% cotton/exclusive of trimings-easy to iron. Single cuff - Pure cotton-35-37 inches",
+      "brand": "M&S",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "White/Pink",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/25253870/1.png",
+        "/uploads/products/25253870/2.png",
+        "/uploads/products/25253870/3.png",
+        "/uploads/products/25253870/4.png"
+      ],
+      "familySkus": [
+        "25253870"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S Men\\25253870 Edit\\2-PhotoRoom.png",
+        "M&S\\M&S Men\\25253870 Edit\\3-PhotoRoom.png",
+        "M&S\\M&S Men\\25253870 Edit\\4-PhotoRoom.png",
+        "M&S\\M&S Men\\25253870 Edit\\5-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "8609175",
+      "title": "M&S Slim fit Pure cotton Shirt",
+      "description": "100% cotton/exclusive of trimings-easy to iron. Single cuff",
+      "brand": "M&S",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "17",
+          "color": "Blue",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/8609175/1.png",
+        "/uploads/products/8609175/2.png",
+        "/uploads/products/8609175/3.png",
+        "/uploads/products/8609175/4.png",
+        "/uploads/products/8609175/5.png"
+      ],
+      "familySkus": [
+        "8609175"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S Men\\8609175 edit\\2-PhotoRoom (1).png",
+        "M&S\\M&S Men\\8609175 edit\\3-PhotoRoom (1).png",
+        "M&S\\M&S Men\\8609175 edit\\4-PhotoRoom.png",
+        "M&S\\M&S Men\\8609175 edit\\5-PhotoRoom (1).png",
+        "M&S\\M&S Men\\8609175 edit\\6-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "9373471",
+      "title": "M&S Newborn 3-6 months Crew neck shirt with shorts",
+      "description": "Newborn 3-6 months Crew neck shirt with shorts",
+      "brand": "M&S",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 150000,
+      "variants": [
+        {
+          "size": "3-6 M",
+          "color": "White /navy",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/9373471/1.png",
+        "/uploads/products/9373471/2.png",
+        "/uploads/products/9373471/3.png",
+        "/uploads/products/9373471/4.png"
+      ],
+      "familySkus": [
+        "9373471"
+      ],
+      "notes": [
+        "title from description",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S KIDS\\9373471\\9373471-PhotoRoom.png",
+        "M&S\\M&S KIDS\\9373471\\9373471-1.png",
+        "M&S\\M&S KIDS\\9373471\\9373471-2.png",
+        "M&S\\M&S KIDS\\9373471\\9373471-3.png"
+      ]
+    },
+    {
+      "sku": "7896958",
+      "title": "M&S Crew neck multi colour with shorts Multipack of 3 pairs",
+      "description": "Crew neck multi colour with shorts",
+      "brand": "M&S",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 150000,
+      "variants": [
+        {
+          "size": "1 to 1.5 Y",
+          "color": "Multi",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/7896958/1.png",
+        "/uploads/products/7896958/2.png",
+        "/uploads/products/7896958/3.png",
+        "/uploads/products/7896958/4.png"
+      ],
+      "familySkus": [
+        "7896958"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S KIDS\\7896958\\7896958.png",
+        "M&S\\M&S KIDS\\7896958\\7896958-1.png",
+        "M&S\\M&S KIDS\\7896958\\7896958-2.png",
+        "M&S\\M&S KIDS\\7896958\\7896958-3.png"
+      ]
+    },
+    {
+      "sku": "9341302",
+      "title": "M&S Sleeveless Bodystocking Pack of 2",
+      "description": "Newborn sleeveless baby bodystocking",
+      "brand": "M&S",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 150000,
+      "variants": [
+        {
+          "size": "0-3 M",
+          "color": "Black/white stipr and white",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/9341302/1.png",
+        "/uploads/products/9341302/2.png",
+        "/uploads/products/9341302/3.png",
+        "/uploads/products/9341302/4.png"
+      ],
+      "familySkus": [
+        "9341302"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S KIDS\\9341302\\9341302.png",
+        "M&S\\M&S KIDS\\9341302\\9341302-1.png",
+        "M&S\\M&S KIDS\\9341302\\9341302-2.png",
+        "M&S\\M&S KIDS\\9341302\\9341302-3.png"
+      ]
+    },
+    {
+      "sku": "5576593",
+      "title": "M&S Newborn shortsleeves baby bodystocking Pack of 3",
+      "description": "Newborn tiny baby shortsleeves bodystocking",
+      "brand": "M&S",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "3.2kg",
+          "color": "Multi",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/5576593/1.png",
+        "/uploads/products/5576593/2.png",
+        "/uploads/products/5576593/3.png",
+        "/uploads/products/5576593/4.png"
+      ],
+      "familySkus": [
+        "5576593"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S KIDS\\5576593\\5576593-PhotoRoom.png",
+        "M&S\\M&S KIDS\\5576593\\5576593-1.png",
+        "M&S\\M&S KIDS\\5576593\\5576593-2.png",
+        "M&S\\M&S KIDS\\5576593\\5576593-3.png"
+      ]
+    },
+    {
+      "sku": "9993990",
+      "title": "M&S Flowers printed shorts Pack of 3",
+      "description": "Newborn tiny baby shorts. Flowers printed",
+      "brand": "M&S",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "3.2kg",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/9993990/1.png",
+        "/uploads/products/9993990/2.png",
+        "/uploads/products/9993990/3.png",
+        "/uploads/products/9993990/4.png"
+      ],
+      "familySkus": [
+        "9993990"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S KIDS\\9993990\\9993990-PhotoRoom.png",
+        "M&S\\M&S KIDS\\9993990\\9993990-1.png",
+        "M&S\\M&S KIDS\\9993990\\9993990-2.png",
+        "M&S\\M&S KIDS\\9993990\\9993990-3.png"
+      ]
+    },
+    {
+      "sku": "3946251",
+      "title": "M&S Baby short sleeves shirts Pack of 3",
+      "description": "Baby short sleeves shirts",
+      "brand": "M&S",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "3-6 months",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/3946251/1.png",
+        "/uploads/products/3946251/2.png",
+        "/uploads/products/3946251/3.png",
+        "/uploads/products/3946251/4.png"
+      ],
+      "familySkus": [
+        "3946251"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S KIDS\\3946251\\3946251-PhotoRoom.png",
+        "M&S\\M&S KIDS\\3946251\\3946251-1.png",
+        "M&S\\M&S KIDS\\3946251\\3946251-2.png",
+        "M&S\\M&S KIDS\\3946251\\3946251-3.png"
+      ]
+    },
+    {
+      "sku": "4033004",
+      "title": "M&S jersey trouser Pack of 3",
+      "description": "jersey trouser",
+      "brand": "M&S",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "0-3 months",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/4033004/1.png",
+        "/uploads/products/4033004/2.png",
+        "/uploads/products/4033004/3.png",
+        "/uploads/products/4033004/4.png"
+      ],
+      "familySkus": [
+        "4033004"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S KIDS\\4033004\\4033004-PhotoRoom.png",
+        "M&S\\M&S KIDS\\4033004\\4033004-1.png",
+        "M&S\\M&S KIDS\\4033004\\4033004-2.png",
+        "M&S\\M&S KIDS\\4033004\\4033004-3.png"
+      ]
+    },
+    {
+      "sku": "9873230",
+      "title": "M&S Newborn sleeveless bodystocking Pack of 2",
+      "description": "Newborn tiny baby sleeveless bodystocking",
+      "brand": "M&S",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 150000,
+      "variants": [
+        {
+          "size": "3.2kg",
+          "color": "Off-white",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/9873230/1.png",
+        "/uploads/products/9873230/2.png"
+      ],
+      "familySkus": [
+        "9873230"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S KIDS\\9873230\\9873230-PhotoRoom.png",
+        "M&S\\M&S KIDS\\9873230\\9873230 (2)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6574451",
+      "title": "M&S Newborn baby shirt & short set",
+      "description": "Newborn baby shirt & short set",
+      "brand": "M&S",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 150000,
+      "variants": [
+        {
+          "size": "0-3 months",
+          "color": null,
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/6574451/1.png",
+        "/uploads/products/6574451/2.png",
+        "/uploads/products/6574451/3.png",
+        "/uploads/products/6574451/4.png"
+      ],
+      "familySkus": [
+        "6574451"
+      ],
+      "notes": [
+        "title from description",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S KIDS\\6574451\\6574451-PhotoRoom.png",
+        "M&S\\M&S KIDS\\6574451\\6574451-1.png",
+        "M&S\\M&S KIDS\\6574451\\6574451-2.png",
+        "M&S\\M&S KIDS\\6574451\\6574451-3.png"
+      ]
+    },
+    {
+      "sku": "1362787",
+      "title": "M&S Teddy bear short sleeves shirt with doted short",
+      "description": "Teddy bear short sleeves shirt with doted short",
+      "brand": "M&S",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 250000,
+      "variants": [
+        {
+          "size": "3-6 months",
+          "color": "White",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/1362787/1.png",
+        "/uploads/products/1362787/2.png",
+        "/uploads/products/1362787/3.png"
+      ],
+      "familySkus": [
+        "1362787"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S KIDS\\1362787\\1362787-PhotoRoom.png",
+        "M&S\\M&S KIDS\\1362787\\1362787-1.png",
+        "M&S\\M&S KIDS\\1362787\\1362787-2.png"
+      ]
+    },
+    {
+      "sku": "T337148",
+      "title": "M&S White Cotton Rich Vintage Lace Full Cup Bra",
+      "description": "Full cup bras are designed to fully cover the breast and provide great support. Non-padded and non-wired with centre bow feature. Adjustable straps and rear hook fastening.  Material: 62% Cotton - 21% Polyamide - 9% Polyester - 8% Elastane\ncare: Machine Wash",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "34C",
+          "color": "White",
+          "stock": 1
+        },
+        {
+          "size": "36B",
+          "color": "White",
+          "stock": 3
+        },
+        {
+          "size": "36C",
+          "color": "White",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/T337148/1.png"
+      ],
+      "familySkus": [
+        "T337148"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\T337148 .png"
+      ]
+    },
+    {
+      "sku": "T337158",
+      "title": "M&S Truffle Body Smoothing Non-Wired Bralette",
+      "description": "Ensuring a flattering finish, this bralette has been designed to smooth and perfect your silhouette. Non-wired and with a longline design, this smoothing bralette offers light support and ensuring a bump-free finish that sits neatly under clothes.  Material: 80% Polyamide - 20% Elastane Spandex   care: Machine Wash",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 250000,
+      "variants": [
+        {
+          "size": "34A",
+          "color": "Truffle",
+          "stock": 2
+        },
+        {
+          "size": "34B",
+          "color": "Truffle",
+          "stock": 4
+        },
+        {
+          "size": "38B",
+          "color": "Truffle",
+          "stock": 4
+        },
+        {
+          "size": "38C",
+          "color": "Truffle",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/T337158/1.jpg"
+      ],
+      "familySkus": [
+        "T337158"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\T337158-TRUFFLE-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI2350",
+      "title": "M&S Khaki Lightly Padded Lace Bra",
+      "description": "Underwired lace bra with light padding. Adjustable straps and back fastening. Elastic underband detail.Material: 90% Polyamide - 10% Elastane  care: Hand Wash.",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "85B",
+          "color": "Khaki",
+          "stock": 4
+        },
+        {
+          "size": "90B",
+          "color": "Khaki",
+          "stock": 8
+        },
+        {
+          "size": "95B",
+          "color": "Khaki",
+          "stock": 5
+        },
+        {
+          "size": "100B",
+          "color": "Khaki",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/LI2350/1.jpg"
+      ],
+      "familySkus": [
+        "LI2350"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI2350-KHAKI-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI1286",
+      "title": "Oysho Black Floral Lace Padded Longline Bra",
+      "description": "Black longline lace bra with underwire, padded cups, adjustable straps and back hook fastening. Scallop trim and centre bow.",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "90B",
+          "color": "Black",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/LI1286/1.jpg"
+      ],
+      "familySkus": [
+        "LI1286"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI1286-BLACK-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI1783",
+      "title": "Oysho Nude Lightly Padded Lace Underwired Plunge Bra",
+      "description": "Geometric lace underwired plunge bra with lightly padded cups. Adjustable straps and rear fastening. Beautifully soft, playful and pretty. Added stretch.",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "85B",
+          "color": "Nude",
+          "stock": 2
+        },
+        {
+          "size": "90B",
+          "color": "Nude",
+          "stock": 3
+        },
+        {
+          "size": "95C",
+          "color": "Nude",
+          "stock": 2
+        },
+        {
+          "size": "100B",
+          "color": "Nude",
+          "stock": 2
+        },
+        {
+          "size": "100C",
+          "color": "Nude",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/LI1783/1.jpg"
+      ],
+      "familySkus": [
+        "LI1783"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI1783-NUDE-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI1787",
+      "title": "Oysho Lightly Padded Lace Overlay Triangle Bra - Black",
+      "description": "Pretty and playful, the delicate lace triangle lace bra with light padding and no underwire is simply delightful. Soft, sumptuous and with added stretch, not only will it look good, it will feel good too. Adjustable straps.\n\nMaterial: 85% Polyamide - 15% Elastane\ncare: Hand Wash",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "85B",
+          "color": "Black",
+          "stock": 6
+        },
+        {
+          "size": "90B",
+          "color": "Black",
+          "stock": 2
+        },
+        {
+          "size": "90C",
+          "color": "Black",
+          "stock": 1
+        },
+        {
+          "size": "95B",
+          "color": "Black",
+          "stock": 8
+        },
+        {
+          "size": "100B",
+          "color": "Black",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/LI1787/1.jpg",
+        "/uploads/products/LI1787/2.jpg"
+      ],
+      "familySkus": [
+        "LI1787"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI1787-BLACK-01.jpg",
+        "M&S\\M&S women\\LI1787-BLACK-02.jpg"
+      ]
+    },
+    {
+      "sku": "LI2401",
+      "title": "Oysho Blush Lace Moulded Cup Non-Wired Bra",
+      "description": "Designed to give you a flattering uplift. Padded with non-wired, moulded cups and overlaid lace. Adjustable straps and rear hook fastening. Material: 64% Polyamide - 36% Elastane\ncare: Hand Wash",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "90B",
+          "color": "Blush",
+          "stock": 6
+        }
+      ],
+      "images": [
+        "/uploads/products/LI2401/1.jpg"
+      ],
+      "familySkus": [
+        "LI2401"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI2401-BLUSH-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI2402",
+      "title": "Oysho Lemon Modal Blend Lace Non-Wired Triangle Bra",
+      "description": "Non-wired and non-padded basic bra top with triangle neckline. Seamless fabric for maximum comfort. Adjustable straps and back fastening. Material: 94% Modal - 6% Elastane\ncare: Hand Wash",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "90B",
+          "color": "Lemon",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/LI2402/1.jpg"
+      ],
+      "familySkus": [
+        "LI2402"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI2402-LEMON-01 (1).jpg"
+      ]
+    },
+    {
+      "sku": "LI2403",
+      "title": "Oysho Sand Lace Moulded Cup Wired Bra",
+      "description": "Designed to give you a flattering uplift. Wired with moulded cups and overlaid lace. Adjustable straps and rear hook fastening. Material: 87% Polyamide - 13% Elastane\ncare: Hand Wash",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "90B",
+          "color": "Sand",
+          "stock": 2
+        },
+        {
+          "size": "95B",
+          "color": "Sand",
+          "stock": 4
+        },
+        {
+          "size": "100B",
+          "color": "Sand",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/LI2403/1.jpg"
+      ],
+      "familySkus": [
+        "LI2403"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI2403-SAND-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI2404",
+      "title": "Oysho Ivory Lace Non-Wired Triangle Bra",
+      "description": "Non-wired and non-padded basic bra top with triangle neckline. Adjustable straps and back fastening. Material: 85% Polyamide - 15% Elastane\ncare: Hand Wash",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "32B",
+          "color": "Ivory",
+          "stock": 1
+        },
+        {
+          "size": "34B",
+          "color": "Ivory",
+          "stock": 5
+        },
+        {
+          "size": "36C",
+          "color": "Ivory",
+          "stock": 2
+        },
+        {
+          "size": "36B",
+          "color": "Ivory",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/LI2404/1.jpg"
+      ],
+      "familySkus": [
+        "LI2404"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI2404-IVORY-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI2405",
+      "title": "Oysho Grey Modal Blend Lace Moulded Triangle Bra",
+      "description": "Non-wired and lightly padded. Lace detail at the neckline and underband. Adjustable straps and back fastening . Material: 96% Modal - 4% Elastane\ncare: Hand Wash",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "85A",
+          "color": "Grey",
+          "stock": 2
+        },
+        {
+          "size": "85B",
+          "color": "Grey",
+          "stock": 2
+        },
+        {
+          "size": "90B",
+          "color": "Grey",
+          "stock": 4
+        },
+        {
+          "size": "95B",
+          "color": "Grey",
+          "stock": 8
+        }
+      ],
+      "images": [
+        "/uploads/products/LI2405/1.jpg"
+      ],
+      "familySkus": [
+        "LI2405"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI2405-GREY-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI2407",
+      "title": "Oysho Natural Geo Lace Padded Strapless Bra",
+      "description": "This gorgeous lightly padded bra, is sure to be a welcome addition to your underwear collection. With adjustable/detachable straps, and glorious geometric lace trims, this stylish underwired bra effortlessly ticks all the boxes when it comes to comfort and trendsetting style and will offer you flattering and supportive uplift.  Material: 86% Polyamide - 14% Elastane\ncare: Hand Wash",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "85B",
+          "color": "Natural",
+          "stock": 1
+        },
+        {
+          "size": "95B",
+          "color": "Natural",
+          "stock": 6
+        },
+        {
+          "size": "100B",
+          "color": "Natural",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/LI2407/1.jpg"
+      ],
+      "familySkus": [
+        "LI2407"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI2407-NATURAL-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI2112",
+      "title": "Oysho Burgundy Lace Moulded Cup Non-Wired Bra",
+      "description": "Designed to give you a flattering uplift. Padded with non-wired, moulded cups and overlaid lace. Adjustable straps and rear hook fastening.  Material: 64% Polyamide - 36% Elastane\ncare: Hand Wash",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "85B",
+          "color": "Burgundy",
+          "stock": 5
+        },
+        {
+          "size": "90B",
+          "color": "Burgundy",
+          "stock": 1
+        },
+        {
+          "size": "95B",
+          "color": "Burgundy",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/LI2112/1.jpg"
+      ],
+      "familySkus": [
+        "LI2112"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI2112-BURGUNDY-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI1771",
+      "title": "OYSHO ECRU Longline Removable Padding Geometric Lace Bralette",
+      "description": "This bralette is a playfully feminine take on a classic triangle bra. Non-wired longline bralette with removable padding and centre bow. Adjustable straps and rear hook fastening. Added stretch.   Material: 85% Polyamide - 15% Elastane\ncare: Hand Wash",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "White",
+          "stock": 5
+        },
+        {
+          "size": "Medium",
+          "color": "White",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/LI1771/1.jpg"
+      ],
+      "familySkus": [
+        "LI1771"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI1771-ECRU-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI2107",
+      "title": "Oysho Mauve Modal Rich Lightly Padded Lace Bra",
+      "description": "Underwired modal bra with light padding. Lace detail at the neckline. Adjustable straps and back fastening.\nMaterial: 94% Modal - 6% Elastane\ncare: Hand Wash",
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "85 B",
+          "color": "Mauve",
+          "stock": 3
+        },
+        {
+          "size": "90 B",
+          "color": "Mauve",
+          "stock": 1
+        },
+        {
+          "size": "90 C",
+          "color": "Mauve",
+          "stock": 3
+        },
+        {
+          "size": "95 B",
+          "color": "Mauve",
+          "stock": 1
+        },
+        {
+          "size": "100 B",
+          "color": "Mauve",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/LI2107/1.jpg"
+      ],
+      "familySkus": [
+        "LI2107"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI2107-MAUVE-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI2110",
+      "title": "OYSHO MAUVE Non-Wired Extra Comfort Bra",
+      "description": null,
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "85 B",
+          "color": "Mauve",
+          "stock": 3
+        },
+        {
+          "size": "90 B",
+          "color": "Mauve",
+          "stock": 3
+        },
+        {
+          "size": "95 B",
+          "color": "Mauve",
+          "stock": 2
+        },
+        {
+          "size": "100 B",
+          "color": "Mauve",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/LI2110/1.jpg"
+      ],
+      "familySkus": [
+        "LI2110"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI2110-MAUVEGREY-01.jpg"
+      ]
+    },
+    {
+      "sku": "LI2586",
+      "title": "Trofé White Tove Non-Padded Wireless Total Support Bra",
+      "description": null,
+      "brand": "M&S",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 200000,
+      "variants": [
+        {
+          "size": "75B",
+          "color": "White",
+          "stock": 3
+        },
+        {
+          "size": "75C",
+          "color": "White",
+          "stock": 2
+        },
+        {
+          "size": "75D",
+          "color": "White",
+          "stock": 2
+        },
+        {
+          "size": "75DD",
+          "color": "White",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/LI2586/1.jpg"
+      ],
+      "familySkus": [
+        "LI2586"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S women\\LI2586-TOVE-WHITE-01.jpg"
+      ]
+    },
+    {
+      "sku": "T146750S",
+      "title": "M&S Blue-Marl Mens Cotton Rich Cool & Fresh Stretch Briefs",
+      "description": "90% Cotton,\n10% Lycra Elastane,\nWash with similar colors",
+      "brand": "M&S",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 75000,
+      "variants": [
+        {
+          "size": "Medium",
+          "color": "Blue-Marl",
+          "stock": 50
+        },
+        {
+          "size": "Medium",
+          "color": "Denim",
+          "stock": 50
+        },
+        {
+          "size": "Medium",
+          "color": "Navy",
+          "stock": 50
+        }
+      ],
+      "images": [
+        "/uploads/products/T146750S/1.png",
+        "/uploads/products/T146750S/2.png",
+        "/uploads/products/T146750S/3.png",
+        "/uploads/products/T146750S/4.png",
+        "/uploads/products/T146750S/5.png",
+        "/uploads/products/T146750S/6.png"
+      ],
+      "familySkus": [
+        "T146750S"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S Men\\T146750S\\T146750S blue.png",
+        "M&S\\M&S Men\\T146750S\\T146750S blue marl 1.png",
+        "M&S\\M&S Men\\T146750S\\T146750S blue marl 2.png",
+        "M&S\\M&S Men\\T146750S\\T146750S denim.png",
+        "M&S\\M&S Men\\T146750S\\T146750S navy 1.png",
+        "M&S\\M&S Men\\T146750S\\T146750S navy 2.png"
+      ]
+    },
+    {
+      "sku": "T146782S",
+      "title": "M&S Dark Indigo Mens Cool & Fresh Cotton Stretch Briefs",
+      "description": "90% Cotton,\n10% Lycra Elastane,\nWash with similar colors",
+      "brand": "M&S",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 75000,
+      "variants": [
+        {
+          "size": "Medium",
+          "color": "Dark Indigo",
+          "stock": 50
+        },
+        {
+          "size": "Large",
+          "color": "Dark Indigo",
+          "stock": 50
+        },
+        {
+          "size": "Small",
+          "color": "Purple mix",
+          "stock": 24
+        },
+        {
+          "size": "XX-Large",
+          "color": "Dark Indigo",
+          "stock": 10
+        },
+        {
+          "size": "small",
+          "color": "Blue mix",
+          "stock": 52
+        },
+        {
+          "size": "Small",
+          "color": "Nevy with red stripe",
+          "stock": 24
+        },
+        {
+          "size": "X-Large",
+          "color": "Dark Indigo",
+          "stock": 10
+        }
+      ],
+      "images": [
+        "/uploads/products/T146782S/1.png",
+        "/uploads/products/T146782S/2.png",
+        "/uploads/products/T146782S/3.png",
+        "/uploads/products/T146782S/4.png",
+        "/uploads/products/T146782S/5.png",
+        "/uploads/products/T146782S/6.png"
+      ],
+      "familySkus": [
+        "T146782S"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S Men\\T146782S\\T146782S blue mix stripe 1.png",
+        "M&S\\M&S Men\\T146782S\\T146782S blue mix stripe 2.png",
+        "M&S\\M&S Men\\T146782S\\T146782S blue mix stripe 3.png",
+        "M&S\\M&S Men\\T146782S\\T146782S indigo 1.png",
+        "M&S\\M&S Men\\T146782S\\T146782S indigo 2.png",
+        "M&S\\M&S Men\\T146782S\\T146782S purple mix stripe.png"
+      ]
+    },
+    {
+      "sku": "T146783S",
+      "title": "M&S Navy/White/Light Blue Mens Cool & Fresh Cotton Stretch Striped Briefs",
+      "description": "90% Cotton,\n10% Lycra Elastane,\nWash with similar colors",
+      "brand": "M&S",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 75000,
+      "variants": [
+        {
+          "size": "Medium",
+          "color": "Navy/White/Light blue",
+          "stock": 60
+        },
+        {
+          "size": "Large",
+          "color": "Navy/White/Light blue",
+          "stock": 40
+        },
+        {
+          "size": "Medium",
+          "color": "Navy/green",
+          "stock": 50
+        },
+        {
+          "size": "Medium",
+          "color": "Navy/Yellow",
+          "stock": 50
+        }
+      ],
+      "images": [
+        "/uploads/products/T146783S/1.png",
+        "/uploads/products/T146783S/2.png",
+        "/uploads/products/T146783S/3.png",
+        "/uploads/products/T146783S/4.png",
+        "/uploads/products/T146783S/5.png",
+        "/uploads/products/T146783S/6.png"
+      ],
+      "familySkus": [
+        "T146783S"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S Men\\T146783S\\T146783S blue stripe.png",
+        "M&S\\M&S Men\\T146783S\\T146783S blue stripe 2.png",
+        "M&S\\M&S Men\\T146783S\\T146783S green stripe.png",
+        "M&S\\M&S Men\\T146783S\\T146783S green stripe (2).png",
+        "M&S\\M&S Men\\T146783S\\T146783S yellow stripe 1.png",
+        "M&S\\M&S Men\\T146783S\\T146783S yellow stripe 2.png"
+      ]
+    },
+    {
+      "sku": "T14/6784s",
+      "title": "M&S Grey Mens Underwears",
+      "description": "90% Cotton,\n10% Lycra Elastane,\nWash with similar colors",
+      "brand": "Crew Clothing",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 75000,
+      "variants": [
+        {
+          "size": "S",
+          "color": "GREY Diamond",
+          "stock": 2
+        },
+        {
+          "size": "M",
+          "color": "GREY Diamond",
+          "stock": 4
+        },
+        {
+          "size": "L",
+          "color": "GREY Diamond",
+          "stock": 4
+        },
+        {
+          "size": "XL",
+          "color": "GREY Diamond",
+          "stock": 2
+        },
+        {
+          "size": "XXL",
+          "color": "GREY Diamond",
+          "stock": 6
+        },
+        {
+          "size": "S",
+          "color": "Grey Stripe",
+          "stock": 9
+        },
+        {
+          "size": "Small",
+          "color": "Black and white stripe",
+          "stock": 9
+        },
+        {
+          "size": "Medium",
+          "color": "GREY Diamond",
+          "stock": 5
+        },
+        {
+          "size": "Large",
+          "color": "GREY Diamond",
+          "stock": 21
+        },
+        {
+          "size": "XX-Large",
+          "color": "GREY Diamond",
+          "stock": 10
+        }
+      ],
+      "images": [
+        "/uploads/products/T14-6784s/1.png",
+        "/uploads/products/T14-6784s/2.png",
+        "/uploads/products/T14-6784s/3.jpg"
+      ],
+      "familySkus": [
+        "T14/6784s"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S Men\\T146784S\\T146784S grey diamond.png",
+        "M&S\\M&S Men\\T146784S\\T146784S grey stripe.png",
+        "M&S\\M&S Men\\T146784S\\T146784S XXL.jpg"
+      ]
+    },
+    {
+      "sku": "T146785S",
+      "title": "M&S Navy/Purple Mens Cool & Fresh Cotton Stretch Briefs",
+      "description": null,
+      "brand": "M&S",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 75000,
+      "variants": [
+        {
+          "size": "Large",
+          "color": "Navy/Purple",
+          "stock": 50
+        }
+      ],
+      "images": [
+        "/uploads/products/T146785S/1.png"
+      ],
+      "familySkus": [
+        "T146785S"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "M&S\\M&S Men\\T146785S.png"
+      ]
+    },
+    {
+      "sku": "6434211",
+      "title": "Matalan Memph-Crew neck short sleeve shirt-set of 3 pcs",
+      "description": "59% Cotton, 41% Polyester",
+      "brand": "Matalan",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Multi(Green/Blue/Grey)",
+          "stock": 5
+        },
+        {
+          "size": "Medium",
+          "color": "Multi(Green/Blue/Grey)",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/6434211/1.png"
+      ],
+      "familySkus": [
+        "6434211"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Matalan\\6434211.png"
+      ]
+    },
+    {
+      "sku": "6434212",
+      "title": "Matalan BR Steel level-Crew neck short sleeve shirt-set of 3 pcs",
+      "description": "59% Cotton, 41% Polyester",
+      "brand": "Matalan",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "Large",
+          "color": "Multi(Slat/White/Grey)",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/6434212/1.png",
+        "/uploads/products/6434212/2.png",
+        "/uploads/products/6434212/3.png",
+        "/uploads/products/6434212/4.png",
+        "/uploads/products/6434212/5.png",
+        "/uploads/products/6434212/6.png",
+        "/uploads/products/6434212/7.png"
+      ],
+      "familySkus": [
+        "6434212"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Matalan\\6434212\\6434212-1.png",
+        "Matalan\\6434212\\6434212-2.png",
+        "Matalan\\6434212\\6434212-3.png",
+        "Matalan\\6434212\\6434212-4.png",
+        "Matalan\\6434212\\6434212-5.png",
+        "Matalan\\6434212\\6434212-6.png",
+        "Matalan\\6434212\\6434212-7.png"
+      ]
+    },
+    {
+      "sku": "6434213",
+      "title": "Matalan Sandiego-Crew neck short sleeve shirt-set of 3 pcs",
+      "description": "59% Cotton, 41% Polyester",
+      "brand": "Matalan",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "Large",
+          "color": "Multi(Blue/orange/White)",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/6434213/1.png",
+        "/uploads/products/6434213/2.png",
+        "/uploads/products/6434213/3.png",
+        "/uploads/products/6434213/4.jpg"
+      ],
+      "familySkus": [
+        "6434213"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Matalan\\6434213\\6434213-3.png",
+        "Matalan\\6434213\\6434213-4.png",
+        "Matalan\\6434213\\6434213-8.png",
+        "Matalan\\6434213\\6434213 matalan tshirt pack_.jpg"
+      ]
+    },
+    {
+      "sku": "2260316",
+      "title": "Matalan Girls 5 Pack Floral Leggings",
+      "description": "91% Cotton, 5% Elastane, 4% Viscose",
+      "brand": "Matalan",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 350000,
+      "variants": [
+        {
+          "size": "12-18 M",
+          "color": "Multi(Light pink/white/green/Pink/Grey)",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/2260316/1.png",
+        "/uploads/products/2260316/2.png",
+        "/uploads/products/2260316/3.png"
+      ],
+      "familySkus": [
+        "2260316"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Matalan\\2260316\\2260316 1-PhotoRoom.png",
+        "Matalan\\2260316\\2260316 2-PhotoRoom.png",
+        "Matalan\\2260316\\2260316 3-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "3777774",
+      "title": "Matalan Slimfit Jeggings",
+      "description": "stretchable slimfit jegging with two front pocket design (no pockets)",
+      "brand": "Matalan",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "8",
+          "color": "Grey",
+          "stock": 2
+        },
+        {
+          "size": "10",
+          "color": "Grey",
+          "stock": 2
+        },
+        {
+          "size": "12",
+          "color": "Grey",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/3777774/1.png",
+        "/uploads/products/3777774/2.png",
+        "/uploads/products/3777774/3.png",
+        "/uploads/products/3777774/4.png"
+      ],
+      "familySkus": [
+        "3777774"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Matalan\\3777774 matalan grey jagging\\3777774-1.png",
+        "Matalan\\3777774 matalan grey jagging\\3777774-2.png",
+        "Matalan\\3777774 matalan grey jagging\\3777774-3.png",
+        "Matalan\\3777774 matalan grey jagging\\3777774-4.png"
+      ]
+    },
+    {
+      "sku": "3369387",
+      "title": "Matalan Mix & Match Check Pyjama Bottoms",
+      "description": "100% Cotton",
+      "brand": "Matalan",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "Medium",
+          "color": "Multi",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/3369387/1.png",
+        "/uploads/products/3369387/2.png",
+        "/uploads/products/3369387/3.png",
+        "/uploads/products/3369387/4.png"
+      ],
+      "familySkus": [
+        "3369387"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Matalan\\3369387\\3369387-2.png",
+        "Matalan\\3369387\\3369387-3.png",
+        "Matalan\\3369387\\3369387-4.png",
+        "Matalan\\3369387\\3369387 multi trouser-1.png"
+      ]
+    },
+    {
+      "sku": "5056014",
+      "title": "David Barry Red Smart Coat-Belt with Eight Buttons at Front",
+      "description": "Red smart coat-Belt with eight buttons at front",
+      "brand": "David Barry",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "8",
+          "color": "Red",
+          "stock": 2
+        },
+        {
+          "size": "10",
+          "color": "Red",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/5056014/1.png",
+        "/uploads/products/5056014/2.png"
+      ],
+      "familySkus": [
+        "5056014"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\Women Jackets\\5056014 (1) David Berry coat.png",
+        "Others\\Women Jackets\\5056014 (2) David Berry coat.png"
+      ]
+    },
+    {
+      "sku": "7006088",
+      "title": "Ellos Off-white smart coat-Four button at front",
+      "description": "Off-white smart coat-Four button at front",
+      "brand": "Ellos",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 1400000,
+      "variants": [
+        {
+          "size": "34",
+          "color": "Off-white",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/7006088/1.png",
+        "/uploads/products/7006088/2.png",
+        "/uploads/products/7006088/3.png",
+        "/uploads/products/7006088/4.png",
+        "/uploads/products/7006088/5.png"
+      ],
+      "familySkus": [
+        "7006088"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\Women Jackets\\7006088 (1) Ellos Off-white smart coat.png",
+        "Others\\Women Jackets\\7006088 (2) Ellos Off-white smart coat.png",
+        "Others\\Women Jackets\\7006088 (3) Ellos Off-white smart coat.png",
+        "Others\\Women Jackets\\7006088 (4) Ellos Off-white smart coat.png",
+        "Others\\Women Jackets\\7006088 (5) Ellos Off-white smart coat.png"
+      ]
+    },
+    {
+      "sku": "669632",
+      "title": "Lee Cooper Brown-Wool Coat-Eight front button",
+      "description": "Brown-Wool Cot-Eight froned button",
+      "brand": "Lee Cooper",
+      "categories": [
+        "men",
+        "women"
+      ],
+      "priceCents": 650000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "Brown",
+          "stock": 20
+        }
+      ],
+      "images": [
+        "/uploads/products/669632/1.png"
+      ],
+      "familySkus": [
+        "669632"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\Women Jackets\\669632- lee cooper woolen coat.png"
+      ]
+    },
+    {
+      "sku": "ABB14164-148-30",
+      "title": "Threadbare Navy Polka Dot & Grey Short set",
+      "description": "description in word document",
+      "brand": "Threadbare",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 900000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Navy",
+          "stock": 5
+        },
+        {
+          "size": "Medium",
+          "color": "Navy",
+          "stock": 5
+        },
+        {
+          "size": "Large",
+          "color": "Navy",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/ABB14164-148-30/1.png",
+        "/uploads/products/ABB14164-148-30/2.png"
+      ],
+      "familySkus": [
+        "ABB14164-148-30",
+        "ABB14164-148-56",
+        "ABB14164-148-34"
+      ],
+      "notes": [
+        "brand from title",
+        "sizes merged from 3 SKUs",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\ABB14164-148-30 polka & grey shorts set 1-PhotoRoom.png",
+        "Others\\ABB14164-148-30 polka & grey shorts set 2.png"
+      ]
+    },
+    {
+      "sku": "ABB-14168-105-30",
+      "title": "Threadbare 2 Pack blue and black Check Bottoms sets",
+      "description": "2 Pack blue and black Check Bottoms sets",
+      "brand": "Threadbare",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 900000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Black/Blue",
+          "stock": 2
+        },
+        {
+          "size": "Large",
+          "color": "Black/Blue",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/ABB-14168-105-30/1.png",
+        "/uploads/products/ABB-14168-105-30/2.png",
+        "/uploads/products/ABB-14168-105-30/3.png",
+        "/uploads/products/ABB-14168-105-30/4.png"
+      ],
+      "familySkus": [
+        "ABB-14168-105-30",
+        "ABB-14168-105-34"
+      ],
+      "notes": [
+        "brand from title",
+        "sizes merged from 2 SKUs",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\ABB-14168-105-30 threadbare-2pack-1.png",
+        "Others\\ABB-14168-105-30 threadbare-2pack-2.png",
+        "Others\\ABB-14168-105-30 threadbare-2pack-3.png",
+        "Others\\ABB-14168-105-30 threadbare-2pack-4.png"
+      ]
+    },
+    {
+      "sku": "AAA02897-155-30",
+      "title": "Oasis Self love club heart cotton Pj set",
+      "description": "Self love club heart cotton Pj set",
+      "brand": "Oasis",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 800000,
+      "variants": [
+        {
+          "size": "small",
+          "color": "Pink",
+          "stock": 2
+        },
+        {
+          "size": "Medium",
+          "color": "Pink",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/AAA02897-155-30/1.png",
+        "/uploads/products/AAA02897-155-30/2.png",
+        "/uploads/products/AAA02897-155-30/3.png",
+        "/uploads/products/AAA02897-155-30/4.png"
+      ],
+      "familySkus": [
+        "AAA02897-155-30",
+        "AAA02897-155-56"
+      ],
+      "notes": [
+        "brand from title",
+        "sizes merged from 2 SKUs",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\AAA02897-155-30 Oasis SELF LOVE LOUNGEWARE\\AAA02897-155-30 (1) selflove-.png",
+        "Others\\AAA02897-155-30 Oasis SELF LOVE LOUNGEWARE\\AAA02897-155-30 (2) selflove-.png",
+        "Others\\AAA02897-155-30 Oasis SELF LOVE LOUNGEWARE\\AAA02897-155-30 (3) selflove-.png",
+        "Others\\AAA02897-155-30 Oasis SELF LOVE LOUNGEWARE\\AAA02897-155-30 (4) selflove-.png"
+      ]
+    },
+    {
+      "sku": "AGG08175-373-30",
+      "title": "NASTY GAL Jersey Gingham Pajama Short- 3pc sets",
+      "description": "Jersey Gingham Pajama Short- 3pc sets",
+      "brand": "Nasty Gal",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 800000,
+      "variants": [
+        {
+          "size": "small",
+          "color": "Pale Blue",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/AGG08175-373-30/1.png",
+        "/uploads/products/AGG08175-373-30/2.png",
+        "/uploads/products/AGG08175-373-30/3.png"
+      ],
+      "familySkus": [
+        "AGG08175-373-30"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\Nasty Girl PJs\\AGG08175-373-30 (1)  Blue Jersey Gingham Pajama Shorts.png",
+        "Others\\Nasty Girl PJs\\AGG08175-373-30 (2)  Blue Jersey Gingham Pajama Shorts.png",
+        "Others\\Nasty Girl PJs\\AGG08175-373-30 (3)  Blue Jersey Gingham Pajama Shorts.png"
+      ]
+    },
+    {
+      "sku": "AGG08175-105-30",
+      "title": "NASTY GAL Jersey Gingham Pajama Short Scrunchle 3pc sets",
+      "description": "Jersey Gingham Pajama Short Scrunchle 3pc sets",
+      "brand": "Nasty Gal",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 800000,
+      "variants": [
+        {
+          "size": "small",
+          "color": "Black/white",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/AGG08175-105-30/1.png",
+        "/uploads/products/AGG08175-105-30/2.png",
+        "/uploads/products/AGG08175-105-30/3.png",
+        "/uploads/products/AGG08175-105-30/4.png"
+      ],
+      "familySkus": [
+        "AGG08175-105-30"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\Nasty Girl PJs\\AGG08175-105-30 (1) Black gingham-print-pajamas-shorts.png",
+        "Others\\Nasty Girl PJs\\AGG08175-105-30 (2) Black gingham-print-pajamas-shorts.png",
+        "Others\\Nasty Girl PJs\\AGG08175-105-30 (3) Black gingham-print-pajamas-shorts.png",
+        "Others\\Nasty Girl PJs\\AGG08175-105-30 (4) Black gingham-print-pajamas-shorts.png"
+      ]
+    },
+    {
+      "sku": "33502604",
+      "title": "Dorothy perkins Pink with white star shirt with pajama set",
+      "description": "\"96% Polyester, 4% Elastane. Machine washable\"",
+      "brand": "Dorothy Perkins",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 800000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Pink",
+          "stock": 2
+        },
+        {
+          "size": "Medium",
+          "color": "Pink",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/33502604/1.png",
+        "/uploads/products/33502604/2.png",
+        "/uploads/products/33502604/3.png",
+        "/uploads/products/33502604/4.png",
+        "/uploads/products/33502604/5.png"
+      ],
+      "familySkus": [
+        "33502604"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\Dorthy Parkins PJ Sets\\33502604 (1) Pink with Star PJ.png",
+        "Others\\Dorthy Parkins PJ Sets\\33502604 (2) Pink with Star PJ.png",
+        "Others\\Dorthy Parkins PJ Sets\\33502604 (3) Pink with Star PJ.png",
+        "Others\\Dorthy Parkins PJ Sets\\33502604 (4) Pink with Star PJ.png",
+        "Others\\Dorthy Parkins PJ Sets\\33502604 (5) Pink with Star PJ.png"
+      ]
+    },
+    {
+      "sku": "33901810",
+      "title": "Dorothy Perkins Navy Floral Print Pyjama Set",
+      "description": "100% cotton. Machine washable",
+      "brand": "Dorothy Perkins",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 800000,
+      "variants": [
+        {
+          "size": "Medium",
+          "color": "Navy",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/33901810/1.png",
+        "/uploads/products/33901810/2.png",
+        "/uploads/products/33901810/3.png",
+        "/uploads/products/33901810/4.png"
+      ],
+      "familySkus": [
+        "33901810"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\Dorthy Parkins PJ Sets\\33901810 (1) Navy Floral PJ.png",
+        "Others\\Dorthy Parkins PJ Sets\\33901810 (2) Navy Floral PJ.png",
+        "Others\\Dorthy Parkins PJ Sets\\33901810 (3) Navy Floral PJ.png",
+        "Others\\Dorthy Parkins PJ Sets\\33901810 (4) Navy Floral PJ.png"
+      ]
+    },
+    {
+      "sku": "33903213",
+      "title": "Dorothy perkins Monochrome Spot Print Long Leg Pyjamas Set",
+      "description": "100% Cotton. Machine washable",
+      "brand": "Dorothy Perkins",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 800000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "White/Black",
+          "stock": 2
+        },
+        {
+          "size": "Medium",
+          "color": "White/Black",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/33903213/1.png",
+        "/uploads/products/33903213/2.png",
+        "/uploads/products/33903213/3.png",
+        "/uploads/products/33903213/4.png",
+        "/uploads/products/33903213/5.png"
+      ],
+      "familySkus": [
+        "33903213"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\Dorthy Parkins PJ Sets\\33903213 (1) Monochrome print PJ.png",
+        "Others\\Dorthy Parkins PJ Sets\\33903213 (2) Monochrome print PJ.png",
+        "Others\\Dorthy Parkins PJ Sets\\33903213 (3) Monochrome print PJ.png",
+        "Others\\Dorthy Parkins PJ Sets\\33903213 (4) Monochrome print PJ.png",
+        "Others\\Dorthy Parkins PJ Sets\\33903213 (5) Monochrome print PJ.png"
+      ]
+    },
+    {
+      "sku": "R08-670-144-000085",
+      "title": "Love & roses Jersey top with white dot",
+      "description": "Jersey top with white dot",
+      "brand": "Love & Roses",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "10",
+          "color": null,
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/R08-670-144-000085/1.png",
+        "/uploads/products/R08-670-144-000085/2.png",
+        "/uploads/products/R08-670-144-000085/3.png"
+      ],
+      "familySkus": [
+        "R08-670-144-000085"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\Women Jackets\\R08-670-144-000085 (1) Black top white dots.png",
+        "Others\\Women Jackets\\R08-670-144-000085 (2) Black top white dots.png",
+        "Others\\Women Jackets\\R08-670-144-000085 (3) Black top white dots.png"
+      ]
+    },
+    {
+      "sku": "737970001",
+      "title": "Bisbigli Sleevless Jersey top with bees",
+      "description": "Sleevless Jersey top with bees",
+      "brand": "Bisbigli",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "8",
+          "color": "White",
+          "stock": 1
+        },
+        {
+          "size": "10",
+          "color": "White",
+          "stock": 2
+        },
+        {
+          "size": "12",
+          "color": "White",
+          "stock": 2
+        },
+        {
+          "size": "14",
+          "color": "White",
+          "stock": 1
+        },
+        {
+          "size": "16",
+          "color": "White",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/737970001/1.png",
+        "/uploads/products/737970001/2.png",
+        "/uploads/products/737970001/3.png",
+        "/uploads/products/737970001/4.png",
+        "/uploads/products/737970001/5.png"
+      ],
+      "familySkus": [
+        "737970001"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\737970001 Bisbigli Sleevless Jersey top with bees\\737970001 (1).png",
+        "Others\\737970001 Bisbigli Sleevless Jersey top with bees\\737970001 (2).png",
+        "Others\\737970001 Bisbigli Sleevless Jersey top with bees\\737970001 (3).png",
+        "Others\\737970001 Bisbigli Sleevless Jersey top with bees\\737970001 (4).png",
+        "Others\\737970001 Bisbigli Sleevless Jersey top with bees\\737970001 (5).png"
+      ]
+    },
+    {
+      "sku": "XDD01256-148-30",
+      "title": "Racing green Solid Fleece Quilt Navy",
+      "description": "Racing green jacket",
+      "brand": "Racing Green",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1600000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Navy",
+          "stock": 1
+        },
+        {
+          "size": "medium",
+          "color": "Navy",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/XDD01256-148-30/1.png",
+        "/uploads/products/XDD01256-148-30/2.jpg",
+        "/uploads/products/XDD01256-148-30/3.jpg"
+      ],
+      "familySkus": [
+        "XDD01256-148-30",
+        "XDD01256-148-56"
+      ],
+      "notes": [
+        "brand from title",
+        "sizes merged from 2 SKUs",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\Racing green jackets\\XDD01256-148-30 Solid Fleece Quilt Navy-PhotoRoom.png",
+        "Others\\Racing green jackets\\XDD01256-148-30 Solid Fleece Quilt Navy-2.jpg",
+        "Others\\Racing green jackets\\XDD01256-148-30 Solid Fleece Quilt Navy-3.jpg"
+      ]
+    },
+    {
+      "sku": "XD001315-148-30",
+      "title": "Racing green Thinsulate Padded Jacket NAVY",
+      "description": "Racing green padded jacket",
+      "brand": "Racing Green",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1600000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Navy",
+          "stock": 1
+        },
+        {
+          "size": "Medium",
+          "color": "Navy",
+          "stock": 1
+        },
+        {
+          "size": "Large",
+          "color": "Navy",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/XD001315-148-30/1.png",
+        "/uploads/products/XD001315-148-30/2.jpg",
+        "/uploads/products/XD001315-148-30/3.jpg",
+        "/uploads/products/XD001315-148-30/4.jpg"
+      ],
+      "familySkus": [
+        "XD001315-148-30",
+        "XD001315-148-56"
+      ],
+      "notes": [
+        "brand from title",
+        "sizes merged from 2 SKUs",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\Racing green jackets\\XD001315-148-30 Thinsulate Pdded Jcket NAVY-PhotoRoom.png",
+        "Others\\Racing green jackets\\XD001315-148-30 Thinsulate Pdded Jcket NAVY-2.jpg",
+        "Others\\Racing green jackets\\XD001315-148-30 Thinsulate Pdded Jcket NAVY-3.jpg",
+        "Others\\Racing green jackets\\XD001315-148-30 Thinsulate Pdded Jcket NAVY-4.jpg"
+      ]
+    },
+    {
+      "sku": "XD001241-105-56",
+      "title": "Racing green Thinsulate Padded Jacket BLACK",
+      "description": "Racing green padded jacket",
+      "brand": "Racing Green",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1600000,
+      "variants": [
+        {
+          "size": "Medium",
+          "color": "Black",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/XD001241-105-56/1.png",
+        "/uploads/products/XD001241-105-56/2.jpg",
+        "/uploads/products/XD001241-105-56/3.jpg",
+        "/uploads/products/XD001241-105-56/4.jpg"
+      ],
+      "familySkus": [
+        "XD001241-105-56"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\Racing green jackets\\XD001241-105-56 Thinsulate Pdded Jcket black -PhotoRoom.png",
+        "Others\\Racing green jackets\\XD001241-105-56 Thinsulate Pdded Jcket black -2.jpg",
+        "Others\\Racing green jackets\\XD001241-105-56 Thinsulate Pdded Jcket black -3.jpg",
+        "Others\\Racing green jackets\\XD001241-105-56 Thinsulate Pdded Jcket black -4.jpg"
+      ]
+    },
+    {
+      "sku": "5054072874811",
+      "title": "Brave soul London Black cotton jumper",
+      "description": "Black cotton jumper",
+      "brand": "Brave Soul",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 750000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Black",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/5054072874811/1.jpg",
+        "/uploads/products/5054072874811/2.jpg",
+        "/uploads/products/5054072874811/3.jpg"
+      ],
+      "familySkus": [
+        "5054072874811"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\5054072874811 brave soul jumper 1.jpg",
+        "Others\\5054072874811 brave soul jumper 2.jpg",
+        "Others\\5054072874811 brave soul jumper 3.jpg"
+      ]
+    },
+    {
+      "sku": "980100632745",
+      "title": "L&S Blue Palm tree print pyjama set",
+      "description": "100% Cotton",
+      "brand": "L&S",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 900000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Blue",
+          "stock": 1
+        },
+        {
+          "size": "Large",
+          "color": "Blue",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/980100632745/1.png",
+        "/uploads/products/980100632745/2.png",
+        "/uploads/products/980100632745/3.png",
+        "/uploads/products/980100632745/4.png",
+        "/uploads/products/980100632745/5.png",
+        "/uploads/products/980100632745/6.png"
+      ],
+      "familySkus": [
+        "980100632745"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\980100632745 L&S Blue Palm tree print pyjama set\\980100632745.png",
+        "Others\\980100632745 L&S Blue Palm tree print pyjama set\\980100632745-1.png",
+        "Others\\980100632745 L&S Blue Palm tree print pyjama set\\980100632745-2.png",
+        "Others\\980100632745 L&S Blue Palm tree print pyjama set\\980100632745-3.png",
+        "Others\\980100632745 L&S Blue Palm tree print pyjama set\\980100632745-4.png",
+        "Others\\980100632745 L&S Blue Palm tree print pyjama set\\980100632745-5.png"
+      ]
+    },
+    {
+      "sku": "XDD00002-105-35",
+      "title": "Faith Charlie Ring Handle Grab",
+      "description": "Charlie faux leather grab handle handbag from Faith. Designed in an eye-catching spotted print with gold-tone grab handles, this structured bag will give your wardrobe an instant style update. Featuring a zip centre compartment plus slip pockets front and back, its finished with a detachable crossbody strap for supreme versatility.\n\nStyle:Cross Body Bag\nWipe Clean.\nOuter: 100% Polyurethane, Lining: 100% Polyester.\nDimensions: Height 26cm, Width 20cm, Depth 12cm",
+      "brand": "Faith",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 800000,
+      "variants": [
+        {
+          "size": "ONE",
+          "color": "Black with white dot",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/XDD00002-105-35/1.png",
+        "/uploads/products/XDD00002-105-35/2.png",
+        "/uploads/products/XDD00002-105-35/3.png",
+        "/uploads/products/XDD00002-105-35/4.png",
+        "/uploads/products/XDD00002-105-35/5.png"
+      ],
+      "familySkus": [
+        "XDD00002-105-35"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\women bags\\XDD00002-105-35 Charlie ring handle_black_2-PhotoRoom.png",
+        "Others\\women bags\\XDD00002-105-35 Charlie ring handle_black_3-PhotoRoom.png",
+        "Others\\women bags\\XDD00002-105-35 Charlie ring handle_black_4-PhotoRoom.png",
+        "Others\\women bags\\XDD00002-105-35 Charlie ring handle_black_5.png",
+        "Others\\women bags\\XDD00002-105-35 Charlie ring handle_black_xl-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "DDD00808-131-35",
+      "title": "Principles Pippa Faux Leather Grab",
+      "description": "Pippa Faux Leather Grab\nStyle: Day Bag Stripe included,HWD: 26 x 32 x15cm/ 10 x 12.5 x 6 inches.\n\nOuter: 100% polyurethane. Lining: 100% polyester",
+      "brand": "Principles",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 1000000,
+      "variants": [
+        {
+          "size": "ONE",
+          "color": "Grey",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/DDD00808-131-35/1.png"
+      ],
+      "familySkus": [
+        "DDD00808-131-35"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\women bags\\DDD00808-131-35 principles grey faux-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "113516",
+      "title": "Ann Summers Sierra Aubergine and Black Lace Satin Chemise Polyester",
+      "description": "The Sierra chemise features delicate lace panelling across the front and back with adjustable straps. \nMaterial: 100% Polyester\ncare: Machine Wash",
+      "brand": "Ann Summers",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 750000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Aubergine",
+          "stock": 5
+        },
+        {
+          "size": "Medium",
+          "color": "Aubergine",
+          "stock": 3
+        },
+        {
+          "size": "Large",
+          "color": "Aubergine",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/113516/1.png",
+        "/uploads/products/113516/2.png",
+        "/uploads/products/113516/3.png",
+        "/uploads/products/113516/4.png",
+        "/uploads/products/113516/5.png",
+        "/uploads/products/113516/6.png"
+      ],
+      "familySkus": [
+        "113516"
+      ],
+      "notes": [
+        "brand from title",
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Others\\113516 Ann Summer\\113516 Ann Summer-PhotoRoom.png",
+        "Others\\113516 Ann Summer\\113516 Ann Summer 2-PhotoRoom.png",
+        "Others\\113516 Ann Summer\\113516 Ann Summer 3-PhotoRoom.png",
+        "Others\\113516 Ann Summer\\113516 Ann Summer 4-PhotoRoom.png",
+        "Others\\113516 Ann Summer\\113516 Ann Summer 5-PhotoRoom.png",
+        "Others\\113516 Ann Summer\\113516 Ann Summer 6-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "E3292",
+      "title": "Wet n Wild Color Icon Blusher Fantastic Plastic Pink",
+      "description": "Fantastic Plastic Pink. Color Icon Blusher",
+      "brand": "Wet n Wild",
+      "categories": [
+        "beauty"
+      ],
+      "priceCents": 160000,
+      "variants": [
+        {
+          "size": null,
+          "color": "Fantastic Plastic Pink",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/E3292/1.png"
+      ],
+      "familySkus": [
+        "E3292"
+      ],
+      "notes": [
+        "rebuilt Oct 2026 from sheet; images = Sept upload folder"
+      ],
+      "sources": [
+        "Cosmetics White BG\\Wet & Wild\\Wet-n-Wild-Color-Icon-Blush-E3292-Fantastic-Plastic-Pink-PhotoRoom.png"
+      ]
+    }
+  ],
+  "variantAdditions": []
+}

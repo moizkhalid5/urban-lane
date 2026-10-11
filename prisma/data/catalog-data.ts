@@ -22,6 +22,7 @@ export const CATEGORY_TREE: RootCategory[] = [
     gender: "women",
     children: [
       { name: "Dresses", children: [{ name: "Maxi Dress" }, { name: "Midi Dress" }, { name: "Other" }] },
+      { name: "Tops" },
       {
         name: "Trousers",
         children: [
@@ -105,6 +106,7 @@ export const CATEGORY_TREE: RootCategory[] = [
           { name: "Joggers" },
         ],
       },
+      { name: "Coats and Jackets" },
       { name: "Underwear", children: [{ name: "Trunks" }, { name: "Briefs" }, { name: "Boxers" }] },
       { name: "Suits", children: [{ name: "Jackets" }, { name: "Trousers" }] },
       {
@@ -203,7 +205,11 @@ export const BRANDS: string[] = [
 ];
 
 /** Featured brands shown in the homepage brand slider / linked from the Brands menu. */
-export const FEATURED_BRANDS = ["Next", "Zara", "H&M", "Adidas", "Ralph Lauren", "Lacoste", "MAC", "GAP"];
+/** Homepage "Shop by brand" cards, in display order. Card images: public/images/brands/<slug>.jpg */
+export const FEATURED_BRANDS = [
+  "Next", "H&M", "Tu Clothing", "M&S", "Burton", "New Look", "River Island", "Debenhams", "ASOS",
+  "Hollister", "Matalan", "Dorothy Perkins", "Esprit", "GAP", "Racing Green", "Nasty Gal", "Oysho", "Threadbare",
+];
 
 /** Currencies (issues doc: PKR, USD, GBP, EUR with flags). Rates are relative to base PKR. */
 export const CURRENCIES = [

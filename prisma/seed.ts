@@ -18,6 +18,15 @@ const rs = (rupees: number) => Math.round(rupees) * 100; // PKR -> paisa (minor 
 // Categories
 // ──────────────────────────────────────────────────────────────────────────
 
+// Homepage "Shop by category" tile photos (public/images/categories), by top-level slug.
+const CATEGORY_TILE_IMAGES: Record<string, string> = {
+  women: "/images/categories/women.jpg",
+  men: "/images/categories/men.jpg",
+  kids: "/images/categories/kids.jpg",
+  beauty: "/images/categories/beauty.jpg",
+  jewellery: "/images/categories/jewellery.jpg",
+};
+
 async function seedCategories(): Promise<Map<string, string>> {
   const slugToId = new Map<string, string>();
 
@@ -32,6 +41,7 @@ async function seedCategories(): Promise<Map<string, string>> {
         position,
         isVirtual: node.isVirtual ?? false,
         showInNav: true,
+        image: level === 0 ? (CATEGORY_TILE_IMAGES[slug] ?? null) : null,
       },
     });
     slugToId.set(slug, created.id);
@@ -54,17 +64,17 @@ async function seedCategories(): Promise<Map<string, string>> {
 
 async function seedBrands(): Promise<Map<string, string>> {
   const nameToId = new Map<string, string>();
-  for (let i = 0; i < BRANDS.length; i++) {
-    const name = BRANDS[i];
+  const names = [...new Set([...BRANDS, ...FEATURED_BRANDS])];
+  for (let i = 0; i < names.length; i++) {
+    const name = names[i];
+    const featured = FEATURED_BRANDS.indexOf(name);
     const b = await prisma.brand.create({
       data: {
         name,
         slug: slugify(name),
-        isFeatured: FEATURED_BRANDS.includes(name),
-        position: i,
-        banner: FEATURED_BRANDS.includes(name)
-          ? `https://picsum.photos/seed/brand-${slugify(name)}/1200/400`
-          : null,
+        isFeatured: featured >= 0,
+        position: featured >= 0 ? featured : FEATURED_BRANDS.length + i,
+        banner: featured >= 0 ? `/images/brands/${slugify(name)}.jpg` : null,
       },
     });
     nameToId.set(name, b.id);
@@ -232,7 +242,7 @@ async function seedProducts(catMap: Map<string, string>, brandMap: Map<string, s
 // ──────────────────────────────────────────────────────────────────────────
 
 async function seedUsers() {
-  const adminEmail = process.env.SEED_ADMIN_EMAIL || "admin@urbanlane.com";
+  const adminEmail = process.env.SEED_ADMIN_EMAIL || "admin@urbanelane.com";
   const adminPass = process.env.SEED_ADMIN_PASSWORD || "ChangeMe123!";
   const adminHash = await bcrypt.hash(adminPass, 12);
 
@@ -363,21 +373,27 @@ async function seedSettings() {
     create: {
       id: "singleton",
       storeName: "Urban Lane",
-      storeEmail: process.env.STORE_NOTIFICATIONS_EMAIL || "orders@urbanlane.com",
+      storeEmail: process.env.STORE_NOTIFICATIONS_EMAIL || "orders@urbanelane.com",
       baseCurrency: "PKR",
       codLimitCents: rs(10000), // issues doc: COD limit Rs 10,000
       freeShippingThresholdCents: rs(15000),
       flatShippingCents: rs(300),
       bankTransferInstructions:
-        "Transfer the total to: Urban Lane, Bank XYZ, Account 0000-0000-0000. Use your order number as the reference, then email the receipt to orders@urbanlane.com.",
-      announcementText: "Free shipping on orders over Rs 15,000 · Easy 14-day returns",
+        "Transfer the total to: Urban Lane, Bank XYZ, Account 0000-0000-0000. Use your order number as the reference, then email the receipt to orders@urbanelane.com.",
+      // One message per line; the black strip rotates through them every 10 seconds.
+      announcementText:
+        "Free shipping on orders over Rs 15,000\nEasy 14-day returns\nCash on delivery & bank transfer available\nFollow us on Instagram @urbanlane.london",
     },
   });
 
-  const banners: { kind: "HERO" | "BRAND_SLIDER" | "PAYMENT" | "PROMO"; title: string; subtitle?: string; image: string; link: string; position: number }[] = [
-    { kind: "HERO", title: "The New Season", subtitle: "Premium essentials for every day", image: "https://picsum.photos/seed/ul-hero-1/1920/900", link: "/collections/women", position: 0 },
-    { kind: "HERO", title: "Menswear Edit", subtitle: "Tailored, relaxed, refined", image: "https://picsum.photos/seed/ul-hero-2/1920/900", link: "/collections/men", position: 1 },
-    { kind: "PROMO", title: "Outlet — up to 40% off", subtitle: "Limited stock", image: "https://picsum.photos/seed/ul-promo-1/1200/600", link: "/collections/outlet", position: 0 },
+  // Artwork banners: the text is part of the image, so title is null (shown uncropped, no overlay)
+  // and subtitle is the image's alt text. Files live in public/images/banners.
+  const banners: { kind: "HERO" | "BRAND_SLIDER" | "PAYMENT" | "PROMO"; title: string | null; subtitle?: string; image: string; link: string; position: number }[] = [
+    { kind: "HERO", title: null, subtitle: "Urban Lane online sale on womenswear", image: "/images/banners/women-2x1.jpg", link: "/collections/women", position: 0 },
+    { kind: "HERO", title: null, subtitle: "Styles and fit: short-sleeve party wear shirts for men", image: "/images/banners/men-2x1.jpg", link: "/collections/men", position: 1 },
+    { kind: "HERO", title: null, subtitle: "Summer kids collection", image: "/images/banners/kids-2x1.jpg", link: "/collections/kids", position: 2 },
+    { kind: "HERO", title: null, subtitle: "New season: 30% off, limited time offer", image: "/images/banners/sale-2x1.jpg", link: "/collections/outlet", position: 3 },
+    { kind: "PROMO", title: null, subtitle: "Winter collection: modern style for a colder world", image: "/images/banners/winter.jpg", link: "/collections/men", position: 0 },
   ];
   for (const b of banners) await prisma.banner.create({ data: { ...b, isActive: true } });
   console.log(`  ✓ site settings + ${banners.length} banners`);

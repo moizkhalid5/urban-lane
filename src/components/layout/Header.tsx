@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import type { NavItem } from "@/lib/queries/nav";
 import { CurrencySwitcher } from "./CurrencySwitcher";
 import { cn } from "@/lib/utils";
+import { PhoneLink, SocialLinks } from "./SocialContact";
+import { AnnouncementTicker } from "./AnnouncementTicker";
 
 type Props = {
   nav: NavItem[];
@@ -39,11 +41,18 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
 
   return (
     <header className="sticky top-0 z-40 bg-white">
-      {announcement && (
-        <div className="bg-ink text-center text-xs tracking-wide text-white">
-          <div className="container-site py-2">{announcement}</div>
+      {/* Black strip: phone (left), announcement (centre), Instagram + TikTok (right); stacked on phones. */}
+      <div className="bg-ink text-xs tracking-wide text-white">
+        <div className="container-site flex flex-wrap items-center justify-center gap-x-5 gap-y-1 py-2 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:gap-4">
+          <PhoneLink className="order-2 sm:order-none sm:justify-self-start" />
+          <AnnouncementTicker
+            // Admin → Settings: one message per line.
+            messages={(announcement ?? "").split(/\r?\n/).map((m) => m.trim()).filter(Boolean)}
+            className="order-1 w-full sm:order-none sm:w-auto"
+          />
+          <SocialLinks className="order-3 sm:order-none sm:justify-self-end" />
         </div>
-      )}
+      </div>
 
       <div
         className={cn(

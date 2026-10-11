@@ -17,7 +17,7 @@ export type EmailMessage = {
   replyTo?: string;
 };
 
-const FROM = process.env.EMAIL_FROM || "Urban Lane <no-reply@urbanlane.com>";
+const FROM = process.env.EMAIL_FROM || "Urban Lane <no-reply@urbanelane.com>";
 
 async function sendViaResend(msg: EmailMessage): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
@@ -49,9 +49,10 @@ async function sendViaSmtp(msg: EmailMessage): Promise<void> {
   // Enable with: `npm i nodemailer`.
   const moduleName = "nodemailer";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const nodemailer: any = await import(/* webpackIgnore: true */ moduleName).catch(() => {
+  const mod: any = await import(/* webpackIgnore: true */ moduleName).catch(() => {
     throw new Error("SMTP provider selected but `nodemailer` is not installed. Run: npm i nodemailer");
   });
+  const nodemailer = mod.default ?? mod; // CommonJS package loaded via import()
   const transport = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT || 587),
@@ -59,7 +60,8 @@ async function sendViaSmtp(msg: EmailMessage): Promise<void> {
     auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD },
   });
   await transport.sendMail({
-    from: FROM,
+    // Hostinger (and most SMTP hosts) reject mail whose From differs from the login mailbox.
+    from: process.env.EMAIL_FROM || (process.env.SMTP_USER ? `Urban Lane <${process.env.SMTP_USER}>` : FROM),
     to: msg.to,
     subject: msg.subject,
     html: msg.html,
@@ -106,4 +108,4 @@ export async function sendEmail(msg: EmailMessage): Promise<void> {
 }
 
 export const STORE_NOTIFICATIONS_EMAIL =
-  process.env.STORE_NOTIFICATIONS_EMAIL || "orders@urbanlane.com";
+  process.env.STORE_NOTIFICATIONS_EMAIL || "orders@urbanelane.com";

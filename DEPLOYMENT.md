@@ -1,3 +1,7 @@
+> **Current guide:** [HOSTINGER_SHARED_DEPLOYMENT.md](HOSTINGER_SHARED_DEPLOYMENT.md) (Oct 2026) covers the current
+> catalogue, the production database export and keeping admin uploads outside the app folder.
+> This guide (June 2026) describes the first Node.js Web Apps setup.
+
 # Deploying Urban Lane to Hostinger (Node.js Web Apps hosting)
 
 This guide targets **Hostinger's Node.js Web Apps hosting** (hPanel → **Websites

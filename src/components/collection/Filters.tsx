@@ -1,11 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { swatchFor } from "@/lib/colors";
 
 export type Facets = {
   brands: { slug: string; name: string }[];
+  /** Normalised size labels (see lib/sizes), already in display order. */
   sizes: string[];
   colors: { name: string; hex: string | null }[];
   /** Display-currency price bounds for placeholder hints. */
@@ -15,14 +18,18 @@ export type Facets = {
 
 const get = (p: URLSearchParams, key: string) => (p.get(key) ? p.get(key)!.split(",").filter(Boolean) : []);
 
+
 export function Filters({
   facets,
   currencySymbol,
   hideBrand = false,
+  categories = [],
 }: {
   facets: Facets;
   currencySymbol: string;
   hideBrand?: boolean;
+  /** Sub-categories of the current page, listed under "Category". */
+  categories?: { name: string; slug: string }[];
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -36,6 +43,14 @@ export function Filters({
   const selectedColors = get(params, "colors");
   const inStock = params.get("inStock") === "1";
   const onSale = params.get("sale") === "1";
+  const priceActive = !!(params.get("min") || params.get("max"));
+
+  function apply(mutate: (p: URLSearchParams) => void) {
+    const next = new URLSearchParams(params.toString());
+    mutate(next);
+    next.delete("page");
+    router.push(`${pathname}?${next.toString()}`); // back to the top: results (and the page above them) change
+  }
 
   function applyPrice() {
     apply((p) => {
@@ -44,13 +59,6 @@ export function Filters({
       if (max) p.set("max", max);
       else p.delete("max");
     });
-  }
-
-  function apply(mutate: (p: URLSearchParams) => void) {
-    const next = new URLSearchParams(params.toString());
-    mutate(next);
-    next.delete("page");
-    router.push(`${pathname}?${next.toString()}`);
   }
 
   function toggleList(key: string, value: string) {
@@ -72,44 +80,63 @@ export function Filters({
     const next = new URLSearchParams();
     const sort = params.get("sort");
     if (sort) next.set("sort", sort);
-    router.push(`${pathname}?${next.toString()}`);
+    setMin("");
+    setMax("");
+    router.push(`${pathname}?${next.toString()}`); // back to the top: results (and the page above them) change
   }
 
   const activeCount =
-    selectedBrands.length + selectedSizes.length + selectedColors.length + (inStock ? 1 : 0) + (onSale ? 1 : 0);
+    selectedBrands.length +
+    selectedSizes.length +
+    selectedColors.length +
+    (inStock ? 1 : 0) +
+    (onSale ? 1 : 0) +
+    (priceActive ? 1 : 0);
 
   const body = (
-    <div className="space-y-8">
-      {activeCount > 0 && (
-        <button onClick={clearAll} className="text-sm text-ink-muted underline hover:text-ink">
-          Clear all ({activeCount})
-        </button>
+    <div className="divide-y divide-white bg-line-soft">
+      <div className="flex items-center justify-between px-4 py-4">
+        <span className="text-base font-semibold">All Filters</span>
+        {activeCount > 0 && (
+          <button onClick={clearAll} className="text-sm text-ink-muted underline hover:text-ink">
+            Clear all ({activeCount})
+          </button>
+        )}
+      </div>
+
+      {categories.length > 0 && (
+        <Section title="Category">
+          <ul className="space-y-2">
+            {categories.map((c) => (
+              <li key={c.slug}>
+                <Link href={`/collections/${c.slug}`} className="text-sm text-ink-soft hover:text-ink hover:underline">
+                  {c.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
       )}
 
       {!hideBrand && facets.brands.length > 0 && (
-        <FilterGroup title="Brand">
-          <div className="max-h-56 space-y-2 overflow-y-auto pr-1">
+        <Section title="Brand" count={selectedBrands.length}>
+          <div className="max-h-60 space-y-2 overflow-y-auto pr-1">
             {facets.brands.map((b) => (
-              <Check
-                key={b.slug}
-                label={b.name}
-                checked={selectedBrands.includes(b.slug)}
-                onChange={() => toggleList("brands", b.slug)}
-              />
+              <Check key={b.slug} label={b.name} checked={selectedBrands.includes(b.slug)} onChange={() => toggleList("brands", b.slug)} />
             ))}
           </div>
-        </FilterGroup>
+        </Section>
       )}
 
       {facets.sizes.length > 0 && (
-        <FilterGroup title="Size">
-          <div className="flex flex-wrap gap-2">
+        <Section title="Size" count={selectedSizes.length}>
+          <div className="flex max-h-60 flex-wrap gap-2 overflow-y-auto pr-1">
             {facets.sizes.map((s) => (
               <button
                 key={s}
                 onClick={() => toggleList("sizes", s)}
                 className={cn(
-                  "min-w-9 border px-3 py-1.5 text-sm transition-colors",
+                  "min-w-10 border bg-white px-2.5 py-1 text-xs transition-colors",
                   selectedSizes.includes(s) ? "border-ink bg-ink text-white" : "border-line hover:border-ink",
                 )}
               >
@@ -117,37 +144,37 @@ export function Filters({
               </button>
             ))}
           </div>
-        </FilterGroup>
+        </Section>
       )}
 
       {facets.colors.length > 0 && (
-        <FilterGroup title="Colour">
-          <div className="flex flex-wrap gap-3">
-            {facets.colors.map((c) => (
-              <button
-                key={c.name}
-                title={c.name}
-                onClick={() => toggleList("colors", c.name)}
-                className={cn(
-                  "h-7 w-7 rounded-full border transition-transform",
-                  selectedColors.includes(c.name) ? "ring-2 ring-ink ring-offset-2" : "border-line",
-                )}
-                style={{ backgroundColor: c.hex ?? "#ddd" }}
-              />
-            ))}
+        <Section title="Colour" count={selectedColors.length}>
+          <div className="max-h-60 space-y-2 overflow-y-auto pr-1">
+            {facets.colors.map((c) => {
+              const swatch = c.hex ?? swatchFor(c.name);
+              return (
+                <Check
+                  key={c.name}
+                  label={c.name}
+                  checked={selectedColors.includes(c.name)}
+                  onChange={() => toggleList("colors", c.name)}
+                  swatch={swatch}
+                />
+              );
+            })}
           </div>
-        </FilterGroup>
+        </Section>
       )}
 
-      <FilterGroup title={`Price (${currencySymbol})`}>
+      <Section title="Price" count={priceActive ? 1 : 0}>
         <div className="flex items-center gap-2">
           <input
             type="number"
             inputMode="numeric"
             value={min}
             onChange={(e) => setMin(e.target.value)}
-            placeholder={String(facets.priceMin)}
-            className="input px-2 py-1.5 text-sm"
+            placeholder={`${currencySymbol} ${facets.priceMin}`}
+            className="input bg-white px-2 py-1.5 text-sm"
             aria-label="Minimum price"
           />
           <span className="text-ink-muted">–</span>
@@ -156,33 +183,34 @@ export function Filters({
             inputMode="numeric"
             value={max}
             onChange={(e) => setMax(e.target.value)}
-            placeholder={String(facets.priceMax)}
-            className="input px-2 py-1.5 text-sm"
+            placeholder={`${currencySymbol} ${facets.priceMax}`}
+            className="input bg-white px-2 py-1.5 text-sm"
             aria-label="Maximum price"
           />
-          <button onClick={applyPrice} className="border border-line px-3 py-1.5 text-sm hover:border-ink">
+          <button onClick={applyPrice} className="border border-line bg-white px-3 py-1.5 text-sm hover:border-ink">
             Go
           </button>
         </div>
-      </FilterGroup>
+      </Section>
 
-      <FilterGroup title="Availability">
-        <Check label="In stock only" checked={inStock} onChange={() => toggleFlag("inStock")} />
-        <Check label="On sale" checked={onSale} onChange={() => toggleFlag("sale")} />
-      </FilterGroup>
+      <Section title="Availability" count={(inStock ? 1 : 0) + (onSale ? 1 : 0)}>
+        <div className="space-y-2">
+          <Check label="In stock only" checked={inStock} onChange={() => toggleFlag("inStock")} />
+          <Check label="On sale" checked={onSale} onChange={() => toggleFlag("sale")} />
+        </div>
+      </Section>
     </div>
   );
 
   return (
     <>
-      {/* desktop sidebar */}
-      <aside className="hidden w-60 shrink-0 lg:block">{body}</aside>
+      {/* Desktop: stays in view while the products scroll (below the sticky site header). */}
+      <aside className="hidden w-64 shrink-0 self-start lg:sticky lg:top-40 lg:block lg:max-h-[calc(100vh-11rem)] lg:overflow-y-auto">
+        {body}
+      </aside>
 
-      {/* mobile trigger + drawer */}
-      <button
-        onClick={() => setOpenMobile(true)}
-        className="btn-ghost lg:hidden"
-      >
+      {/* Mobile: trigger + drawer */}
+      <button onClick={() => setOpenMobile(true)} className="btn-ghost mb-4 lg:hidden">
         Filters{activeCount > 0 ? ` (${activeCount})` : ""}
       </button>
       {openMobile && (
@@ -197,7 +225,7 @@ export function Filters({
                 </svg>
               </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-4">{body}</div>
+            <div className="flex-1 overflow-y-auto">{body}</div>
             <div className="border-t border-line p-4">
               <button onClick={() => setOpenMobile(false)} className="btn-primary w-full">
                 View results
@@ -210,19 +238,60 @@ export function Filters({
   );
 }
 
-function FilterGroup({ title, children }: { title: string; children: React.ReactNode }) {
+/** Collapsible filter row; opens by default when it has an active selection. */
+function Section({ title, count = 0, children }: { title: string; count?: number; children: ReactNode }) {
+  const [open, setOpen] = useState(count > 0);
   return (
     <div>
-      <h3 className="mb-3 text-xs font-medium uppercase tracking-wide text-ink">{title}</h3>
-      <div className="space-y-2">{children}</div>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        className="flex w-full items-center justify-between px-4 py-4 text-left text-[15px] font-medium hover:bg-line/40"
+      >
+        <span>
+          {title}
+          {count > 0 && <span className="ml-2 rounded-full bg-ink px-1.5 py-0.5 text-[10px] text-white">{count}</span>}
+        </span>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          aria-hidden
+          className={cn("transition-transform", open && "rotate-180")}
+        >
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </button>
+      {open && <div className="px-4 pb-4">{children}</div>}
     </div>
   );
 }
 
-function Check({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
+function Check({
+  label,
+  checked,
+  onChange,
+  swatch,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+  swatch?: string | null;
+}) {
   return (
     <label className="flex cursor-pointer items-center gap-2 text-sm text-ink-soft">
       <input type="checkbox" checked={checked} onChange={onChange} className="h-4 w-4 accent-ink" />
+      {swatch !== undefined && (
+        <span
+          aria-hidden
+          className="h-3.5 w-3.5 shrink-0 rounded-full border border-line"
+          style={{ background: swatch ?? "transparent", borderStyle: swatch ? "solid" : "dashed" }}
+        />
+      )}
       {label}
     </label>
   );
