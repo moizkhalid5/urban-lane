@@ -2,6 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // ESLint is a devDependency and isn't installed in production-only installs
+  // (e.g. Hostinger builds with NODE_ENV=production). Linting runs separately
+  // via `npm run lint`, so it must never gate the production build.
+  eslint: { ignoreDuringBuilds: true },
   images: {
     // Local images live under /public/uploads.
     // Remote loaders (Cloudinary, S3, R2) can be added here when configured.

@@ -1,185 +1,223 @@
-> **Superseded:** use [HOSTINGER_SHARED_DEPLOYMENT.md](HOSTINGER_SHARED_DEPLOYMENT.md) (Oct 2026). This older guide refers to `code-bundle.zip`/`uploads-bundle.zip` and the June database.
+> **Current guide:** [HOSTINGER_SHARED_DEPLOYMENT.md](HOSTINGER_SHARED_DEPLOYMENT.md) (Oct 2026) covers the current
+> catalogue, the production database export and keeping admin uploads outside the app folder.
+> This guide (June 2026) describes the first Node.js Web Apps setup.
 
-# Deploying Urban Lane to Hostinger — Simple Guide
+# Deploying Urban Lane to Hostinger (Node.js Web Apps hosting)
 
-You have **3 files** in your project folder to upload. That's it:
+This guide targets **Hostinger's Node.js Web Apps hosting** (hPanel → **Websites
+→ Add Website → Node.js Apps**), deploying straight from **GitHub**. It uses
+Hostinger's **MySQL** database and keeps all product images as **local object
+storage inside the website directory** (`public/uploads`) — no external S3 or
+Cloudinary required.
 
-| File | What it is |
+> **Plan requirement:** Node.js Web Apps hosting is available on Hostinger
+> **Business** web hosting and above (and on Cloud/VPS). It is **not** available
+> on the entry-level *Single* plan. If you don't see **Node.js Apps** under *Add
+> Website*, upgrade the plan or use a VPS.
+
+The app is already configured for this:
+
+| What Hostinger asks | Value to use |
 |---|---|
-| `code-bundle.zip` | The website code (~230 KB) |
-| `db-bundle.sql` | Your database with all 175 products + admin (~270 KB) |
-| `uploads-bundle.zip` | All product images (~250 MB) |
+| Framework | **Next.js** (auto-detected) |
+| **Node.js version** | **22** (matches `.nvmrc` and `package.json` engines) |
+| **Install command** | `npm ci` |
+| **Build command** | `npm run build` |
+| **Start command** | `npm run start -- -p $PORT` |
+| **Output directory** | `.next` |
+| Root directory | repo root (where `package.json` is) |
 
-> If you ever change products/images locally and want fresh files:
-> `npm run images:bundle` (images) and re-export the DB (see step 2c).
-
-> **Note:** the code goes to Hostinger **via GitHub** (below). The database
-> (`db-bundle.sql`) and images (`uploads-bundle.zip`) do **not** go through
-> GitHub — you upload them once directly (Steps 1 and 6).
+> **Why `-p $PORT`?** Hostinger assigns the app a port at runtime via the `$PORT`
+> environment variable and proxies your domain to it. `next start` binds to that
+> port, so **never** hardcode `3000` in production. (`next start` also reads a
+> `PORT` env var automatically, so plain `npm start` works too — but use the
+> command above to be explicit.)
 
 ---
 
 ## STEP 0 — Push the code to GitHub (one time)
 
-The repository is already initialized and committed locally. You just need to
-create an empty repo on GitHub and push.
+The repo is already initialized and committed. Create an **empty** GitHub repo
+(no README/.gitignore/license) named `urban-lane`, then:
 
-1. Go to **github.com** → top-right **+** → **New repository**.
-2. Name it `urbane-lane`. Choose **Private** (recommended — it's your business code).
-   **Do NOT** tick "Add a README / .gitignore / license" (the repo must start empty).
-3. Click **Create repository**, then copy the URL it shows (e.g. `https://github.com/YOURNAME/urbane-lane.git`).
-4. In a terminal **in your project folder** (`d:\Urban Lane`), run:
-   ```bash
-   git remote add origin https://github.com/YOURNAME/urbane-lane.git
-   git push -u origin main
+```bash
+git remote add origin https://github.com/YOURNAME/urban-lane.git
+git push -u origin main
+```
+
+Later updates: `git add -A && git commit -m "…" && git push`.
+
+> The **code** ships through GitHub. The **database data** and the **product
+> images** do **not** go through GitHub — you load those once, directly on the
+> server (Steps 4 and 6). Images are git-ignored on purpose (they're large).
+
+---
+
+## STEP 1 — Create the MySQL database (hPanel)
+
+1. hPanel → **Databases → MySQL Databases**.
+2. Create a database + user. Write down all four values:
+   - **Database name** (e.g. `u123456_urban`)
+   - **Username** (e.g. `u123456_urban`)
+   - **Password**
+   - **Host** (usually `localhost` when the DB and app share the account)
+3. Build your connection string (you'll paste it as `DATABASE_URL` in Step 3):
    ```
-   The first push will ask you to sign in to GitHub (a browser window or a token). After that, your code is on GitHub.
-
-> Later, whenever you change code: `git add -A && git commit -m "what changed" && git push`.
-
----
-
-## Deploying from GitHub on Hostinger
-
-After Step 0, connect Hostinger to the GitHub repo:
-
-1. hPanel → **Advanced** → **GIT**.
-2. **Create a new repository deployment:**
-   - **Repository:** your GitHub URL.
-   - **Branch:** `main`.
-   - **Directory:** your Node.js app folder.
-   - If the repo is **Private**, hPanel shows an **SSH key** — copy it, then in GitHub go to your repo → **Settings → Deploy keys → Add deploy key**, paste it, save. (Or make the repo public, but private is safer.)
-3. Click **Deploy** — Hostinger pulls your code into the app folder.
-4. Then continue with **Steps 4–8 below** (env vars → install/build → images → domain).
-5. **Future updates:** `git push` from your PC, then in hPanel **GIT → Deploy** (pull), then rebuild + restart the Node app.
-
-> The rest of the steps (database import, env vars, build, images, domain) are the same whether you deploy by GitHub or by zip. Continue below.
+   mysql://USERNAME:PASSWORD@HOST:3306/DATABASE_NAME
+   ```
+   URL-encode special characters in the password (`@`→`%40`, `#`→`%23`, etc.).
 
 ---
 
-## Hostinger build settings (use these exact values)
+## STEP 2 — Create the Node.js app from GitHub (hPanel)
 
-When Hostinger asks for / auto-detects the app settings, use:
-
-| Setting | Value |
-|---|---|
-| Framework | **Next.js** (it should auto-detect; if it shows "Other", pick Next.js or set the fields below) |
-| **Node.js version** | **22** (matches `.nvmrc` / `package.json` engines) |
-| **Build command** | `npm run build` |
-| **Run / Start command** | `npm start` |
-| **Output directory** | `.next` |
-| **App / port** | `3000` (the app listens on port 3000 by default) |
-| **Root directory** | the repo root (where `package.json` is) |
-
-> If you ever saw **"unsupported framework" / "invalid project structure"**, it's fixed now:
-> the project uses a plain `next.config.mjs`, `package.json` is at the repo root, Node is
-> pinned to **22**, and `node_modules` is never committed. Re-pull/redeploy after pushing.
+1. hPanel → **Websites → Add Website → Node.js Apps**.
+2. Choose **Import Git Repository** → authorize GitHub → pick `urban-lane`,
+   branch `main`.
+   - If the repo is **private**, Hostinger shows an **SSH/deploy key** — add it
+     in GitHub under the repo's **Settings → Deploy keys**.
+3. Review the auto-detected settings and set them to the table above
+   (Node **22**, install `npm ci`, build `npm run build`,
+   start `npm run start -- -p $PORT`, output `.next`).
+4. **Don't deploy yet** — add the environment variables first (Step 3).
 
 ---
 
-## STEP 1 — Create the database (hPanel)
+## STEP 3 — Set environment variables (hPanel)
 
-1. Log in to **hPanel** → **Databases** → **Management** (MySQL Databases).
-2. Create a new database. Write down these 4 things:
-   - **Database name** (e.g. `u123_urbane`)
-   - **Username** (e.g. `u123_urbane`)
-   - **Password** (the one you set)
-   - **Host** (usually `localhost`)
-3. Click **Enter phpMyAdmin** for that database.
-4. In phpMyAdmin: click the **Import** tab → **Choose File** → select `db-bundle.sql` → **Import**.
-   - ✅ This loads all tables, your 175 products, categories, brands, and the admin login.
-
----
-
-## STEP 2 — Create the Node.js app (hPanel)
-
-1. In hPanel → **Advanced** → **Node.js** (or **Website → Node.js app**).
-2. Create application:
-   - **Node version:** 20 or higher
-   - **Application root:** e.g. `urbane` (a folder it creates)
-   - **Application startup file:** `node_modules/.bin/next` is not needed — set **start command** to `npm start` (see step 5).
-3. Note the **Application root path** shown (e.g. `/home/u123/urbane`). You'll upload code there.
-
----
-
-## STEP 3 — Upload the code
-
-1. hPanel → **Files** → **File Manager**.
-2. Open your **Application root** folder (from step 2).
-3. Upload `code-bundle.zip` into it → right-click → **Extract**.
-   - You should now see `src`, `prisma`, `package.json`, etc. in that folder.
-4. Delete the `code-bundle.zip` from the server after extracting (optional, keeps it tidy).
-
----
-
-## STEP 4 — Set environment variables
-
-In the **Node.js app** settings (hPanel) there is an **Environment variables** section. Add these:
+In the Node.js app's **Environment variables** section, add the following. See
+[`.env.production.example`](.env.production.example) for the full annotated list.
 
 | Name | Value |
 |---|---|
-| `DATABASE_URL` | `mysql://USERNAME:PASSWORD@localhost:3306/DATABASENAME` (use your step‑1 details) |
-| `AUTH_SECRET` | a long random string — generate locally with `npx auth secret` and paste it |
-| `APP_URL` | `https://yourdomain.com` |
-| `NEXTAUTH_URL` | `https://yourdomain.com` |
-| `IMAGE_STORAGE` | `local` |
 | `NODE_ENV` | `production` |
+| `DATABASE_URL` | your Step‑1 connection string |
+| `AUTH_SECRET` | a long random string — generate locally with `npx auth secret` |
+| `APP_URL` | `https://your-domain.com` |
+| `NEXTAUTH_URL` | `https://your-domain.com` |
+| `AUTH_URL` | `https://your-domain.com` |
+| `IMAGE_STORAGE` | `local` |
+| `BASE_CURRENCY` | `PKR` |
+| `SEED_ADMIN_EMAIL` | `admin@your-domain.com` |
+| `SEED_ADMIN_PASSWORD` | a strong password (used once by the seed) |
+| `EMAIL_PROVIDER` | `console` (switch to `smtp`/`resend` later) |
 
-(Email/payment keys can be added later when you enable them.)
+Now click **Deploy**. Hostinger runs `npm ci` → `npm run build` and starts the
+app with `npm run start -- -p $PORT`.
 
----
-
-## STEP 5 — Install, build, and start
-
-In the Node.js app panel there are buttons / a terminal. Run these **in order**:
-
-1. **Run NPM Install** (button) — or in terminal: `npm install`
-2. **Apply the database schema** (terminal): `npx prisma generate`
-   - The data is already imported (step 1), so you do **not** run migrate or seed.
-3. **Build** (terminal): `npm run build`
-4. **Set the start command** to: `npm start`
-5. **Start / Restart** the application.
-
----
-
-## STEP 6 — Upload the product images
-
-1. File Manager → open `public/uploads` inside your app folder.
-2. Upload `uploads-bundle.zip` there → right-click → **Extract**.
-   - You should now see a `products` folder with image folders inside.
-3. Test in your browser: `https://yourdomain.com/uploads/products/707-731/1.png` should show an image.
+> `npm ci` runs `prisma generate` (via `postinstall`), and `npm run build` runs
+> it again before `next build`. The build does **not** touch the database, so it
+> succeeds even before the DB tables exist.
 
 ---
 
-## STEP 7 — Point your domain + enable SSL
+## STEP 4 — Create the database schema + data
 
-1. hPanel → attach your domain to this Node.js app (or set it as the app's domain).
-2. hPanel → **SSL** → enable the free SSL certificate for your domain (so it's `https`).
+The tables are empty after Step 1. Choose the path that fits your hosting.
 
----
+### A. No terminal on Hostinger → import the SQL bundle (recommended here)
 
-## STEP 8 — Final checks
+Hostinger's Node.js Web Apps plan has **no app terminal**, so prepare the DB
+directly in **phpMyAdmin** with a ready-made bundle.
 
-1. Visit `https://yourdomain.com` — products and images should show.
-2. Go to `https://yourdomain.com/admin` and log in:
-   - **Email:** `admin@urbanelane.com`
-   - **Password:** `ChangeMe123!`
-3. **⚠️ Immediately change the admin password** (and ideally create your own admin account).
+1. Generate the bundle locally (run once on your PC, in the project folder):
+   ```bash
+   npm install            # if you haven't already
+   npm run db:sqlfile     # writes db-bundle.sql in the project root
+   ```
+   This produces `db-bundle.sql` — schema + currencies, settings, banners, the
+   full category tree, brands, an **admin user**, and the **real 175-product
+   catalogue** (products, variants, images). It's safe to re-import (it drops the
+   tables first). Admin login is baked from `SEED_ADMIN_EMAIL` /
+   `SEED_ADMIN_PASSWORD` (defaults `admin@urbanlane.com` / `ChangeMe123!`); set
+   those env vars before running the command to choose your own.
+2. hPanel → **Databases → phpMyAdmin** for your database.
+3. Select your database in the left sidebar → **Import** tab → **Choose File** →
+   pick `db-bundle.sql` → **Import**.
+4. Done — every table and all data is created. Skip to Step 5.
 
----
+> The bundle is for phpMyAdmin only; it is git-ignored and does **not** go
+> through GitHub.
 
-## If something doesn't work
+### B. If you DO have a terminal (VPS/SSH)
 
-- **Site won't start / 503:** check the Node.js app **logs** in hPanel. Usually a missing env var (`DATABASE_URL` or `AUTH_SECRET`).
-- **"Can't reach database":** double‑check `DATABASE_URL` username/password/db name match step 1 exactly.
-- **Images missing:** make sure `uploads-bundle.zip` was extracted **inside** `public/uploads` (not the app root).
-- **Login fails:** confirm `AUTH_SECRET` is set and `NEXTAUTH_URL` matches your real domain (https).
-
----
-
-### (2c) Re-exporting the database later
-If you add products locally and want to refresh the live DB, export locally with:
+Run in the app root, then **Restart** the app:
+```bash
+npm run db:setup    # demo catalogue: migrate + seed
+# — or for the real catalogue —
+npm run prisma:deploy && npm run db:seed && npm run db:import
 ```
-docker exec urbane_lane_db mysqldump -uurbane -purbane --no-tablespaces urbane_lane > db-bundle.sql
-```
-then re-import `db-bundle.sql` in phpMyAdmin (drop old tables first, or use a fresh DB).
+
+After loading data, **Restart** the app from hPanel.
+
+---
+
+## STEP 5 — Upload the product images (local object storage)
+
+Images live **inside the website directory** at `public/uploads` and are served
+at `/uploads/*`. They are git-ignored, so a `git push` + redeploy never deletes
+them — you upload them once.
+
+1. Bundle your local images into a zip:
+   - macOS/Linux: `npm run images:bundle:unix` → creates `uploads-bundle.zip`
+   - Windows: `npm run images:bundle`
+2. hPanel → **File Manager** → open the app's `public/uploads` folder.
+3. Upload `uploads-bundle.zip` there → right-click → **Extract**.
+4. Verify in a browser, e.g.
+   `https://your-domain.com/uploads/products/707-731/1.png` should show an image.
+
+> Admin image uploads from the live dashboard also write here automatically.
+> To keep uploads on a path that survives even a full re-clone, you can point
+> `UPLOAD_DIR` at a persistent location that's surfaced at `/uploads/*`
+> (e.g. a symlink into `public/uploads`); the default needs no configuration.
+
+---
+
+## STEP 6 — Domain + SSL
+
+1. hPanel → attach your domain to this Node.js app.
+2. hPanel → **SSL** → enable the free certificate so the site is `https`.
+3. Confirm `APP_URL`, `NEXTAUTH_URL`, and `AUTH_URL` all match the final HTTPS
+   domain, then **Restart** the app.
+
+---
+
+## STEP 7 — Final checks
+
+1. Visit `https://your-domain.com` — products and images render.
+2. Log in at `https://your-domain.com/admin` with `SEED_ADMIN_EMAIL` /
+   `SEED_ADMIN_PASSWORD`.
+3. **Immediately change the admin password** (and create your own admin user).
+
+---
+
+## Updating later
+
+1. `git push` your changes.
+2. hPanel → the Node.js app → **Deploy** (pulls, reinstalls, rebuilds, restarts).
+3. If you changed `prisma/schema.prisma`, run `npm run prisma:deploy` in the app
+   terminal after deploy. (Generate a migration locally first with
+   `npm run prisma:migrate` and commit it.)
+
+---
+
+## Troubleshooting
+
+- **App won't start / 502 / 503:** check the app **logs** in hPanel. Usually a
+  missing env var (`DATABASE_URL`, `AUTH_SECRET`) or the start command not using
+  `-p $PORT`.
+- **"Can't reach database server":** re-check `DATABASE_URL` — username, password
+  (URL-encoded), host (`localhost`), and DB name must match Step 1 exactly.
+- **Tables don't exist / Prisma P2021:** you skipped Step 4 — run
+  `npm run db:setup` (or `npm run prisma:deploy`) in the app terminal.
+- **Login fails / redirect loop:** `AUTH_SECRET` must be set, and `NEXTAUTH_URL`
+  / `AUTH_URL` must equal the real HTTPS domain. (`trustHost` is already enabled
+  in code.)
+- **Images 404:** confirm files were extracted **inside** `public/uploads`
+  (not the app root) and `IMAGE_STORAGE=local`.
+- **Build error `Cannot find module 'tailwindcss'` (or `typescript`/`prisma`):**
+  the platform ran a production-only install (`NODE_ENV=production` makes npm skip
+  `devDependencies`). This repo already keeps every build-time package
+  (`tailwindcss`, `postcss`, `autoprefixer`, `typescript`, `prisma`, `tsx`, the
+  `@types/*`) in `dependencies` so the build works either way. If you still hit
+  it on a fork, set the **Install command** to `npm ci --include=dev`.
