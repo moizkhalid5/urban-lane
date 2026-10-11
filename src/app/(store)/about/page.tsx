@@ -3,15 +3,15 @@ import { PageShell } from "@/components/layout/PageShell";
 
 export const metadata: Metadata = {
   title: "About Us",
-  description: "Learn about Urbane Lane — premium fashion, beauty and lifestyle.",
+  description: "Learn about Urban Lane — premium fashion, beauty and lifestyle.",
   alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
   return (
-    <PageShell title="About Urbane Lane" intro="Premium fashion, beauty and lifestyle — curated with care.">
+    <PageShell title="About Urban Lane" intro="Premium fashion, beauty and lifestyle — curated with care.">
       <p>
-        Urbane Lane brings together the labels and looks you love in one clean, considered destination. From everyday
+        Urban Lane brings together the labels and looks you love in one clean, considered destination. From everyday
         essentials to statement pieces, we focus on quality, fit and timeless style across womenswear, menswear, kids,
         beauty and jewellery.
       </p>

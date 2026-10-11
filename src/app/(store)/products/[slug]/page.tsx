@@ -19,7 +19,7 @@ import { prisma } from "@/lib/prisma";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
-const APP_URL = process.env.APP_URL || "http://localhost:3000";
+import { APP_URL } from "@/lib/site";
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const image = product.images[0]?.url;
   return {
     title: product.seoTitle || product.title,
-    description: product.seoDescription || product.description?.slice(0, 160) || `Shop ${product.title} at Urbane Lane.`,
+    description: product.seoDescription || product.description?.slice(0, 160) || `Shop ${product.title} at Urban Lane.`,
     alternates: { canonical: `/products/${product.slug}` },
     openGraph: {
       title: product.title,

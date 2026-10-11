@@ -2,7 +2,10 @@
  * Pluggable image/file storage.
  *
  * IMAGE_STORAGE:
- *   "local" (default) — writes to /public/uploads, served from /uploads/*.
+ *   "local" (default) — writes to UPLOAD_DIR (default /public/uploads), served from /uploads/*.
+ *     In production set UPLOAD_DIR to a folder OUTSIDE the app (e.g. /home/<user>/urban-lane-uploads):
+ *     `next start` only serves files that were in /public at build time, and redeploys replace the
+ *     app folder. Files there are served by src/app/uploads/[...path]/route.ts.
  *   "cloudinary" | "s3" | "r2" — stubs ready for credentials (see notes below).
  *
  * All adapters expose the same `saveFile`/`deleteFile` contract so call sites
@@ -14,7 +17,10 @@ import { randomBytes } from "crypto";
 
 export type SavedFile = { url: string; key: string };
 
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
+/** Where admin uploads are written (and read back by the /uploads route). */
+export const UPLOAD_DIR = process.env.UPLOAD_DIR
+  ? path.resolve(process.env.UPLOAD_DIR)
+  : path.join(process.cwd(), "public", "uploads");
 
 function safeName(originalName: string): string {
   const ext = path.extname(originalName).toLowerCase().replace(/[^.a-z0-9]/g, "") || ".bin";

@@ -1,3 +1,4 @@
+import "@/lib/site"; // normalises AUTH_URL / NEXTAUTH_URL before Auth.js reads them
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import type { UserRole } from "@prisma/client";

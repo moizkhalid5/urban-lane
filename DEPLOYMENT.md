@@ -1,4 +1,6 @@
-# Deploying Urbane Lane to Hostinger — Simple Guide
+> **Superseded:** use [HOSTINGER_SHARED_DEPLOYMENT.md](HOSTINGER_SHARED_DEPLOYMENT.md) (Oct 2026). This older guide refers to `code-bundle.zip`/`uploads-bundle.zip` and the June database.
+
+# Deploying Urban Lane to Hostinger — Simple Guide
 
 You have **3 files** in your project folder to upload. That's it:
 
@@ -26,7 +28,7 @@ create an empty repo on GitHub and push.
 2. Name it `urbane-lane`. Choose **Private** (recommended — it's your business code).
    **Do NOT** tick "Add a README / .gitignore / license" (the repo must start empty).
 3. Click **Create repository**, then copy the URL it shows (e.g. `https://github.com/YOURNAME/urbane-lane.git`).
-4. In a terminal **in your project folder** (`d:\Urbane Lane`), run:
+4. In a terminal **in your project folder** (`d:\Urban Lane`), run:
    ```bash
    git remote add origin https://github.com/YOURNAME/urbane-lane.git
    git push -u origin main

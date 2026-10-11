@@ -10,6 +10,9 @@ import { Filters } from "@/components/collection/Filters";
 import { SortSelect } from "@/components/collection/SortSelect";
 import { Pagination } from "@/components/collection/Pagination";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { KidsLanding } from "@/components/collection/KidsLanding";
+import { DepartmentLanding, hasDepartmentLanding } from "@/components/collection/DepartmentLanding";
+import { AGE_BANDS } from "@/lib/kids-age";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -23,7 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { category } = data;
   return {
     title: category.seoTitle || category.name,
-    description: category.seoDescription || `Shop ${category.name} at Urbane Lane.`,
+    description: category.seoDescription || `Shop ${category.name} at Urban Lane.`,
     alternates: { canonical: `/collections/${category.slug}` },
     openGraph: { title: category.name, url: `/collections/${category.slug}` },
   };
@@ -45,6 +48,17 @@ export default async function CollectionPage({ params, searchParams }: PageProps
     getFacets(category.slug),
   ]);
 
+  // Department landing sections (banner, shop-by tiles) show on the plain Kids / Men / Women
+  // pages; any filter or sort goes straight to the products.
+  const unfiltered = Object.keys(sp).length === 0;
+  const showKidsLanding = category.slug === "kids" && unfiltered;
+  const showDepartmentLanding = hasDepartmentLanding(category.slug) && unfiltered;
+  const showLanding = showKidsLanding || showDepartmentLanding;
+  const activeAges = AGE_BANDS.filter((a) => filter.ages?.includes(a.key));
+  const withoutAges = new URLSearchParams(
+    Object.entries(sp).flatMap(([k, v]) => (k === "ages" || v === undefined ? [] : [[k, Array.isArray(v) ? v[0] : v]])),
+  ).toString();
+
   const facets = {
     brands: facetData.brands,
     sizes: facetData.sizes,
@@ -57,13 +71,19 @@ export default async function CollectionPage({ params, searchParams }: PageProps
     <div className="container-site py-8">
       <Breadcrumbs items={[...ancestors, { name: category.name, href: `/collections/${category.slug}` }]} />
 
-      <header className="mt-4">
-        <h1 className="text-3xl font-medium md:text-4xl">{category.name}</h1>
+      {showKidsLanding && <KidsLanding />}
+      {showDepartmentLanding && <DepartmentLanding slug={category.slug} />}
+
+      <header className={showLanding ? "mt-16" : "mt-4"}>
+        <h1 className="text-3xl font-medium md:text-4xl">
+          {showLanding ? `Shop all ${category.name.toLowerCase()}` : category.name}
+        </h1>
         {category.description && <p className="mt-2 max-w-2xl text-ink-muted">{category.description}</p>}
       </header>
 
+      {/* Sub-category buttons on phones; on desktop they are in the filter panel's "Category" row. */}
       {children.length > 0 && (
-        <div className="mt-5 flex flex-wrap gap-2">
+        <div className="mt-5 flex flex-wrap gap-2 lg:hidden">
           {children.map((c) => (
             <Link
               key={c.slug}
@@ -76,6 +96,18 @@ export default async function CollectionPage({ params, searchParams }: PageProps
         </div>
       )}
 
+      {activeAges.length > 0 && (
+        <div className="mt-5 flex flex-wrap gap-2">
+          <Link
+            href={`/collections/${category.slug}${withoutAges ? `?${withoutAges}` : ""}`}
+            className="inline-flex items-center gap-2 bg-ink px-4 py-1.5 text-sm text-white"
+            aria-label="Remove age filter"
+          >
+            Age: {activeAges.map((a) => a.label).join(", ")} <span aria-hidden>✕</span>
+          </Link>
+        </div>
+      )}
+
       <div className="mt-8 flex items-center justify-between border-b border-line pb-4">
         <p className="text-sm text-ink-muted">
           {total} {total === 1 ? "product" : "products"}
@@ -83,8 +115,8 @@ export default async function CollectionPage({ params, searchParams }: PageProps
         <SortSelect value={filter.sort ?? "latest"} />
       </div>
 
-      <div className="mt-8 flex gap-10">
-        <Filters facets={facets} currencySymbol={currency.symbol} hideBrand={false} />
+      <div className="mt-8 lg:flex lg:gap-10">
+        <Filters facets={facets} currencySymbol={currency.symbol} hideBrand={false} categories={children} />
 
         <div className="min-w-0 flex-1">
           <div className="mb-4 lg:hidden" />

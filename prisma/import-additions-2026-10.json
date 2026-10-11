@@ -1,0 +1,1277 @@
+{
+  "products": [
+    {
+      "sku": "991-000",
+      "title": "Next Stone Trousers",
+      "description": "Stone trouser",
+      "brand": "Next",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "10 R",
+          "color": "Stone",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/991-000/1.png",
+        "/uploads/products/991-000/2.png",
+        "/uploads/products/991-000/3.png"
+      ],
+      "familySkus": [
+        "991-000"
+      ],
+      "notes": [],
+      "sources": [
+        "Next\\NEXT WOMEN\\991-000\\0001-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\991-000\\0004-PhotoRoom.png",
+        "Next\\NEXT WOMEN\\991-000\\0006-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "480-905",
+      "title": "Next Digger Tees/shorts",
+      "description": "Digger T-Shirts",
+      "brand": "Next",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 700000,
+      "variants": [
+        {
+          "size": "12-18 Months",
+          "color": "Multi",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/480-905/1.png",
+        "/uploads/products/480-905/2.png"
+      ],
+      "familySkus": [
+        "480-905"
+      ],
+      "notes": [],
+      "sources": [
+        "Next\\NEXT KIDS\\480-905 digger shirt-PhotoRoom.png",
+        "Next\\NEXT KIDS\\480-905 digger shirt 2pack.png"
+      ]
+    },
+    {
+      "sku": "ABB06591-173-30",
+      "title": "Burton 3 Pack White V-Neck Organic Cotton T-Shirts",
+      "description": "100% Cotton. Machine Washable.",
+      "brand": "Burton",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "White",
+          "stock": 2
+        },
+        {
+          "size": "Medium",
+          "color": "White",
+          "stock": 2
+        },
+        {
+          "size": "Large",
+          "color": "White",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/ABB06591-173-30/1.png",
+        "/uploads/products/ABB06591-173-30/2.png",
+        "/uploads/products/ABB06591-173-30/3.png",
+        "/uploads/products/ABB06591-173-30/4.png"
+      ],
+      "familySkus": [
+        "ABB06591-173-30",
+        "ABB06591-173-56",
+        "ABB06591-173-34"
+      ],
+      "notes": [
+        "manual match",
+        "sizes merged from 3 SKUs"
+      ],
+      "sources": [
+        "burton\\ABB06591-173-30 (1)-PhotoRoom.png",
+        "burton\\ABB06591-173-30 (2)-PhotoRoom.png",
+        "burton\\ABB06591-173-30 (3)-PhotoRoom.png",
+        "burton\\ABB06591-173-30 (4)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "5059019346703",
+      "title": "Burton Navy Chino Shorts With Organic Cotton",
+      "description": "Navy cotton trousers",
+      "brand": "Burton",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 350000,
+      "variants": [
+        {
+          "size": "32",
+          "color": "Navy",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/5059019346703/1.png",
+        "/uploads/products/5059019346703/2.png",
+        "/uploads/products/5059019346703/3.png",
+        "/uploads/products/5059019346703/4.png"
+      ],
+      "familySkus": [
+        "5059019346703"
+      ],
+      "notes": [],
+      "sources": [
+        "burton\\5059019346703 (1)-PhotoRoom.png",
+        "burton\\5059019346703 (2)-PhotoRoom.png",
+        "burton\\5059019346703 (3)-PhotoRoom.png",
+        "burton\\5059019346703 (4)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "5059019241305",
+      "title": "Burton Winter Burgundy Organic Chino Shorts",
+      "description": "Mehroon cotton trousers",
+      "brand": "Burton",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 350000,
+      "variants": [
+        {
+          "size": "32",
+          "color": "Burgundy",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/5059019241305/1.png",
+        "/uploads/products/5059019241305/2.png",
+        "/uploads/products/5059019241305/3.png",
+        "/uploads/products/5059019241305/4.png"
+      ],
+      "familySkus": [
+        "5059019241305"
+      ],
+      "notes": [],
+      "sources": [
+        "burton\\5059019241305(1)-PhotoRoom.png",
+        "burton\\5059019241305 (2)-PhotoRoom.png",
+        "burton\\5059019241305 (3)-PhotoRoom.png",
+        "burton\\5059019241305 (4)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "5057555351496",
+      "title": "Burton Navy Long Sleeve Gingham Oxford Shirt",
+      "description": "Slim fit black and whit check shirt 38-40 inch",
+      "brand": "Burton",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 650000,
+      "variants": [
+        {
+          "size": "Medium",
+          "color": "blue",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/5057555351496/1.png",
+        "/uploads/products/5057555351496/2.png",
+        "/uploads/products/5057555351496/3.png",
+        "/uploads/products/5057555351496/4.png"
+      ],
+      "familySkus": [
+        "5057555351496"
+      ],
+      "notes": [],
+      "sources": [
+        "burton\\5057555351496 (1)-PhotoRoom.png",
+        "burton\\5057555351496 (2)-PhotoRoom.png",
+        "burton\\5057555351496 (3)-PhotoRoom.png",
+        "burton\\5057555351496 (4)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "5059019569706",
+      "title": "Burton Black Harrington Jacket with Recycled Polyester",
+      "description": null,
+      "brand": "Burton",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1250000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Black",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/5059019569706/1.png",
+        "/uploads/products/5059019569706/2.png",
+        "/uploads/products/5059019569706/3.png",
+        "/uploads/products/5059019569706/4.png"
+      ],
+      "familySkus": [
+        "5059019569706"
+      ],
+      "notes": [],
+      "sources": [
+        "burton\\5059019569706 (1)-PhotoRoom.png",
+        "burton\\5059019569706 (2)-PhotoRoom.png",
+        "burton\\5059019569706 (3)-PhotoRoom.png",
+        "burton\\5059019569706 (4)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "5059019540903",
+      "title": "Burton Khaki and White Ombre T-Shirt with MB Embroidery",
+      "description": "Crew neck short sleeves shirt",
+      "brand": "Burton",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Khaki",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/5059019540903/1.png",
+        "/uploads/products/5059019540903/2.png",
+        "/uploads/products/5059019540903/3.png",
+        "/uploads/products/5059019540903/4.png",
+        "/uploads/products/5059019540903/5.png",
+        "/uploads/products/5059019540903/6.png"
+      ],
+      "familySkus": [
+        "5059019540903"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "burton\\5059019540903 (1)-PhotoRoom.png",
+        "burton\\5059019540903 (2)-PhotoRoom.png",
+        "burton\\5059019540903 (3)-PhotoRoom.png",
+        "burton\\5059019540903 (4)-PhotoRoom.png",
+        "burton\\5059019540903 (5)-PhotoRoom.png",
+        "burton\\5059019540903 (6)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "5059392017740",
+      "title": "Burton Teal Horizontal Stripe T-shirt",
+      "description": null,
+      "brand": "Burton",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 400000,
+      "variants": [
+        {
+          "size": "Small",
+          "color": "Teal",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/5059392017740/1.png",
+        "/uploads/products/5059392017740/2.png",
+        "/uploads/products/5059392017740/3.png",
+        "/uploads/products/5059392017740/4.png",
+        "/uploads/products/5059392017740/5.png"
+      ],
+      "familySkus": [
+        "5059392017740"
+      ],
+      "notes": [
+        "brand from title"
+      ],
+      "sources": [
+        "burton\\5059392017740 burton Teal shirt\\10-PhotoRoom.png",
+        "burton\\5059392017740 burton Teal shirt\\6-PhotoRoom.png",
+        "burton\\5059392017740 burton Teal shirt\\7-PhotoRoom.png",
+        "burton\\5059392017740 burton Teal shirt\\8-PhotoRoom.png",
+        "burton\\5059392017740 burton Teal shirt\\9-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "4063701793752",
+      "title": "Esprit Jersey T-Shirt with a Logo Off White",
+      "description": "100% Cotton.",
+      "brand": "Esprit",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 350000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Off White",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/4063701793752/1.png",
+        "/uploads/products/4063701793752/2.png",
+        "/uploads/products/4063701793752/3.png",
+        "/uploads/products/4063701793752/4.png",
+        "/uploads/products/4063701793752/5.png"
+      ],
+      "familySkus": [
+        "4063701793752"
+      ],
+      "notes": [],
+      "sources": [
+        "Esprit\\4063701793752 (1)-PhotoRoom.png",
+        "Esprit\\4063701793752 (2)-PhotoRoom(1).png",
+        "Esprit\\4063701793752 (3)-PhotoRoom.png",
+        "Esprit\\4063701793752 (4)-PhotoRoom.png",
+        "Esprit\\4063701793752 (5) - Copy-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "4063702748317",
+      "title": "Esprit Organic Cotton Piqué Polo Shirt - Light Aqua Green",
+      "description": "100% Cotton.\nGrainy textured piqué made of 100% organic cotton\nOrganic cotton: cotton organically cultivated in a controlled setting\nThick rib collar\nTwo-button placket\nRibbed sleeve cuffs",
+      "brand": "Esprit",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Light Aqua Green",
+          "stock": 5
+        },
+        {
+          "size": "MEDIUM",
+          "color": "Light Aqua Green",
+          "stock": 5
+        },
+        {
+          "size": "LARGE",
+          "color": "Light Aqua Green",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/4063702748317/1.png",
+        "/uploads/products/4063702748317/2.png",
+        "/uploads/products/4063702748317/3.png",
+        "/uploads/products/4063702748317/4.png",
+        "/uploads/products/4063702748317/5.png"
+      ],
+      "familySkus": [
+        "4063702748317"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "Esprit\\4063702748317 (1) Light Aqua Green-PhotoRoom.png",
+        "Esprit\\4063702748317 (2) Light Aqua Green-PhotoRoom.png",
+        "Esprit\\4063702748317 (3) Light Aqua Green-PhotoRoom.png",
+        "Esprit\\4063702748317 (4) Light Aqua Green-PhotoRoom.png",
+        "Esprit\\4063702748317 (5) Light Aqua Green-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "4063702748508",
+      "title": "Esprit Organic Cotton Piqué Polo Shirt - Pastel Pink",
+      "description": "100% Cotton.\nGrainy textured piqué made of 100% organic cotton\nOrganic cotton: cotton organically cultivated in a controlled setting\nThick rib collar\nTwo-button placket\nRibbed sleeve cuffs",
+      "brand": "Esprit",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Pastel Pink",
+          "stock": 5
+        },
+        {
+          "size": "MEDIUM",
+          "color": "Pastel Pink",
+          "stock": 5
+        },
+        {
+          "size": "LARGE",
+          "color": "Pastel Pink",
+          "stock": 4
+        }
+      ],
+      "images": [
+        "/uploads/products/4063702748508/1.png",
+        "/uploads/products/4063702748508/2.png",
+        "/uploads/products/4063702748508/3.png",
+        "/uploads/products/4063702748508/4.png",
+        "/uploads/products/4063702748508/5.png"
+      ],
+      "familySkus": [
+        "4063702748508"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "Esprit\\4063702748508 Pastal Pink (1)-PhotoRoom.png",
+        "Esprit\\4063702748508 Pastal Pink (2)-PhotoRoom.png",
+        "Esprit\\4063702748508 Pastal Pink (3)-PhotoRoom.png",
+        "Esprit\\4063702748508 Pastal Pink (4)-PhotoRoom.png",
+        "Esprit\\4063702748508 Pastal Pink (5)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "4063702748256",
+      "title": "Esprit Organic Cotton Piqué Polo Shirt - Camel",
+      "description": "100% Cotton.\nGrainy textured piqué made of 100% organic cotton\nOrganic cotton: cotton organically cultivated in a controlled setting\nThick rib collar\nTwo-button placket\nRibbed sleeve cuffs",
+      "brand": "Esprit",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Camel",
+          "stock": 1
+        },
+        {
+          "size": "MEDIUM",
+          "color": "Camel",
+          "stock": 1
+        },
+        {
+          "size": "LARGE",
+          "color": "Camel",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/4063702748256/1.png",
+        "/uploads/products/4063702748256/2.png",
+        "/uploads/products/4063702748256/3.png",
+        "/uploads/products/4063702748256/4.png",
+        "/uploads/products/4063702748256/5.png",
+        "/uploads/products/4063702748256/6.png",
+        "/uploads/products/4063702748256/7.png"
+      ],
+      "familySkus": [
+        "4063702748256"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "Esprit\\4063702748256 Camel (1)-PhotoRoom(1).png",
+        "Esprit\\4063702748256 Camel (2)-PhotoRoom.png",
+        "Esprit\\4063702748256 Camel (3)-PhotoRoom.png",
+        "Esprit\\4063702748256 Camel (4)-PhotoRoom.png",
+        "Esprit\\4063702748256 Camel (5)-PhotoRoom.png",
+        "Esprit\\4063702748256 Camel (6)-PhotoRoom.png",
+        "Esprit\\4063702748256 Camel (7)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "4063702378804",
+      "title": "Esprit Organic Cotton Piqué Polo Shirt - Dark Khaki",
+      "description": "100% Cotton.\nGrainy textured piqué made of 100% organic cotton\nOrganic cotton: cotton organically cultivated in a controlled setting\nThick rib collar\nTwo-button placket\nRibbed sleeve cuffs",
+      "brand": "Esprit",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 600000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Dark Khaki",
+          "stock": 1
+        },
+        {
+          "size": "MEDIUM",
+          "color": "Dark Khaki",
+          "stock": 1
+        },
+        {
+          "size": "LARGE",
+          "color": "Dark Khaki",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/4063702378804/1.png",
+        "/uploads/products/4063702378804/2.png",
+        "/uploads/products/4063702378804/3.png",
+        "/uploads/products/4063702378804/4.png",
+        "/uploads/products/4063702378804/5.png"
+      ],
+      "familySkus": [
+        "4063702378804"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "Esprit\\4063702378804 (5)-PhotoRoom.png",
+        "Esprit\\4063702378804 Dark Khaki (1)-PhotoRoom.png",
+        "Esprit\\4063702378804 Dark Khaki (2)-PhotoRoom.png",
+        "Esprit\\4063702378804 Dark Khaki (3)-PhotoRoom.png",
+        "Esprit\\4063702378804 Dark Khaki (4)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "320460446",
+      "title": "Gap Logo Pink T-Shirt",
+      "description": "Soft knit.\nShort sleeves.\nGap logo print at front.\nCrewneck.\n#000550338\nfabric & care\n100% Cotton\nMachine wash.",
+      "brand": "GAP",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 650000,
+      "variants": [
+        {
+          "size": "LARGE",
+          "color": "Pink",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/320460446/1.png"
+      ],
+      "familySkus": [
+        "320460446"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "Gap\\320460446 Gap logo pink-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "313664430",
+      "title": "Gap Basic Logo White T-Shirt",
+      "description": "Short sleeves.\nGap logo print at front.\nMade with 100% organically grown cotton. Organic cotton is better for people and the environment because it’s grown without the use of harmful synthetic pesticides and fertilizers.\nCrewneck.",
+      "brand": "GAP",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 700000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "White",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/313664430/1.png"
+      ],
+      "familySkus": [
+        "313664430"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "Gap\\313664430 Gap logo white -PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "947209001008",
+      "title": "H&M Brick Red/Navy Blue Henley Tops",
+      "description": "Cotton 100%",
+      "brand": "H&M",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "2-4Y",
+          "color": "Brick Red/Navy",
+          "stock": 3
+        },
+        {
+          "size": "4-6Y",
+          "color": "Brick Red/Navy",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/947209001008/1.png",
+        "/uploads/products/947209001008/2.png"
+      ],
+      "familySkus": [
+        "947209001008"
+      ],
+      "notes": [],
+      "sources": [
+        "H&M\\947209001008 (1)-PhotoRoom.png",
+        "H&M\\947209001008 (2)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6743876",
+      "title": "New Look Olive Vertical Stripe Crew T-Shirt",
+      "description": "Meet the olive stripe T-shirt (literally) every guy needs.\n\n- Vertical stripe print\n- Crew neckline\n- Short sleeves\n- Soft jersey fabric\n- Made using organic cotton\n- Regular fit\n- Ty is 6'1\"/186cm and wears size Medium/Chest 96-102cm\n\n*This piece is part of New Look Kind: styles that are responsibly sourced and friendlier to the planet.*\n\nProduct Code: 674386433\nCare Guide:\nBody: 100% Cotton.\n\nRib: 97% Cotton, 3% Elastane.\n\nMachine washable.",
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "SMALL",
+          "color": "Olive",
+          "stock": 5
+        }
+      ],
+      "images": [
+        "/uploads/products/6743876/1.png",
+        "/uploads/products/6743876/2.png",
+        "/uploads/products/6743876/3.png",
+        "/uploads/products/6743876/4.png",
+        "/uploads/products/6743876/5.png"
+      ],
+      "familySkus": [
+        "6743876"
+      ],
+      "notes": [],
+      "sources": [
+        "New Look\\6743876 olive verticle stripe t-shirt (1)-PhotoRoom.png",
+        "New Look\\6743876 olive verticle stripe t-shirt (2)-PhotoRoom.png",
+        "New Look\\6743876 olive verticle stripe t-shirt (3)-PhotoRoom.png",
+        "New Look\\6743876 olive verticle stripe t-shirt (4)-PhotoRoom.png",
+        "New Look\\6743876 olive verticle stripe t-shirt (5)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6979798",
+      "title": "New Look Yellow Spot Tiered Peplum",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 250000,
+      "variants": [
+        {
+          "size": "8",
+          "color": "Yellow",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/6979798/1.png",
+        "/uploads/products/6979798/2.png",
+        "/uploads/products/6979798/3.png",
+        "/uploads/products/6979798/4.png"
+      ],
+      "familySkus": [
+        "6979798"
+      ],
+      "notes": [],
+      "sources": [
+        "New Look\\6979798 maternity-yellow-spot-tiered-peplum-t-shirt (1)-PhotoRoom.png",
+        "New Look\\6979798 maternity-yellow-spot-tiered-peplum-t-shirt (2)-PhotoRoom.png",
+        "New Look\\6979798 maternity-yellow-spot-tiered-peplum-t-shirt (3)-PhotoRoom.png",
+        "New Look\\6979798 yellow-spot-tiered-peplum-t-shirt (4)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6555321",
+      "title": "New Look Yellow Leopard Print Peplum",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 450000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "Yellow",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/6555321/1.png"
+      ],
+      "familySkus": [
+        "6555321"
+      ],
+      "notes": [],
+      "sources": [
+        "New Look\\6555321 Yellow Leopard Print Peplum T-shirt-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6809051",
+      "title": "New Look 3 Pack Crew Neck T-Shirts",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "women"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "10",
+          "color": "Multi",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/6809051/1.png",
+        "/uploads/products/6809051/2.png",
+        "/uploads/products/6809051/3.png",
+        "/uploads/products/6809051/4.png"
+      ],
+      "familySkus": [
+        "6809051"
+      ],
+      "notes": [],
+      "sources": [
+        "New Look\\6809051 girls-3-pack-pink-black-and-white-crew-neck-t-shirts (1)-PhotoRoom.png",
+        "New Look\\6809051 girls-3-pack-pink-black-and-white-crew-neck-t-shirts (2)-PhotoRoom.png",
+        "New Look\\6809051 girls-3-pack-pink-black-and-white-crew-neck-t-shirts (3)-PhotoRoom.png",
+        "New Look\\6809051 girls-3-pack-pink-black-and-white-crew-neck-t-shirts (4)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6447369",
+      "title": "New Look Brown Top Frame Tinted Glasses",
+      "description": "A-98-193-B old sku",
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 400000,
+      "variants": [
+        {
+          "size": "One",
+          "color": "Brown",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/6447369/1.png",
+        "/uploads/products/6447369/2.png",
+        "/uploads/products/6447369/3.png"
+      ],
+      "familySkus": [
+        "6447369"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "New Look\\6447369 brown-top-frame-tinted-sunglasses-PhotoRoom.png",
+        "New Look\\6447369 brown-top-frame-tinted-sunglasses (1)-PhotoRoom.png",
+        "New Look\\6447369 brown-top-frame-tinted-sunglasses (2)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6832610",
+      "title": "New Look Mustard Stripe Short Sleeve T-Shirt",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 400000,
+      "variants": [
+        {
+          "size": "S",
+          "color": "Mustard",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/6832610/1.png",
+        "/uploads/products/6832610/2.png",
+        "/uploads/products/6832610/3.png",
+        "/uploads/products/6832610/4.png"
+      ],
+      "familySkus": [
+        "6832610"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "New Look\\6832610 mustard-stripe-short-sleeve-t-shirt-PhotoRoom.png",
+        "New Look\\6832610 mustard-stripe-short-sleeve-t-shirt (1)-PhotoRoom (1).png",
+        "New Look\\6832610 mustard-stripe-short-sleeve-t-shirt (2)-PhotoRoom (1).png",
+        "New Look\\6832610 mustard-stripe-short-sleeve-t-shirt (3)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6832599",
+      "title": "New Look Deep Pink Stripe Short Sleeve T-Shirt",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 400000,
+      "variants": [
+        {
+          "size": "S",
+          "color": "Pink",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/6832599/1.png",
+        "/uploads/products/6832599/2.png",
+        "/uploads/products/6832599/3.png",
+        "/uploads/products/6832599/4.png",
+        "/uploads/products/6832599/5.png"
+      ],
+      "familySkus": [
+        "6832599"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "New Look\\6832599 deep-pink-stripe-short-sleeve-t-shirt-PhotoRoom.png",
+        "New Look\\6832599 deep-pink-stripe-short-sleeve-t-shirt (1)-PhotoRoom (1).png",
+        "New Look\\6832599 deep-pink-stripe-short-sleeve-t-shirt (3)-PhotoRoom.png",
+        "New Look\\6832599 deep-pink-stripe-short-sleeve-t-shirt (4)-PhotoRoom.png",
+        "New Look\\6832599 deep-pink-stripe-short-sleeve-t-shirt (5)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6832581",
+      "title": "New Look Stone Stripe Crew Neck T-Shirt",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 400000,
+      "variants": [
+        {
+          "size": "M",
+          "color": "Stone",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/6832581/1.png",
+        "/uploads/products/6832581/2.png"
+      ],
+      "familySkus": [
+        "6832581"
+      ],
+      "notes": [],
+      "sources": [
+        "New Look\\6832581 stone-stripe-crew-neck-t-shirt (1)-PhotoRoom.png",
+        "New Look\\6832581 stone-stripe-crew-neck-t-shirt (2)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6900787",
+      "title": "New Look Pale Grey Stripe Crew T-Shirt",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 400000,
+      "variants": [
+        {
+          "size": "S",
+          "color": "Grey",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/6900787/1.png",
+        "/uploads/products/6900787/2.png",
+        "/uploads/products/6900787/3.png",
+        "/uploads/products/6900787/4.png"
+      ],
+      "familySkus": [
+        "6900787"
+      ],
+      "notes": [],
+      "sources": [
+        "New Look\\6900787 pale-grey-stripe-crew-neck-short-sleeve-t-shirt (3)-PhotoRoom.png",
+        "New Look\\6900787 pale-grey-stripe-crew-t-shirt-PhotoRoom.png",
+        "New Look\\6900787 pale-grey-stripe-crew-t-shirt (1)-PhotoRoom.png",
+        "New Look\\6900787 pale-grey-stripe-crew-t-shirt (2)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6787438",
+      "title": "New Look Navy Pleated Chinos",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 700000,
+      "variants": [
+        {
+          "size": "32R",
+          "color": "Navy",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/6787438/1.png",
+        "/uploads/products/6787438/2.png",
+        "/uploads/products/6787438/3.png",
+        "/uploads/products/6787438/4.png",
+        "/uploads/products/6787438/5.png"
+      ],
+      "familySkus": [
+        "6787438"
+      ],
+      "notes": [],
+      "sources": [
+        "New Look\\6787438 navy-pleated-chinos (1)-PhotoRoom.png",
+        "New Look\\6787438 navy-pleated-chinos (2)-PhotoRoom.png",
+        "New Look\\6787438 navy-pleated-chinos (3)-PhotoRoom.png",
+        "New Look\\6787438 navy-pleated-chinos (4)-PhotoRoom.png",
+        "New Look\\6787438 navy-pleated-chinos (5)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6881047",
+      "title": "New Look Stone Stripe T-Shirt & Lounge Set",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 550000,
+      "variants": [
+        {
+          "size": "S",
+          "color": "Stone Stripe",
+          "stock": 4
+        }
+      ],
+      "images": [
+        "/uploads/products/6881047/1.png",
+        "/uploads/products/6881047/2.png",
+        "/uploads/products/6881047/3.png"
+      ],
+      "familySkus": [
+        "6881047"
+      ],
+      "notes": [],
+      "sources": [
+        "New Look\\6881047 stone-stripe-t-shirt-and-joggers (1)-lounge-set-PhotoRoom.png",
+        "New Look\\6881047 stone-stripe-t-shirt-and-joggers-lounge-set (2)-PhotoRoom.png",
+        "New Look\\6881047 stone-stripe-t-shirt-and-joggers-lounge-set (3)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6876072",
+      "title": "New Look Grey Ripped Crop Slim Fit Jeans",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 750000,
+      "variants": [
+        {
+          "size": "32R",
+          "color": "Grey",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/6876072/1.png"
+      ],
+      "familySkus": [
+        "6876072"
+      ],
+      "notes": [],
+      "sources": [
+        "New Look\\6876072 NewLook Grey Ripped Crop Slim Fit Jeans-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6876517",
+      "title": "New Look Grey Light Washed Straight Jeans",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 750000,
+      "variants": [
+        {
+          "size": "30R",
+          "color": "Grey",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/6876517/1.png"
+      ],
+      "familySkus": [
+        "6876517"
+      ],
+      "notes": [],
+      "sources": [
+        "New Look\\6876517 New Look Grey Light Wash Straight Fit Jeans-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6780316",
+      "title": "New Look Blue Faded Wash Slim Stretch Jeans",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 750000,
+      "variants": [
+        {
+          "size": "32R",
+          "color": "Blue",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/6780316/1.png"
+      ],
+      "familySkus": [
+        "6780316"
+      ],
+      "notes": [],
+      "sources": [
+        "New Look\\6780316 Blue Faded Wash Slim Stretch-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6780042",
+      "title": "New Look Off White Tapered Leg Jeans",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 750000,
+      "variants": [
+        {
+          "size": "30R",
+          "color": "Off White",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/6780042/1.png",
+        "/uploads/products/6780042/2.png",
+        "/uploads/products/6780042/3.png",
+        "/uploads/products/6780042/4.png",
+        "/uploads/products/6780042/5.png"
+      ],
+      "familySkus": [
+        "6780042"
+      ],
+      "notes": [],
+      "sources": [
+        "New Look\\6780042 off-white-tapered-leg-jeans-PhotoRoom.png",
+        "New Look\\6780042 off-white-tapered-leg-jeans (1)-PhotoRoom.png",
+        "New Look\\6780042 off-white-tapered-leg-jeans (2)-PhotoRoom.png",
+        "New Look\\6780042 off-white-tapered-leg-jeans (3)-PhotoRoom.png",
+        "New Look\\6780042 off-white-tapered-leg-jeans (4)-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "5045596620176",
+      "title": "New Look 3 Pack Cotton Trunks",
+      "description": "Stretchable cotton trunk",
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 550000,
+      "variants": [
+        {
+          "size": "Medium",
+          "color": "Grey/Navy",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/5045596620176/1.png"
+      ],
+      "familySkus": [
+        "5045596620176"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "New Look\\5045596620176-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "5920475",
+      "title": "New Look Navy Skinny Suit Jacket",
+      "description": "Skinny Suite Jacket",
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 1100000,
+      "variants": [
+        {
+          "size": "40R",
+          "color": "Navy",
+          "stock": 3
+        },
+        {
+          "size": "42R",
+          "color": "Navy",
+          "stock": 3
+        }
+      ],
+      "images": [
+        "/uploads/products/5920475/1.png"
+      ],
+      "familySkus": [
+        "5920475"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "New Look\\5920475 (2) navy suit jacket-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6867379",
+      "title": "New Look 2 Pack Black and Grey Waistband Joggers",
+      "description": null,
+      "brand": "New Look",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 700000,
+      "variants": [
+        {
+          "size": "M",
+          "color": "Grey/Black",
+          "stock": 2
+        }
+      ],
+      "images": [
+        "/uploads/products/6867379/1.png",
+        "/uploads/products/6867379/2.png",
+        "/uploads/products/6867379/3.png",
+        "/uploads/products/6867379/4.png",
+        "/uploads/products/6867379/5.png"
+      ],
+      "familySkus": [
+        "6867379"
+      ],
+      "notes": [
+        "manual match"
+      ],
+      "sources": [
+        "New Look\\6867379 (1) 2-pack-black-and-grey-waistband-joggers-PhotoRoom.png",
+        "New Look\\6867379 (2) 2-pack-black-and-grey-waistband-joggers-PhotoRoom.png",
+        "New Look\\6867379 (3) 2-pack-black-and-grey-waistband-joggers -PhotoRoom.png",
+        "New Look\\6867379 (4) 2-pack-black-and-grey-waistband-joggers -PhotoRoom.png",
+        "New Look\\6867379 (5) 2-pack-black-and-grey-waistband-joggers-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "138611867",
+      "title": "TU Clothing Mini Safari",
+      "description": null,
+      "brand": "Tu Clothing",
+      "categories": [
+        "kids"
+      ],
+      "priceCents": 300000,
+      "variants": [
+        {
+          "size": "9-12 M",
+          "color": "Pink",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/138611867/1.png"
+      ],
+      "familySkus": [
+        "138611867"
+      ],
+      "notes": [],
+      "sources": [
+        "TU Clothing\\138611867 tu mini safari-PhotoRoom-PhotoRoom.png"
+      ]
+    },
+    {
+      "sku": "6455569",
+      "title": "M&S Polo style regular fit Shirt",
+      "description": "41-43 inch short sleeves",
+      "brand": "M&S",
+      "categories": [
+        "men"
+      ],
+      "priceCents": 500000,
+      "variants": [
+        {
+          "size": "Large",
+          "color": "Grey",
+          "stock": 1
+        }
+      ],
+      "images": [
+        "/uploads/products/6455569/1.png",
+        "/uploads/products/6455569/2.png",
+        "/uploads/products/6455569/3.png",
+        "/uploads/products/6455569/4.png"
+      ],
+      "familySkus": [
+        "6455569"
+      ],
+      "notes": [],
+      "sources": [
+        "M&S\\M&S Men\\645569 edit\\6455569 1.png",
+        "M&S\\M&S Men\\645569 edit\\6455569 2.png",
+        "M&S\\M&S Men\\645569 edit\\6455569 3.png",
+        "M&S\\M&S Men\\645569 edit\\6455569 4.png"
+      ]
+    }
+  ],
+  "variantAdditions": []
+}

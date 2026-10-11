@@ -1,4 +1,4 @@
-# Urbane Lane
+# Urban Lane
 
 A production-ready custom ecommerce store (fashion / lifestyle), built from scratch to replace a Shopify/WooCommerce setup. Clean, premium, mobile-first storefront plus a full custom admin panel.
 

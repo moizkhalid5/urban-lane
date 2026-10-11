@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireStaff } from "@/lib/auth/guards";
 import { productInputSchema } from "@/lib/validation";
@@ -78,6 +78,7 @@ export async function saveProduct(input: unknown, id?: string): Promise<ProductA
       });
       await logAudit(user.id, "product.create", "Product", created.id, { title: d.title });
       revalidatePath("/admin/products");
+      revalidateTag("nav"); // the menu hides empty categories
       return { ok: true, id: created.id, slug: created.slug };
     }
 
@@ -114,6 +115,7 @@ export async function saveProduct(input: unknown, id?: string): Promise<ProductA
     });
     await logAudit(user.id, "product.update", "Product", id, { title: d.title });
     revalidatePath("/admin/products");
+    revalidateTag("nav");
     revalidatePath(`/products/${slug}`);
     return { ok: true, id, slug };
   } catch (err) {
@@ -129,6 +131,7 @@ export async function setProductStatus(id: string, status: "DRAFT" | "ACTIVE" | 
   });
   await logAudit(user.id, "product.status", "Product", id, { status });
   revalidatePath("/admin/products");
+  revalidateTag("nav");
   return { ok: true };
 }
 
@@ -138,6 +141,7 @@ export async function deleteProduct(id: string): Promise<ProductActionResult> {
   await prisma.product.delete({ where: { id } });
   await logAudit(user.id, "product.delete", "Product", id);
   revalidatePath("/admin/products");
+  revalidateTag("nav");
   return { ok: true };
 }
 

@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!brand) return { title: "Brand" };
   return {
     title: brand.seoTitle || `${brand.name} — Shop online`,
-    description: brand.seoDescription || `Shop ${brand.name} at Urbane Lane.`,
+    description: brand.seoDescription || `Shop ${brand.name} at Urban Lane.`,
     alternates: { canonical: `/brands/${brand.slug}` },
   };
 }
@@ -60,7 +60,7 @@ export default async function BrandPage({ params, searchParams }: PageProps) {
         <SortSelect value={filter.sort ?? "latest"} />
       </div>
 
-      <div className="mt-8 flex gap-10">
+      <div className="mt-8 lg:flex lg:gap-10">
         <Filters facets={facets} currencySymbol={currency.symbol} hideBrand />
         <div className="min-w-0 flex-1">
           {products.length === 0 ? (

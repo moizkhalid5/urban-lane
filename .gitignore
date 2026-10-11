@@ -60,3 +60,12 @@ yarn-error.log*
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# Raw image drops, design originals and import reports: only the optimised copies in /public deploy
+/Urbanlane White background images-*/
+/Banners/
+/shop by brand/
+/category photos/
+/*.csv
+/*.zip
+/brand logos/

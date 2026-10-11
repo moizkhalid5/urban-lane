@@ -3,8 +3,8 @@
  * Each builder returns { subject, html, text } ready for sendEmail().
  */
 
-const APP_URL = process.env.APP_URL || "http://localhost:3000";
-const STORE = "Urbane Lane";
+import { APP_URL } from "@/lib/site";
+const STORE = "Urban Lane";
 
 function layout(title: string, body: string): string {
   return `<!doctype html><html><body style="margin:0;background:#f6f6f6;font-family:Arial,Helvetica,sans-serif;color:#111">
@@ -45,7 +45,7 @@ export function verifyEmailTemplate(name: string, url: string) {
 
 export function welcomeTemplate(name: string) {
   const html = layout(
-    "Welcome to Urbane Lane",
+    "Welcome to Urban Lane",
     `<p>Hi ${name || "there"},</p>
      <p>Your account is now active. Explore the latest in fashion, beauty and lifestyle.</p>
      <p style="margin:24px 0">${btn(APP_URL, "Start shopping")}</p>`,

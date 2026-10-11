@@ -202,7 +202,8 @@ export const settingsInputSchema = z.object({
   freeShippingThresholdCents: moneyMinor.optional().nullable(),
   flatShippingCents: moneyMinor,
   bankTransferInstructions: z.string().trim().max(2000).optional().or(z.literal("")),
-  announcementText: z.string().trim().max(200).optional().or(z.literal("")),
+  // One message per line; the column is VARCHAR(191).
+  announcementText: z.string().trim().max(190).optional().or(z.literal("")),
 });
 
 export const orderUpdateSchema = z.object({

@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Log in", robots: { index: false } };
 
 export default function LoginPage() {
   return (
-    <AuthShell title="Welcome back" subtitle="Log in to your Urbane Lane account">
+    <AuthShell title="Welcome back" subtitle="Log in to your Urban Lane account">
       <Suspense>
         <LoginForm />
       </Suspense>

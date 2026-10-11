@@ -60,7 +60,11 @@ export function SettingsForm({ initial }: { initial: SettingsData }) {
         <Text label="Store name" value={d.storeName} onChange={(v) => set("storeName", v)} />
         <Text label="Store email (notifications)" value={d.storeEmail} onChange={(v) => set("storeEmail", v)} />
         <Text label="Support phone" value={d.supportPhone} onChange={(v) => set("supportPhone", v)} />
-        <Text label="Announcement bar text" value={d.announcementText} onChange={(v) => set("announcementText", v)} />
+        <Area
+          label="Announcement bar messages (one per line; rotates every 10 seconds; 190 characters max in total)"
+          value={d.announcementText}
+          onChange={(v) => set("announcementText", v)}
+        />
       </Card>
 
       <Card title="Payments">

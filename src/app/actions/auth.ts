@@ -13,7 +13,7 @@ import { sendEmail } from "@/lib/email";
 import { verifyEmailTemplate, passwordResetTemplate } from "@/lib/email/templates";
 import { rateLimit, clientKey } from "@/lib/rate-limit";
 
-const APP_URL = process.env.APP_URL || "http://localhost:3000";
+import { APP_URL } from "@/lib/site";
 
 export type FormResult = { ok: boolean; message: string };
 

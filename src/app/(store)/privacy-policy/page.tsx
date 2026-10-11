@@ -3,7 +3,7 @@ import { PageShell } from "@/components/layout/PageShell";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "How Urbane Lane collects, uses and protects your data.",
+  description: "How Urban Lane collects, uses and protects your data.",
   alternates: { canonical: "/privacy-policy" },
 };
 

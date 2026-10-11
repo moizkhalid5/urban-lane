@@ -4,6 +4,8 @@ import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { addToCart } from "@/app/actions/cart";
 import { cn } from "@/lib/utils";
+import { swatchFor } from "@/lib/colors";
+import { compareSizes, normalizeSize } from "@/lib/sizes";
 
 export type VariantOption = {
   id: string;
@@ -13,12 +15,14 @@ export type VariantOption = {
   stock: number;
 };
 
-export function AddToCart({ variants }: { variants: VariantOption[] }) {
+export function AddToCart({ variants: raw }: { variants: VariantOption[] }) {
+  // Show one tidy label per size ("LARGE", "Large" → "L"); the variant ids added to the cart are unchanged.
+  const variants = useMemo(() => raw.map((v) => ({ ...v, size: v.size ? normalizeSize(v.size) : null })), [raw]);
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
 
-  const sizes = useMemo(() => unique(variants.map((v) => v.size)), [variants]);
+  const sizes = useMemo(() => unique(variants.map((v) => v.size)).sort(compareSizes), [variants]);
   const colors = useMemo(() => uniqueColors(variants), [variants]);
 
   // Auto-select when there is only one option (no forced selection for single-option products).
@@ -105,7 +109,7 @@ export function AddToCart({ variants }: { variants: VariantOption[] }) {
                     color === c.name ? "ring-2 ring-ink ring-offset-2" : "border-line",
                     !available && "cursor-not-allowed opacity-40",
                   )}
-                  style={{ backgroundColor: c.hex ?? "#ddd" }}
+                  style={{ background: c.hex ?? swatchFor(c.name) ?? "#ddd" }}
                 />
               );
             })}

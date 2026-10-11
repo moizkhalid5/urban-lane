@@ -8,7 +8,7 @@ import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 
-export const metadata: Metadata = { title: "Admin — Urbane Lane", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Admin — Urban Lane", robots: { index: false, follow: false } };
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const user = await requireStaff();
@@ -20,7 +20,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <aside className="hidden w-60 shrink-0 flex-col border-r border-line bg-white lg:flex print:!hidden">
           <div className="border-b border-line p-5">
             <Link href="/admin" className="text-lg font-semibold uppercase tracking-[0.15em]">
-              Urbane Lane
+              Urban Lane
             </Link>
             <p className="mt-0.5 text-xs text-ink-muted">Admin</p>
           </div>
