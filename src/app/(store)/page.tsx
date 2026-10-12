@@ -40,7 +40,8 @@ export default async function HomePage() {
     listProducts({ sort: "latest", pageSize: 8 }),
     listProducts({ saleOnly: true, pageSize: 4 }),
     prisma.category.findMany({
-      where: { level: 0, isVirtual: false, isActive: true },
+      // Menu departments only; seasonal collections (e.g. Winter) are reached from banners.
+      where: { level: 0, isVirtual: false, isActive: true, showInNav: true },
       orderBy: { position: "asc" },
       take: 5,
     }),
