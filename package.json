@@ -22,6 +22,7 @@
     "db:sqlfile": "tsx prisma/generate-sql.ts",
     "db:reset": "prisma migrate reset --force",
     "images:bundle": "python scripts/build_uploads_zip.py",
+    "images:warm": "tsx scripts/warm-image-cache.ts",
     "postinstall": "prisma generate"
   },
   "prisma": {
