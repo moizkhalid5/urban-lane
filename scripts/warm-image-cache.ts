@@ -56,7 +56,14 @@ async function worker() {
   }
 }
 
-const total = jobs.length;
-console.log(`Warming ${total} image variants on ${BASE}${CARDS_ONLY ? " (cards only)" : ""}…`);
-await Promise.all(Array.from({ length: CONCURRENCY }, worker));
-console.log(`Done in ${Math.round((Date.now() - started) / 1000)}s: ${total} variants, ${generated} newly generated, ${failed} failed.`);
+async function main() {
+  const total = jobs.length;
+  console.log(`Warming ${total} image variants on ${BASE}${CARDS_ONLY ? " (cards only)" : ""}…`);
+  await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+  console.log(`Done in ${Math.round((Date.now() - started) / 1000)}s: ${total} variants, ${generated} newly generated, ${failed} failed.`);
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
