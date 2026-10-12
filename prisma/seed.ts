@@ -54,6 +54,12 @@ async function seedCategories(): Promise<Map<string, string>> {
   for (let i = 0; i < CATEGORY_TREE.length; i++) {
     await walk(CATEGORY_TREE[i], null, null, 0, i);
   }
+  // Seasonal collection behind the homepage winter banner; not in the menu (see migration 20261012120000).
+  const winter = await prisma.category.create({
+    data: { name: "Winter Collection", slug: "winter", level: 0, position: 90, showInNav: false,
+            description: "Coats, jackets, hoodies and knitwear for men and women." },
+  });
+  slugToId.set("winter", winter.id);
   console.log(`  ✓ ${slugToId.size} categories`);
   return slugToId;
 }
@@ -393,7 +399,7 @@ async function seedSettings() {
     { kind: "HERO", title: null, subtitle: "Styles and fit: short-sleeve party wear shirts for men", image: "/images/banners/men-2x1.jpg", link: "/collections/men", position: 1 },
     { kind: "HERO", title: null, subtitle: "Summer kids collection", image: "/images/banners/kids-2x1.jpg", link: "/collections/kids", position: 2 },
     { kind: "HERO", title: null, subtitle: "New season: 30% off, limited time offer", image: "/images/banners/sale-2x1.jpg", link: "/collections/outlet", position: 3 },
-    { kind: "PROMO", title: null, subtitle: "Winter collection: modern style for a colder world", image: "/images/banners/winter.jpg", link: "/collections/men", position: 0 },
+    { kind: "PROMO", title: null, subtitle: "Winter collection: modern style for a colder world", image: "/images/banners/winter.jpg", link: "/collections/winter", position: 0 },
   ];
   for (const b of banners) await prisma.banner.create({ data: { ...b, isActive: true } });
   console.log(`  ✓ site settings + ${banners.length} banners`);

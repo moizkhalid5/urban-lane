@@ -17,8 +17,9 @@ export function ProductCard({ product, currency }: { product: ProductCardData; c
               alt={product.title}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              className="object-cover transition-opacity duration-500 group-hover:opacity-0"
+              className="object-cover"
             />
+            {/* Fades in over the first image, so a slow second image never leaves the card blank. */}
             {product.secondImage && (
               <Image
                 src={product.secondImage}

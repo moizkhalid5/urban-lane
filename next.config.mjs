@@ -18,6 +18,9 @@ const nextConfig = {
       { protocol: "https", hostname: "fastly.picsum.photos" },
     ],
     formats: ["image/avif", "image/webp"],
+    // Keep resized images for a year instead of the default 60 seconds. Image files never change
+    // in place (admin uploads get unique names), so re-processing them only slows pages down.
+    minimumCacheTTL: 31536000,
   },
   async headers() {
     return [
