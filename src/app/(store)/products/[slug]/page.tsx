@@ -114,7 +114,9 @@ export default async function ProductPage({ params }: PageProps) {
 
       <Breadcrumbs items={crumbs} />
 
-      <div className="mt-6 grid gap-10 md:grid-cols-2 lg:gap-16">
+      {/* grid-cols-1 caps the phone column at the screen width (minmax(0,1fr)); without it the
+          gallery's thumbnail strip widened the page and phones zoomed the whole page out. */}
+      <div className="mt-6 grid grid-cols-1 gap-10 md:grid-cols-2 lg:gap-16">
         <ProductGallery images={product.images} title={product.title} />
 
         <div className="md:py-2">
