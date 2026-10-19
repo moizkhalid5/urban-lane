@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { ProductCard as ProductCardData } from "@/lib/queries/products";
+import { ProductCardImages } from "./ProductCardImages";
 import type { DisplayCurrency } from "@/lib/money";
 import { Price } from "@/components/ui/Price";
 
@@ -11,25 +11,7 @@ export function ProductCard({ product, currency }: { product: ProductCardData; c
     <Link href={`/products/${product.slug}`} className="group block">
       <div className="relative aspect-[4/5] overflow-hidden bg-line-soft">
         {product.image ? (
-          <>
-            <Image
-              src={product.image}
-              alt={product.title}
-              fill
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              className="object-cover"
-            />
-            {/* Fades in over the first image, so a slow second image never leaves the card blank. */}
-            {product.secondImage && (
-              <Image
-                src={product.secondImage}
-                alt={product.title}
-                fill
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                className="object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-              />
-            )}
-          </>
+          <ProductCardImages image={product.image} secondImage={product.secondImage} alt={product.title} />
         ) : (
           <div className="flex h-full items-center justify-center text-ink-muted">No image</div>
         )}

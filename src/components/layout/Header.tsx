@@ -61,22 +61,7 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
         )}
         onMouseLeave={() => setActiveMenu(null)}
       >
-        {/* utility row */}
-        <div className="hidden border-b border-line-soft lg:block">
-          <div className="container-site flex h-9 items-center justify-end gap-6 text-xs text-ink-muted">
-            {isStaff && (
-              <Link href="/admin" className="hover:text-ink">
-                Admin
-              </Link>
-            )}
-            <Link href="/contact" className="hover:text-ink">
-              Help
-            </Link>
-            <CurrencySwitcher currencies={currencies} active={activeCurrency} />
-          </div>
-        </div>
-
-        {/* main row */}
+        {/* main row. Currency and the staff Admin link sit with the icons; Help is in the footer. */}
         <div className="container-site flex h-16 items-center gap-4">
           {/* mobile menu button */}
           <button
@@ -145,6 +130,14 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
 
           {/* actions */}
           <div className="ml-auto flex items-center gap-3 lg:gap-4">
+            {isStaff && (
+              <Link href="/admin" className="hidden text-xs uppercase tracking-wide text-ink-muted hover:text-ink lg:block">
+                Admin
+              </Link>
+            )}
+            <div className="hidden lg:block">
+              <CurrencySwitcher currencies={currencies} active={activeCurrency} />
+            </div>
             <button type="button" aria-label="Search" onClick={() => setSearchOpen((s) => !s)}>
               <SearchIcon />
             </button>
@@ -177,7 +170,14 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
 
       {/* mobile drawer */}
       {mobileOpen && (
-        <MobileNav nav={nav} isAuthed={isAuthed} isStaff={isStaff} onClose={() => setMobileOpen(false)} />
+        <MobileNav
+          nav={nav}
+          isAuthed={isAuthed}
+          isStaff={isStaff}
+          currencies={currencies}
+          activeCurrency={activeCurrency}
+          onClose={() => setMobileOpen(false)}
+        />
       )}
     </header>
   );
@@ -215,11 +215,15 @@ function MobileNav({
   nav,
   isAuthed,
   isStaff,
+  currencies,
+  activeCurrency,
   onClose,
 }: {
   nav: NavItem[];
   isAuthed: boolean;
   isStaff: boolean;
+  currencies: Props["currencies"];
+  activeCurrency: string;
   onClose: () => void;
 }) {
   const [open, setOpen] = useState<string | null>(null);
@@ -289,6 +293,10 @@ function MobileNav({
               Admin
             </Link>
           )}
+          <div className="flex items-center justify-between py-2">
+            <span className="text-ink-muted">Currency</span>
+            <CurrencySwitcher currencies={currencies} active={activeCurrency} openUp />
+          </div>
         </div>
       </div>
     </div>
@@ -319,9 +327,10 @@ const UserIcon = () => (
     <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
   </svg>
 );
+// Symmetric heart (Lucide "heart", ISC licence); the same shape is used by WishlistButton.
 const HeartIcon = () => (
-  <svg className={ico} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M12 21s-7-4.5-9.5-9C1 9 2.5 5.5 6 5.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.5 0 5 3.5 3.5 6.5C19 16.5 12 21 12 21z" />
+  <svg className={ico} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
   </svg>
 );
 const BagIcon = () => (

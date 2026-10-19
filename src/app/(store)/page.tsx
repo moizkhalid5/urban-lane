@@ -9,6 +9,8 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { ScrollRail } from "@/components/ui/ScrollRail";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { BrandSlider } from "@/components/home/BrandSlider";
+import { ArtworkBannerLinks } from "@/components/ui/ArtworkBannerLinks";
+import { bannerButtonFor } from "@/lib/banner-buttons";
 
 function SectionHeading({ title, href, cta }: { title: string; href?: string; cta?: string }) {
   return (
@@ -114,8 +116,7 @@ export default async function HomePage() {
       {promoBanner && (
         <section className="container-site py-14">
           {/* No title = artwork banner with its text in the image: show it uncropped (16:9) with no overlay. */}
-          <Link
-            href={promoBanner.link ?? "/collections/outlet"}
+          <div
             className={cn(
               "group relative block overflow-hidden bg-line-soft",
               promoBanner.title ? "aspect-[21/9] md:aspect-[3/1]" : "aspect-[16/9]",
@@ -127,7 +128,11 @@ export default async function HomePage() {
                 alt={promoBanner.title ?? promoBanner.subtitle ?? "Promotion"}
                 fill
                 sizes="(max-width:1400px) 100vw, 1400px"
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                className={cn(
+                  "object-cover",
+                  // No zoom when the painted button is the link: zooming would move it out from under its link.
+                  !bannerButtonFor(promoBanner.image) && "transition-transform duration-700 group-hover:scale-105",
+                )}
               />
             )}
             {promoBanner.title && (
@@ -136,7 +141,12 @@ export default async function HomePage() {
                 {promoBanner.subtitle && <p className="mt-2 text-white/85">{promoBanner.subtitle}</p>}
               </div>
             )}
-          </Link>
+            <ArtworkBannerLinks
+              image={promoBanner.title ? null : promoBanner.image}
+              href={promoBanner.link ?? "/collections/outlet"}
+              label={promoBanner.title ?? promoBanner.subtitle ?? "Promotion"}
+            />
+          </div>
         </section>
       )}
 
