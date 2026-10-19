@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getBaseCurrency } from "@/lib/settings";
 import { formatMoney } from "@/lib/money";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { UPLOAD_DIR, uploadsAtRiskOfRedeploy } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +31,18 @@ export default async function AdminDashboard() {
   return (
     <div className="space-y-8">
       <h1 className="text-2xl font-medium">Dashboard</h1>
+
+      {uploadsAtRiskOfRedeploy && (
+        <div className="border border-sale bg-sale/5 p-4 text-sm text-ink">
+          <p className="font-medium text-sale">Uploaded images will be deleted by the next redeploy.</p>
+          <p className="mt-1 text-ink-soft">
+            Images you upload are saved in <code>{UPLOAD_DIR}</code>, inside the website&apos;s app folder, which a
+            redeploy replaces. In hPanel, set the <code>UPLOAD_DIR</code> environment variable to a folder outside the
+            app (for example <code>/home/&lt;user&gt;/urban-lane-uploads</code>), move the uploaded files there, and
+            restart the app.
+          </p>
+        </div>
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Card label="Total revenue (paid)" value={formatMoney(revenue, currency)} />
