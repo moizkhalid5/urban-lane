@@ -4,11 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { ArtworkBannerLinks } from "@/components/ui/ArtworkBannerLinks";
 
 export type HeroSlide = { title: string; subtitle?: string | null; image: string | null; link?: string | null };
 
 // A slide with no title is an artwork banner (its text is part of the image): it is shown in the
-// content column at `aspect` (images are pre-cropped to it), without the text overlay, and the whole slide is the link.
+// content column at `aspect` (images are pre-cropped to it), without the text overlay. If its painted
+// button is listed in lib/banner-buttons, that button becomes the link; otherwise the whole slide is.
 // Its subtitle is used as the image's alt text.
 const isArtwork = (s: HeroSlide) => !s.title && !!s.image;
 
@@ -54,7 +56,7 @@ export function HeroCarousel({
           )}
         >
           {isArtwork(slide) ? (
-            <Link href={slide.link ?? "/"} aria-label={slide.subtitle ?? "Shop the collection"} className="absolute inset-0">
+            <>
               <Image
                 src={slide.image!}
                 alt={slide.subtitle ?? ""}
@@ -63,7 +65,8 @@ export function HeroCarousel({
                 sizes="(max-width:1440px) 100vw, 1312px"
                 className="object-cover"
               />
-            </Link>
+              <ArtworkBannerLinks image={slide.image} href={slide.link ?? "/"} label={slide.subtitle ?? "Shop the collection"} />
+            </>
           ) : (
             <>
               {slide.image && (
