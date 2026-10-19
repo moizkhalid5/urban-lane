@@ -10,9 +10,12 @@ type CurrencyOption = { code: string; symbol: string; flag: string };
 export function CurrencySwitcher({
   currencies,
   active,
+  openUp = false,
 }: {
   currencies: CurrencyOption[];
   active: string;
+  /** Open the list above the button (e.g. at the bottom of the mobile menu). */
+  openUp?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -47,7 +50,7 @@ export function CurrencySwitcher({
         aria-haspopup="listbox"
         aria-expanded={open}
       >
-        <span aria-hidden>{current?.flag}</span>
+        {/* No flag emoji: Windows can't draw flags and shows letters ("PK", "EU") instead. */}
         <span>{current?.code}</span>
         <svg width="10" height="10" viewBox="0 0 10 10" className="opacity-60">
           <path d="M1 3l4 4 4-4" stroke="currentColor" strokeWidth="1.2" fill="none" />
@@ -56,7 +59,10 @@ export function CurrencySwitcher({
       {open && (
         <ul
           role="listbox"
-          className="absolute right-0 z-50 mt-2 min-w-[8rem] border border-line bg-white py-1 shadow-sm"
+          className={cn(
+            "absolute right-0 z-50 min-w-[8rem] border border-line bg-white py-1 shadow-sm",
+            openUp ? "bottom-full mb-2" : "mt-2",
+          )}
         >
           {currencies.map((c) => (
             <li key={c.code}>
@@ -68,7 +74,6 @@ export function CurrencySwitcher({
                   c.code === active ? "font-medium text-ink" : "text-ink-soft",
                 )}
               >
-                <span aria-hidden>{c.flag}</span>
                 <span>{c.code}</span>
                 <span className="ml-auto text-ink-muted">{c.symbol}</span>
               </button>

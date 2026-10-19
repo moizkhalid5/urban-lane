@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { NewsletterForm } from "./NewsletterForm";
-import { InstagramLink, PhoneLink, SocialLinks, TikTokLink } from "./SocialContact";
+import { InstagramLink, PhoneLink, SocialLinks, TikTokLink, WhatsAppLink } from "./SocialContact";
 
 const shopLinks = [
   { name: "Women", href: "/collections/women" },
@@ -53,6 +53,7 @@ export function Footer() {
           </p>
           <div className="mt-5 flex flex-col items-start gap-3 text-sm text-ink-soft">
             <PhoneLink />
+            <WhatsAppLink size={18} label />
             <InstagramLink size={18} label />
             <TikTokLink size={18} label />
           </div>
