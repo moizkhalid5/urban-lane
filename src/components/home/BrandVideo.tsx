@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 
 // Phones get the full 16:9 film. Tablets and desktop get a wide 2.4:1 version, cropped when encoded
 // (top and bottom trimmed, framed scene by scene so faces and products stay in shot).
-const PHONE = { src: "/videos/urbanlane-brand-720.mp4", poster: "/videos/urbanlane-brand-poster.jpg" }; // 3.7 MB
-const WIDE = { src: "/videos/urbanlane-brand-wide.mp4", poster: "/videos/urbanlane-brand-poster-wide.jpg" }; // 6.1 MB
+const PHONE = { src: "/videos/urbanlane-brand-v3-720.mp4", poster: "/videos/urbanlane-brand-v3-poster.jpg" }; // 3.7 MB
+const WIDE = { src: "/videos/urbanlane-brand-v3-wide.mp4", poster: "/videos/urbanlane-brand-v3-poster-wide.jpg" }; // 6.1 MB
 const PHONE_QUERY = "(max-width: 767px)";
 
 /**
