@@ -49,12 +49,12 @@ export function ScrollRail({
           <div className={cn("shrink-0 snap-start", itemClassName)}>{child}</div>
         ))}
       </div>
-      <button type="button" onClick={() => scroll(-1)} disabled={atStart} aria-label={`Previous ${label}`} className={cn(button, "left-2 xl:-left-16")}>
+      <button type="button" onClick={() => scroll(-1)} disabled={atStart} aria-label={`Previous ${label}`} className={cn(button, "left-2 xl:-left-[calc(clamp(1rem,4vw,4rem)_-_0.5rem)]")}>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
           <path d="M15 6l-6 6 6 6" />
         </svg>
       </button>
-      <button type="button" onClick={() => scroll(1)} disabled={atEnd} aria-label={`Next ${label}`} className={cn(button, "right-2 xl:-right-16")}>
+      <button type="button" onClick={() => scroll(1)} disabled={atEnd} aria-label={`Next ${label}`} className={cn(button, "right-2 xl:-right-[calc(clamp(1rem,4vw,4rem)_-_0.5rem)]")}>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
           <path d="M9 6l6 6-6 6" />
         </svg>

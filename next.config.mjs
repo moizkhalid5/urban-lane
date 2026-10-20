@@ -36,6 +36,11 @@ const nextConfig = {
           },
         ],
       },
+      {
+        // Homepage brand film. Cached for a week; give a replacement video a new file name.
+        source: "/videos/:file*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=604800" }],
+      },
     ];
   },
 };

@@ -91,7 +91,7 @@ export function BrandSlider({ brands }: { brands: BrandSlide[] }) {
           onClick={() => scroll(-1)}
           aria-label="Previous brands"
           disabled={page === 0}
-          className={cn(navButton, "left-2 xl:-left-16")}
+          className={cn(navButton, "left-2 xl:-left-[calc(clamp(1rem,4vw,4rem)_-_0.5rem)]")}
         >
           <svg
             width="18"
@@ -109,7 +109,7 @@ export function BrandSlider({ brands }: { brands: BrandSlide[] }) {
           onClick={() => scroll(1)}
           aria-label="Next brands"
           disabled={page >= pages - 1}
-          className={cn(navButton, "right-2 xl:-right-16")}
+          className={cn(navButton, "right-2 xl:-right-[calc(clamp(1rem,4vw,4rem)_-_0.5rem)]")}
         >
           <svg
             width="18"

@@ -9,6 +9,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { ScrollRail } from "@/components/ui/ScrollRail";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { BrandSlider } from "@/components/home/BrandSlider";
+import { BrandVideo } from "@/components/home/BrandVideo";
 import { ArtworkBannerLinks } from "@/components/ui/ArtworkBannerLinks";
 import { bannerButtonFor } from "@/lib/banner-buttons";
 
@@ -84,6 +85,9 @@ export default async function HomePage() {
           <BrandSlider brands={brands.map((b) => ({ name: b.name, slug: b.slug, banner: b.banner }))} />
         </section>
       )}
+
+      {/* Brand film, in line with the other sections */}
+      <BrandVideo />
 
       {/* Featured: one row per department, up to 8 products each */}
       <section className="container-site py-6">
