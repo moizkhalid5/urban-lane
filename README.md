@@ -153,7 +153,7 @@ This app runs on Hostinger's **Node.js app** hosting (hPanel) with a **MySQL** d
    - Run `npm run images:bundle` locally → produces `uploads-bundle.zip` (~250 MB).
    - In hPanel **File Manager**, upload the zip into your app's `public/uploads/` folder and **Extract** it there (it recreates `public/uploads/products/...`).
    - Verify a product image loads, e.g. `https://yourdomain/uploads/products/<SKU>/1.png`.
-   - **Persistence:** confirm your Hostinger Node plan keeps the `public/uploads` folder across restarts/redeploys (most do). If a redeploy ever wipes it, just re-upload the bundle.
+   - **Persistence:** every redeploy wipes the deployment folder, so admin-uploaded photos go to `UPLOAD_DIR`, a folder outside it (e.g. `/home/<account>/urban-lane-uploads`); the admin dashboard shows its status.
    - **Backup:** periodically download `public/uploads` (and export the MySQL DB) — they are your only copy of product media/data.
    - You can switch to Cloudflare R2 / Cloudinary later with no call-site changes (adapter in `src/lib/storage`).
 
