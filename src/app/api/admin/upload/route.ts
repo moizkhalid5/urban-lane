@@ -24,6 +24,12 @@ export async function POST(req: Request) {
 
   const original = Buffer.from(await file.arrayBuffer());
   const image = await optimizeImageUpload(original, file.name);
-  const saved = await saveFile(image.buffer, image.name);
-  return NextResponse.json({ ...saved, originalBytes: original.length, savedBytes: image.buffer.length });
+  try {
+    const saved = await saveFile(image.buffer, image.name);
+    return NextResponse.json({ ...saved, originalBytes: original.length, savedBytes: image.buffer.length });
+  } catch (err) {
+    console.error("[upload] Saving the image failed.", err);
+    const tooBig = err instanceof Error && err.message.includes("the limit is");
+    return NextResponse.json({ error: tooBig ? (err as Error).message : "Couldn't save the image. Please try again." }, { status: 500 });
+  }
 }

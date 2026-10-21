@@ -38,6 +38,9 @@ yarn-error.log*
 !/public/uploads/.gitkeep
 !/public/uploads/products/
 !/public/uploads/products/**
+# 24 admin uploads from 20 Oct 2026, rescued from the live site before the deploy that moved uploads into
+# the database (they'd otherwise be deleted by that deploy). Uploads are stored in MySQL from then on.
+!/public/uploads/179252*
 
 # deploy bundles (regenerate as needed)
 /uploads-bundle.zip

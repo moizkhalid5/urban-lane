@@ -1,25 +1,31 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { UPLOAD_DIR, UPLOAD_READ_DIRS } from "@/lib/storage";
+import { MIME_TYPES, UPLOAD_READ_DIRS } from "@/lib/storage";
+import { readFromDatabase, saveToDatabase } from "@/lib/storage/db-files";
 
 /**
- * Serves admin-uploaded images at /uploads/<file>, looking in the current upload folder first and
- * then the old one inside the app (public/uploads). A file found only in the old folder is copied
- * to the current one, so it survives the next redeploy.
+ * Serves admin-uploaded images at /uploads/<file>: from the database first (where uploads are stored
+ * since 21 Oct 2026), then from disk (older uploads, local development). A file found only on disk is
+ * copied into the database, so it survives the next redeploy.
  * Files that ship with the code (public/uploads/products/…) are served by Next directly.
  */
-const TYPES: Record<string, string> = {
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".png": "image/png",
-  ".webp": "image/webp",
-  ".avif": "image/avif",
-};
+const HEADERS = { "Cache-Control": "public, max-age=31536000, immutable" };
 
 export async function GET(_req: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const parts = (await params).path;
-  const type = TYPES[path.extname(parts[parts.length - 1] ?? "").toLowerCase()];
+  const type = MIME_TYPES[path.extname(parts[parts.length - 1] ?? "").toLowerCase()];
   if (!type) return new Response("Not found", { status: 404 });
+  const key = parts.join("/");
+
+  // Uploads are single flat file names; nested paths are catalogue files on disk.
+  if (parts.length === 1) {
+    try {
+      const stored = await readFromDatabase(key);
+      if (stored) return new Response(new Uint8Array(stored.data), { headers: { ...HEADERS, "Content-Type": stored.mimeType } });
+    } catch (err) {
+      console.error("[uploads] Database read failed; trying disk.", err);
+    }
+  }
 
   for (const dir of UPLOAD_READ_DIRS) {
     const root = path.resolve(dir);
@@ -31,15 +37,10 @@ export async function GET(_req: Request, { params }: { params: Promise<{ path: s
     } catch {
       continue;
     }
-    if (root !== path.resolve(UPLOAD_DIR)) {
-      const target = path.resolve(UPLOAD_DIR, ...parts);
-      fs.mkdir(path.dirname(target), { recursive: true })
-        .then(() => fs.copyFile(file, target))
-        .catch(() => {}); // best effort; the file is still served from the old folder
+    if (parts.length === 1) {
+      saveToDatabase(key, data, type).catch(() => {}); // best effort; already stored is fine
     }
-    return new Response(new Uint8Array(data), {
-      headers: { "Content-Type": type, "Cache-Control": "public, max-age=31536000, immutable" },
-    });
+    return new Response(new Uint8Array(data), { headers: { ...HEADERS, "Content-Type": type } });
   }
   return new Response("Not found", { status: 404 });
 }
