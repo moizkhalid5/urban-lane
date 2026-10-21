@@ -1,56 +1,84 @@
 /**
- * Pluggable image/file storage.
+ * Storage for photos uploaded from the admin.
  *
- * IMAGE_STORAGE:
- *   "database" (default) — admin uploads are stored in MySQL (db-files.ts) and served from /uploads/*
- *     by src/app/uploads/[...path]/route.ts. Hostinger replaces the app's files on every deploy, and
- *     on 19-20 Oct 2026 that deleted 37 uploaded photos, first from public/uploads and then from a
- *     folder next to the app. The database survives deploys, so uploads now live there.
- *   "local" — writes to UPLOAD_DIR on disk, in development only. In production "local" means "database":
- *     the hosting env vars were set up with IMAGE_STORAGE=local and a placeholder UPLOAD_DIR, which is how
- *     uploads ended up inside the app folder and were deleted by deploys.
- *   "disk" — writes to UPLOAD_DIR on disk in production too (only for a host with a persistent disk).
- *   "cloudinary" | "s3" | "r2" — stubs ready for credentials (see notes below).
+ * UPLOAD_DIR (environment variable) is the folder where uploaded photos are written and read from.
+ *   On Hostinger it must be OUTSIDE the deployment folder: every redeploy deletes the app's files, which
+ *   is how 37 uploaded photos were lost in Oct 2026. Example: /home/u123456789/urban-lane-uploads
+ *   ("~/urban-lane-uploads" also works). The folder is created if it doesn't exist.
  *
- * All adapters expose the same `saveFile`/`deleteFile` contract so call sites
- * (admin product image upload) never change when you switch providers.
+ * Products store only "/uploads/<file name>", never the folder. To move the photos to another folder:
+ * move the files, change UPLOAD_DIR, restart the app. Nothing else changes.
+ *
+ * In production, uploads are refused (with a clear message in the admin) while UPLOAD_DIR is missing or
+ * points inside the app folder, so a photo is never silently saved where a redeploy would delete it.
+ * In development UPLOAD_DIR defaults to public/uploads.
+ *
+ * IMAGE_STORAGE: "local" (default, the folder above) | "cloudinary" | "s3" | "r2" (stubs, see below).
  */
-import { promises as fs } from "fs";
+import { promises as fs, constants as fsConstants } from "fs";
+import os from "os";
 import path from "path";
 import { randomBytes } from "crypto";
-import { saveToDatabase, deleteFromDatabase } from "./db-files";
 
 export type SavedFile = { url: string; key: string };
 
 const APP_DIR = process.cwd();
-const STORAGE = resolveStorage((process.env.IMAGE_STORAGE || "database").toLowerCase());
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
-function resolveStorage(configured: string): string {
-  if (configured === "disk") return "local";
-  if (configured === "local" && process.env.NODE_ENV === "production") return "database";
-  return configured;
+/** Photos that ship with the code: catalogue photos (products/<sku>/…) and photos rescued from the live site. */
+export const BUNDLED_UPLOAD_DIR = path.join(APP_DIR, "public", "uploads");
+
+/** A problem with UPLOAD_DIR, worded for the admin. */
+export class UploadFolderError extends Error {}
+
+/** The configured photos folder (absolute), or null when UPLOAD_DIR isn't set in production. Read on every call. */
+export function uploadDir(): string | null {
+  const configured = process.env.UPLOAD_DIR?.trim();
+  if (!configured) return IS_PRODUCTION ? null : BUNDLED_UPLOAD_DIR;
+  const expanded = configured === "~" || configured.startsWith("~/") ? path.join(os.homedir(), configured.slice(1)) : configured;
+  return path.resolve(APP_DIR, expanded);
 }
 
-/** Files that ship with the code (catalogue photos) and uploads saved there before Oct 2026. */
-export const LEGACY_UPLOAD_DIR = path.join(APP_DIR, "public", "uploads");
+function isInsideApp(dir: string): boolean {
+  return dir === APP_DIR || dir.startsWith(APP_DIR + path.sep);
+}
 
-/** Disk folder for IMAGE_STORAGE=local. */
-export const UPLOAD_DIR = process.env.UPLOAD_DIR ? path.resolve(process.env.UPLOAD_DIR) : LEGACY_UPLOAD_DIR;
+/** Folders searched when serving /uploads/<file>: the photos folder, then the photos that ship with the code. */
+export function uploadReadDirs(): string[] {
+  const dir = uploadDir();
+  return [...new Set([...(dir ? [dir] : []), BUNDLED_UPLOAD_DIR])];
+}
 
-/**
- * Folders searched (after the database) when serving an upload: the configured folder, the app's
- * public/uploads, and the folder next to the app used from 19 to 21 Oct 2026. A file found on disk
- * is copied into the database the first time it's served, so it survives the next deploy.
- */
-export const UPLOAD_READ_DIRS = [
-  ...new Set([UPLOAD_DIR, LEGACY_UPLOAD_DIR, path.resolve(APP_DIR, "..", "urban-lane-uploads")]),
-];
+export type UploadFolderStatus = { dir: string | null; appDir: string; ok: boolean; problem: string | null; photoCount: number };
 
-/** True when uploads are saved on disk inside the app folder in production (IMAGE_STORAGE=disk), where a redeploy deletes them. */
-export const uploadsAtRiskOfRedeploy =
-  STORAGE === "local" &&
-  process.env.NODE_ENV === "production" &&
-  (UPLOAD_DIR === APP_DIR || UPLOAD_DIR.startsWith(APP_DIR + path.sep));
+/** Checks the photos folder is set, outside the app, exists and is writable. Shown on the admin dashboard. */
+export async function uploadFolderStatus(): Promise<UploadFolderStatus> {
+  const status = await checkUploadFolder();
+  return { ...status, appDir: APP_DIR };
+}
+
+async function checkUploadFolder(): Promise<Omit<UploadFolderStatus, "appDir">> {
+  const dir = uploadDir();
+  if (!dir) {
+    return { dir, ok: false, photoCount: 0, problem: "UPLOAD_DIR isn't set, so photos can't be uploaded." };
+  }
+  if (IS_PRODUCTION && isInsideApp(dir)) {
+    return { dir, ok: false, photoCount: 0, problem: "UPLOAD_DIR points inside the website's deployment folder, which every redeploy deletes." };
+  }
+  try {
+    const stat = await fs.stat(dir);
+    if (!stat.isDirectory()) return { dir, ok: false, photoCount: 0, problem: "UPLOAD_DIR points to a file, not a folder." };
+    await fs.access(dir, fsConstants.R_OK | fsConstants.W_OK);
+  } catch (err) {
+    const code = (err as NodeJS.ErrnoException).code;
+    if (code === "ENOENT") {
+      return { dir, ok: true, photoCount: 0, problem: null }; // created on the first upload
+    }
+    return { dir, ok: false, photoCount: 0, problem: `The website can't read and write this folder (${code ?? "error"}). Check the path and its permissions.` };
+  }
+  const photoCount = (await fs.readdir(dir).catch(() => [])).filter((f) => MIME_TYPES[path.extname(f).toLowerCase()]).length;
+  return { dir, ok: true, problem: null, photoCount };
+}
 
 export const MIME_TYPES: Record<string, string> = {
   ".jpg": "image/jpeg",
@@ -65,25 +93,29 @@ function safeName(originalName: string): string {
   return `${Date.now()}-${randomBytes(6).toString("hex")}${ext}`;
 }
 
-async function saveDatabase(file: Buffer, originalName: string): Promise<SavedFile> {
-  const key = safeName(originalName);
-  const mimeType = MIME_TYPES[path.extname(key)] ?? "application/octet-stream";
-  await saveToDatabase(key, file, mimeType);
-  return { url: `/uploads/${key}`, key };
-}
-
 async function saveLocal(file: Buffer, originalName: string): Promise<SavedFile> {
+  const dir = uploadDir();
+  if (!dir) {
+    throw new UploadFolderError("Photos can't be uploaded yet: the UPLOAD_DIR environment variable isn't set in hPanel.");
+  }
+  if (IS_PRODUCTION && isInsideApp(dir)) {
+    throw new UploadFolderError(`Photos can't be uploaded: UPLOAD_DIR (${dir}) is inside the website's deployment folder, which every redeploy deletes. Set it to a folder outside it.`);
+  }
   const key = safeName(originalName);
-  await fs.mkdir(UPLOAD_DIR, { recursive: true });
-  await fs.writeFile(path.join(UPLOAD_DIR, key), file);
+  try {
+    await fs.mkdir(dir, { recursive: true });
+    await fs.writeFile(path.join(dir, key), file);
+  } catch (err) {
+    const code = (err as NodeJS.ErrnoException).code ?? "error";
+    throw new UploadFolderError(`Couldn't save the photo in ${dir} (${code}). Check that UPLOAD_DIR is correct and the folder can be written to.`);
+  }
   return { url: `/uploads/${key}`, key };
 }
 
-async function deleteStored(key: string): Promise<void> {
-  await Promise.all([
-    deleteFromDatabase(key).catch(() => {}),
-    ...UPLOAD_READ_DIRS.map((dir) => fs.rm(path.join(dir, key), { force: true })),
-  ]);
+async function deleteLocal(key: string): Promise<void> {
+  const dir = uploadDir();
+  if (!dir || path.basename(key) !== key) return; // only plain file names, only in the photos folder
+  await fs.rm(path.join(dir, key), { force: true });
 }
 
 // ── Cloud stubs ────────────────────────────────────────────────────────────
@@ -100,27 +132,25 @@ async function saveS3(): Promise<SavedFile> {
 }
 
 export async function saveFile(file: Buffer, originalName: string): Promise<SavedFile> {
-  switch (STORAGE) {
+  switch ((process.env.IMAGE_STORAGE || "local").toLowerCase()) {
     case "cloudinary":
       return saveCloudinary();
     case "s3":
     case "r2":
       return saveS3();
-    case "local":
-      return saveLocal(file, originalName);
     default:
-      return saveDatabase(file, originalName);
+      return saveLocal(file, originalName);
   }
 }
 
 export async function deleteFile(key: string): Promise<void> {
-  switch (STORAGE) {
-    case "local":
-    case "database":
-      return deleteStored(key);
+  switch ((process.env.IMAGE_STORAGE || "local").toLowerCase()) {
+    case "cloudinary":
+    case "s3":
+    case "r2":
+      return; // No-op for stubs until implemented.
     default:
-      // No-op for stubs until implemented.
-      return;
+      return deleteLocal(key);
   }
 }
 

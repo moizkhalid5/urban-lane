@@ -311,17 +311,6 @@ model ProductImage {
   @@index([productId])
 }
 
-/// Images uploaded from the admin, kept in the database so they survive redeploys (the host replaces
-/// the app's files on every deploy). Served at /uploads/<key>. See src/lib/storage.
-/// The table is also created on first use (src/lib/storage/db-files.ts) in case migrations don't run.
-model StoredFile {
-  key       String   @id @db.VarChar(191)
-  mimeType  String   @db.VarChar(100)
-  size      Int
-  data      Bytes    @db.MediumBlob
-  createdAt DateTime @default(now())
-}
-
 // ──────────────────────────────────────────────────────────────────────────
 // Cart
 // ──────────────────────────────────────────────────────────────────────────
