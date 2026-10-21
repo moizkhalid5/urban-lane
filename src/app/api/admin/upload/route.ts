@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { saveFile, ALLOWED_IMAGE_TYPES, MAX_IMAGE_BYTES } from "@/lib/storage";
+import { saveFile, ALLOWED_IMAGE_TYPES, MAX_IMAGE_BYTES, UploadFolderError } from "@/lib/storage";
 import { optimizeImageUpload } from "@/lib/storage/optimize-image";
 
 /** Staff-only image upload. Compresses the photo, saves it, and returns { url } for the product editor. */
@@ -24,6 +24,12 @@ export async function POST(req: Request) {
 
   const original = Buffer.from(await file.arrayBuffer());
   const image = await optimizeImageUpload(original, file.name);
-  const saved = await saveFile(image.buffer, image.name);
-  return NextResponse.json({ ...saved, originalBytes: original.length, savedBytes: image.buffer.length });
+  try {
+    const saved = await saveFile(image.buffer, image.name);
+    return NextResponse.json({ ...saved, originalBytes: original.length, savedBytes: image.buffer.length });
+  } catch (err) {
+    console.error("[upload] Saving the image failed.", err);
+    const message = err instanceof UploadFolderError ? err.message : "Couldn't save the image. Please try again.";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

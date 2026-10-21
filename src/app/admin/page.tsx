@@ -3,14 +3,15 @@ import { prisma } from "@/lib/prisma";
 import { getBaseCurrency } from "@/lib/settings";
 import { formatMoney } from "@/lib/money";
 import { StatusBadge } from "@/components/ui/StatusBadge";
-import { UPLOAD_DIR, uploadsAtRiskOfRedeploy } from "@/lib/storage";
+import { uploadFolderStatus } from "@/lib/storage";
+import { findProductsWithMissingImages } from "@/lib/storage/missing-images";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
   const currency = await getBaseCurrency();
 
-  const [totalOrders, revenueAgg, pendingOrders, recentOrders, lowStock, topProducts, customerCount] =
+  const [totalOrders, revenueAgg, pendingOrders, recentOrders, lowStock, topProducts, customerCount, missingPhotos, photosFolder] =
     await Promise.all([
       prisma.order.count(),
       prisma.order.aggregate({ where: { paymentStatus: "PAID" }, _sum: { totalCents: true } }),
@@ -24,6 +25,8 @@ export default async function AdminDashboard() {
       }),
       prisma.product.findMany({ orderBy: { salesCount: "desc" }, take: 5, select: { id: true, title: true, slug: true, salesCount: true } }),
       prisma.user.count({ where: { role: "CUSTOMER" } }),
+      findProductsWithMissingImages().catch(() => []),
+      uploadFolderStatus(),
     ]);
 
   const revenue = revenueAgg._sum.totalCents ?? 0;
@@ -32,16 +35,48 @@ export default async function AdminDashboard() {
     <div className="space-y-8">
       <h1 className="text-2xl font-medium">Dashboard</h1>
 
-      {uploadsAtRiskOfRedeploy && (
+      {photosFolder.ok ? (
+        <p className="text-sm text-ink-muted">
+          Photos folder: <code className="text-ink">{photosFolder.dir}</code> ({photosFolder.photoCount} uploaded photos)
+        </p>
+      ) : (
         <div className="border border-sale bg-sale/5 p-4 text-sm text-ink">
-          <p className="font-medium text-sale">Uploaded images will be deleted by the next redeploy.</p>
+          <p className="font-medium text-sale">Photo uploads aren&apos;t set up correctly</p>
           <p className="mt-1 text-ink-soft">
-            Images you upload are saved in <code>{UPLOAD_DIR}</code>, inside the website&apos;s app folder, which a
-            redeploy replaces. In hPanel, set the <code>UPLOAD_DIR</code> environment variable to a folder outside the
-            app (for example <code>/home/&lt;user&gt;/urban-lane-uploads</code>), move the uploaded files there, and
-            restart the app.
+            {photosFolder.problem}
+            {photosFolder.dir && (
+              <>
+                {" "}Current folder: <code>{photosFolder.dir}</code>.
+              </>
+            )}
+          </p>
+          <p className="mt-1 text-ink-soft">
+            In hPanel, set the <code>UPLOAD_DIR</code> environment variable to a folder outside the website&apos;s
+            deployment folder (for example <code>/home/&lt;your account&gt;/urban-lane-uploads</code>) and restart the app.
+            The deployment folder is <code>{photosFolder.appDir}</code>; anything inside it is deleted on redeploy.
           </p>
         </div>
+      )}
+
+      {missingPhotos.length > 0 && (
+        <section className="border border-sale bg-sale/5 p-4 text-sm text-ink">
+          <p className="font-medium text-sale">
+            {missingPhotos.length} {missingPhotos.length === 1 ? "product has" : "products have"} missing photos
+          </p>
+          <p className="mt-1 text-ink-soft">
+            These photo files no longer exist, so the shop shows an empty grey frame. Open each product, remove the
+            photos marked &ldquo;Missing&rdquo; (the &times; button) and upload them again. You can choose several photos at
+            once.
+          </p>
+          <ul className="mt-3 divide-y divide-line-soft border-t border-line-soft">
+            {missingPhotos.map((p) => (
+              <li key={p.id} className="flex items-center justify-between gap-3 py-2">
+                <Link href={`/admin/products/${p.id}`} className="font-medium hover:underline">{p.title}</Link>
+                <span className="shrink-0 text-ink-muted">{p.missing} of {p.total} photos missing</span>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

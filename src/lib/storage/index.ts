@@ -1,43 +1,92 @@
 /**
- * Pluggable image/file storage.
+ * Storage for photos uploaded from the admin.
  *
- * IMAGE_STORAGE:
- *   "local" (default) — writes to UPLOAD_DIR, served from /uploads/* by src/app/uploads/[...path]/route.ts.
- *     Uploads must live OUTSIDE the app folder in production: a redeploy replaces the app folder (on
- *     19 Oct 2026 that deleted every admin upload), and `next start` only serves files that were in
- *     /public at build time.
- *   "cloudinary" | "s3" | "r2" — stubs ready for credentials (see notes below).
+ * UPLOAD_DIR (environment variable) is the folder where uploaded photos are written and read from.
+ *   On Hostinger it must be OUTSIDE the deployment folder: every redeploy deletes the app's files, which
+ *   is how 37 uploaded photos were lost in Oct 2026. Example: /home/u123456789/urban-lane-uploads
+ *   ("~/urban-lane-uploads" also works). The folder is created if it doesn't exist.
  *
- * All adapters expose the same `saveFile`/`deleteFile` contract so call sites
- * (admin product image upload) never change when you switch providers.
+ * Products store only "/uploads/<file name>", never the folder. To move the photos to another folder:
+ * move the files, change UPLOAD_DIR, restart the app. Nothing else changes.
+ *
+ * In production, uploads are refused (with a clear message in the admin) while UPLOAD_DIR is missing or
+ * points inside the app folder, so a photo is never silently saved where a redeploy would delete it.
+ * In development UPLOAD_DIR defaults to public/uploads.
+ *
+ * IMAGE_STORAGE: "local" (default, the folder above) | "cloudinary" | "s3" | "r2" (stubs, see below).
  */
-import { promises as fs } from "fs";
+import { promises as fs, constants as fsConstants } from "fs";
+import os from "os";
 import path from "path";
 import { randomBytes } from "crypto";
 
 export type SavedFile = { url: string; key: string };
 
 const APP_DIR = process.cwd();
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
-/** The old default, inside the app folder. Still read, so uploads already saved there keep working. */
-export const LEGACY_UPLOAD_DIR = path.join(APP_DIR, "public", "uploads");
+/** Photos that ship with the code: catalogue photos (products/<sku>/…) and photos rescued from the live site. */
+export const BUNDLED_UPLOAD_DIR = path.join(APP_DIR, "public", "uploads");
 
-/**
- * Where admin uploads are written. UPLOAD_DIR overrides. Otherwise production uses a folder next to
- * the app folder ("../urban-lane-uploads"), which a redeploy doesn't touch; development uses public/uploads.
- */
-export const UPLOAD_DIR = process.env.UPLOAD_DIR
-  ? path.resolve(process.env.UPLOAD_DIR)
-  : process.env.NODE_ENV === "production"
-    ? path.resolve(APP_DIR, "..", "urban-lane-uploads")
-    : LEGACY_UPLOAD_DIR;
+/** A problem with UPLOAD_DIR, worded for the admin. */
+export class UploadFolderError extends Error {}
 
-/** Folders searched when serving an upload: the current location first, then the old one. */
-export const UPLOAD_READ_DIRS = [...new Set([UPLOAD_DIR, LEGACY_UPLOAD_DIR])];
+/** The configured photos folder (absolute), or null when UPLOAD_DIR isn't set in production. Read on every call. */
+export function uploadDir(): string | null {
+  const configured = process.env.UPLOAD_DIR?.trim();
+  if (!configured) return IS_PRODUCTION ? null : BUNDLED_UPLOAD_DIR;
+  const expanded = configured === "~" || configured.startsWith("~/") ? path.join(os.homedir(), configured.slice(1)) : configured;
+  return path.resolve(APP_DIR, expanded);
+}
 
-/** True when uploads are saved inside the app folder, where the next redeploy deletes them. */
-export const uploadsAtRiskOfRedeploy =
-  process.env.NODE_ENV === "production" && (UPLOAD_DIR === APP_DIR || UPLOAD_DIR.startsWith(APP_DIR + path.sep));
+function isInsideApp(dir: string): boolean {
+  return dir === APP_DIR || dir.startsWith(APP_DIR + path.sep);
+}
+
+/** Folders searched when serving /uploads/<file>: the photos folder, then the photos that ship with the code. */
+export function uploadReadDirs(): string[] {
+  const dir = uploadDir();
+  return [...new Set([...(dir ? [dir] : []), BUNDLED_UPLOAD_DIR])];
+}
+
+export type UploadFolderStatus = { dir: string | null; appDir: string; ok: boolean; problem: string | null; photoCount: number };
+
+/** Checks the photos folder is set, outside the app, exists and is writable. Shown on the admin dashboard. */
+export async function uploadFolderStatus(): Promise<UploadFolderStatus> {
+  const status = await checkUploadFolder();
+  return { ...status, appDir: APP_DIR };
+}
+
+async function checkUploadFolder(): Promise<Omit<UploadFolderStatus, "appDir">> {
+  const dir = uploadDir();
+  if (!dir) {
+    return { dir, ok: false, photoCount: 0, problem: "UPLOAD_DIR isn't set, so photos can't be uploaded." };
+  }
+  if (IS_PRODUCTION && isInsideApp(dir)) {
+    return { dir, ok: false, photoCount: 0, problem: "UPLOAD_DIR points inside the website's deployment folder, which every redeploy deletes." };
+  }
+  try {
+    const stat = await fs.stat(dir);
+    if (!stat.isDirectory()) return { dir, ok: false, photoCount: 0, problem: "UPLOAD_DIR points to a file, not a folder." };
+    await fs.access(dir, fsConstants.R_OK | fsConstants.W_OK);
+  } catch (err) {
+    const code = (err as NodeJS.ErrnoException).code;
+    if (code === "ENOENT") {
+      return { dir, ok: true, photoCount: 0, problem: null }; // created on the first upload
+    }
+    return { dir, ok: false, photoCount: 0, problem: `The website can't read and write this folder (${code ?? "error"}). Check the path and its permissions.` };
+  }
+  const photoCount = (await fs.readdir(dir).catch(() => [])).filter((f) => MIME_TYPES[path.extname(f).toLowerCase()]).length;
+  return { dir, ok: true, problem: null, photoCount };
+}
+
+export const MIME_TYPES: Record<string, string> = {
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".png": "image/png",
+  ".webp": "image/webp",
+  ".avif": "image/avif",
+};
 
 function safeName(originalName: string): string {
   const ext = path.extname(originalName).toLowerCase().replace(/[^.a-z0-9]/g, "") || ".bin";
@@ -45,21 +94,28 @@ function safeName(originalName: string): string {
 }
 
 async function saveLocal(file: Buffer, originalName: string): Promise<SavedFile> {
+  const dir = uploadDir();
+  if (!dir) {
+    throw new UploadFolderError("Photos can't be uploaded yet: the UPLOAD_DIR environment variable isn't set in hPanel.");
+  }
+  if (IS_PRODUCTION && isInsideApp(dir)) {
+    throw new UploadFolderError(`Photos can't be uploaded: UPLOAD_DIR (${dir}) is inside the website's deployment folder, which every redeploy deletes. Set it to a folder outside it.`);
+  }
   const key = safeName(originalName);
   try {
-    await fs.mkdir(UPLOAD_DIR, { recursive: true });
-    await fs.writeFile(path.join(UPLOAD_DIR, key), file);
+    await fs.mkdir(dir, { recursive: true });
+    await fs.writeFile(path.join(dir, key), file);
   } catch (err) {
-    // Rather than failing the upload, keep it in the old location (still served) and say why.
-    console.error(`[storage] Could not write to ${UPLOAD_DIR}; saved to ${LEGACY_UPLOAD_DIR} instead. Set UPLOAD_DIR.`, err);
-    await fs.mkdir(LEGACY_UPLOAD_DIR, { recursive: true });
-    await fs.writeFile(path.join(LEGACY_UPLOAD_DIR, key), file);
+    const code = (err as NodeJS.ErrnoException).code ?? "error";
+    throw new UploadFolderError(`Couldn't save the photo in ${dir} (${code}). Check that UPLOAD_DIR is correct and the folder can be written to.`);
   }
   return { url: `/uploads/${key}`, key };
 }
 
 async function deleteLocal(key: string): Promise<void> {
-  await Promise.all(UPLOAD_READ_DIRS.map((dir) => fs.rm(path.join(dir, key), { force: true })));
+  const dir = uploadDir();
+  if (!dir || path.basename(key) !== key) return; // only plain file names, only in the photos folder
+  await fs.rm(path.join(dir, key), { force: true });
 }
 
 // ── Cloud stubs ────────────────────────────────────────────────────────────
@@ -89,11 +145,12 @@ export async function saveFile(file: Buffer, originalName: string): Promise<Save
 
 export async function deleteFile(key: string): Promise<void> {
   switch ((process.env.IMAGE_STORAGE || "local").toLowerCase()) {
-    case "local":
-      return deleteLocal(key);
+    case "cloudinary":
+    case "s3":
+    case "r2":
+      return; // No-op for stubs until implemented.
     default:
-      // No-op for stubs until implemented.
-      return;
+      return deleteLocal(key);
   }
 }
 

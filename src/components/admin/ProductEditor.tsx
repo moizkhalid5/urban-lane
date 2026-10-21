@@ -62,6 +62,7 @@ export function ProductEditor({
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<ProductEditorData>(initial);
   const [uploading, setUploading] = useState(false);
+  const [missing, setMissing] = useState<Set<string>>(new Set()); // photo URLs whose file no longer exists
 
   const set = <K extends keyof ProductEditorData>(key: K, value: ProductEditorData[K]) =>
     setData((d) => ({ ...d, [key]: value }));
@@ -79,12 +80,14 @@ export function ProductEditor({
       const fd = new FormData();
       fd.append("file", file);
       const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-      const json = await res.json();
+      const json = await res.json().catch(() => ({}));
       if (res.ok && json.url) {
         setData((d) => ({ ...d, images: [...d.images, { url: json.url, alt: d.title }] }));
       } else {
-        setError(json.error ?? "Upload failed");
+        setError(json.error ?? `Upload of "${file.name}" failed (error ${res.status}). Please try again.`);
       }
+    } catch {
+      setError(`Upload of "${file.name}" failed: no connection to the server. Please try again.`);
     } finally {
       setUploading(false);
     }
@@ -162,7 +165,20 @@ export function ProductEditor({
             <div className="flex flex-wrap gap-3">
               {data.images.map((img, i) => (
                 <div key={i} className="relative h-24 w-20 overflow-hidden border border-line">
-                  <Image src={img.url} alt="" fill sizes="80px" className="object-cover" />
+                  {missing.has(img.url) ? (
+                    <span className="flex h-full w-full items-center justify-center bg-sale/10 p-1 text-center text-[11px] font-medium leading-tight text-sale">
+                      Missing, remove &amp; re-upload
+                    </span>
+                  ) : (
+                    <Image
+                      src={img.url}
+                      alt=""
+                      fill
+                      sizes="80px"
+                      className="object-cover"
+                      onError={() => setMissing((m) => new Set(m).add(img.url))}
+                    />
+                  )}
                   <button
                     type="button"
                     onClick={() => set("images", data.images.filter((_, idx) => idx !== i))}
@@ -177,8 +193,13 @@ export function ProductEditor({
                 <input
                   type="file"
                   accept="image/*"
+                  multiple
                   className="hidden"
-                  onChange={(e) => e.target.files?.[0] && uploadImage(e.target.files[0])}
+                  onChange={async (e) => {
+                    const files = [...(e.target.files ?? [])];
+                    e.target.value = "";
+                    for (const file of files) await uploadImage(file); // one at a time, in the order chosen
+                  }}
                 />
               </label>
             </div>
