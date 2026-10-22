@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { toCardList } from "@/lib/queries/to-card";
+import { withRatings } from "@/lib/reviews/queries";
 
 /** Full product for the PDP, including variants, images, brand and primary category. */
 export async function getProductBySlug(slug: string) {
@@ -31,7 +32,7 @@ export async function getRelatedProducts(productId: string, categoryId: string |
     take,
     orderBy: { salesCount: "desc" },
   });
-  return toCardList(rows);
+  return withRatings(toCardList(rows));
 }
 
 /** Fetch product cards by id (used by the "recently viewed" client list). */
@@ -47,5 +48,5 @@ export async function getProductsByIds(ids: string[]) {
   });
   // Preserve incoming id order.
   const map = new Map(rows.map((r) => [r.id, r]));
-  return toCardList(ids.map((id) => map.get(id)).filter(Boolean) as typeof rows);
+  return withRatings(toCardList(ids.map((id) => map.get(id)).filter(Boolean) as typeof rows));
 }

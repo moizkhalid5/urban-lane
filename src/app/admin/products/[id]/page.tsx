@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getProductFormOptions } from "@/lib/queries/admin-options";
 import { ProductEditor, type ProductEditorData } from "@/components/admin/ProductEditor";
+import { SalesHistoryForm } from "@/components/admin/SalesHistoryForm";
+import { ProductReviewsPanel } from "@/components/admin/ProductReviewsPanel";
+import { ensureReviewTables, getReviewSettings } from "@/lib/reviews/db";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +25,13 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
     getProductFormOptions(),
   ]);
   if (!product) notFound();
+
+  const [priorSales, reviewSettings] = await Promise.all([
+    ensureReviewTables()
+      .then(() => prisma.priorSales.findUnique({ where: { productId: product.id } }))
+      .catch(() => null),
+    getReviewSettings(),
+  ]);
 
   const initial: ProductEditorData = {
     id: product.id,
@@ -66,6 +76,14 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
         <h1 className="mt-1 text-2xl font-medium">Edit product</h1>
       </div>
       <ProductEditor brands={options.brands} categories={options.categories} initial={initial} />
+      <SalesHistoryForm
+        productId={product.id}
+        websiteSales={product.salesCount}
+        initialUnits={priorSales?.units ?? 0}
+        initialNote={priorSales?.note ?? ""}
+        minSoldToShow={reviewSettings.minSoldToShow}
+      />
+      <ProductReviewsPanel productId={product.id} />
     </div>
   );
 }

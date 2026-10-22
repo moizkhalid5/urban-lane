@@ -1,6 +1,7 @@
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { toCardList } from "@/lib/queries/to-card";
+import { withRatings } from "@/lib/reviews/queries";
 import { sizesMatchAges } from "@/lib/kids-age";
 import { compareSizes, normalizeSize } from "@/lib/sizes";
 
@@ -16,6 +17,12 @@ export type ProductCard = {
   inStock: boolean;
   isOutlet: boolean;
   colors: { name: string; hex: string | null }[];
+  /** real units sold (from orders) */
+  salesCount: number;
+  /** average and count of approved reviews, once the product meets the admin's minimum (lib/reviews) */
+  rating: { average: number; count: number } | null;
+  /** units sold, once the product meets the admin's minimum; otherwise null */
+  sold: number | null;
 };
 
 export type ProductSort = "latest" | "price-asc" | "price-desc" | "featured" | "best-selling";
@@ -151,7 +158,7 @@ export async function listProducts(f: ProductFilter) {
   ]);
 
   return {
-    products: toCardList(items),
+    products: await withRatings(toCardList(items)),
     total,
     page,
     pageSize,

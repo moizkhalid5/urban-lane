@@ -10,6 +10,8 @@ import { ScrollRail } from "@/components/ui/ScrollRail";
 import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { BrandSlider } from "@/components/home/BrandSlider";
 import { BrandVideo } from "@/components/home/BrandVideo";
+import { CustomerReviewsCarousel } from "@/components/reviews/CustomerReviewsCarousel";
+import { getHomepageReviews } from "@/lib/reviews/queries";
 import { ArtworkBannerLinks } from "@/components/ui/ArtworkBannerLinks";
 import { bannerButtonFor } from "@/lib/banner-buttons";
 
@@ -36,7 +38,7 @@ const FEATURED_ROWS = [
 export default async function HomePage() {
   const currency = await getActiveCurrency();
 
-  const [heroBanners, promoBanner, featuredRows, newArrivals, outlet, tiles, brands] = await Promise.all([
+  const [heroBanners, promoBanner, featuredRows, newArrivals, outlet, tiles, brands, homepageReviews] = await Promise.all([
     prisma.banner.findMany({ where: { kind: "HERO", isActive: true }, orderBy: { position: "asc" } }),
     prisma.banner.findFirst({ where: { kind: "PROMO", isActive: true }, orderBy: { position: "asc" } }),
     Promise.all(FEATURED_ROWS.map((r) => listProducts({ categorySlug: r.slug, sort: "featured", pageSize: 8 }))),
@@ -49,6 +51,7 @@ export default async function HomePage() {
       take: 5,
     }),
     prisma.brand.findMany({ where: { isFeatured: true }, orderBy: { position: "asc" } }),
+    getHomepageReviews(15),
   ]);
 
   return (
@@ -167,6 +170,9 @@ export default async function HomePage() {
           <ProductGrid products={outlet.products} currency={currency} className="lg:grid-cols-4" />
         </section>
       )}
+
+      {/* Customer reviews (chosen in Admin → Reviews) */}
+      <CustomerReviewsCarousel reviews={homepageReviews} />
 
       {/* Value props */}
       <section className="border-t border-line">

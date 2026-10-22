@@ -248,6 +248,8 @@ model Product {
   categories ProductCategory[]
   orderItems OrderItem[]
   wishedBy   WishlistItem[]
+  reviews    Review[]
+  priorSales PriorSales?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -567,4 +569,80 @@ model AuditLog {
 
   @@index([userId])
   @@index([entity, entityId])
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Reviews
+// Written by customers on the product page, or entered in Admin → Reviews from feedback received
+// elsewhere (WhatsApp, Instagram, in person). Star ratings and review counts are computed from the
+// APPROVED reviews. Both tables are also created on first use (src/lib/reviews/db.ts), because the
+// host's deploy doesn't run migrations.
+// ──────────────────────────────────────────────────────────────────────────
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  HIDDEN
+}
+
+enum ReviewSource {
+  WEBSITE
+  WHATSAPP
+  INSTAGRAM
+  FACEBOOK
+  IN_STORE
+  EMAIL
+  OTHER
+}
+
+model Review {
+  id               String       @id @default(cuid())
+  /// null = a review of the store in general (can still be featured on the homepage)
+  productId        String?
+  product          Product?     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  authorName       String       @db.VarChar(100)
+  authorCity       String?      @db.VarChar(100)
+  rating           Int
+  title            String?      @db.VarChar(150)
+  body             String       @db.Text
+  source           ReviewSource @default(WEBSITE)
+  status           ReviewStatus @default(PENDING)
+  verifiedPurchase Boolean      @default(false)
+  /// shown in the homepage "Customer Reviews" carousel, in featuredPosition order
+  featured         Boolean      @default(false)
+  featuredPosition Int          @default(0)
+  /// local design-preview data only (scripts/sample-reviews.ts); hidden unless SHOW_SAMPLE_REVIEWS=true
+  isSample         Boolean      @default(false)
+  userId           String?
+  email            String?      @db.VarChar(191)
+  /// when the customer gave the review (for feedback entered later by admin)
+  reviewedAt       DateTime     @default(now())
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@index([productId, status])
+  @@index([featured, status])
+}
+
+model ReviewSettings {
+  id                   String   @id @default("singleton")
+  /// a product shows its stars once it has at least this many approved reviews
+  minReviewsForStars   Int      @default(1)
+  /// a product shows "N sold" once it has sold at least this many
+  minSoldToShow        Int      @default(10)
+  allowCustomerReviews Boolean  @default(true)
+  /// publish customer-written reviews immediately instead of waiting for approval
+  autoApprove          Boolean  @default(false)
+  updatedAt            DateTime @updatedAt
+}
+
+/// Units of a product sold before the website (in store, WhatsApp, other marketplaces), entered in
+/// Admin → Products. Added to website orders (Product.salesCount) for the "N sold" shown to shoppers.
+/// Created on first use like the review tables (src/lib/reviews/db.ts).
+model PriorSales {
+  productId String   @id
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  units     Int      @default(0)
+  note      String?  @db.VarChar(200)
+  updatedAt DateTime @updatedAt
 }
