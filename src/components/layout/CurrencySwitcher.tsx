@@ -11,11 +11,14 @@ export function CurrencySwitcher({
   currencies,
   active,
   openUp = false,
+  light = false,
 }: {
   currencies: CurrencyOption[];
   active: string;
   /** Open the list above the button (e.g. at the bottom of the mobile menu). */
   openUp?: boolean;
+  /** White text, for the transparent header over a banner. */
+  light?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -46,7 +49,10 @@ export function CurrencySwitcher({
         type="button"
         onClick={() => setOpen((o) => !o)}
         disabled={pending}
-        className="flex items-center gap-1.5 text-sm text-ink-soft transition-colors hover:text-ink"
+        className={cn(
+          "flex items-center gap-1.5 text-sm transition-colors",
+          light ? "text-white hover:text-white/75" : "text-ink-soft hover:text-ink",
+        )}
         aria-haspopup="listbox"
         aria-expanded={open}
       >
@@ -60,7 +66,7 @@ export function CurrencySwitcher({
         <ul
           role="listbox"
           className={cn(
-            "absolute right-0 z-50 min-w-[8rem] border border-line bg-white py-1 shadow-sm",
+            "absolute right-0 z-50 min-w-[8rem] border border-line bg-white py-1 text-ink shadow-sm [text-shadow:none]",
             openUp ? "bottom-full mb-2" : "mt-2",
           )}
         >
