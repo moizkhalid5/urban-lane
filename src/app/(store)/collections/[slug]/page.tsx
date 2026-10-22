@@ -13,6 +13,8 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { KidsLanding } from "@/components/collection/KidsLanding";
 import { DepartmentLanding, hasDepartmentLanding } from "@/components/collection/DepartmentLanding";
 import { AGE_BANDS } from "@/lib/kids-age";
+import { collectionHeroFor } from "@/lib/collection-heroes";
+import { PageHeroBanner } from "@/components/ui/PageHeroBanner";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -67,7 +69,7 @@ export default async function CollectionPage({ params, searchParams }: PageProps
     priceMax: baseToDisplay(facetData.maxCents, currency),
   };
 
-  return (
+  const listing = (
     <div className="container-site py-8">
       <Breadcrumbs items={[...ancestors, { name: category.name, href: `/collections/${category.slug}` }]} />
 
@@ -137,5 +139,15 @@ export default async function CollectionPage({ params, searchParams }: PageProps
         </div>
       </div>
     </div>
+  );
+
+  // Collections with a full-width banner (e.g. Outlet): banner first, edge to edge, then the listing.
+  const hero = collectionHeroFor(category.slug);
+  if (!hero) return listing;
+  return (
+    <>
+      <PageHeroBanner hero={hero} />
+      {listing}
+    </>
   );
 }

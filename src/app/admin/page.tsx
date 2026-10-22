@@ -5,13 +5,14 @@ import { formatMoney } from "@/lib/money";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { uploadFolderStatus } from "@/lib/storage";
 import { findProductsWithMissingImages } from "@/lib/storage/missing-images";
+import { ensureReviewTables } from "@/lib/reviews/db";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
   const currency = await getBaseCurrency();
 
-  const [totalOrders, revenueAgg, pendingOrders, recentOrders, lowStock, topProducts, customerCount, missingPhotos, photosFolder] =
+  const [totalOrders, revenueAgg, pendingOrders, recentOrders, lowStock, topProducts, customerCount, missingPhotos, photosFolder, pendingReviews] =
     await Promise.all([
       prisma.order.count(),
       prisma.order.aggregate({ where: { paymentStatus: "PAID" }, _sum: { totalCents: true } }),
@@ -27,6 +28,9 @@ export default async function AdminDashboard() {
       prisma.user.count({ where: { role: "CUSTOMER" } }),
       findProductsWithMissingImages().catch(() => []),
       uploadFolderStatus(),
+      ensureReviewTables()
+        .then(() => prisma.review.count({ where: { status: "PENDING" } }))
+        .catch(() => 0),
     ]);
 
   const revenue = revenueAgg._sum.totalCents ?? 0;
@@ -56,6 +60,15 @@ export default async function AdminDashboard() {
             The deployment folder is <code>{photosFolder.appDir}</code>; anything inside it is deleted on redeploy.
           </p>
         </div>
+      )}
+
+      {pendingReviews > 0 && (
+        <Link href="/admin/reviews?tab=pending" className="card block p-4 text-sm transition-colors hover:border-ink">
+          <span className="font-medium">
+            {pendingReviews} customer {pendingReviews === 1 ? "review is" : "reviews are"} waiting for approval
+          </span>
+          <span className="ml-2 text-ink-muted">Review now →</span>
+        </Link>
       )}
 
       {missingPhotos.length > 0 && (

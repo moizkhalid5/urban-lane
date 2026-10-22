@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import type { NavItem } from "@/lib/queries/nav";
 import { CurrencySwitcher } from "./CurrencySwitcher";
 import { cn } from "@/lib/utils";
 import { PhoneLink, SocialLinks } from "./SocialContact";
 import { AnnouncementTicker } from "./AnnouncementTicker";
+import { HERO_ELEMENT_ID, heroForPath } from "@/lib/collection-heroes";
 
 type Props = {
   nav: NavItem[];
@@ -24,13 +25,46 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  // Pages that start with a full-width banner (homepage, Outlet): the menu row is transparent until the
+  // banner has scrolled away beneath it, or while a mega menu or the search bar is open.
+  const pathname = usePathname();
+  const pageHero = heroForPath(pathname);
+  const heroPage = !!pageHero;
+  const [overHero, setOverHero] = useState(heroPage);
+  // The homepage slider publishes the current slide's tone (data-tone) as it changes.
+  const [heroTone, setHeroTone] = useState(pageHero?.tone);
+  const menuRow = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      const hero = heroPage ? document.getElementById(HERO_ELEMENT_ID) : null;
+      const rowBottom = menuRow.current?.getBoundingClientRect().bottom ?? 0;
+      setOverHero(!!hero && hero.getBoundingClientRect().bottom > rowBottom + 1);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [heroPage, pathname]);
+
+  useEffect(() => {
+    setHeroTone(pageHero?.tone);
+    const hero = heroPage ? document.getElementById(HERO_ELEMENT_ID) : null;
+    if (!hero) return;
+    const read = () => setHeroTone((hero.dataset.tone as "dark" | "light" | undefined) ?? pageHero?.tone);
+    read();
+    const observer = new MutationObserver(read);
+    observer.observe(hero, { attributes: true, attributeFilter: ["data-tone"] });
+    return () => observer.disconnect();
+  }, [heroPage, pathname, pageHero?.tone]);
+
+  const transparent = heroPage && overHero && !activeMenu && !searchOpen;
+  // White menu text over dark artwork; light artwork keeps the usual dark text.
+  const whiteText = transparent && heroTone === "dark";
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -40,7 +74,7 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
   }, [mobileOpen]);
 
   return (
-    <header className="sticky top-0 z-40 bg-white">
+    <header className="sticky top-0 z-40">
       {/* Black strip: phone (left), announcement (centre), Instagram + TikTok (right); stacked on phones. */}
       <div className="bg-ink text-xs tracking-wide text-white">
         <div className="container-site flex flex-wrap items-center justify-center gap-x-5 gap-y-1 py-2 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:gap-4">
@@ -55,9 +89,14 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
       </div>
 
       <div
+        ref={menuRow}
         className={cn(
-          "border-b bg-white transition-shadow duration-200",
-          scrolled ? "border-line shadow-[0_1px_0_rgba(0,0,0,0.04)]" : "border-transparent",
+          "border-b transition-[background-color,color,box-shadow] duration-300",
+          whiteText
+            ? "border-transparent bg-transparent text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.25)]"
+            : transparent
+              ? "border-transparent bg-transparent text-ink"
+              : ["bg-white text-ink", scrolled ? "border-line shadow-[0_1px_0_rgba(0,0,0,0.04)]" : "border-transparent"],
         )}
         onMouseLeave={() => setActiveMenu(null)}
       >
@@ -89,7 +128,13 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
                   href={item.href}
                   className={cn(
                     "px-3 py-2 text-sm font-medium uppercase tracking-wide transition-colors",
-                    item.slug === "outlet" ? "text-sale hover:text-sale/80" : "text-ink hover:text-ink-muted",
+                    item.slug === "outlet"
+                      ? whiteText
+                        ? "text-[#ff8f8f] hover:text-[#ffb3b3]"
+                        : "text-sale hover:text-sale/80"
+                      : whiteText
+                        ? "text-white hover:text-white/75"
+                        : "text-ink hover:text-ink-muted",
                   )}
                 >
                   {item.name}
@@ -97,7 +142,7 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
 
                 {/* mega menu */}
                 {activeMenu === item.slug && item.columns.length > 0 && (
-                  <div className="absolute left-0 right-0 top-full animate-fade-in border-y border-line bg-white">
+                  <div className="absolute left-0 right-0 top-full animate-fade-in border-y border-line bg-white text-ink [text-shadow:none]">
                     <div className="container-site grid grid-cols-2 gap-x-8 gap-y-6 py-8 md:grid-cols-4 lg:grid-cols-5">
                       {item.columns.map((col) => (
                         <div key={col.slug}>
@@ -131,12 +176,18 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
           {/* actions */}
           <div className="ml-auto flex items-center gap-3 lg:gap-4">
             {isStaff && (
-              <Link href="/admin" className="hidden text-xs uppercase tracking-wide text-ink-muted hover:text-ink lg:block">
+              <Link
+                href="/admin"
+                className={cn(
+                  "hidden text-xs uppercase tracking-wide lg:block",
+                  whiteText ? "text-white/80 hover:text-white" : "text-ink-muted hover:text-ink",
+                )}
+              >
                 Admin
               </Link>
             )}
             <div className="hidden lg:block">
-              <CurrencySwitcher currencies={currencies} active={activeCurrency} />
+              <CurrencySwitcher currencies={currencies} active={activeCurrency} light={whiteText} />
             </div>
             <button type="button" aria-label="Search" onClick={() => setSearchOpen((s) => !s)}>
               <SearchIcon />
@@ -150,7 +201,12 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
             <Link href="/cart" aria-label="Cart" className="relative">
               <BagIcon />
               {cartCount > 0 && (
-                <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-ink px-1 text-[10px] font-medium text-white">
+                <span
+                  className={cn(
+                    "absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-medium [text-shadow:none]",
+                    whiteText ? "bg-white text-ink" : "bg-ink text-white",
+                  )}
+                >
                   {cartCount}
                 </span>
               )}
@@ -160,7 +216,7 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
 
         {/* search bar */}
         {searchOpen && (
-          <div className="border-t border-line bg-white">
+          <div className="border-t border-line bg-white text-ink [text-shadow:none]">
             <div className="container-site py-3">
               <SearchForm onDone={() => setSearchOpen(false)} />
             </div>

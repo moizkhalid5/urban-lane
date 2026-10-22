@@ -3,6 +3,7 @@ import type { ProductCard as ProductCardData } from "@/lib/queries/products";
 import { ProductCardImages } from "./ProductCardImages";
 import type { DisplayCurrency } from "@/lib/money";
 import { Price } from "@/components/ui/Price";
+import { Stars } from "@/components/reviews/Stars";
 
 export function ProductCard({ product, currency }: { product: ProductCardData; currency: DisplayCurrency }) {
   const onSale = !!product.compareAtCents && product.compareAtCents > product.priceCents;
@@ -37,6 +38,20 @@ export function ProductCard({ product, currency }: { product: ProductCardData; c
         <h3 className="mt-0.5 text-sm text-ink transition-colors group-hover:text-ink-muted">
           {product.title}
         </h3>
+        {(product.rating || product.sold) && (
+          <div className="mt-1 flex flex-wrap items-center gap-x-1.5 text-[11px] text-ink-muted">
+            {product.rating && (
+              <>
+                <Stars value={product.rating.average} size={12} />
+                <span>
+                  {product.rating.average.toFixed(1)} ({product.rating.count})
+                </span>
+              </>
+            )}
+            {product.rating && product.sold && <span aria-hidden>·</span>}
+            {product.sold && <span>{product.sold} sold</span>}
+          </div>
+        )}
         <div className="mt-1">
           <Price cents={product.priceCents} compareAtCents={product.compareAtCents} currency={currency} size="sm" />
         </div>

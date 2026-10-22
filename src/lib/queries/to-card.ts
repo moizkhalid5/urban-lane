@@ -8,6 +8,7 @@ type CardRow = {
   priceCents: number;
   compareAtCents: number | null;
   isOutlet: boolean;
+  salesCount: number;
   brand: { name: string } | null;
   images: { url: string }[];
   variants: { color: string | null; colorHex: string | null; stock: number }[];
@@ -30,6 +31,9 @@ export function toCard(p: CardRow): ProductCard {
     inStock: p.variants.some((v) => v.stock > 0),
     isOutlet: p.isOutlet,
     colors: [...colorMap.entries()].map(([name, hex]) => ({ name, hex })),
+    salesCount: p.salesCount,
+    rating: null, // added by withRatings (lib/reviews/queries)
+    sold: null,
   };
 }
 

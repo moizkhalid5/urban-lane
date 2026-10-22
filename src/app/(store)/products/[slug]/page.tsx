@@ -16,6 +16,9 @@ import { TrackRecentlyViewed } from "@/components/product/TrackRecentlyViewed";
 import { WishlistButton } from "@/components/product/WishlistButton";
 import { getCurrentUser } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
+import { getProductReviews } from "@/lib/reviews/queries";
+import { ProductReviews } from "@/components/reviews/ProductReviews";
+import { Stars } from "@/components/reviews/Stars";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -54,7 +57,10 @@ export default async function ProductPage({ params }: PageProps) {
     { name: product.title, href: `/products/${product.slug}` },
   ];
 
-  const related = await getRelatedProducts(product.id, primaryCategory?.id, 4);
+  const [related, reviews] = await Promise.all([
+    getRelatedProducts(product.id, primaryCategory?.id, 4),
+    getProductReviews(product.id, product.salesCount),
+  ]);
 
   // Recently viewed (cookie set client-side on previous views; excludes current product).
   const recentIds = (await cookies()).get("ul_recent")?.value?.split(",").filter(Boolean) ?? [];
@@ -92,6 +98,11 @@ export default async function ProductPage({ params }: PageProps) {
       availability: inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
       url: `${APP_URL}/products/${product.slug}`,
     },
+    // Real (non-sample) approved reviews only.
+    aggregateRating:
+      reviews.realSummary.count > 0
+        ? { "@type": "AggregateRating", ratingValue: reviews.realSummary.average, reviewCount: reviews.realSummary.count }
+        : undefined,
   };
   const breadcrumbLd = {
     "@context": "https://schema.org",
@@ -124,6 +135,22 @@ export default async function ProductPage({ params }: PageProps) {
             <p className="text-sm uppercase tracking-wide text-ink-muted">{product.brand.name}</p>
           )}
           <h1 className="mt-1 text-2xl font-medium md:text-3xl">{product.title}</h1>
+
+          {(reviews.showStars || reviews.sold) && (
+            <div className="mt-2 flex flex-wrap items-center gap-x-2 text-sm text-ink-muted">
+              {reviews.showStars && (
+                <a href="#reviews" className="flex items-center gap-2 hover:text-ink">
+                  <Stars value={reviews.summary.average} size={16} />
+                  <span>
+                    {reviews.summary.average.toFixed(1)} ({reviews.summary.count}{" "}
+                    {reviews.summary.count === 1 ? "review" : "reviews"})
+                  </span>
+                </a>
+              )}
+              {reviews.showStars && reviews.sold && <span aria-hidden>·</span>}
+              {reviews.sold && <span>{reviews.sold} sold</span>}
+            </div>
+          )}
 
           <div className="mt-4">
             <Price cents={product.priceCents} compareAtCents={product.compareAtCents} currency={currency} size="lg" />
@@ -181,6 +208,8 @@ export default async function ProductPage({ params }: PageProps) {
           </div>
         </div>
       </div>
+
+      <ProductReviews productId={product.id} data={reviews} />
 
       {related.length > 0 && (
         <section className="mt-20">

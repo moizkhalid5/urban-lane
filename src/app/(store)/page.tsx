@@ -1,17 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
-import { cn } from "@/lib/utils";
 import { listProducts } from "@/lib/queries/products";
 import { getActiveCurrency } from "@/lib/currency.server";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ScrollRail } from "@/components/ui/ScrollRail";
-import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { BrandSlider } from "@/components/home/BrandSlider";
 import { BrandVideo } from "@/components/home/BrandVideo";
-import { ArtworkBannerLinks } from "@/components/ui/ArtworkBannerLinks";
-import { bannerButtonFor } from "@/lib/banner-buttons";
+import { CustomerReviewsCarousel } from "@/components/reviews/CustomerReviewsCarousel";
+import { getHomepageReviews } from "@/lib/reviews/queries";
+import { HomeHeroSlider } from "@/components/home/HomeHeroSlider";
+import { HOME_SLIDES, HOME_WINTER } from "@/lib/collection-heroes";
+import { WideBanner } from "@/components/home/WideBanner";
 
 function SectionHeading({ title, href, cta }: { title: string; href?: string; cta?: string }) {
   return (
@@ -36,9 +37,7 @@ const FEATURED_ROWS = [
 export default async function HomePage() {
   const currency = await getActiveCurrency();
 
-  const [heroBanners, promoBanner, featuredRows, newArrivals, outlet, tiles, brands] = await Promise.all([
-    prisma.banner.findMany({ where: { kind: "HERO", isActive: true }, orderBy: { position: "asc" } }),
-    prisma.banner.findFirst({ where: { kind: "PROMO", isActive: true }, orderBy: { position: "asc" } }),
+  const [featuredRows, newArrivals, outlet, tiles, brands, homepageReviews] = await Promise.all([
     Promise.all(FEATURED_ROWS.map((r) => listProducts({ categorySlug: r.slug, sort: "featured", pageSize: 8 }))),
     listProducts({ sort: "latest", pageSize: 8 }),
     listProducts({ saleOnly: true, pageSize: 4 }),
@@ -49,13 +48,13 @@ export default async function HomePage() {
       take: 5,
     }),
     prisma.brand.findMany({ where: { isFeatured: true }, orderBy: { position: "asc" } }),
+    getHomepageReviews(15),
   ]);
 
   return (
     <>
-      <HeroCarousel
-        slides={heroBanners.map((b) => ({ title: b.title ?? "", subtitle: b.subtitle, image: b.image, link: b.link }))}
-      />
+      {/* Full-width banner slider under the transparent menu (slides: lib/collection-heroes.ts) */}
+      <HomeHeroSlider slides={HOME_SLIDES} />
 
       {/* Category tiles */}
       <section className="container-site py-14">
@@ -116,43 +115,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Promo banner */}
-      {promoBanner && (
-        <section className="container-site py-14">
-          {/* No title = artwork banner with its text in the image: show it uncropped (16:9) with no overlay. */}
-          <div
-            className={cn(
-              "group relative block overflow-hidden bg-line-soft",
-              promoBanner.title ? "aspect-[21/9] md:aspect-[3/1]" : "aspect-[16/9]",
-            )}
-          >
-            {promoBanner.image && (
-              <Image
-                src={promoBanner.image}
-                alt={promoBanner.title ?? promoBanner.subtitle ?? "Promotion"}
-                fill
-                sizes="(max-width:1400px) 100vw, 1400px"
-                className={cn(
-                  "object-cover",
-                  // No zoom when the painted button is the link: zooming would move it out from under its link.
-                  !bannerButtonFor(promoBanner.image) && "transition-transform duration-700 group-hover:scale-105",
-                )}
-              />
-            )}
-            {promoBanner.title && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30 text-center text-white">
-                <h2 className="text-3xl font-medium md:text-4xl">{promoBanner.title}</h2>
-                {promoBanner.subtitle && <p className="mt-2 text-white/85">{promoBanner.subtitle}</p>}
-              </div>
-            )}
-            <ArtworkBannerLinks
-              image={promoBanner.title ? null : promoBanner.image}
-              href={promoBanner.link ?? "/collections/outlet"}
-              label={promoBanner.title ?? promoBanner.subtitle ?? "Promotion"}
-            />
-          </div>
-        </section>
-      )}
+      {/* Winter Collection banner, full width (lib/collection-heroes.ts) */}
+      <WideBanner banner={HOME_WINTER} />
 
       {/* New arrivals */}
       <section className="container-site py-6">
@@ -167,6 +131,9 @@ export default async function HomePage() {
           <ProductGrid products={outlet.products} currency={currency} className="lg:grid-cols-4" />
         </section>
       )}
+
+      {/* Customer reviews (chosen in Admin → Reviews) */}
+      <CustomerReviewsCarousel reviews={homepageReviews} />
 
       {/* Value props */}
       <section className="border-t border-line">
