@@ -5,6 +5,8 @@ const config: Config = {
     "./src/app/**/*.{ts,tsx}",
     "./src/components/**/*.{ts,tsx}",
     "./src/features/**/*.{ts,tsx}",
+    // banner settings (aspect-ratio classes) live in lib/collection-heroes.ts
+    "./src/lib/**/*.{ts,tsx}",
   ],
   theme: {
     extend: {

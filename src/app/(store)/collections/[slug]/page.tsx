@@ -14,7 +14,7 @@ import { KidsLanding } from "@/components/collection/KidsLanding";
 import { DepartmentLanding, hasDepartmentLanding } from "@/components/collection/DepartmentLanding";
 import { AGE_BANDS } from "@/lib/kids-age";
 import { collectionHeroFor } from "@/lib/collection-heroes";
-import { CollectionHeroBanner } from "@/components/collection/CollectionHeroBanner";
+import { PageHeroBanner } from "@/components/ui/PageHeroBanner";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -146,7 +146,7 @@ export default async function CollectionPage({ params, searchParams }: PageProps
   if (!hero) return listing;
   return (
     <>
-      <CollectionHeroBanner hero={hero} />
+      <PageHeroBanner hero={hero} />
       {listing}
     </>
   );

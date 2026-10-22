@@ -8,7 +8,7 @@ import { CurrencySwitcher } from "./CurrencySwitcher";
 import { cn } from "@/lib/utils";
 import { PhoneLink, SocialLinks } from "./SocialContact";
 import { AnnouncementTicker } from "./AnnouncementTicker";
-import { HERO_ELEMENT_ID, pathHasHero } from "@/lib/collection-heroes";
+import { HERO_ELEMENT_ID, heroForPath } from "@/lib/collection-heroes";
 
 type Props = {
   nav: NavItem[];
@@ -25,11 +25,14 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  // Pages that start with a full-width banner (e.g. Outlet): the menu row is transparent until the
+  // Pages that start with a full-width banner (homepage, Outlet): the menu row is transparent until the
   // banner has scrolled away beneath it, or while a mega menu or the search bar is open.
   const pathname = usePathname();
-  const heroPage = pathHasHero(pathname);
+  const pageHero = heroForPath(pathname);
+  const heroPage = !!pageHero;
   const [overHero, setOverHero] = useState(heroPage);
+  // The homepage slider publishes the current slide's tone (data-tone) as it changes.
+  const [heroTone, setHeroTone] = useState(pageHero?.tone);
   const menuRow = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -48,7 +51,20 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
     };
   }, [heroPage, pathname]);
 
+  useEffect(() => {
+    setHeroTone(pageHero?.tone);
+    const hero = heroPage ? document.getElementById(HERO_ELEMENT_ID) : null;
+    if (!hero) return;
+    const read = () => setHeroTone((hero.dataset.tone as "dark" | "light" | undefined) ?? pageHero?.tone);
+    read();
+    const observer = new MutationObserver(read);
+    observer.observe(hero, { attributes: true, attributeFilter: ["data-tone"] });
+    return () => observer.disconnect();
+  }, [heroPage, pathname, pageHero?.tone]);
+
   const transparent = heroPage && overHero && !activeMenu && !searchOpen;
+  // White menu text over dark artwork; light artwork keeps the usual dark text.
+  const whiteText = transparent && heroTone === "dark";
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -76,9 +92,11 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
         ref={menuRow}
         className={cn(
           "border-b transition-[background-color,color,box-shadow] duration-300",
-          transparent
+          whiteText
             ? "border-transparent bg-transparent text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.25)]"
-            : ["bg-white text-ink", scrolled ? "border-line shadow-[0_1px_0_rgba(0,0,0,0.04)]" : "border-transparent"],
+            : transparent
+              ? "border-transparent bg-transparent text-ink"
+              : ["bg-white text-ink", scrolled ? "border-line shadow-[0_1px_0_rgba(0,0,0,0.04)]" : "border-transparent"],
         )}
         onMouseLeave={() => setActiveMenu(null)}
       >
@@ -111,10 +129,10 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
                   className={cn(
                     "px-3 py-2 text-sm font-medium uppercase tracking-wide transition-colors",
                     item.slug === "outlet"
-                      ? transparent
+                      ? whiteText
                         ? "text-[#ff8f8f] hover:text-[#ffb3b3]"
                         : "text-sale hover:text-sale/80"
-                      : transparent
+                      : whiteText
                         ? "text-white hover:text-white/75"
                         : "text-ink hover:text-ink-muted",
                   )}
@@ -162,14 +180,14 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
                 href="/admin"
                 className={cn(
                   "hidden text-xs uppercase tracking-wide lg:block",
-                  transparent ? "text-white/80 hover:text-white" : "text-ink-muted hover:text-ink",
+                  whiteText ? "text-white/80 hover:text-white" : "text-ink-muted hover:text-ink",
                 )}
               >
                 Admin
               </Link>
             )}
             <div className="hidden lg:block">
-              <CurrencySwitcher currencies={currencies} active={activeCurrency} light={transparent} />
+              <CurrencySwitcher currencies={currencies} active={activeCurrency} light={whiteText} />
             </div>
             <button type="button" aria-label="Search" onClick={() => setSearchOpen((s) => !s)}>
               <SearchIcon />
@@ -186,7 +204,7 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
                 <span
                   className={cn(
                     "absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-medium [text-shadow:none]",
-                    transparent ? "bg-white text-ink" : "bg-ink text-white",
+                    whiteText ? "bg-white text-ink" : "bg-ink text-white",
                   )}
                 >
                   {cartCount}
