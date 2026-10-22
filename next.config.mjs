@@ -1,3 +1,5 @@
+import { PHASE_PRODUCTION_BUILD } from "next/constants.js";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -6,6 +8,17 @@ const nextConfig = {
   // (e.g. Hostinger builds with NODE_ENV=production). Linting runs separately
   // via `npm run lint`, so it must never gate the production build.
   eslint: { ignoreDuringBuilds: true },
+  // Hostinger's shared servers cap how many threads an account may run, and the live site keeps
+  // running during a build. By default `next build` starts one helper process per CPU of the (large)
+  // server plus a separate compile worker, and every Node process starts one V8 thread per CPU. On
+  // 22 Oct 2026 that hit the cap: "Assertion failed: uv_thread_create" / "build worker exited ...
+  // SIGABRT". Build in a single process with one page-generation worker instead (see the end of this
+  // file for the per-process thread limits). Only affects how the site is built, not how it runs.
+  experimental: {
+    webpackBuildWorker: false,
+    cpus: 1,
+    workerThreads: false,
+  },
   images: {
     // Local images live under /public/uploads.
     // Remote loaders (Cloudinary, S3, R2) can be added here when configured.
@@ -45,4 +58,13 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default function config(phase) {
+  if (phase === PHASE_PRODUCTION_BUILD) {
+    // Fewer threads in every process the build starts (they inherit these): 2 V8 helper threads
+    // instead of one per CPU, and a 2-thread libuv pool. Build only; `next start` is unaffected.
+    const nodeOptions = process.env.NODE_OPTIONS ?? "";
+    if (!nodeOptions.includes("--v8-pool-size")) process.env.NODE_OPTIONS = `${nodeOptions} --v8-pool-size=2`.trim();
+    process.env.UV_THREADPOOL_SIZE ??= "2";
+  }
+  return nextConfig;
+}
