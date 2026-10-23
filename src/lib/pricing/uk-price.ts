@@ -1,11 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import { discountPercent } from "@/lib/money";
+import { logAudit } from "@/lib/audit";
+import seedPrices from "./uk-prices-seed.json";
 
 /**
- * "UK price" comparison: a product's real UK retail price (entered in Admin → Products, in pounds) shown
- * in rupees next to our price, with the saving, e.g. "Rs 12,400 · UK price ~~Rs 17,300~~ · -28%". Only shown
- * when our price is lower. It is a comparison with the UK shops' price, not a former price of ours, so it is
- * always labelled "UK price". Real sales use the product's compare-at price instead (components/ui/Price).
+ * UK retail price (RRP) comparison: a product's real UK retail price (entered in Admin → Products, in pounds)
+ * shown in rupees next to our price, with the saving, e.g. "Rs 12,400 · RRP ~~Rs 17,300~~ · -28%". Only shown
+ * when our price is lower. It is the UK shops' price, not a former price of ours, so it is always labelled
+ * "RRP". Real sales use the product's compare-at price instead (components/ui/Price).
  *
  * Tables are created on first use (same SQL as prisma/migrations/20261023120000_uk_prices), because the
  * host's deploy doesn't run migrations.
@@ -31,11 +33,41 @@ export function ensurePricingTables(): Promise<void> {
   ready ??= (async () => {
     await prisma.$executeRawUnsafe(CREATE_UK_PRICE);
     await prisma.$executeRawUnsafe(CREATE_SETTINGS);
+    await loadSeedPricesOnce();
   })().catch((err) => {
     ready = null;
     throw err;
   });
   return ready;
+}
+
+/** Bump when uk-prices-seed.json is replaced with a newer sheet, so it loads again. */
+const SEED_VERSION = "Urban_Lane_UK_Prices_Data 2026-10-23";
+
+/**
+ * Loads the UK prices from the master sheet (uk-prices-seed.json: [SKU, £], lowest price per SKU) once per
+ * SEED_VERSION, so the live shop matches without a manual import. Only fills products that have no UK price
+ * yet, so prices set in Admin are never overwritten. Best-effort: never blocks the shop.
+ */
+async function loadSeedPricesOnce(): Promise<void> {
+  try {
+    const done = await prisma.auditLog.findFirst({ where: { action: "uk_price.seed", entityId: SEED_VERSION }, select: { id: true } });
+    if (done) return;
+    const pounds = new Map(seedPrices as [string, number][]);
+    const [products, existing] = await Promise.all([
+      prisma.product.findMany({ where: { sku: { not: null } }, select: { id: true, sku: true } }),
+      prisma.ukPrice.findMany({ select: { productId: true } }),
+    ]);
+    const has = new Set(existing.map((e) => e.productId));
+    const data = products.flatMap((p) => {
+      const price = pounds.get(p.sku!.trim().toLowerCase());
+      return price && !has.has(p.id) ? [{ productId: p.id, pence: Math.round(price * 100), source: "Master sheet (Urban_Lane_UK_Prices_Data)" }] : [];
+    });
+    if (data.length) await prisma.ukPrice.createMany({ data, skipDuplicates: true });
+    await logAudit(undefined, "uk_price.seed", "UkPrice", SEED_VERSION, { added: data.length });
+  } catch (err) {
+    console.error("[pricing] Couldn't load the UK prices from the master sheet.", err);
+  }
 }
 
 export const DEFAULT_GBP_TO_PKR = 360;
