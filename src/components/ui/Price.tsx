@@ -13,7 +13,7 @@ type Props = {
 
 /**
  * Renders a price, with strikethrough compare-at and a sale badge when on sale. Without a sale, a real UK
- * retail price is shown the same way but labelled "UK price", so it reads as a comparison, not a former price.
+ * retail price is shown the same way but labelled "RRP", so it reads as a retail price, not a former price of ours.
  */
 export function Price({ cents, compareAtCents, uk, currency, className, size = "md" }: Props) {
   const onSale = !!compareAtCents && compareAtCents > cents;
@@ -40,7 +40,7 @@ export function Price({ cents, compareAtCents, uk, currency, className, size = "
         // On cards it gets its own line, so narrow phone cards don't wrap it unevenly
         <span className={cn("flex items-baseline gap-2", size === "sm" && "w-full")}>
           <span className={cn("text-ink-muted", size === "lg" ? "text-sm" : "text-xs")}>
-            UK price <span className="line-through">{formatMoney(uk!.cents, currency)}</span>
+            RRP <span className="line-through">{formatMoney(uk!.cents, currency)}</span>
           </span>
           <span className="text-xs font-medium uppercase tracking-wide text-sale">-{uk!.savePct}%</span>
         </span>

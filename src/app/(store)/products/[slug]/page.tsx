@@ -164,7 +164,7 @@ export default async function ProductPage({ params }: PageProps) {
               size="lg"
             />
             {ukPrice && !(product.compareAtCents && product.compareAtCents > product.priceCents) && (
-              <p className="mt-1 text-xs text-ink-muted">UK price: what this item costs at UK retailers, in rupees.</p>
+              <p className="mt-1 text-xs text-ink-muted">RRP: this item&apos;s retail price in the UK, converted to rupees.</p>
             )}
             <p className="mt-1 text-xs text-ink-muted">Tax included. Shipping calculated at checkout.</p>
           </div>
