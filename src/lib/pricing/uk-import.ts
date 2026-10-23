@@ -5,7 +5,7 @@ import { compareWithUk, getGbpToPkr } from "./uk-price";
  * Bulk UK price import (Admin → Products → Import UK prices). The browser reads the pasted sheet and sends
  * (SKU, UK price in £) pairs; here they're matched to products by SKU: the product's SKU, or the first
  * part of an "Urbanlane SKU" like "707-731 C8/R3 35R". A product listed several times (one row per size)
- * takes its first price.
+ * takes its lowest price, so the saving shown is never overstated.
  */
 export type UkPair = { sku: string; pounds: number };
 
@@ -43,7 +43,7 @@ export async function matchUkPrices(pairs: UkPair[]): Promise<UkImportPreview> {
       notFound.add(sku.trim());
       continue;
     }
-    if (rows.has(product.id) || !(pounds > 0)) continue;
+    if (!(pounds > 0) || (rows.get(product.id)?.pounds ?? Infinity) <= pounds) continue;
     const c = compareWithUk(product.priceCents, Math.round(pounds * 100), rate);
     rows.set(product.id, {
       productId: product.id,
