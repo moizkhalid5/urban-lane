@@ -4,6 +4,7 @@ import { toCardList } from "@/lib/queries/to-card";
 import { decorateCards } from "@/lib/queries/decorate-cards";
 import { sizesMatchAges } from "@/lib/kids-age";
 import { compareSizes, normalizeSize } from "@/lib/sizes";
+import { productIdsWithDiscount } from "@/lib/pricing/uk-price";
 
 export type ProductCard = {
   id: string;
@@ -41,6 +42,10 @@ export type ProductFilter = {
   inStockOnly?: boolean;
   saleOnly?: boolean;
   gender?: string;
+  /** several departments at once, e.g. the sale banner → Men, Women and Kids */
+  genders?: string[];
+  /** only products showing a discount in this range (%), from a sale or the UK price (?save=25-35) */
+  save?: { min: number; max: number };
   q?: string;
   sort?: ProductSort;
   page?: number;
@@ -104,6 +109,7 @@ async function buildWhere(f: ProductFilter): Promise<Prisma.ProductWhereInput> {
   }
 
   if (f.gender) where.gender = f.gender;
+  else if (f.genders?.length) where.gender = { in: f.genders };
   if (f.saleOnly) where.isOutlet = true;
   if (f.brandSlugs?.length) and.push({ brand: { slug: { in: f.brandSlugs } } });
 
@@ -116,6 +122,7 @@ async function buildWhere(f: ProductFilter): Promise<Prisma.ProductWhereInput> {
 
   if (f.sizes?.length) and.push({ variants: { some: { size: { in: await rawSizesFor(f.sizes) }, isActive: true } } });
   if (f.ages?.length) and.push({ id: { in: await productIdsForAges(f.ages) } });
+  if (f.save) and.push({ id: { in: await productIdsWithDiscount(f.save.min, f.save.max) } });
   if (f.colors?.length) and.push({ variants: { some: { color: { in: f.colors }, isActive: true } } });
   if (f.inStockOnly) and.push({ variants: { some: { stock: { gt: 0 }, isActive: true } } });
 

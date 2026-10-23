@@ -1,10 +1,11 @@
 import { prisma } from "@/lib/prisma";
+import { discountPercent } from "@/lib/money";
 
 /**
  * "UK price" comparison: a product's real UK retail price (entered in Admin → Products, in pounds) shown
- * in rupees next to our price, with the saving, e.g. "UK price Rs 17,300 · Save 28%". Only shown when our
- * price is lower. It is a comparison with the UK shops' price, not a former price of ours, so it is never
- * shown struck through. Real sales use the product's compare-at price instead (components/ui/Price).
+ * in rupees next to our price, with the saving, e.g. "Rs 12,400 · UK price ~~Rs 17,300~~ · -28%". Only shown
+ * when our price is lower. It is a comparison with the UK shops' price, not a former price of ours, so it is
+ * always labelled "UK price". Real sales use the product's compare-at price instead (components/ui/Price).
  *
  * Tables are created on first use (same SQL as prisma/migrations/20261023120000_uk_prices), because the
  * host's deploy doesn't run migrations.
@@ -89,4 +90,30 @@ export async function ukComparisonsFor(products: { id: string; priceCents: numbe
     console.error("[pricing] Couldn't load UK prices.", err);
   }
   return out;
+}
+
+/**
+ * Products whose card shows a discount between min% and max%: a real sale (compare-at price) or, without
+ * one, a saving against the UK price. Worked out exactly as components/ui/Price shows it. Used by ?save=.
+ */
+export async function productIdsWithDiscount(min: number, max: number): Promise<string[]> {
+  try {
+    await ensurePricingTables();
+    const [rate, products] = await Promise.all([
+      getGbpToPkr(),
+      prisma.product.findMany({
+        where: { status: "ACTIVE", OR: [{ compareAtCents: { not: null } }, { ukPrice: { isNot: null } }] },
+        select: { id: true, priceCents: true, compareAtCents: true, ukPrice: { select: { pence: true } } },
+      }),
+    ]);
+    return products
+      .filter((p) => {
+        const pct = discountPercent(p.priceCents, p.compareAtCents) ?? compareWithUk(p.priceCents, p.ukPrice?.pence, rate)?.savePct;
+        return pct != null && pct >= min && pct <= max;
+      })
+      .map((p) => p.id);
+  } catch (err) {
+    console.error("[pricing] Couldn't load discounts.", err);
+    return [];
+  }
 }
