@@ -32,8 +32,9 @@ export function toCard(p: CardRow): ProductCard {
     isOutlet: p.isOutlet,
     colors: [...colorMap.entries()].map(([name, hex]) => ({ name, hex })),
     salesCount: p.salesCount,
-    rating: null, // added by withRatings (lib/reviews/queries)
+    rating: null, // added by decorateCards (lib/queries/decorate-cards)
     sold: null,
+    ukPrice: null, // added by decorateCards
   };
 }
 

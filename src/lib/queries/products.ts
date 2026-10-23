@@ -1,7 +1,7 @@
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { toCardList } from "@/lib/queries/to-card";
-import { withRatings } from "@/lib/reviews/queries";
+import { decorateCards } from "@/lib/queries/decorate-cards";
 import { sizesMatchAges } from "@/lib/kids-age";
 import { compareSizes, normalizeSize } from "@/lib/sizes";
 
@@ -23,6 +23,8 @@ export type ProductCard = {
   rating: { average: number; count: number } | null;
   /** units sold, once the product meets the admin's minimum; otherwise null */
   sold: number | null;
+  /** the product's real UK price in rupees and the saving, when ours is lower (lib/pricing/uk-price) */
+  ukPrice: { cents: number; savePct: number } | null;
 };
 
 export type ProductSort = "latest" | "price-asc" | "price-desc" | "featured" | "best-selling";
@@ -158,7 +160,7 @@ export async function listProducts(f: ProductFilter) {
   ]);
 
   return {
-    products: await withRatings(toCardList(items)),
+    products: await decorateCards(toCardList(items)),
     total,
     page,
     pageSize,

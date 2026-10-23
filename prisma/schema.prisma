@@ -250,6 +250,7 @@ model Product {
   wishedBy   WishlistItem[]
   reviews    Review[]
   priorSales PriorSales?
+  ukPrice    UkPrice?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -644,5 +645,23 @@ model PriorSales {
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   units     Int      @default(0)
   note      String?  @db.VarChar(200)
+  updatedAt DateTime @updatedAt
+}
+
+/// The product's real retail price in the UK (in pence), entered in Admin → Products. Shown to shoppers
+/// as "UK price Rs X · Save Y%" when our price is lower (src/lib/pricing). Created on first use.
+model UkPrice {
+  productId String   @id
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  pence     Int
+  /// where the UK price was taken from (brand website link, price list...)
+  source    String?  @db.VarChar(500)
+  updatedAt DateTime @updatedAt
+}
+
+model PricingSettings {
+  id        String   @id @default("singleton")
+  /// rupees per pound, for showing UK prices in rupees
+  gbpToPkr  Float    @default(360)
   updatedAt DateTime @updatedAt
 }

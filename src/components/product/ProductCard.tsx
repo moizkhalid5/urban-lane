@@ -4,6 +4,7 @@ import { ProductCardImages } from "./ProductCardImages";
 import type { DisplayCurrency } from "@/lib/money";
 import { Price } from "@/components/ui/Price";
 import { Stars } from "@/components/reviews/Stars";
+import { UkPriceNote } from "@/components/ui/UkPriceNote";
 
 export function ProductCard({ product, currency }: { product: ProductCardData; currency: DisplayCurrency }) {
   const onSale = !!product.compareAtCents && product.compareAtCents > product.priceCents;
@@ -55,6 +56,7 @@ export function ProductCard({ product, currency }: { product: ProductCardData; c
         <div className="mt-1">
           <Price cents={product.priceCents} compareAtCents={product.compareAtCents} currency={currency} size="sm" />
         </div>
+        {product.ukPrice && <UkPriceNote uk={product.ukPrice} currency={currency} className="mt-0.5 text-[11px]" />}
         {product.colors.length > 1 && (
           <div className="mt-2 flex gap-1">
             {product.colors.slice(0, 5).map((c) => (
