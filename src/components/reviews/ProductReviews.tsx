@@ -123,7 +123,7 @@ function ReviewItem({ review: r }: { review: PublicReview }) {
         <Stars value={r.rating} size={14} />
         {r.title && <p className="text-sm font-medium">{r.title}</p>}
       </div>
-      <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-ink-soft">{r.body}</p>
+      {r.body && <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-ink-soft">{r.body}</p>}
     </li>
   );
 }

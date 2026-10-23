@@ -401,6 +401,8 @@ model Order {
 
   refunds RefundRequest[]
 
+  reviewRequest ReviewRequest?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -623,6 +625,15 @@ model Review {
 
   @@index([productId, status])
   @@index([featured, status])
+}
+
+/// "How was your order?" requests sent after delivery (Admin → Reviews → Ask customers); one row per order.
+model ReviewRequest {
+  orderId     String    @id
+  order       Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  emailedAt   DateTime?
+  whatsappAt  DateTime?
+  updatedAt   DateTime  @updatedAt
 }
 
 model ReviewSettings {
