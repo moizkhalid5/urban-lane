@@ -78,8 +78,8 @@ export function Filters({
 
   function clearAll() {
     const next = new URLSearchParams();
-    // Sort order and a department view (?gender=men) aren't filters; keep them.
-    for (const key of ["sort", "gender"]) {
+    // Sort order and a banner's view (?gender=men, ?save=25-35) aren't filters; keep them.
+    for (const key of ["sort", "gender", "save"]) {
       const value = params.get(key);
       if (value) next.set(key, value);
     }

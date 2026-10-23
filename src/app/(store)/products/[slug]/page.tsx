@@ -19,7 +19,6 @@ import { prisma } from "@/lib/prisma";
 import { getProductReviews } from "@/lib/reviews/queries";
 import { ProductReviews } from "@/components/reviews/ProductReviews";
 import { Stars } from "@/components/reviews/Stars";
-import { UkPriceNote } from "@/components/ui/UkPriceNote";
 import { ukComparisonsFor } from "@/lib/pricing/uk-price";
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -157,8 +156,16 @@ export default async function ProductPage({ params }: PageProps) {
           )}
 
           <div className="mt-4">
-            <Price cents={product.priceCents} compareAtCents={product.compareAtCents} currency={currency} size="lg" />
-            {ukPrice && <UkPriceNote uk={ukPrice} currency={currency} detailed className="mt-1" />}
+            <Price
+              cents={product.priceCents}
+              compareAtCents={product.compareAtCents}
+              uk={ukPrice}
+              currency={currency}
+              size="lg"
+            />
+            {ukPrice && !(product.compareAtCents && product.compareAtCents > product.priceCents) && (
+              <p className="mt-1 text-xs text-ink-muted">UK price: what this item costs at UK retailers, in rupees.</p>
+            )}
             <p className="mt-1 text-xs text-ink-muted">Tax included. Shipping calculated at checkout.</p>
           </div>
 

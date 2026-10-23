@@ -11,8 +11,20 @@ const list = (v: string | string[] | undefined) => {
 
 const VALID_SORTS: ProductSort[] = ["latest", "price-asc", "price-desc", "featured", "best-selling"];
 
-/** ?gender=men|women narrows a collection to one department (e.g. the men's banner → Winter, men only). */
-const GENDERS: Record<string, string> = { men: "Men", women: "Women" };
+/**
+ * ?gender=men|women|kids narrows a listing to one department (e.g. the men's banner → Winter, men only);
+ * a list (?gender=men,women,kids) to several.
+ */
+const GENDERS: Record<string, string> = { men: "Men", women: "Women", kids: "Kids" };
+
+/** ?save=1 → any discount shown; ?save=25-35 → discounts from 25% to 35%. */
+function parseSave(raw: string | undefined): { min: number; max: number } | undefined {
+  const m = raw?.match(/^(\d{1,2})(?:-(\d{1,3}))?$/);
+  if (!m) return undefined;
+  const min = Math.max(1, Number(m[1]));
+  const max = m[2] ? Number(m[2]) : 100;
+  return max >= min ? { min, max } : undefined;
+}
 
 /** Convert a display-currency major amount into base-currency minor units. */
 function toBaseMinor(displayMajor: number, currency: DisplayCurrency): number {
@@ -25,6 +37,7 @@ export function parseFilters(sp: RawSearchParams, currency: DisplayCurrency): Pr
   const minRaw = one(sp.min);
   const maxRaw = one(sp.max);
   const page = Math.max(1, Number(one(sp.page)) || 1);
+  const genders = [...new Set((list(sp.gender) ?? []).map((g) => GENDERS[g.toLowerCase()]).filter(Boolean))];
 
   return {
     brandSlugs: list(sp.brands),
@@ -37,10 +50,21 @@ export function parseFilters(sp: RawSearchParams, currency: DisplayCurrency): Pr
     saleOnly: one(sp.sale) === "1",
     sort: sortRaw && VALID_SORTS.includes(sortRaw) ? sortRaw : "latest",
     q: one(sp.q),
-    gender: GENDERS[(one(sp.gender) ?? "").toLowerCase()],
+    gender: genders.length === 1 ? genders[0] : undefined,
+    genders: genders.length > 1 ? genders : undefined,
+    save: parseSave(one(sp.save)),
     page,
   };
 }
+
+/** Chip label for a ?save= view: "On offer" or "Save 25–35%". */
+export function saveLabel(save: { min: number; max: number }): string {
+  if (save.max >= 100) return save.min <= 1 ? "On offer" : `Save ${save.min}%+`;
+  return `Save ${save.min}–${save.max}%`;
+}
+
+/** Possessive department name for headings: "Men's", "Women's", "Kids'". */
+export const DEPARTMENT_POSSESSIVE: Record<string, string> = { Men: "Men's", Women: "Women's", Kids: "Kids'" };
 
 /** Convert base-currency minor units to a display-currency whole-number amount. */
 export function baseToDisplay(baseMinor: number, currency: DisplayCurrency): number {

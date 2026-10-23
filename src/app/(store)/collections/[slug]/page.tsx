@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCategoryWithAncestors } from "@/lib/queries/categories";
 import { listProducts, getFacets } from "@/lib/queries/products";
-import { parseFilters, baseToDisplay, type RawSearchParams } from "@/lib/queries/parse-filters";
+import { parseFilters, baseToDisplay, saveLabel, DEPARTMENT_POSSESSIVE, type RawSearchParams } from "@/lib/queries/parse-filters";
 import { getActiveCurrency } from "@/lib/currency.server";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { Filters } from "@/components/collection/Filters";
@@ -57,12 +57,13 @@ export default async function CollectionPage({ params, searchParams }: PageProps
   const showDepartmentLanding = hasDepartmentLanding(category.slug) && unfiltered;
   const showLanding = showKidsLanding || showDepartmentLanding;
   const activeAges = AGE_BANDS.filter((a) => filter.ages?.includes(a.key));
-  const withoutGender = new URLSearchParams(
-    Object.entries(sp).flatMap(([k, v]) => (k === "gender" || v === undefined ? [] : [[k, Array.isArray(v) ? v[0] : v]])),
-  ).toString();
-  const withoutAges = new URLSearchParams(
-    Object.entries(sp).flatMap(([k, v]) => (k === "ages" || v === undefined ? [] : [[k, Array.isArray(v) ? v[0] : v]])),
-  ).toString();
+  /** This page's link without one query param (for the ✕ chips). */
+  const without = (key: string) => {
+    const rest = new URLSearchParams(
+      Object.entries(sp).flatMap(([k, v]) => (k === key || k === "page" || v === undefined ? [] : [[k, Array.isArray(v) ? v[0] : v]])),
+    ).toString();
+    return `/collections/${category.slug}${rest ? `?${rest}` : ""}`;
+  };
 
   const facets = {
     brands: facetData.brands,
@@ -84,7 +85,7 @@ export default async function CollectionPage({ params, searchParams }: PageProps
           {showLanding
             ? `Shop all ${category.name.toLowerCase()}`
             : filter.gender
-              ? `${filter.gender === "Men" ? "Men's" : "Women's"} ${category.name}`
+              ? `${DEPARTMENT_POSSESSIVE[filter.gender]} ${category.name}`
               : category.name}
         </h1>
         {category.description && <p className="mt-2 max-w-2xl text-ink-muted">{category.description}</p>}
@@ -105,22 +106,33 @@ export default async function CollectionPage({ params, searchParams }: PageProps
         </div>
       )}
 
-      {filter.gender && (
+      {(filter.gender || filter.save) && (
         <div className="mt-5 flex flex-wrap gap-2">
-          <Link
-            href={`/collections/${category.slug}${withoutGender ? `?${withoutGender}` : ""}`}
-            className="inline-flex items-center gap-2 bg-ink px-4 py-1.5 text-sm text-white"
-            aria-label={`Show all of ${category.name}, not only ${filter.gender.toLowerCase()}'s`}
-          >
-            {filter.gender} only <span aria-hidden>✕</span>
-          </Link>
+          {filter.gender && (
+            <Link
+              href={without("gender")}
+              className="inline-flex items-center gap-2 bg-ink px-4 py-1.5 text-sm text-white"
+              aria-label={`Show all of ${category.name}, not only ${filter.gender.toLowerCase()}'s`}
+            >
+              {filter.gender} only <span aria-hidden>✕</span>
+            </Link>
+          )}
+          {filter.save && (
+            <Link
+              href={without("save")}
+              className="inline-flex items-center gap-2 bg-sale px-4 py-1.5 text-sm text-white"
+              aria-label={`Show all of ${category.name}, not only discounted products`}
+            >
+              {saveLabel(filter.save)} <span aria-hidden>✕</span>
+            </Link>
+          )}
         </div>
       )}
 
       {activeAges.length > 0 && (
         <div className="mt-5 flex flex-wrap gap-2">
           <Link
-            href={`/collections/${category.slug}${withoutAges ? `?${withoutAges}` : ""}`}
+            href={without("ages")}
             className="inline-flex items-center gap-2 bg-ink px-4 py-1.5 text-sm text-white"
             aria-label="Remove age filter"
           >
