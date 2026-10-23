@@ -20,6 +20,7 @@ import { getProductReviews } from "@/lib/reviews/queries";
 import { ProductReviews } from "@/components/reviews/ProductReviews";
 import { Stars } from "@/components/reviews/Stars";
 import { ukComparisonsFor } from "@/lib/pricing/uk-price";
+import { UkFlag } from "@/components/ui/UkFlag";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -164,7 +165,9 @@ export default async function ProductPage({ params }: PageProps) {
               size="lg"
             />
             {ukPrice && !(product.compareAtCents && product.compareAtCents > product.priceCents) && (
-              <p className="mt-1 text-xs text-ink-muted">RRP: this item&apos;s retail price in the UK, converted to rupees.</p>
+              <p className="mt-1 flex items-center gap-1.5 text-xs text-ink-muted">
+                <UkFlag /> Crossed-out price: this item&apos;s retail price in the UK, converted to rupees.
+              </p>
             )}
             <p className="mt-1 text-xs text-ink-muted">Tax included. Shipping calculated at checkout.</p>
           </div>

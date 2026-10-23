@@ -4,10 +4,10 @@ import { logAudit } from "@/lib/audit";
 import seedPrices from "./uk-prices-seed.json";
 
 /**
- * UK retail price (RRP) comparison: a product's real UK retail price (entered in Admin → Products, in pounds)
- * shown in rupees next to our price, with the saving, e.g. "Rs 12,400 · RRP ~~Rs 17,300~~ · -28%". Only shown
- * when our price is lower. It is the UK shops' price, not a former price of ours, so it is always labelled
- * "RRP". Real sales use the product's compare-at price instead (components/ui/Price).
+ * UK retail price comparison: a product's real UK retail price (entered in Admin → Products, in pounds) shown
+ * in rupees next to our price, with the saving, e.g. "Rs 12,400 · [UK flag] ~~Rs 17,300~~ · -28%". Only shown
+ * when our price is lower. It is the UK shops' price, not a former price of ours, so it is always marked with
+ * the UK flag. Real sales use the product's compare-at price instead (components/ui/Price).
  *
  * Tables are created on first use (same SQL as prisma/migrations/20261023120000_uk_prices), because the
  * host's deploy doesn't run migrations.
