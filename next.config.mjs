@@ -1,5 +1,3 @@
-import { PHASE_PRODUCTION_BUILD } from "next/constants.js";
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -58,13 +56,15 @@ const nextConfig = {
   },
 };
 
-export default function config(phase) {
-  if (phase === PHASE_PRODUCTION_BUILD) {
-    // Fewer threads in every process the build starts (they inherit these): 2 V8 helper threads
-    // instead of one per CPU, and a 2-thread libuv pool. Build only; `next start` is unaffected.
-    const nodeOptions = process.env.NODE_OPTIONS ?? "";
-    if (!nodeOptions.includes("--v8-pool-size")) process.env.NODE_OPTIONS = `${nodeOptions} --v8-pool-size=2`.trim();
-    process.env.UV_THREADPOOL_SIZE ??= "2";
-  }
-  return nextConfig;
+// `next build` only (`next start` is unaffected): fewer threads in every process the build starts
+// (they inherit these): 2 V8 helper threads instead of one per CPU, and a 2-thread libuv pool.
+// Detected from the command line because Next.js loads this file before it sets NEXT_PHASE.
+// The config must stay a plain exported object: Hostinger's deploy reads it to find the build output,
+// and a function export made it report "Next.js build produced no standalone server or static output".
+if (process.argv.includes("build")) {
+  const nodeOptions = process.env.NODE_OPTIONS ?? "";
+  if (!nodeOptions.includes("--v8-pool-size")) process.env.NODE_OPTIONS = `${nodeOptions} --v8-pool-size=2`.trim();
+  process.env.UV_THREADPOOL_SIZE ??= "2";
 }
+
+export default nextConfig;
