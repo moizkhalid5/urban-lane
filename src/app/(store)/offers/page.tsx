@@ -65,7 +65,7 @@ export default async function OffersPage({ searchParams }: { searchParams: Promi
     <div className="container-site py-8">
       <h1 className="text-3xl font-medium md:text-4xl">{department ? `${department} offers` : "Offers"}</h1>
       <p className="mt-2 max-w-2xl text-ink-muted">
-        Items on sale, and items priced below their UK retail price (RRP, converted to rupees).
+        Items on sale, and items priced below their UK retail price (crossed out with a UK flag, converted to rupees).
       </p>
 
       <div className="mt-5 flex flex-wrap gap-2">

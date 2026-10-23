@@ -1,5 +1,6 @@
 import { formatMoney, discountPercent, type DisplayCurrency } from "@/lib/money";
 import { cn } from "@/lib/utils";
+import { UkFlag } from "./UkFlag";
 
 type Props = {
   cents: number;
@@ -13,7 +14,7 @@ type Props = {
 
 /**
  * Renders a price, with strikethrough compare-at and a sale badge when on sale. Without a sale, a real UK
- * retail price is shown the same way but labelled "RRP", so it reads as a retail price, not a former price of ours.
+ * retail price is shown the same way, marked with a UK flag, so it reads as the UK price, not a former price of ours.
  */
 export function Price({ cents, compareAtCents, uk, currency, className, size = "md" }: Props) {
   const onSale = !!compareAtCents && compareAtCents > cents;
@@ -39,8 +40,13 @@ export function Price({ cents, compareAtCents, uk, currency, className, size = "
       {showUk && (
         // On cards it gets its own line, so narrow phone cards don't wrap it unevenly
         <span className={cn("flex items-baseline gap-2", size === "sm" && "w-full")}>
-          <span className={cn("text-ink-muted", size === "lg" ? "text-sm" : "text-xs")}>
-            RRP <span className="line-through">{formatMoney(uk!.cents, currency)}</span>
+          <span
+            title="This item's retail price in the UK, converted to rupees"
+            className={cn("inline-flex items-center gap-1 text-ink-muted", size === "lg" ? "text-sm" : "text-xs")}
+          >
+            <UkFlag />
+            <span className="sr-only">UK price</span>
+            <span className="line-through">{formatMoney(uk!.cents, currency)}</span>
           </span>
           <span className="text-xs font-medium uppercase tracking-wide text-sale">-{uk!.savePct}%</span>
         </span>
