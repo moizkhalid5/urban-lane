@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getActiveCurrency } from "@/lib/currency.server";
 import { formatMoney } from "@/lib/money";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { reviewToken } from "@/lib/reviews/request";
 
 export default async function OrderDetailPage({ params }: { params: Promise<{ orderNumber: string }> }) {
   const user = await requireUser("/account/orders");
@@ -30,6 +31,15 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ or
           <StatusBadge status={order.fulfillmentStatus} />
         </div>
       </div>
+
+      {order.fulfillmentStatus === "DELIVERED" && (
+        <div className="flex flex-wrap items-center justify-between gap-3 border border-line bg-line-soft p-4 text-sm">
+          <span>How was your order? Rate what you bought.</span>
+          <Link href={`/review/${encodeURIComponent(order.orderNumber)}?t=${reviewToken(order.orderNumber)}`} className="btn-primary">
+            Rate your order
+          </Link>
+        </div>
+      )}
 
       {order.trackingNumber && (
         <p className="border border-line bg-line-soft p-4 text-sm">

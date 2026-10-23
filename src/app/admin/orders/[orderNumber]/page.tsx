@@ -5,12 +5,16 @@ import { getBaseCurrency } from "@/lib/settings";
 import { formatMoney } from "@/lib/money";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { OrderEditForm } from "@/components/admin/OrderEditForm";
+import { ReviewRequestButtons } from "@/components/admin/ReviewRequestButtons";
+import { ensureReviewTables } from "@/lib/reviews/db";
+import { whatsappReviewLink } from "@/lib/reviews/request";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminOrderDetail({ params }: { params: Promise<{ orderNumber: string }> }) {
   const { orderNumber } = await params;
-  const order = await prisma.order.findUnique({ where: { orderNumber }, include: { items: true } });
+  await ensureReviewTables();
+  const order = await prisma.order.findUnique({ where: { orderNumber }, include: { items: true, reviewRequest: true } });
   if (!order) notFound();
   const currency = await getBaseCurrency();
 
@@ -75,6 +79,22 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ o
               </p>
             </div>
           </div>
+
+          {order.fulfillmentStatus === "DELIVERED" && (
+            <div className="card space-y-2 p-4 text-sm">
+              <h3 className="font-medium">Ask for a review</h3>
+              <p className="text-ink-muted">
+                The customer was emailed a &ldquo;How was your order?&rdquo; link when this order was marked delivered.
+                Send it again, or on WhatsApp.
+              </p>
+              <ReviewRequestButtons
+                orderNumber={order.orderNumber}
+                emailedAt={order.reviewRequest?.emailedAt?.toISOString() ?? null}
+                whatsappAt={order.reviewRequest?.whatsappAt?.toISOString() ?? null}
+                whatsappHref={whatsappReviewLink(order)}
+              />
+            </div>
+          )}
 
           {order.customerNote && (
             <div className="card p-4 text-sm">

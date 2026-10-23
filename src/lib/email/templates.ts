@@ -102,6 +102,25 @@ export function orderStatusTemplate(orderNumber: string, status: string, trackin
   return { subject: `Order ${orderNumber}: ${status} — ${STORE}`, html, text: strip(html) };
 }
 
+const esc = (v: string) => v.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/** Sent when an order is marked delivered (and from Admin → Reviews → Ask customers): asks for a review. */
+export function reviewRequestTemplate(firstName: string, orderNumber: string, items: string[], url: string) {
+  const list = items.map((t) => `<li style="margin:4px 0">${esc(t)}</li>`).join("");
+  const html = layout(
+    `How was your order?`,
+    `<p>Hi ${esc(firstName)},</p>
+     <p>Your order <strong>${esc(orderNumber)}</strong> has been delivered. We hope you love it!</p>
+     <ul style="padding-left:18px;margin:12px 0">${list}</ul>
+     <p>Could you take a minute to rate what you bought? It helps other shoppers choose, and it helps us
+        improve. English or Roman Urdu, both are welcome.</p>
+     <p style="margin:24px 0">${btn(url, "Rate your order")}</p>
+     <p style="font-size:12px;color:#6b6b6b">Your review will show your first name and city, marked as a verified buyer.</p>`,
+  );
+  // The plain-text version keeps the link (strip() drops the button's href)
+  return { subject: `How was your order ${orderNumber}? — ${STORE}`, html, text: `${strip(html)}\n\nRate your order: ${url}` };
+}
+
 export function shippingConfirmationTemplate(orderNumber: string, tracking?: string, carrier?: string) {
   const html = layout(
     `Your order ${orderNumber} has shipped`,

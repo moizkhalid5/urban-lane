@@ -7,6 +7,7 @@ import { orderUpdateSchema } from "@/lib/validation";
 import { logAudit } from "@/lib/audit";
 import { sendEmail } from "@/lib/email";
 import { orderStatusTemplate, shippingConfirmationTemplate } from "@/lib/email/templates";
+import { emailReviewRequest } from "@/lib/reviews/request";
 
 export type OrderActionResult = { ok: boolean; message?: string };
 
@@ -37,6 +38,9 @@ export async function updateOrder(orderNumber: string, input: unknown): Promise<
         to: updated.email,
         ...shippingConfirmationTemplate(orderNumber, updated.trackingNumber ?? undefined, updated.trackingCarrier ?? undefined),
       });
+    } else if (d.fulfillmentStatus === "DELIVERED") {
+      // The "delivered" email asks the customer to rate their order (lib/reviews/request).
+      await emailReviewRequest(updated.id).catch((err) => console.error("[reviews] Couldn't send the review request.", err));
     } else {
       await sendEmail({
         to: updated.email,

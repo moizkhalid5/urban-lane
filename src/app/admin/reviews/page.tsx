@@ -63,6 +63,9 @@ export default async function AdminReviewsPage({ searchParams }: { searchParams:
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-medium">Reviews</h1>
         <div className="flex flex-wrap gap-2">
+          <Link href="/admin/reviews/requests" className="btn-secondary">
+            Ask customers
+          </Link>
           <Link href="/admin/reviews/import" className="btn-secondary">
             Import from Excel
           </Link>

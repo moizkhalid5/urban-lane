@@ -37,7 +37,7 @@ export function CustomerReviewsCarousel({ reviews }: { reviews: PublicReview[] }
               r.title && <p className="text-base font-semibold">{r.title}</p>
             )}
             <blockquote className="mt-3 text-[15px] leading-relaxed text-ink-soft">
-              <p className="line-clamp-6">&ldquo;{r.body}&rdquo;</p>
+              {r.body && <p className="line-clamp-6">&ldquo;{r.body}&rdquo;</p>}
             </blockquote>
             <figcaption className="mt-3 text-sm font-medium">
               – {r.authorName}

@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 
 /**
  * The review tables are created on first use, so the site works whether or not the host's deploy runs
- * migrations. Same SQL as prisma/migrations/20261022120000_reviews (CREATE TABLE IF NOT EXISTS).
+ * migrations. Same SQL as prisma/migrations/20261022120000_reviews and 20261024120000_review_requests.
  */
 const CREATE_REVIEW = `CREATE TABLE IF NOT EXISTS \`Review\` (
     \`id\` VARCHAR(191) NOT NULL,
@@ -48,14 +48,24 @@ const CREATE_PRIOR_SALES = `CREATE TABLE IF NOT EXISTS \`PriorSales\` (
     CONSTRAINT \`PriorSales_productId_fkey\` FOREIGN KEY (\`productId\`) REFERENCES \`Product\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`;
 
+const CREATE_REVIEW_REQUEST = `CREATE TABLE IF NOT EXISTS \`ReviewRequest\` (
+    \`orderId\` VARCHAR(191) NOT NULL,
+    \`emailedAt\` DATETIME(3) NULL,
+    \`whatsappAt\` DATETIME(3) NULL,
+    \`updatedAt\` DATETIME(3) NOT NULL,
+    PRIMARY KEY (\`orderId\`),
+    CONSTRAINT \`ReviewRequest_orderId_fkey\` FOREIGN KEY (\`orderId\`) REFERENCES \`Order\`(\`id\`) ON DELETE CASCADE ON UPDATE CASCADE
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`;
+
 let ready: Promise<void> | null = null;
 
-/** Creates the review and prior-sales tables if they don't exist yet (once per server process). */
+/** Creates the review, prior-sales and review-request tables if they don't exist yet (once per server process). */
 export function ensureReviewTables(): Promise<void> {
   ready ??= (async () => {
     await prisma.$executeRawUnsafe(CREATE_REVIEW);
     await prisma.$executeRawUnsafe(CREATE_SETTINGS);
     await prisma.$executeRawUnsafe(CREATE_PRIOR_SALES);
+    await prisma.$executeRawUnsafe(CREATE_REVIEW_REQUEST);
   })().catch((err) => {
     ready = null; // try again on the next request
     throw err;
