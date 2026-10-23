@@ -26,7 +26,9 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   // Pages that start with a full-width banner (homepage, Outlet): the menu row is transparent until the
-  // banner has scrolled away beneath it, or while a mega menu or the search bar is open.
+  // banner has scrolled away beneath it, or while a mega menu or the search bar is open. Where the
+  // banner's picture starts below the menu (data-hero-art, the homepage slider), the menu turns solid as
+  // soon as more than 1% of the picture would go under it, so the picture never shows through the menu.
   const pathname = usePathname();
   const pageHero = heroForPath(pathname);
   const heroPage = !!pageHero;
@@ -40,7 +42,12 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
       setScrolled(window.scrollY > 8);
       const hero = heroPage ? document.getElementById(HERO_ELEMENT_ID) : null;
       const rowBottom = menuRow.current?.getBoundingClientRect().bottom ?? 0;
-      setOverHero(!!hero && hero.getBoundingClientRect().bottom > rowBottom + 1);
+      const art = hero?.querySelector<HTMLElement>("[data-hero-art]")?.getBoundingClientRect();
+      setOverHero(
+        !!hero &&
+          hero.getBoundingClientRect().bottom > rowBottom + 1 &&
+          (!art || art.top >= rowBottom - art.height * 0.01),
+      );
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -101,7 +108,9 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
         onMouseLeave={() => setActiveMenu(null)}
       >
         {/* main row. Currency and the staff Admin link sit with the icons; Help is in the footer. */}
-        <div className="container-site flex h-16 items-center gap-4">
+        {/* 48px tall on phones and tablets, 64px from lg (banners under the menu match: PageHeroBanner,
+            HomeHeroSlider). The logo is centred until lg. */}
+        <div className="container-site relative flex h-12 items-center gap-4 lg:h-16">
           {/* mobile menu button */}
           <button
             type="button"
@@ -112,7 +121,10 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
             <MenuIcon />
           </button>
 
-          <Link href="/" className="shrink-0 text-xl font-semibold uppercase tracking-[0.2em] lg:mr-6">
+          <Link
+            href="/"
+            className="absolute left-1/2 shrink-0 -translate-x-1/2 text-lg font-semibold uppercase tracking-[0.18em] lg:static lg:mr-6 lg:translate-x-0 lg:text-xl lg:tracking-[0.2em]"
+          >
             Urban&nbsp;Lane
           </Link>
 

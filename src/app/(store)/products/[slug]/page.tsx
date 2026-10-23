@@ -19,6 +19,8 @@ import { prisma } from "@/lib/prisma";
 import { getProductReviews } from "@/lib/reviews/queries";
 import { ProductReviews } from "@/components/reviews/ProductReviews";
 import { Stars } from "@/components/reviews/Stars";
+import { UkPriceNote } from "@/components/ui/UkPriceNote";
+import { ukComparisonsFor } from "@/lib/pricing/uk-price";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -57,10 +59,12 @@ export default async function ProductPage({ params }: PageProps) {
     { name: product.title, href: `/products/${product.slug}` },
   ];
 
-  const [related, reviews] = await Promise.all([
+  const [related, reviews, ukPrices] = await Promise.all([
     getRelatedProducts(product.id, primaryCategory?.id, 4),
     getProductReviews(product.id, product.salesCount),
+    ukComparisonsFor([product]),
   ]);
+  const ukPrice = ukPrices.get(product.id);
 
   // Recently viewed (cookie set client-side on previous views; excludes current product).
   const recentIds = (await cookies()).get("ul_recent")?.value?.split(",").filter(Boolean) ?? [];
@@ -154,6 +158,7 @@ export default async function ProductPage({ params }: PageProps) {
 
           <div className="mt-4">
             <Price cents={product.priceCents} compareAtCents={product.compareAtCents} currency={currency} size="lg" />
+            {ukPrice && <UkPriceNote uk={ukPrice} currency={currency} detailed className="mt-1" />}
             <p className="mt-1 text-xs text-ink-muted">Tax included. Shipping calculated at checkout.</p>
           </div>
 

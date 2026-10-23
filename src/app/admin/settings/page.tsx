@@ -1,6 +1,8 @@
 import { getSiteSettings } from "@/lib/settings";
 import { requireAdmin } from "@/lib/auth/guards";
 import { SettingsForm } from "@/components/admin/SettingsForm";
+import { GbpRateForm } from "@/components/admin/GbpRateForm";
+import { getGbpToPkr } from "@/lib/pricing/uk-price";
 
 export const dynamic = "force-dynamic";
 
@@ -8,7 +10,7 @@ const major = (cents: number | null | undefined) => (cents == null ? "" : String
 
 export default async function AdminSettingsPage() {
   await requireAdmin(); // settings are ADMIN-only
-  const s = await getSiteSettings();
+  const [s, gbpToPkr] = await Promise.all([getSiteSettings(), getGbpToPkr()]);
 
   return (
     <div className="space-y-6">
@@ -30,6 +32,7 @@ export default async function AdminSettingsPage() {
           announcementText: s.announcementText ?? "",
         }}
       />
+      <GbpRateForm initial={gbpToPkr} />
     </div>
   );
 }

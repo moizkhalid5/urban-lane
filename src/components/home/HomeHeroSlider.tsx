@@ -1,18 +1,22 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { HERO_ELEMENT_ID, type HomeSlide } from "@/lib/collection-heroes";
 import { ArtworkBannerLinks } from "@/components/ui/ArtworkBannerLinks";
 import { cn } from "@/lib/utils";
 
 /**
- * Homepage hero: full-width slider of artwork banners, all at the main banner's shape (2.334:1).
- * It sits under the header's transparent menu row; the strip behind the menu takes the colour of the
- * current slide's top edge, so the menu never covers faces or text. The slide's `tone` is published on
- * the section (data-tone) so the header picks dark or white menu text.
+ * Homepage hero: full-width slider of artwork banners. Tablets and computers show the 2.334:1 banners,
+ * phones a taller 3:2 cut of each (lib/collection-heroes.ts).
  *
- * Images are served as they are (high-quality WebP made by scripts/build_home_banners.py, no further
- * compression): full size on computers, 960px wide on phones.
+ * It sits under the header's transparent menu row. The strip behind the menu (as tall as the menu row:
+ * 48px on phones and tablets, 64px from lg, plus its 1px border) takes the colour of the current
+ * slide's top edge, so at the top of the page none of the picture is under the menu. The picture box is
+ * marked data-hero-art: the header turns solid as soon as more than 1% of it would go under the menu.
+ * The slide's `tone` is published on the section (data-tone) so the header picks dark or white text.
+ *
+ * Images are served as they are (high-quality WebP from scripts/build_home_banners.py, no further
+ * compression).
  */
 export function HomeHeroSlider({ slides }: { slides: HomeSlide[] }) {
   const [index, setIndex] = useState(0);
@@ -36,8 +40,8 @@ export function HomeHeroSlider({ slides }: { slides: HomeSlide[] }) {
       data-tone={current.tone}
       aria-roledescription="carousel"
       aria-label="Featured"
-      className="relative -mt-[65px] w-full overflow-hidden pt-[65px] transition-colors duration-1000"
-      style={{ backgroundColor: current.band }}
+      className="relative -mt-[49px] w-full overflow-hidden bg-[var(--band-phone)] pt-[49px] transition-colors duration-1000 md:bg-[var(--band)] lg:-mt-[65px] lg:pt-[65px]"
+      style={{ "--band": current.band, "--band-phone": current.phoneBand } as CSSProperties}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
@@ -50,7 +54,7 @@ export function HomeHeroSlider({ slides }: { slides: HomeSlide[] }) {
         touchX.current = null;
       }}
     >
-      <div className="relative aspect-[1916/821]">
+      <div data-hero-art className="relative aspect-[3/2] md:aspect-[1916/821]">
         {slides.map((s, i) => (
           <div
             key={s.key}
@@ -63,11 +67,28 @@ export function HomeHeroSlider({ slides }: { slides: HomeSlide[] }) {
               i === index ? "opacity-100" : "pointer-events-none opacity-0",
             )}
           >
-            <picture>
-              <source media="(max-width: 767px)" srcSet={s.mobile} />
+            {/* Phones: 3:2 cut */}
+            <div className="absolute inset-0 md:hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised artwork, served as is */}
+              <img
+                src={s.phone}
+                alt={s.alt}
+                width={1200}
+                height={800}
+                loading={i === 0 ? "eager" : "lazy"}
+                fetchPriority={i === 0 ? "high" : "auto"}
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <ArtworkBannerLinks image={s.phone} href={s.link} label={s.label} />
+            </div>
+            {/* Tablets and computers: 2.334:1 banner */}
+            <div className="absolute inset-0 hidden md:block">
               {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised artwork, served as is */}
               <img
                 src={s.desktop}
+                srcSet={`${s.desktopSmall} 960w, ${s.desktop} ${s.width}w`}
+                sizes="100vw"
                 alt={s.alt}
                 width={s.width}
                 height={s.height}
@@ -76,8 +97,8 @@ export function HomeHeroSlider({ slides }: { slides: HomeSlide[] }) {
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover"
               />
-            </picture>
-            <ArtworkBannerLinks image={s.desktop} href={s.link} label={s.label} />
+              <ArtworkBannerLinks image={s.desktop} href={s.link} label={s.label} />
+            </div>
           </div>
         ))}
 

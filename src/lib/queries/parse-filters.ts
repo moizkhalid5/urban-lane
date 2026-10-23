@@ -11,6 +11,9 @@ const list = (v: string | string[] | undefined) => {
 
 const VALID_SORTS: ProductSort[] = ["latest", "price-asc", "price-desc", "featured", "best-selling"];
 
+/** ?gender=men|women narrows a collection to one department (e.g. the men's banner → Winter, men only). */
+const GENDERS: Record<string, string> = { men: "Men", women: "Women" };
+
 /** Convert a display-currency major amount into base-currency minor units. */
 function toBaseMinor(displayMajor: number, currency: DisplayCurrency): number {
   return Math.round((displayMajor / currency.rate) * 100);
@@ -34,6 +37,7 @@ export function parseFilters(sp: RawSearchParams, currency: DisplayCurrency): Pr
     saleOnly: one(sp.sale) === "1",
     sort: sortRaw && VALID_SORTS.includes(sortRaw) ? sortRaw : "latest",
     q: one(sp.q),
+    gender: GENDERS[(one(sp.gender) ?? "").toLowerCase()],
     page,
   };
 }

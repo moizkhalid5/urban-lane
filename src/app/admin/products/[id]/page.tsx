@@ -5,6 +5,8 @@ import { getProductFormOptions } from "@/lib/queries/admin-options";
 import { ProductEditor, type ProductEditorData } from "@/components/admin/ProductEditor";
 import { SalesHistoryForm } from "@/components/admin/SalesHistoryForm";
 import { ProductReviewsPanel } from "@/components/admin/ProductReviewsPanel";
+import { UkPriceForm } from "@/components/admin/UkPriceForm";
+import { ensurePricingTables, getGbpToPkr } from "@/lib/pricing/uk-price";
 import { ensureReviewTables, getReviewSettings } from "@/lib/reviews/db";
 
 export const dynamic = "force-dynamic";
@@ -26,11 +28,15 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
   ]);
   if (!product) notFound();
 
-  const [priorSales, reviewSettings] = await Promise.all([
+  const [priorSales, reviewSettings, ukPrice, gbpToPkr] = await Promise.all([
     ensureReviewTables()
       .then(() => prisma.priorSales.findUnique({ where: { productId: product.id } }))
       .catch(() => null),
     getReviewSettings(),
+    ensurePricingTables()
+      .then(() => prisma.ukPrice.findUnique({ where: { productId: product.id } }))
+      .catch(() => null),
+    getGbpToPkr(),
   ]);
 
   const initial: ProductEditorData = {
@@ -82,6 +88,13 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
         initialUnits={priorSales?.units ?? 0}
         initialNote={priorSales?.note ?? ""}
         minSoldToShow={reviewSettings.minSoldToShow}
+      />
+      <UkPriceForm
+        productId={product.id}
+        ourPrice={product.priceCents / 100}
+        initialPounds={ukPrice ? String(ukPrice.pence / 100) : ""}
+        initialSource={ukPrice?.source ?? ""}
+        gbpToPkr={gbpToPkr}
       />
       <ProductReviewsPanel productId={product.id} />
     </div>

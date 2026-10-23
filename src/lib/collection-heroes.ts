@@ -33,39 +33,49 @@ export const COLLECTION_HEROES: Record<string, PageHero> = {
 };
 
 /**
- * Homepage hero slider (components/home/HomeHeroSlider.tsx), all slides at the main banner's shape.
- * Images: scripts/build_home_banners.py (from the originals in Banners/). `band` is the colour of the
- * slide's top edge, used for the strip behind the menu; `tone` picks the menu text colour on it.
- * Painted buttons are in lib/banner-buttons.ts (keyed by `desktop`).
+ * Homepage hero slider (components/home/HomeHeroSlider.tsx). Images: scripts/build_home_banners.py, from
+ * the originals in Banners/:
+ * - tablets and computers: the main banner's shape (2.334:1), `desktop` (+ a 960px version);
+ * - phones: a taller 3:2 cut, `phone` (1200x800).
+ * `band` / `phoneBand` is the colour of each version's top edge, used for the strip behind the menu;
+ * `tone` picks the menu text colour on it. Painted buttons: lib/banner-buttons.ts (keyed by file).
  */
 export type HomeSlide = {
   key: string;
   desktop: string;
-  mobile: string;
+  desktopSmall: string;
   width: number;
   height: number;
+  phone: string;
   alt: string;
   link: string;
   label: string;
   band: string;
+  phoneBand: string;
   tone: "dark" | "light";
 };
 
-const slide = (key: string, width: number, height: number, rest: Omit<HomeSlide, "key" | "desktop" | "mobile" | "width" | "height">): HomeSlide => ({
+const slide = (
+  key: string,
+  width: number,
+  height: number,
+  rest: Omit<HomeSlide, "key" | "desktop" | "desktopSmall" | "phone" | "width" | "height">,
+): HomeSlide => ({
   key,
   desktop: `/images/banners/home/${key}-${width}.webp`,
-  mobile: `/images/banners/home/${key}-960.webp`,
+  desktopSmall: `/images/banners/home/${key}-960.webp`,
+  phone: `/images/banners/home/${key}-m-1200.webp`,
   width,
   height,
   ...rest,
 });
 
 export const HOME_SLIDES: HomeSlide[] = [
-  slide("urban-lane", 1916, 821, { alt: "Urban Lane", link: "/collections/women", label: "Shop now", band: "#faf9f9", tone: "light" }),
-  slide("women", 1862, 798, { alt: "Urban Lane online sale on womenswear", link: "/collections/women", label: "Shop womenswear", band: "#8d8b8a", tone: "light" }),
-  slide("men", 1672, 716, { alt: "Styles and fit: short-sleeve party wear shirts for men", link: "/collections/men", label: "Shop menswear", band: "#a7a995", tone: "light" }),
-  slide("kids", 1672, 716, { alt: "Summer kids collection", link: "/collections/kids", label: "Discover kidswear", band: "#e5e4e4", tone: "light" }),
-  slide("sale", 1672, 716, { alt: "New season: 30% off, limited time offer", link: "/collections/outlet", label: "Shop the sale", band: "#947557", tone: "dark" }),
+  slide("urban-lane", 1916, 821, { alt: "Urban Lane", link: "/collections/women", label: "Shop now", band: "#faf9f9", phoneBand: "#f9f9f9", tone: "light" }),
+  slide("men-winter", 1897, 813, { alt: "Urban Lane men's winter collection: 30% sale", link: "/collections/winter?gender=men", label: "Shop the men's winter collection", band: "#c7c4ba", phoneBand: "#ccc8be", tone: "light" }),
+  slide("women", 1862, 798, { alt: "Urban Lane online sale on womenswear", link: "/collections/women", label: "Shop womenswear", band: "#8d8b8a", phoneBand: "#8a8887", tone: "light" }),
+  slide("kids", 1672, 716, { alt: "Summer kids collection", link: "/collections/kids", label: "Discover kidswear", band: "#e5e4e4", phoneBand: "#f8f8f8", tone: "light" }),
+  slide("sale", 1672, 716, { alt: "New season: 30% off, limited time offer", link: "/collections/outlet", label: "Shop the sale", band: "#947557", phoneBand: "#a78460", tone: "dark" }),
 ];
 
 /** A full-width banner inside a page: a wide cut for tablets and computers, the whole picture for phones. */

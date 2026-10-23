@@ -78,8 +78,11 @@ export function Filters({
 
   function clearAll() {
     const next = new URLSearchParams();
-    const sort = params.get("sort");
-    if (sort) next.set("sort", sort);
+    // Sort order and a department view (?gender=men) aren't filters; keep them.
+    for (const key of ["sort", "gender"]) {
+      const value = params.get(key);
+      if (value) next.set(key, value);
+    }
     setMin("");
     setMax("");
     router.push(`${pathname}?${next.toString()}`); // back to the top: results (and the page above them) change
