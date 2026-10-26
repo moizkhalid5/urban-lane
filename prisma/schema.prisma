@@ -251,6 +251,7 @@ model Product {
   reviews    Review[]
   priorSales PriorSales?
   ukPrice    UkPrice?
+  railItems  RailItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -674,5 +675,48 @@ model PricingSettings {
   id        String   @id @default("singleton")
   /// rupees per pound, for showing UK prices in rupees
   gbpToPkr  Float    @default(360)
+  updatedAt DateTime @updatedAt
+}
+
+/// Homepage "hanging rail": garments on hangers that turn to face the shopper (Admin → Homepage rail).
+/// Front and side photos are uploaded with their background removed (lib/storage/rail-image.ts).
+model RailItem {
+  id         String   @id @default(cuid())
+  /// the product it opens; price, discount and sizes come from it (hidden on the shop while not linked)
+  productId  String?
+  product    Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  /// which rail collection it hangs in ("Men's Suits"); hidden on the shop while not in one
+  collectionId String?
+  collection   RailCollection? @relation(fields: [collectionId], references: [id], onDelete: SetNull)
+  frontImage String   @db.VarChar(500)
+  sideImage  String   @db.VarChar(500)
+  /// big word behind the rail ("coat", "hoodie"); empty = worked out from the product name
+  word       String?  @db.VarChar(20)
+  position   Int      @default(0)
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([isActive, position])
+  @@index([collectionId])
+}
+
+/// A tab above the homepage rail ("Men's Suits", "Women's Winter Jackets"); shoppers switch between them.
+model RailCollection {
+  id        String     @id @default(cuid())
+  name      String     @db.VarChar(60)
+  position  Int        @default(0)
+  isActive  Boolean    @default(true)
+  items     RailItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model RailSettings {
+  id        String   @id @default("singleton")
+  enabled   Boolean  @default(true)
+  /// where on the homepage: see RAIL_PLACEMENTS in lib/rail/db.ts
+  placement String   @default("after-hero") @db.VarChar(40)
+  heading   String?  @db.VarChar(80)
   updatedAt DateTime @updatedAt
 }

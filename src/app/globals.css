@@ -80,3 +80,19 @@
     scrollbar-width: none;
   }
 }
+
+/* Homepage hanging rail (components/home/HangingRail): a hanger swings and settles like a pendulum.
+   --sway is the first swing in degrees (negative = to the left). */
+@keyframes rail-swing {
+  0% { transform: rotate(0); animation-timing-function: cubic-bezier(0.3, 0, 0.5, 1); }
+  14% { transform: rotate(calc(var(--sway) * 0.8deg)); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  36% { transform: rotate(calc(var(--sway) * -0.48deg)); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  58% { transform: rotate(calc(var(--sway) * 0.26deg)); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  79% { transform: rotate(calc(var(--sway) * -0.1deg)); animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1); }
+  100% { transform: rotate(0); }
+}
+.rail-swinging { animation: rail-swing 2.4s linear; }
+@media (prefers-reduced-motion: reduce) {
+  .rail-swinging { animation: none; }
+  .rail-face { transition: none !important; }
+}

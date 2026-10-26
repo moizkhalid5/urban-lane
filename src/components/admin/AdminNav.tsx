@@ -12,6 +12,7 @@ const items = [
   { href: "/admin/inventory", label: "Inventory" },
   { href: "/admin/customers", label: "Customers" },
   { href: "/admin/reviews", label: "Reviews" },
+  { href: "/admin/rail", label: "Homepage rail" },
   { href: "/admin/settings", label: "Settings" },
 ];
 
