@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import { logAudit } from "@/lib/audit";
+import seedRail from "./seed.json";
 
 /**
  * Homepage "hanging rail" (Admin → Homepage rail). The tables are created on first use, because the host's
@@ -71,11 +73,65 @@ export function ensureRailTables(): Promise<void> {
     if ((await prisma.railCollection.count()) === 0) {
       await prisma.railCollection.createMany({ data: DEFAULT_RAIL_COLLECTIONS.map((name, position) => ({ name, position })) });
     }
+    await loadSeedRailOnce();
   })().catch((err) => {
     ready = null;
     throw err;
   });
   return ready;
+}
+
+type SeedGarment = { collection: string; sku: string | null; title?: string; word?: string; front: string; side: string };
+
+/** Bump when seed.json is replaced, so it loads again (into an empty rail only). */
+const SEED_VERSION = "rail 2026-10-26";
+
+/**
+ * Hangs the first garments on the rail (seed.json; photos in public/images/rail, shipped with the code) once
+ * per SEED_VERSION, so the live site starts with the same rail as the preview without uploading 44 photos.
+ * Only into an empty rail, so garments set up in the admin are never doubled. Products are linked by SKU, or
+ * by exact name for products the preview didn't have; anything not found is left unlinked (hidden on the
+ * shop, flagged in the admin). Best-effort: never blocks the shop.
+ */
+async function loadSeedRailOnce(): Promise<void> {
+  try {
+    const done = await prisma.auditLog.findFirst({ where: { action: "rail.seed", entityId: SEED_VERSION }, select: { id: true } });
+    if (done) return;
+    let added = 0;
+    let linked = 0;
+    if ((await prisma.railItem.count()) === 0) {
+      const seed = seedRail as SeedGarment[];
+      const collections = new Map((await prisma.railCollection.findMany({ select: { id: true, name: true } })).map((c) => [c.name, c.id]));
+      for (const name of new Set(seed.map((g) => g.collection))) {
+        if (!collections.has(name)) collections.set(name, (await prisma.railCollection.create({ data: { name, position: collections.size } })).id);
+      }
+      const products = await prisma.product.findMany({
+        where: {
+          OR: [
+            { sku: { in: seed.flatMap((g) => (g.sku ? [g.sku] : [])) } },
+            { title: { in: seed.flatMap((g) => (g.title ? [g.title] : [])) } },
+          ],
+        },
+        select: { id: true, sku: true, title: true },
+      });
+      const bySku = new Map(products.map((p) => [p.sku, p.id]));
+      const byTitle = new Map(products.map((p) => [p.title, p.id]));
+      const data = seed.map((g, position) => ({
+        collectionId: collections.get(g.collection) ?? null,
+        productId: (g.sku && bySku.get(g.sku)) || (g.title && byTitle.get(g.title)) || null,
+        word: g.word ?? null,
+        frontImage: g.front,
+        sideImage: g.side,
+        position,
+      }));
+      await prisma.railItem.createMany({ data });
+      added = data.length;
+      linked = data.filter((d) => d.productId).length;
+    }
+    await logAudit(undefined, "rail.seed", "RailItem", SEED_VERSION, { added, linked });
+  } catch (err) {
+    console.error("[rail] Couldn't load the first rail garments.", err);
+  }
 }
 
 /** Where the rail can go on the homepage (src/app/(store)/page.tsx). */
