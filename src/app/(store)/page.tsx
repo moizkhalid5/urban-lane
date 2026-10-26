@@ -13,6 +13,8 @@ import { getHomepageReviews } from "@/lib/reviews/queries";
 import { HomeHeroSlider } from "@/components/home/HomeHeroSlider";
 import { HOME_SLIDES, HOME_WINTER } from "@/lib/collection-heroes";
 import { WideBanner } from "@/components/home/WideBanner";
+import { HangingRail } from "@/components/home/HangingRail";
+import { getHomepageRail } from "@/lib/rail/queries";
 
 function SectionHeading({ title, href, cta }: { title: string; href?: string; cta?: string }) {
   return (
@@ -37,7 +39,7 @@ const FEATURED_ROWS = [
 export default async function HomePage() {
   const currency = await getActiveCurrency();
 
-  const [featuredRows, newArrivals, outlet, tiles, brands, homepageReviews] = await Promise.all([
+  const [featuredRows, newArrivals, outlet, tiles, brands, homepageReviews, rail] = await Promise.all([
     Promise.all(FEATURED_ROWS.map((r) => listProducts({ categorySlug: r.slug, sort: "featured", pageSize: 8 }))),
     listProducts({ sort: "latest", pageSize: 8 }),
     listProducts({ saleOnly: true, pageSize: 4 }),
@@ -49,12 +51,19 @@ export default async function HomePage() {
     }),
     prisma.brand.findMany({ where: { isFeatured: true }, orderBy: { position: "asc" } }),
     getHomepageReviews(15),
+    getHomepageRail(),
   ]);
+
+  // Hanging rail (Admin → Homepage rail), at the place chosen there
+  const railAt = (placement: string) =>
+    rail?.settings.placement === placement ? <HangingRail collections={rail.collections} currency={currency} heading={rail.settings.heading} /> : null;
 
   return (
     <>
       {/* Full-width banner slider under the transparent menu (slides: lib/collection-heroes.ts) */}
       <HomeHeroSlider slides={HOME_SLIDES} />
+
+      {railAt("after-hero")}
 
       {/* Category tiles */}
       <section className="container-site py-14">
@@ -84,6 +93,8 @@ export default async function HomePage() {
           <BrandSlider brands={brands.map((b) => ({ name: b.name, slug: b.slug, banner: b.banner }))} />
         </section>
       )}
+
+      {railAt("after-brands")}
 
       {/* Brand film, in line with the other sections */}
       <BrandVideo />
@@ -115,6 +126,8 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {railAt("after-featured")}
+
       {/* Winter Collection banner, full width (lib/collection-heroes.ts) */}
       <WideBanner banner={HOME_WINTER} />
 
@@ -123,6 +136,8 @@ export default async function HomePage() {
         <SectionHeading title="New arrivals" href="/collections/women" />
         <ProductGrid products={newArrivals.products} currency={currency} />
       </section>
+
+      {railAt("after-new")}
 
       {/* Outlet strip */}
       {outlet.products.length > 0 && (
