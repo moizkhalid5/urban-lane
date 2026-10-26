@@ -16,6 +16,19 @@
   body {
     @apply bg-white text-ink antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    /* The page never gets wider than the screen: anything poking past the edge is cut off, so phones don't
+       zoom out to fit it and desktops get no sideways scrollbar. "clip" (unlike "hidden") keeps the sticky
+       header working. */
+    overflow-x: clip;
+  }
+
+  /* iPhones zoom in when you tap a text box with text smaller than 16px; on phones they're all 16px. */
+  @media (max-width: 767px) {
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
   }
 
   /* Consistent focus ring for accessibility */

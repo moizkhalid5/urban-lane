@@ -40,9 +40,10 @@ export function Price({ cents, compareAtCents, uk, currency, className, size = "
       {showUk && (
         // On cards it gets its own line, so narrow phone cards don't wrap it unevenly
         <span className={cn("flex items-baseline gap-2", size === "sm" && "w-full")}>
+          {/* relative: keeps the screen-reader label below inside it (in sideways-scrolling rows it stretched the page) */}
           <span
             title="This item's retail price in the UK, converted to rupees"
-            className={cn("inline-flex items-center gap-1 text-ink-muted", size === "lg" ? "text-sm" : "text-xs")}
+            className={cn("relative inline-flex items-center gap-1 text-ink-muted", size === "lg" ? "text-sm" : "text-xs")}
           >
             <UkFlag />
             <span className="sr-only">UK price</span>
