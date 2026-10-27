@@ -44,10 +44,11 @@ export default async function HomePage() {
     listProducts({ sort: "latest", pageSize: 8 }),
     listProducts({ saleOnly: true, pageSize: 4 }),
     prisma.category.findMany({
-      // Menu departments only; seasonal collections (e.g. Winter) are reached from banners.
-      where: { level: 0, isVirtual: false, isActive: true, showInNav: true },
+      // Menu departments only; seasonal collections (e.g. Winter) are reached from banners. Jewellery stays in
+      // the menu but not in these tiles.
+      where: { level: 0, isVirtual: false, isActive: true, showInNav: true, slug: { not: "jewellery" } },
       orderBy: { position: "asc" },
-      take: 5,
+      take: 4,
     }),
     prisma.brand.findMany({ where: { isFeatured: true }, orderBy: { position: "asc" } }),
     getHomepageReviews(15),
@@ -68,14 +69,14 @@ export default async function HomePage() {
       {/* Category tiles */}
       <section className="container-site py-14">
         <SectionHeading title="Shop by category" />
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {tiles.map((cat) => (
             <Link key={cat.id} href={`/collections/${cat.slug}`} className="group relative aspect-[3/4] overflow-hidden bg-line-soft">
               <Image
                 src={cat.image ?? `https://picsum.photos/seed/cat-${cat.slug}/600/800`}
                 alt={cat.name}
                 fill
-                sizes="(max-width:768px) 50vw, 20vw"
+                sizes="(max-width:768px) 50vw, 25vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/50 to-transparent p-4">
