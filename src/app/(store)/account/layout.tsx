@@ -6,7 +6,7 @@ const links = [
   { href: "/account", label: "Overview" },
   { href: "/account/orders", label: "Orders" },
   { href: "/account/addresses", label: "Addresses" },
-  { href: "/account/wishlist", label: "Wishlist" },
+  { href: "/wishlist", label: "Wishlist" },
 ];
 
 export default async function AccountLayout({ children }: { children: React.ReactNode }) {

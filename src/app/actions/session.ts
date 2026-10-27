@@ -5,6 +5,7 @@ import { signIn, signOut } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { loginSchema } from "@/lib/validation";
 import { mergeGuestCartIntoUser } from "@/lib/cart-merge";
+import { mergeGuestWishlistIntoUser } from "@/lib/wishlist";
 import { rateLimit, clientKey } from "@/lib/rate-limit";
 
 export type LoginResult = { ok: boolean; message: string };
@@ -39,9 +40,12 @@ export async function loginUser(_prev: LoginResult, formData: FormData): Promise
     throw err;
   }
 
-  // Successful login — merge any guest cart into the user's cart.
+  // Successful login — merge any guest cart and wishlist into the user's account.
   const user = await prisma.user.findUnique({ where: { email: parsed.data.email } });
-  if (user) await mergeGuestCartIntoUser(user.id);
+  if (user) {
+    await mergeGuestCartIntoUser(user.id);
+    await mergeGuestWishlistIntoUser(user.id);
+  }
 
   return { ok: true, message: "Logged in." };
 }
