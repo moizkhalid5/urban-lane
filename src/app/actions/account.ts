@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth/guards";
 import { addressSchema } from "@/lib/validation";
+import { guestWishlistIds, setGuestWishlistIds } from "@/lib/wishlist";
 
 export type ActionResult = { ok: boolean; message?: string };
 
@@ -72,9 +73,18 @@ export async function deleteAddress(id: string): Promise<ActionResult> {
   return { ok: true };
 }
 
+/** Saves or removes a product. Works without logging in: guests' wishlists are kept on their device (lib/wishlist). */
 export async function toggleWishlist(productId: string): Promise<{ ok: boolean; wishlisted: boolean }> {
+  const product = await prisma.product.findUnique({ where: { id: productId }, select: { id: true } });
+  if (!product) return { ok: false, wishlisted: false };
   const user = await getCurrentUser();
-  if (!user) return { ok: false, wishlisted: false };
+  if (!user) {
+    const ids = await guestWishlistIds();
+    const wishlisted = !ids.includes(productId);
+    await setGuestWishlistIds(wishlisted ? [productId, ...ids] : ids.filter((id) => id !== productId));
+    revalidatePath("/wishlist");
+    return { ok: true, wishlisted };
+  }
 
   const existing = await prisma.wishlistItem.findUnique({
     where: { userId_productId: { userId: user.id, productId } },
@@ -82,11 +92,11 @@ export async function toggleWishlist(productId: string): Promise<{ ok: boolean; 
 
   if (existing) {
     await prisma.wishlistItem.delete({ where: { id: existing.id } });
-    revalidatePath("/account/wishlist");
+    revalidatePath("/wishlist");
     return { ok: true, wishlisted: false };
   }
 
   await prisma.wishlistItem.create({ data: { userId: user.id, productId } });
-  revalidatePath("/account/wishlist");
+  revalidatePath("/wishlist");
   return { ok: true, wishlisted: true };
 }

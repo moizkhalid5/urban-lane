@@ -5,15 +5,14 @@ import { useRouter } from "next/navigation";
 import { toggleWishlist } from "@/app/actions/account";
 import { cn } from "@/lib/utils";
 
+/** Heart button. No login needed: guests' wishlists are kept on their device (lib/wishlist). */
 export function WishlistButton({
   productId,
   initial,
-  authed,
   variant = "button",
 }: {
   productId: string;
   initial: boolean;
-  authed: boolean;
   variant?: "button" | "icon";
 }) {
   const router = useRouter();
@@ -21,16 +20,15 @@ export function WishlistButton({
   const [pending, startTransition] = useTransition();
 
   function onClick() {
-    if (!authed) {
-      router.push("/login?callbackUrl=/account/wishlist");
-      return;
-    }
     startTransition(async () => {
       const prev = wishlisted;
       setWishlisted(!prev); // optimistic
       const res = await toggleWishlist(productId);
       if (!res.ok) setWishlisted(prev);
-      else setWishlisted(res.wishlisted);
+      else {
+        setWishlisted(res.wishlisted);
+        router.refresh(); // updates the wishlist count in the bottom bar
+      }
     });
   }
 

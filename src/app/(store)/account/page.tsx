@@ -25,7 +25,7 @@ export default async function AccountOverviewPage() {
     <div className="space-y-8">
       <div className="grid gap-4 sm:grid-cols-3">
         <Stat label="Orders" value={orderCount} href="/account/orders" />
-        <Stat label="Wishlist items" value={wishlistCount} href="/account/wishlist" />
+        <Stat label="Wishlist items" value={wishlistCount} href="/wishlist" />
         <Stat label="Saved addresses" value={defaultAddress ? 1 : 0} href="/account/addresses" />
       </div>
 

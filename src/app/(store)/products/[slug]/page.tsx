@@ -14,8 +14,7 @@ import { ProductGrid } from "@/components/product/ProductGrid";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { TrackRecentlyViewed } from "@/components/product/TrackRecentlyViewed";
 import { WishlistButton } from "@/components/product/WishlistButton";
-import { getCurrentUser } from "@/lib/auth/guards";
-import { prisma } from "@/lib/prisma";
+import { isWishlisted } from "@/lib/wishlist";
 import { getProductReviews } from "@/lib/reviews/queries";
 import { ProductReviews } from "@/components/reviews/ProductReviews";
 import { Stars } from "@/components/reviews/Stars";
@@ -80,12 +79,7 @@ export default async function ProductPage({ params }: PageProps) {
 
   const inStock = product.variants.some((v) => v.stock > 0);
 
-  const currentUser = await getCurrentUser();
-  const wishlisted = currentUser
-    ? !!(await prisma.wishlistItem.findUnique({
-        where: { userId_productId: { userId: currentUser.id, productId: product.id } },
-      }))
-    : false;
+  const wishlisted = await isWishlisted(product.id);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -177,7 +171,7 @@ export default async function ProductPage({ params }: PageProps) {
           </div>
 
           <div className="mt-4">
-            <WishlistButton productId={product.id} initial={wishlisted} authed={!!currentUser} />
+            <WishlistButton productId={product.id} initial={wishlisted} />
           </div>
 
           {product.description && (

@@ -207,7 +207,7 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
             <Link href={isAuthed ? "/account" : "/login"} aria-label="Account" className="hidden sm:block">
               <UserIcon />
             </Link>
-            <Link href="/account/wishlist" aria-label="Wishlist" className="hidden sm:block">
+            <Link href="/wishlist" aria-label="Wishlist" className="hidden sm:block">
               <HeartIcon />
             </Link>
             <Link href="/cart" aria-label="Cart" className="relative">
