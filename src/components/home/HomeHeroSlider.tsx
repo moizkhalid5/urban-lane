@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { HERO_ELEMENT_ID, type HomeSlide } from "@/lib/collection-heroes";
 import { ArtworkBannerLinks } from "@/components/ui/ArtworkBannerLinks";
 import { cn } from "@/lib/utils";
@@ -9,11 +9,10 @@ import { cn } from "@/lib/utils";
  * Homepage hero: full-width slider of artwork banners. Tablets and computers show the 2.334:1 banners,
  * phones a taller 3:2 cut of each (lib/collection-heroes.ts).
  *
- * It sits under the header's transparent menu row. The strip behind the menu (as tall as the menu row:
- * 48px on phones and tablets, 64px from lg, plus its 1px border) takes the colour of the current
- * slide's top edge, so at the top of the page none of the picture is under the menu. The picture box is
- * marked data-hero-art: the header turns solid as soon as more than 1% of it would go under the menu.
- * The slide's `tone` is published on the section (data-tone) so the header picks dark or white text.
+ * It slides up under the header's menu row (-mt = the row's height plus its 1px border: 48px on phones
+ * and tablets, 64px from lg), which is see-through while over the slider and turns white once it has
+ * scrolled away. The slide's `tone` is published on the section (data-tone) so the header picks dark or
+ * white text; behind white text a soft shade runs down from the top edge.
  *
  * Images are served as they are (high-quality WebP from scripts/build_home_banners.py, no further
  * compression).
@@ -40,8 +39,7 @@ export function HomeHeroSlider({ slides }: { slides: HomeSlide[] }) {
       data-tone={current.tone}
       aria-roledescription="carousel"
       aria-label="Featured"
-      className="relative -mt-[49px] w-full overflow-hidden bg-[var(--band-phone)] pt-[49px] transition-colors duration-1000 md:bg-[var(--band)] lg:-mt-[65px] lg:pt-[65px]"
-      style={{ "--band": current.band, "--band-phone": current.phoneBand } as CSSProperties}
+      className="relative -mt-[49px] w-full overflow-hidden lg:-mt-[65px]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
@@ -54,7 +52,7 @@ export function HomeHeroSlider({ slides }: { slides: HomeSlide[] }) {
         touchX.current = null;
       }}
     >
-      <div data-hero-art className="relative aspect-[3/2] md:aspect-[1916/821]">
+      <div className="relative aspect-[3/2] md:aspect-[1916/821]">
         {slides.map((s, i) => (
           <div
             key={s.key}
@@ -101,6 +99,15 @@ export function HomeHeroSlider({ slides }: { slides: HomeSlide[] }) {
             </div>
           </div>
         ))}
+
+        {/* soft shade behind the white menu text */}
+        <div
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/35 to-transparent transition-opacity duration-1000 lg:h-32",
+            current.tone === "dark" ? "opacity-100" : "opacity-0",
+          )}
+        />
 
         {count > 1 && (
           <>

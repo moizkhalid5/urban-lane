@@ -37,8 +37,8 @@ export const COLLECTION_HEROES: Record<string, PageHero> = {
  * the originals in Banners/:
  * - tablets and computers: the main banner's shape (2.334:1), `desktop` (+ a 960px version);
  * - phones: a taller 3:2 cut, `phone` (1200x800).
- * `band` / `phoneBand` is the colour of each version's top edge, used for the strip behind the menu;
- * `tone` picks the menu text colour on it. Painted buttons: lib/banner-buttons.ts (keyed by file).
+ * The pictures run up under the see-through menu; `tone` picks the menu text colour over their top edge
+ * ("dark" → white text on a soft shade). Painted buttons: lib/banner-buttons.ts (keyed by file).
  */
 export type HomeSlide = {
   key: string;
@@ -50,8 +50,6 @@ export type HomeSlide = {
   alt: string;
   link: string;
   label: string;
-  band: string;
-  phoneBand: string;
   tone: "dark" | "light";
 };
 
@@ -71,11 +69,11 @@ const slide = (
 });
 
 export const HOME_SLIDES: HomeSlide[] = [
-  slide("urban-lane", 1916, 821, { alt: "Urban Lane", link: "/collections/women", label: "Shop now", band: "#faf9f9", phoneBand: "#f9f9f9", tone: "light" }),
-  slide("men-winter", 1897, 813, { alt: "Urban Lane men's winter collection: 30% sale", link: "/collections/winter?gender=men&save=1", label: "Shop the men's winter sale", band: "#c7c4ba", phoneBand: "#ccc8be", tone: "light" }),
-  slide("women", 1862, 798, { alt: "Urban Lane online sale on womenswear", link: "/offers?gender=women", label: "Shop the womenswear sale", band: "#8d8b8a", phoneBand: "#8a8887", tone: "light" }),
-  slide("kids", 1672, 716, { alt: "Summer kids collection", link: "/collections/kids", label: "Discover kidswear", band: "#e5e4e4", phoneBand: "#f8f8f8", tone: "light" }),
-  slide("sale", 1672, 716, { alt: "New season: 30% off, limited time offer", link: "/offers?save=25-35&gender=men,women,kids", label: "Shop the sale", band: "#947557", phoneBand: "#a78460", tone: "dark" }),
+  slide("urban-lane", 1916, 821, { alt: "Urban Lane", link: "/collections/women", label: "Shop now", tone: "light" }),
+  slide("men-winter", 1897, 813, { alt: "Urban Lane men's winter collection: 30% sale", link: "/collections/winter?gender=men&save=1", label: "Shop the men's winter sale", tone: "dark" }),
+  slide("women", 1862, 798, { alt: "Urban Lane online sale on womenswear", link: "/offers?gender=women", label: "Shop the womenswear sale", tone: "dark" }),
+  slide("kids", 1672, 716, { alt: "Summer kids collection", link: "/collections/kids", label: "Discover kidswear", tone: "light" }),
+  slide("sale", 1672, 716, { alt: "New season: 30% off, limited time offer", link: "/offers?save=25-35&gender=men,women,kids", label: "Shop the sale", tone: "dark" }),
 ];
 
 /** A full-width banner inside a page: a wide cut for tablets and computers, the whole picture for phones. */
