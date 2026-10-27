@@ -13,7 +13,7 @@ export function ProductGrid({
   className?: string;
 }) {
   return (
-    <div className={cn("grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 lg:grid-cols-4", className)}>
+    <div className={cn("grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4", className)}>
       {products.map((p) => (
         <ProductCard key={p.id} product={p} currency={currency} />
       ))}

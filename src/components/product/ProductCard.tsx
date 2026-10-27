@@ -5,11 +5,15 @@ import type { DisplayCurrency } from "@/lib/money";
 import { Price } from "@/components/ui/Price";
 import { Stars } from "@/components/reviews/Stars";
 
+/** A product in a grid or row, in a thin rounded box: photo, then brand, name, rating, price and colours. */
 export function ProductCard({ product, currency }: { product: ProductCardData; currency: DisplayCurrency }) {
   const onSale = !!product.compareAtCents && product.compareAtCents > product.priceCents;
 
   return (
-    <Link href={`/products/${product.slug}`} className="group block">
+    <Link
+      href={`/products/${product.slug}`}
+      className="group flex h-full flex-col overflow-hidden rounded-lg border border-line bg-white transition-shadow hover:shadow-[0_2px_14px_rgba(0,0,0,0.07)]"
+    >
       <div className="relative aspect-[4/5] overflow-hidden bg-line-soft">
         {product.image ? (
           <ProductCardImages image={product.image} secondImage={product.secondImage} alt={product.title} />
@@ -31,7 +35,7 @@ export function ProductCard({ product, currency }: { product: ProductCardData; c
         </div>
       </div>
 
-      <div className="pt-3">
+      <div className="flex flex-1 flex-col px-2.5 pb-3 pt-2.5">
         {product.brand && (
           <p className="text-[11px] uppercase tracking-wide text-ink-muted">{product.brand}</p>
         )}
