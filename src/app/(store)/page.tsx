@@ -4,8 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { listProducts } from "@/lib/queries/products";
 import { getActiveCurrency } from "@/lib/currency.server";
 import { ProductGrid } from "@/components/product/ProductGrid";
-import { ProductCard } from "@/components/product/ProductCard";
-import { ScrollRail } from "@/components/ui/ScrollRail";
 import { BrandSlider } from "@/components/home/BrandSlider";
 import { BrandVideo } from "@/components/home/BrandVideo";
 import { CustomerReviewsCarousel } from "@/components/reviews/CustomerReviewsCarousel";
@@ -14,6 +12,9 @@ import { HomeHeroSlider } from "@/components/home/HomeHeroSlider";
 import { HOME_SLIDES, HOME_WINTER } from "@/lib/collection-heroes";
 import { WideBanner } from "@/components/home/WideBanner";
 import { HangingRail } from "@/components/home/HangingRail";
+import { FeaturedSplit } from "@/components/home/FeaturedSplit";
+import { getFeaturedPickIds } from "@/lib/featured";
+import { getProductsByIds } from "@/lib/queries/product-detail";
 import { getHomepageRail } from "@/lib/rail/queries";
 
 function SectionHeading({ title, href, cta }: { title: string; href?: string; cta?: string }) {
@@ -29,18 +30,46 @@ function SectionHeading({ title, href, cta }: { title: string; href?: string; ct
   );
 }
 
-// "Featured" is split into one horizontally scrolling row per department.
+// "Featured": one half-photo, half-products row per department (photos: public/images/featured; products:
+// Admin → Homepage featured).
 const FEATURED_ROWS = [
-  { slug: "men", title: "Men" },
-  { slug: "women", title: "Women" },
-  { slug: "kids", title: "Kids" },
+  {
+    slug: "men",
+    title: "Men's",
+    photo: "men",
+    alt: "Man in a blue checked three-piece suit walking over golden hills",
+    blurb: "Suits, shirts, chinos and jeans from the UK high street.",
+  },
+  {
+    slug: "women",
+    title: "Women's",
+    photo: "women",
+    alt: "Woman in a sage utility jacket walking through tall grass below snowy mountains",
+    blurb: "Jackets, dresses and everyday pieces, picked for you.",
+  },
+  {
+    slug: "kids",
+    title: "Kids'",
+    photo: "kids",
+    alt: "Girl in a red dress and brown boots holding a toy horse beside a stable",
+    blurb: "Sets, dresses and tops for babies and children.",
+  },
 ];
 
 export default async function HomePage() {
   const currency = await getActiveCurrency();
 
   const [featuredRows, newArrivals, outlet, tiles, brands, homepageReviews, rail] = await Promise.all([
-    Promise.all(FEATURED_ROWS.map((r) => listProducts({ categorySlug: r.slug, sort: "featured", pageSize: 8 }))),
+    // Products chosen in Admin → Homepage featured, or else the department's featured products
+    getFeaturedPickIds().then((picks) =>
+      Promise.all(
+        FEATURED_ROWS.map(async (r) =>
+          picks[r.slug]?.length
+            ? { products: (await getProductsByIds(picks[r.slug])).filter((p) => p.inStock) }
+            : listProducts({ categorySlug: r.slug, sort: "featured", pageSize: 8 }),
+        ),
+      ),
+    ),
     listProducts({ sort: "latest", pageSize: 8 }),
     listProducts({ saleOnly: true, pageSize: 4 }),
     prisma.category.findMany({
@@ -101,31 +130,7 @@ export default async function HomePage() {
       <BrandVideo />
 
       {/* Featured: one row per department, up to 8 products each */}
-      <section className="container-site py-6">
-        <SectionHeading title="Featured" />
-        <div className="space-y-12">
-          {FEATURED_ROWS.map((row, i) =>
-            featuredRows[i].products.length === 0 ? null : (
-              <div key={row.slug}>
-                <div className="mb-4 flex items-end justify-between">
-                  <h3 className="text-lg font-medium uppercase tracking-wide">{row.title}</h3>
-                  <Link href={`/collections/${row.slug}`} className="link-underline text-sm uppercase tracking-wide text-ink-soft">
-                    View all
-                  </Link>
-                </div>
-                <ScrollRail
-                  label={`${row.title.toLowerCase()} products`}
-                  itemClassName="basis-[calc((100%-1rem)/2)] md:basis-[calc((100%-2rem)/3)] lg:basis-[calc((100%-3rem)/4)]"
-                >
-                  {featuredRows[i].products.map((p) => (
-                    <ProductCard key={p.id} product={p} currency={currency} />
-                  ))}
-                </ScrollRail>
-              </div>
-            ),
-          )}
-        </div>
-      </section>
+      <FeaturedSplit departments={FEATURED_ROWS.map((r, i) => ({ ...r, products: featuredRows[i].products }))} currency={currency} />
 
       {railAt("after-featured")}
 
