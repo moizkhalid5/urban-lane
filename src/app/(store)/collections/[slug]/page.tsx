@@ -5,10 +5,10 @@ import { getCategoryWithAncestors } from "@/lib/queries/categories";
 import { listProducts, getFacets } from "@/lib/queries/products";
 import { parseFilters, baseToDisplay, saveLabel, DEPARTMENT_POSSESSIVE, type RawSearchParams } from "@/lib/queries/parse-filters";
 import { getActiveCurrency } from "@/lib/currency.server";
-import { ProductGrid } from "@/components/product/ProductGrid";
 import { Filters } from "@/components/collection/Filters";
 import { SortSelect } from "@/components/collection/SortSelect";
-import { Pagination } from "@/components/collection/Pagination";
+import { ProductFeed } from "@/components/collection/ProductFeed";
+import { feedFilter, FEED_BATCH } from "@/lib/queries/product-feed";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { KidsLanding } from "@/components/collection/KidsLanding";
 import { DepartmentLanding, hasDepartmentLanding } from "@/components/collection/DepartmentLanding";
@@ -45,8 +45,9 @@ export default async function CollectionPage({ params, searchParams }: PageProps
   const currency = await getActiveCurrency();
   const filter = parseFilters(sp, currency);
 
-  const [{ products, total, page, totalPages }, facetData] = await Promise.all([
-    listProducts({ ...filter, categorySlug: category.slug, pageSize: 12 }),
+  const feedSource = { kind: "category" as const, slug: category.slug };
+  const [{ products, total }, facetData] = await Promise.all([
+    listProducts({ ...feedFilter(feedSource, sp, currency), page: 1, pageSize: FEED_BATCH }),
     getFacets(category.slug),
   ]);
 
@@ -162,10 +163,15 @@ export default async function CollectionPage({ params, searchParams }: PageProps
               </Link>
             </div>
           ) : (
-            <>
-              <ProductGrid products={products} currency={currency} className="lg:grid-cols-3 xl:grid-cols-4" />
-              <Pagination page={page} totalPages={totalPages} />
-            </>
+            <ProductFeed
+              key={JSON.stringify(sp)}
+              source={feedSource}
+              searchParams={sp}
+              initial={products}
+              total={total}
+              currency={currency}
+              className="lg:grid-cols-3 xl:grid-cols-4"
+            />
           )}
         </div>
       </div>

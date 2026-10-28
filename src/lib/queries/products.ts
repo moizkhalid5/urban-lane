@@ -50,6 +50,8 @@ export type ProductFilter = {
   sort?: ProductSort;
   page?: number;
   pageSize?: number;
+  /** skip this many products instead of whole pages (the scrolling product list loads more from here) */
+  offset?: number;
 };
 
 const DEFAULT_PAGE_SIZE = 12;
@@ -81,7 +83,13 @@ async function descendantCategoryIds(slug: string): Promise<string[]> {
   return cats.map((c) => c.id);
 }
 
+// Ends with the id so products that tie (same price, same import time) always come in the same order,
+// and loading the list in batches never repeats or skips one.
 function orderBy(sort?: ProductSort): Prisma.ProductOrderByWithRelationInput[] {
+  return [...sortOrder(sort), { id: "asc" }];
+}
+
+function sortOrder(sort?: ProductSort): Prisma.ProductOrderByWithRelationInput[] {
   switch (sort) {
     case "price-asc":
       return [{ priceCents: "asc" }];
@@ -160,7 +168,7 @@ export async function listProducts(f: ProductFilter) {
       where,
       include: cardInclude,
       orderBy: orderBy(f.sort),
-      skip: (page - 1) * pageSize,
+      skip: f.offset ?? (page - 1) * pageSize,
       take: pageSize,
     }),
     prisma.product.count({ where }),

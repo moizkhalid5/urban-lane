@@ -3,10 +3,10 @@ import Link from "next/link";
 import { listProducts, getFacets } from "@/lib/queries/products";
 import { parseFilters, baseToDisplay, type RawSearchParams } from "@/lib/queries/parse-filters";
 import { getActiveCurrency } from "@/lib/currency.server";
-import { ProductGrid } from "@/components/product/ProductGrid";
 import { Filters } from "@/components/collection/Filters";
 import { SortSelect } from "@/components/collection/SortSelect";
-import { Pagination } from "@/components/collection/Pagination";
+import { ProductFeed } from "@/components/collection/ProductFeed";
+import { feedFilter, FEED_BATCH } from "@/lib/queries/product-feed";
 
 export const metadata: Metadata = { title: "Search", robots: { index: false } };
 
@@ -16,8 +16,9 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   const currency = await getActiveCurrency();
   const filter = parseFilters(sp, currency);
 
-  const [{ products, total, page, totalPages }, facetData] = await Promise.all([
-    listProducts({ ...filter, q, pageSize: 12 }),
+  const feedSource = { kind: "search" as const };
+  const [{ products, total }, facetData] = await Promise.all([
+    listProducts({ ...feedFilter(feedSource, sp, currency), page: 1, pageSize: FEED_BATCH }),
     getFacets(undefined),
   ]);
 
@@ -53,10 +54,15 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                   <Link href="/collections/women" className="btn-secondary mt-6">Browse collections</Link>
                 </div>
               ) : (
-                <>
-                  <ProductGrid products={products} currency={currency} className="lg:grid-cols-3 xl:grid-cols-4" />
-                  <Pagination page={page} totalPages={totalPages} />
-                </>
+                <ProductFeed
+              key={JSON.stringify(sp)}
+              source={feedSource}
+              searchParams={sp}
+              initial={products}
+              total={total}
+              currency={currency}
+              className="lg:grid-cols-3 xl:grid-cols-4"
+            />
               )}
             </div>
           </div>
