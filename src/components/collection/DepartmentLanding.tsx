@@ -2,24 +2,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { nonEmptyCategoryIds } from "@/lib/queries/categories";
-import { HeroCarousel } from "@/components/home/HeroCarousel";
 import { ScrollRail } from "@/components/ui/ScrollRail";
 
 /**
- * Top of the Men / Women collection pages: a banner carousel, then a row of square
- * category tiles with the name underneath. Artwork lives in public/images/<department>.
+ * Top of the Men / Women collection pages (under the full-width banner, lib/collection-heroes.ts): a row
+ * of square category tiles with the name underneath. Artwork lives in public/images/<department>.
  */
 type Landing = {
-  banners: { image: string; alt: string; href: string }[];
   tiles: { slug: string; label: string; image: string }[];
 };
 
 const LANDINGS: Record<string, Landing> = {
   men: {
-    banners: [
-      { image: "/images/men/banner-sale.jpg", alt: "Men's apparel up to 50% off", href: "/collections/men?sort=price-asc" },
-      { image: "/images/men/banner-new-arrivals.jpg", alt: "Men's new arrivals", href: "/collections/men?sort=latest" },
-    ],
     tiles: [
       { slug: "men-tops", label: "Tops", image: "/images/men/cat-tops.jpg" },
       { slug: "men-trousers", label: "Trousers", image: "/images/men/cat-trousers.jpg" },
@@ -31,7 +25,6 @@ const LANDINGS: Record<string, Landing> = {
     ],
   },
   women: {
-    banners: [{ image: "/images/women/banner-autumn.jpg", alt: "Autumn in focus: new season, new looks", href: "/collections/women-coats-and-jackets" }],
     tiles: [
       { slug: "women-dresses", label: "Dresses", image: "/images/women/cat-dresses.jpg" },
       { slug: "women-tops", label: "Tops", image: "/images/women/cat-tops.jpg" },
@@ -61,14 +54,7 @@ export async function DepartmentLanding({ slug }: { slug: string }) {
   const tiles = landing.tiles.filter((t) => nonEmpty.has(idBySlug.get(t.slug) ?? ""));
 
   return (
-    <div className="mt-4 space-y-10">
-      <HeroCarousel
-        slides={landing.banners.map((b) => ({ title: "", subtitle: b.alt, image: b.image, link: b.href }))}
-        aspect="aspect-[27/10]"
-        arrows
-        inContainer
-      />
-
+    <div className="mt-6">
       {tiles.length > 0 && (
         <ScrollRail
           label="categories"

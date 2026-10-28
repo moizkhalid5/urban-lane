@@ -4,7 +4,8 @@ import { ScrollRail } from "@/components/ui/ScrollRail";
 import { AGE_BANDS } from "@/lib/kids-age";
 
 /**
- * Top of the Kids collection page: banner, then Shop by brand / age / gender.
+ * Top of the Kids collection page (under the full-width banner, lib/collection-heroes.ts): Shop by brand /
+ * age / gender.
  * Artwork (with its labels baked in) lives in public/images/kids.
  */
 const BRANDS = [
@@ -42,11 +43,7 @@ function Card({ href, image, label, aspect }: { href: string; image: string; lab
 
 export function KidsLanding() {
   return (
-    <div className="mt-4 space-y-14">
-      <div className="relative aspect-[2/1] w-full overflow-hidden">
-        <Image src="/images/kids/banner-2x1.jpg" alt="Urban Lane kids" fill priority sizes="(max-width:1440px) 100vw, 1312px" className="object-cover" />
-      </div>
-
+    <div className="mt-6 space-y-14">
       <section>
         <Heading>Shop by brand</Heading>
         <ScrollRail label="brands" itemClassName="basis-[calc((100%-1rem)/2)] md:basis-[calc((100%-2rem)/3)] lg:basis-[calc((100%-4rem)/5)]">

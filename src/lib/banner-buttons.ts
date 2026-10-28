@@ -28,22 +28,19 @@ export const BANNER_BUTTONS: Record<string, BannerButton> = {
   "/images/banners/home/urban-lane-1916.webp": { left: 9.03, top: 68.09, width: 14.82, height: 8.77, shape: "pill", tone: "dark", label: "Shop now" },
   "/images/banners/home/men-winter-1897.webp": { left: 58.62, top: 66.42, width: 19.4, height: 9.72, shape: "rect", tone: "dark", label: "Shop now" },
   "/images/banners/home/women-1862.webp": { left: 35.93, top: 73.43, width: 14.23, height: 7.77, shape: "pill", tone: "light", label: "Shop now" },
-  "/images/banners/home/kids-1672.webp": { left: 70.87, top: 62.72, width: 11.12, height: 7.12, shape: "text", tone: "light", label: "Discover" },
-  "/images/banners/home/sale-1672.webp": { left: 12.74, top: 90.5, width: 14.35, height: 9.35, shape: "text", tone: "dark", label: "Shop now" },
+  "/images/banners/home/kids-summer-2406.webp": { left: 64.5, top: 66.35, width: 7.73, height: 4.95, shape: "text", tone: "light", label: "Discover" },
+  "/images/banners/home/sale-season-1960.webp": { left: 10.87, top: 89.29, width: 12.24, height: 7.97, shape: "text", tone: "dark", label: "Shop now" },
   // ...and their 3:2 phone versions
   "/images/banners/home/urban-lane-m-1200.webp": { left: 4.25, top: 77.1, width: 16.55, height: 6.29, shape: "pill", tone: "dark", label: "Shop now" },
   "/images/banners/home/men-winter-m-1200.webp": { left: 55.97, top: 72.64, width: 23.9, height: 7.69, shape: "rect", tone: "dark", label: "Shop now" },
   "/images/banners/home/women-m-1200.webp": { left: 22.01, top: 69.35, width: 20.9, height: 7.34, shape: "pill", tone: "light", label: "Shop now" },
-  "/images/banners/home/kids-m-1200.webp": { left: 67.63, top: 63.13, width: 13.17, height: 5.42, shape: "text", tone: "light", label: "Discover" },
-  "/images/banners/home/sale-m-1200.webp": { left: 4.46, top: 79.7, width: 16.99, height: 7.12, shape: "text", tone: "dark", label: "Shop now" },
+  "/images/banners/home/kids-summer-m-1200.webp": { left: 70.87, top: 68.88, width: 11.12, height: 4.57, shape: "text", tone: "light", label: "Discover" },
+  "/images/banners/home/sale-season-m-1200.webp": { left: 4.46, top: 79.7, width: 16.99, height: 7.12, shape: "text", tone: "dark", label: "Shop now" },
   // Homepage winter banner (new artwork, Banners/winter_new.png): wide cut and phone version
   "/images/banners/home/winter-wide-1916.webp": { left: 71.4, top: 73.21, width: 11.59, height: 7.74, shape: "rect", tone: "dark", label: "Discover now" },
   "/images/banners/home/winter-1916.webp": { left: 71.4, top: 53.47, width: 11.59, height: 4.75, shape: "rect", tone: "dark", label: "Discover now" },
   // Homepage winter banner (previous artwork, still referenced by the PROMO banner record)
   "/images/banners/winter.jpg": { left: 74.7, top: 48.88, width: 15.01, height: 4.68, shape: "rect", tone: "dark", label: "Discover now" },
-  // Women / Men collection landing banners
-  "/images/women/banner-autumn.jpg": { left: 21.82, top: 59.63, width: 12.76, height: 8.44, shape: "pill", tone: "dark", label: "Shop now" },
-  "/images/men/banner-sale.jpg": { left: 26.46, top: 82.0, width: 15.05, height: 9.85, shape: "rect", tone: "dark", label: "Shop now" },
 };
 
 export function bannerButtonFor(image?: string | null): BannerButton | undefined {
