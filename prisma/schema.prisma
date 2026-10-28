@@ -252,6 +252,7 @@ model Product {
   priorSales PriorSales?
   ukPrice    UkPrice?
   railItems  RailItem[]
+  featuredPicks FeaturedPick[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -719,4 +720,19 @@ model RailSettings {
   placement String   @default("after-hero") @db.VarChar(40)
   heading   String?  @db.VarChar(80)
   updatedAt DateTime @updatedAt
+}
+
+/// Products chosen for the homepage "Featured" rows (Admin → Homepage featured), per department, in order.
+/// A department with none chosen shows its featured products automatically.
+model FeaturedPick {
+  id         String   @id @default(cuid())
+  /// "men", "women" or "kids" (src/lib/featured.ts)
+  department String   @db.VarChar(20)
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  position   Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  @@unique([department, productId])
+  @@index([department, position])
 }
