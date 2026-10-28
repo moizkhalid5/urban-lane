@@ -25,10 +25,9 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  // Pages that start with a full-width banner (homepage, Outlet): the menu row is transparent until the
-  // banner has scrolled away beneath it, or while a mega menu or the search bar is open. Where the
-  // banner's picture starts below the menu (data-hero-art, the homepage slider), the menu turns solid as
-  // soon as more than 1% of the picture would go under it, so the picture never shows through the menu.
+  // Pages that start with a full-width banner (homepage, Outlet): the menu row is see-through over the
+  // banner's picture and turns white once the banner has scrolled away beneath it, or while a mega menu
+  // or the search bar is open.
   const pathname = usePathname();
   const pageHero = heroForPath(pathname);
   const heroPage = !!pageHero;
@@ -42,12 +41,7 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
       setScrolled(window.scrollY > 8);
       const hero = heroPage ? document.getElementById(HERO_ELEMENT_ID) : null;
       const rowBottom = menuRow.current?.getBoundingClientRect().bottom ?? 0;
-      const art = hero?.querySelector<HTMLElement>("[data-hero-art]")?.getBoundingClientRect();
-      setOverHero(
-        !!hero &&
-          hero.getBoundingClientRect().bottom > rowBottom + 1 &&
-          (!art || art.top >= rowBottom - art.height * 0.01),
-      );
+      setOverHero(!!hero && hero.getBoundingClientRect().bottom > rowBottom + 1);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
