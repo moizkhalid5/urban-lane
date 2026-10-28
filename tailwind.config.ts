@@ -29,7 +29,7 @@ const config: Config = {
         display: ["var(--font-display)", "Georgia", "serif"],
       },
       maxWidth: {
-        site: "1440px",
+        site: "1920px",
       },
       spacing: {
         "site-x": "clamp(1rem, 4vw, 4rem)",

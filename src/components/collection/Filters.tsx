@@ -208,7 +208,7 @@ export function Filters({
   return (
     <>
       {/* Desktop: stays in view while the products scroll (below the sticky site header). */}
-      <aside className="hidden w-64 shrink-0 self-start lg:sticky lg:top-40 lg:block lg:max-h-[calc(100vh-11rem)] lg:overflow-y-auto">
+      <aside className="hidden w-64 shrink-0 self-start 2xl:w-72 lg:sticky lg:top-40 lg:block lg:max-h-[calc(100vh-11rem)] lg:overflow-y-auto">
         {body}
       </aside>
 
