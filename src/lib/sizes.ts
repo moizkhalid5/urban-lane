@@ -1,8 +1,10 @@
 /**
  * Size labels come from the master sheet in many spellings ("14 R"/"14R", "LARGE"/"Large"/"L",
  * "W34, L30"/"W34 L30", "One"/"ONE SIZE"). Filters show one normalised label per size and
- * match every raw spelling that normalises to it. Keep dependency-free.
+ * match every raw spelling that normalises to it. Keep dependency-free (kids-age is too).
  */
+
+import { sizeAgeMonths } from "./kids-age";
 
 const WORDS: Record<string, string> = {
   "X-SMALL": "XS", "EXTRA SMALL": "XS", SMALL: "S", MEDIUM: "M", LARGE: "L",
@@ -27,10 +29,14 @@ export function normalizeSize(raw: string): string {
 
 const LETTER_ORDER = ["XXS", "XS", "S", "S/M", "M", "M/L", "L", "XL", "XXL", "XXXL"];
 
-/** Sort key: letter sizes in wearing order, then numbers ascending, then everything else. */
+/** Sort key: kids' ages youngest first, letter sizes in wearing order, then numbers ascending, then everything else. */
 export function compareSizes(a: string, b: string): number {
-  const la = LETTER_ORDER.indexOf(a);
-  const lb = LETTER_ORDER.indexOf(b);
+  const aa = sizeAgeMonths(a);
+  const ab = sizeAgeMonths(b);
+  if (aa && ab && (aa[0] !== ab[0] || aa[1] !== ab[1])) return aa[0] - ab[0] || aa[1] - ab[1];
+  // Raw spellings ("Small", "MEDIUM") rank as their letter size
+  const la = LETTER_ORDER.indexOf(normalizeSize(a));
+  const lb = LETTER_ORDER.indexOf(normalizeSize(b));
   if (la >= 0 || lb >= 0) return la < 0 ? 1 : lb < 0 ? -1 : la - lb;
   const na = parseFloat(a.replace(/^[A-Z ]+/, ""));
   const nb = parseFloat(b.replace(/^[A-Z ]+/, ""));
