@@ -9,10 +9,10 @@ import {
   type RawSearchParams,
 } from "@/lib/queries/parse-filters";
 import { getActiveCurrency } from "@/lib/currency.server";
-import { ProductGrid } from "@/components/product/ProductGrid";
 import { Filters } from "@/components/collection/Filters";
 import { SortSelect } from "@/components/collection/SortSelect";
-import { Pagination } from "@/components/collection/Pagination";
+import { ProductFeed } from "@/components/collection/ProductFeed";
+import { feedFilter, FEED_BATCH } from "@/lib/queries/product-feed";
 
 export const metadata: Metadata = {
   title: "Offers",
@@ -34,10 +34,10 @@ export default async function OffersPage({ searchParams }: { searchParams: Promi
   const sp = await searchParams;
   const currency = await getActiveCurrency();
   const filter = parseFilters(sp, currency);
-  const save = filter.save ?? { min: 1, max: 100 };
 
-  const [{ products, total, page, totalPages }, facetData] = await Promise.all([
-    listProducts({ ...filter, save, pageSize: 12 }),
+  const feedSource = { kind: "offers" as const };
+  const [{ products, total }, facetData] = await Promise.all([
+    listProducts({ ...feedFilter(feedSource, sp, currency), page: 1, pageSize: FEED_BATCH }),
     getFacets(undefined),
   ]);
 
@@ -111,10 +111,15 @@ export default async function OffersPage({ searchParams }: { searchParams: Promi
               </Link>
             </div>
           ) : (
-            <>
-              <ProductGrid products={products} currency={currency} className="lg:grid-cols-3 xl:grid-cols-4" />
-              <Pagination page={page} totalPages={totalPages} />
-            </>
+            <ProductFeed
+              key={JSON.stringify(sp)}
+              source={feedSource}
+              searchParams={sp}
+              initial={products}
+              total={total}
+              currency={currency}
+              className="lg:grid-cols-3 xl:grid-cols-4"
+            />
           )}
         </div>
       </div>

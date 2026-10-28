@@ -25,8 +25,6 @@ SLIDES = {
     "women": ("Banners/Women.png", 0, [(120 + 0.3249 * 1690, 0.6935 * 845, 0.1568 * 1690, 0.0734 * 845)]),
     # 1672x941 originals; the old 2:1 site banners were cut at y=85 / 40. New windows are centred on
     # those (so the framing is the same), nudged to keep painted buttons and text whole.
-    "kids": ("Banners/kids.png", 85 + 418 - 358, [(0.7087 * 1672, 85 + 0.6089 * 836, 0.1112 * 1672, 0.061 * 836)]),
-    "sale": ("Banners/Sale.png", 102, [(0.1274 * 1672, 40 + 0.8493 * 836, 0.1435 * 1672, 0.0801 * 836)]),
 }
 
 # Homepage winter banner, full width at 3.8:1 on tablets and computers ("winter-wide"); phones get the
@@ -48,11 +46,80 @@ MOBILE = {
     "urban-lane": ("Banners/Main_banner.png", 100, 1716, 323, [(173, 559, 284, 72)]),
     "men-winter": ("Banners/banner_2_men.png", 250, 1540, 198, [(1112, 548, 368, 79)], "sky"),
     "women": ("Banners/Women.png", 390, 1268, 0, [(120 + 0.3249 * 1690, 0.6935 * 845, 0.1568 * 1690, 0.0734 * 845)]),
-    "kids": ("Banners/kids.png", 230, 1412, 0, [(0.7087 * 1672, 85 + 0.6089 * 836, 0.1112 * 1672, 0.061 * 836)]),
-    "sale": ("Banners/Sale.png", 150, 1412, 0, [(0.1274 * 1672, 40 + 0.8493 * 836, 0.1435 * 1672, 0.0801 * 836)]),
+    "sale-season": ("Banners/Sale.png", 150, 1412, 0, [(0.1274 * 1672, 40 + 0.8493 * 836, 0.1435 * 1672, 0.0801 * 836)]),
+}
+
+# Slides whose studio background is plain: instead of cropping (which cut the children's heads and shoes on
+# the kids slide), the whole picture is kept and its background is extended: px added above (so the
+# models sit clear of the see-through menu), then the sides widened to the slide's shape. Saved as
+# "<name>-<width>.webp" (lossless) + "-960", and "<name>-m-1200.webp" for phones.
+# name: (source, px above for computers, px above for phones, buttons in SOURCE px)
+EXTENDED = {
+    "kids-summer": ("Banners/kids.png", 90, 174, [(0.7087 * 1672, 85 + 0.6089 * 836, 0.1112 * 1672, 0.061 * 836)]),
 }
 
 os.makedirs(OUT, exist_ok=True)
+
+def extend(im, top, ratio):
+    """The whole picture on a bigger canvas of its own background: `top` px above, sides widened to
+    `ratio`. New pixels carry on the nearest edge colour (smoothed) plus the picture's faint grain."""
+    import numpy as np
+    w, h = im.size
+    H = h + top
+    W = max(w, round(H * ratio))
+    left = (W - w) // 2
+    soft = np.asarray(im.filter(ImageFilter.GaussianBlur(8))).astype(float)
+    out = np.pad(soft, ((top, 0), (left, W - w - left), (0, 0)), mode="edge")
+    out += np.random.default_rng(1).normal(0, 0.75, out.shape[:2])[..., None]
+    out[top:, left:left + w] = np.asarray(im)
+    return Image.fromarray(np.clip(np.rint(out), 0, 255).astype(np.uint8)), left
+
+# Sale (1672x941): a 716px-tall cut sliced through the model's head. Instead the top 840 rows (her whole
+# head down to SHOP NOW, with room) are kept and the extra width goes on the right, where the wall is
+# evenly lit: that strip's light and shadow continued outwards (mirrored, then repeated) with the stone's
+# own grain, so the join can't be seen. (The left has diagonal shadows, which don't continue cleanly.)
+# name: (source, rows kept, buttons in SOURCE px). Phones use MOBILE above.
+WIDENED = {
+    "sale-season": ("Banners/Sale.png", 840, [(0.1274 * 1672, 40 + 0.8493 * 836, 0.1435 * 1672, 0.0801 * 836)]),
+}
+
+def widen_right(im, rows, ratio):
+    import numpy as np
+    w = im.size[0]
+    pad = round(rows * ratio) - w
+    n = (pad + 1) // 2
+    a = np.asarray(im).astype(float)[:rows]
+    lo = np.asarray(im.filter(ImageFilter.GaussianBlur(3))).astype(float)[:rows]
+    strip_lo, strip_grain = lo[:, w - n:], (a - lo)[:, w - n:]
+    extra = np.concatenate([strip_lo[:, ::-1] + strip_grain, strip_lo + strip_grain], axis=1)[:, :pad]
+    return Image.fromarray(np.clip(np.rint(np.concatenate([a, extra], axis=1)), 0, 255).astype(np.uint8))
+
+for name, (src, rows, buttons) in WIDENED.items():
+    cut = widen_right(Image.open(src).convert("RGB"), rows, RATIO)
+    W, H = cut.size
+    path = f"{OUT}/{name}-{W}.webp"
+    cut.save(path, "WEBP", lossless=True, method=6)
+    cut.resize((960, round(960 * H / W)), Image.LANCZOS).save(f"{OUT}/{name}-960.webp", "WEBP", quality=92, method=6)
+    print(f"{name}: {src} -> {cut.size}, {os.path.getsize(path)//1024} KB")
+    for (bx, by, bw, bh) in buttons:
+        assert by + bh <= H, (name, "button outside")
+        print(f"   button: left {bx / W * 100:.2f}, top {by / H * 100:.2f}, width {bw / W * 100:.2f}, height {bh / H * 100:.2f}")
+
+for name, (src, top, top_phone, buttons) in EXTENDED.items():
+    im = Image.open(src).convert("RGB")
+    for phone, add, ratio in [(False, top, RATIO), (True, top_phone, MOBILE_RATIO)]:
+        cut, left = extend(im, add, ratio)
+        W, H = cut.size
+        if phone:
+            path = f"{OUT}/{name}-m-1200.webp"
+            cut.resize((1200, round(1200 * H / W)), Image.LANCZOS).save(path, "WEBP", quality=92, method=6)
+        else:
+            path = f"{OUT}/{name}-{W}.webp"
+            cut.save(path, "WEBP", lossless=True, method=6)
+            cut.resize((960, round(960 * H / W)), Image.LANCZOS).save(f"{OUT}/{name}-960.webp", "WEBP", quality=92, method=6)
+        print(f"{name}{' (phone)' if phone else ''}: {src} -> {cut.size}, {os.path.getsize(path)//1024} KB")
+        for (bx, by, bw, bh) in buttons:
+            print(f"   button: left {(bx + left) / W * 100:.2f}, top {(by + add) / H * 100:.2f}, width {bw / W * 100:.2f}, height {bh / H * 100:.2f}")
 def sky_above(cut, add):
     width = cut.size[0]
     strip = cut.crop((0, 0, width, 20)).resize((width, 1), Image.BOX).filter(ImageFilter.GaussianBlur(90))
