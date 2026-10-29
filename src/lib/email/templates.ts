@@ -139,6 +139,27 @@ export function reviewRequestTemplate(firstName: string, orderNumber: string, it
   return { subject: `How was your order ${orderNumber}? — ${STORE}`, html, text: `${strip(html)}\n\nRate your order: ${url}` };
 }
 
+/** Sent when the store confirms it has received the payment (Admin → Orders → "Payment received"). */
+export function paymentReceivedTemplate(d: {
+  orderNumber: string;
+  customerName: string;
+  amountFormatted: string;
+  methodLabel: string;
+  /** The order is now being prepared (it hadn't been sent yet). */
+  preparing: boolean;
+  orderUrl: string;
+}) {
+  const html = layout(
+    `Payment received for order ${esc(d.orderNumber)}`,
+    `<p>Hi ${esc(d.customerName)},</p>
+     <p>We've received your payment of <strong>${d.amountFormatted}</strong> by ${esc(d.methodLabel)}. Thank you!</p>
+     <p>${d.preparing ? "Your order is confirmed and we're preparing it now. We'll email you again when it ships." : "Your order is fully paid."}</p>
+     <p style="margin:24px 0">${btn(d.orderUrl, "View order")}</p>
+     <p style="font-size:12px;color:#6b6b6b">Questions? Message us on WhatsApp at ${STORE_PHONE}.</p>`,
+  );
+  return { subject: `Payment received: order ${d.orderNumber} — ${STORE}`, html, text: `${strip(html)} View order: ${d.orderUrl}` };
+}
+
 export function shippingConfirmationTemplate(orderNumber: string, tracking?: string, carrier?: string) {
   const html = layout(
     `Your order ${orderNumber} has shipped`,
