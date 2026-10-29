@@ -17,6 +17,12 @@ export type SettingsData = {
   freeShippingThreshold: string;
   flatShipping: string;
   bankTransferInstructions: string;
+  easypaisaEnabled: boolean;
+  easypaisaNumber: string;
+  easypaisaName: string;
+  jazzcashEnabled: boolean;
+  jazzcashNumber: string;
+  jazzcashName: string;
   announcementText: string;
 };
 
@@ -45,6 +51,12 @@ export function SettingsForm({ initial }: { initial: SettingsData }) {
         freeShippingThresholdCents: d.freeShippingThreshold ? toCents(d.freeShippingThreshold) : null,
         flatShippingCents: toCents(d.flatShipping),
         bankTransferInstructions: d.bankTransferInstructions,
+        easypaisaEnabled: d.easypaisaEnabled,
+        easypaisaNumber: d.easypaisaNumber,
+        easypaisaName: d.easypaisaName,
+        jazzcashEnabled: d.jazzcashEnabled,
+        jazzcashNumber: d.jazzcashNumber,
+        jazzcashName: d.jazzcashName,
         announcementText: d.announcementText,
       });
       setMsg({ ok: res.ok, text: res.message ?? (res.ok ? "Saved." : "Error.") });
@@ -69,9 +81,23 @@ export function SettingsForm({ initial }: { initial: SettingsData }) {
 
       <Card title="Payments">
         <Toggle label="Cash on Delivery (COD)" checked={d.enableCOD} onChange={(v) => set("enableCOD", v)} />
-        <Text label="COD limit (base currency)" value={d.codLimit} onChange={(v) => set("codLimit", v)} />
+        <Text label="COD limit (base currency; 0 = no limit)" value={d.codLimit} onChange={(v) => set("codLimit", v)} />
+        <Toggle label="Easypaisa" checked={d.easypaisaEnabled} onChange={(v) => set("easypaisaEnabled", v)} />
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Text label="Easypaisa number" value={d.easypaisaNumber} onChange={(v) => set("easypaisaNumber", v)} />
+          <Text label="Easypaisa account name (optional)" value={d.easypaisaName} onChange={(v) => set("easypaisaName", v)} />
+        </div>
+        <Toggle label="JazzCash" checked={d.jazzcashEnabled} onChange={(v) => set("jazzcashEnabled", v)} />
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Text label="JazzCash number" value={d.jazzcashNumber} onChange={(v) => set("jazzcashNumber", v)} />
+          <Text label="JazzCash account name (optional)" value={d.jazzcashName} onChange={(v) => set("jazzcashName", v)} />
+        </div>
         <Toggle label="Bank Transfer" checked={d.enableBankTransfer} onChange={(v) => set("enableBankTransfer", v)} />
-        <Area label="Bank transfer instructions" value={d.bankTransferInstructions} onChange={(v) => set("bankTransferInstructions", v)} />
+        <Area
+          label="Bank transfer instructions (bank, account name, account number / IBAN). Bank Transfer shows at checkout once these are filled in."
+          value={d.bankTransferInstructions}
+          onChange={(v) => set("bankTransferInstructions", v)}
+        />
         <Toggle label="Card (Stripe) — requires keys" checked={d.enableCard} onChange={(v) => set("enableCard", v)} />
         <Toggle label="PayPal — requires keys" checked={d.enablePaypal} onChange={(v) => set("enablePaypal", v)} />
       </Card>

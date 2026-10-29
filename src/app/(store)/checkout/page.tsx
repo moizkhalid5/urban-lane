@@ -9,6 +9,7 @@ import { prisma } from "@/lib/prisma";
 import { computeTotals } from "@/lib/totals";
 import { formatMoney } from "@/lib/money";
 import { availablePaymentMethods } from "@/lib/payments/available";
+import { getPaymentSettings } from "@/lib/payments/settings";
 import { CheckoutForm } from "@/components/checkout/CheckoutForm";
 
 export const metadata: Metadata = { title: "Checkout", robots: { index: false } };
@@ -17,6 +18,8 @@ export default async function CheckoutPage() {
   const cart = await getCart();
   if (cart.lines.length === 0) redirect("/cart");
 
+  // First, as it sets up the payment settings the first time
+  const wallets = await getPaymentSettings();
   const [currency, settings, user] = await Promise.all([
     getActiveCurrency(),
     getSiteSettings(),
@@ -24,7 +27,7 @@ export default async function CheckoutPage() {
   ]);
 
   const totals = computeTotals(cart.subtotalCents, settings);
-  const methods = availablePaymentMethods(settings, totals.totalCents);
+  const methods = availablePaymentMethods(settings, wallets, totals.totalCents);
 
   // Prefill from the user's default address when signed in.
   let prefill: Record<string, string | undefined> = { email: user?.email ?? undefined };
@@ -56,7 +59,7 @@ export default async function CheckoutPage() {
       <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_400px]">
         <div>
           <CheckoutForm
-            paymentMethods={methods.map((m) => ({ method: m.method, label: m.label }))}
+            paymentMethods={methods.map((m) => ({ method: m.method, label: m.label, account: m.account }))}
             bankInstructions={settings.bankTransferInstructions}
             prefill={prefill}
           />

@@ -162,7 +162,7 @@ export default async function HomePage() {
           {[
             { t: "Free shipping", d: "On orders over Rs 15,000" },
             { t: "Easy returns", d: "14-day hassle-free returns" },
-            { t: "Secure checkout", d: "COD, bank transfer & cards" },
+            { t: "Easy payment", d: "Cash on delivery, Easypaisa & JazzCash" },
           ].map((v) => (
             <div key={v.t}>
               <h3 className="text-sm font-medium uppercase tracking-wide">{v.t}</h3>

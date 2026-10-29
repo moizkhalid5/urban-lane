@@ -35,6 +35,8 @@ enum AddressType {
 enum PaymentMethod {
   COD
   BANK_TRANSFER
+  EASYPAISA
+  JAZZCASH
   CARD
   STRIPE
   PAYPAL
@@ -735,4 +737,17 @@ model FeaturedPick {
 
   @@unique([department, productId])
   @@index([department, position])
+}
+
+/// Easypaisa and JazzCash accounts that customers send payment to (Admin → Settings → Payments).
+/// Created at runtime by src/lib/payments/settings.ts, because the host's deploy doesn't run migrations.
+model PaymentSettings {
+  id               String   @id @default("singleton")
+  easypaisaEnabled Boolean  @default(true)
+  easypaisaNumber  String?
+  easypaisaName    String?
+  jazzcashEnabled  Boolean  @default(true)
+  jazzcashNumber   String?
+  jazzcashName     String?
+  updatedAt        DateTime @updatedAt
 }

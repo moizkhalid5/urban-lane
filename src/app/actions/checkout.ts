@@ -10,7 +10,8 @@ import { getSiteSettings } from "@/lib/settings";
 import { computeTotals } from "@/lib/totals";
 import { checkoutSchema } from "@/lib/validation";
 import { generateOrderNumber } from "@/lib/order-number";
-import { availablePaymentMethods } from "@/lib/payments/available";
+import { availablePaymentMethods, walletAccount } from "@/lib/payments/available";
+import { getPaymentSettings } from "@/lib/payments/settings";
 import { getGateway } from "@/lib/payments";
 import { sendEmail, STORE_NOTIFICATIONS_EMAIL } from "@/lib/email";
 import { orderConfirmationTemplate } from "@/lib/email/templates";
@@ -41,6 +42,7 @@ export async function placeOrder(raw: unknown): Promise<PlaceOrderResult> {
   }
   const data = parsed.data;
 
+  const wallets = await getPaymentSettings();
   const [cart, settings, session] = await Promise.all([getCart(), getSiteSettings(), auth()]);
   if (cart.lines.length === 0 || !cart.id) {
     return { ok: false, error: "Your bag is empty." };
@@ -52,7 +54,7 @@ export async function placeOrder(raw: unknown): Promise<PlaceOrderResult> {
   const totals = computeTotals(subtotalCents, settings, coupon);
 
   // Payment method must be currently offered (respects settings + COD limit + gateway availability).
-  const allowed = availablePaymentMethods(settings, totals.totalCents);
+  const allowed = availablePaymentMethods(settings, wallets, totals.totalCents);
   if (!allowed.some((m) => m.method === data.paymentMethod)) {
     return { ok: false, error: "Selected payment method is not available for this order." };
   }
@@ -162,6 +164,11 @@ export async function placeOrder(raw: unknown): Promise<PlaceOrderResult> {
     orderNumber,
     customerName: data.firstName,
     totalFormatted: formatMoney(totals.totalCents, base),
+    payment: {
+      label: gateway.label,
+      account: walletAccount(data.paymentMethod, wallets),
+      bankInstructions: data.paymentMethod === "BANK_TRANSFER" ? settings.bankTransferInstructions : null,
+    },
     lines: cart.lines.map((l) => ({
       title: `${l.title}${l.variantLabel ? ` (${l.variantLabel})` : ""}`,
       qty: l.quantity,
