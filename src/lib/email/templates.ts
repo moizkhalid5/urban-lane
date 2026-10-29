@@ -4,6 +4,7 @@
  */
 
 import { APP_URL } from "@/lib/site";
+import { STORE_PHONE } from "@/components/layout/SocialContact";
 const STORE = "Urban Lane";
 
 function layout(title: string, body: string): string {
@@ -70,7 +71,23 @@ export type OrderEmailData = {
   customerName: string;
   totalFormatted: string;
   lines: { title: string; qty: number; priceFormatted: string }[];
+  /** How the customer pays: the wallet number for Easypaisa / JazzCash, the instructions for a bank transfer. */
+  payment?: { label: string; account?: { number: string; name: string | null } | null; bankInstructions?: string | null };
 };
+
+/** The "How to pay" part of the order email. */
+function paymentHtml(d: OrderEmailData): string {
+  const p = d.payment;
+  if (!p) return "";
+  if (p.account) {
+    const name = p.account.name ? ` (${esc(p.account.name)})` : "";
+    return `<p><strong>How to pay:</strong> send ${d.totalFormatted} by ${esc(p.label)} to <strong>${esc(p.account.number)}</strong>${name}.
+       Then send a screenshot of the payment with your order number <strong>${esc(d.orderNumber)}</strong> on WhatsApp
+       to ${STORE_PHONE}. We'll confirm your order as soon as the payment arrives.</p>`;
+  }
+  if (p.bankInstructions) return `<p><strong>How to pay:</strong> ${esc(p.bankInstructions)}</p>`;
+  return `<p><strong>Payment:</strong> ${esc(p.label)}</p>`;
+}
 
 export function orderConfirmationTemplate(d: OrderEmailData) {
   const rows = d.lines
@@ -87,6 +104,7 @@ export function orderConfirmationTemplate(d: OrderEmailData) {
      <table width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0">${rows}
        <tr><td style="padding:12px 0;font-weight:600">Total</td>
        <td align="right" style="padding:12px 0;font-weight:600">${d.totalFormatted}</td></tr></table>
+     ${paymentHtml(d)}
      <p style="margin:24px 0">${btn(`${APP_URL}/account/orders`, "View order")}</p>`,
   );
   return { subject: `Order ${d.orderNumber} confirmed — ${STORE}`, html, text: strip(html) };

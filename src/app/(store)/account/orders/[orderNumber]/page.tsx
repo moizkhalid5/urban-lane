@@ -4,6 +4,7 @@ import { requireUser } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
 import { getActiveCurrency } from "@/lib/currency.server";
 import { formatMoney } from "@/lib/money";
+import { paymentLabel } from "@/lib/payments";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { reviewToken } from "@/lib/reviews/request";
 
@@ -84,7 +85,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ or
         </div>
         <div className="border border-line p-4 text-sm">
           <h3 className="mb-2 font-medium">Payment</h3>
-          <p className="text-ink-soft capitalize">{order.paymentMethod.replace(/_/g, " ").toLowerCase()}</p>
+          <p className="text-ink-soft">{paymentLabel(order.paymentMethod)}</p>
           {order.customerNote && (
             <>
               <h3 className="mb-2 mt-4 font-medium">Order notes</h3>

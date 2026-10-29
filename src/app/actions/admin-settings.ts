@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth/guards";
 import { settingsInputSchema } from "@/lib/validation";
 import { logAudit } from "@/lib/audit";
+import { ensurePaymentTables } from "@/lib/payments/settings";
 
 export type SettingsResult = { ok: boolean; message?: string };
 
@@ -49,6 +50,17 @@ export async function updateSettings(input: unknown): Promise<SettingsResult> {
       announcementText: d.announcementText || null,
     },
   });
+
+  const wallets = {
+    easypaisaEnabled: d.easypaisaEnabled,
+    easypaisaNumber: d.easypaisaNumber || null,
+    easypaisaName: d.easypaisaName || null,
+    jazzcashEnabled: d.jazzcashEnabled,
+    jazzcashNumber: d.jazzcashNumber || null,
+    jazzcashName: d.jazzcashName || null,
+  };
+  await ensurePaymentTables();
+  await prisma.paymentSettings.upsert({ where: { id: "singleton" }, update: wallets, create: { id: "singleton", ...wallets } });
 
   await logAudit(user.id, "settings.update", "SiteSettings", "singleton");
   revalidatePath("/admin/settings");

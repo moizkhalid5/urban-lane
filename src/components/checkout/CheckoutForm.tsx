@@ -4,8 +4,10 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { placeOrder } from "@/app/actions/checkout";
 import { cn } from "@/lib/utils";
+import { STORE_PHONE } from "@/components/layout/SocialContact";
 
-export type PaymentOption = { method: string; label: string };
+/** `account`: the Easypaisa or JazzCash number the customer sends the payment to. */
+export type PaymentOption = { method: string; label: string; account?: { number: string; name: string | null } };
 type Prefill = { email?: string; firstName?: string; lastName?: string; phone?: string; line1?: string; line2?: string; city?: string; state?: string; postalCode?: string; country?: string };
 
 const COUNTRIES = [
@@ -36,6 +38,7 @@ export function CheckoutForm({
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [method, setMethod] = useState(paymentMethods[0]?.method ?? "");
+  const wallet = paymentMethods.find((m) => m.method === method && m.account);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -133,6 +136,7 @@ export function CheckoutForm({
             </label>
           ))}
         </div>
+        {wallet?.account && <WalletInstructions label={wallet.label} account={wallet.account} />}
         {method === "BANK_TRANSFER" && bankInstructions && (
           <p className="mt-3 whitespace-pre-line border border-line bg-line-soft p-4 text-sm text-ink-soft">
             {bankInstructions}
@@ -158,6 +162,34 @@ export function CheckoutForm({
         Your card details are never stored. Card payments are processed by the payment provider.
       </p>
     </form>
+  );
+}
+
+/** Where to send an Easypaisa or JazzCash payment, with a button to copy the number. */
+function WalletInstructions({ label, account }: { label: string; account: { number: string; name: string | null } }) {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(account.number.replace(/\D/g, ""));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {}
+  };
+  return (
+    <div className="mt-3 border border-line bg-line-soft p-4 text-sm text-ink-soft">
+      <p>Send the order total to our {label} account:</p>
+      <div className="mt-2 flex flex-wrap items-center gap-3">
+        <span className="text-lg font-medium tracking-wide text-ink">{account.number}</span>
+        <button type="button" onClick={copy} className="border border-line bg-white px-3 py-1 text-xs uppercase tracking-wide text-ink hover:border-ink">
+          {copied ? "Copied" : "Copy number"}
+        </button>
+      </div>
+      {account.name && <p className="mt-1">Account name: <span className="text-ink">{account.name}</span></p>}
+      <p className="mt-3">
+        After placing your order, send a screenshot of the payment with your order number on WhatsApp to {STORE_PHONE}.
+        We&apos;ll confirm your order as soon as the payment arrives.
+      </p>
+    </div>
   );
 }
 

@@ -66,7 +66,7 @@ export const checkoutSchema = z.object({
   state: z.string().trim().max(80).optional().or(z.literal("")),
   postalCode: z.string().trim().min(2).max(20),
   shippingMethod: z.string().trim().min(1).default("standard"),
-  paymentMethod: z.enum(["COD", "BANK_TRANSFER", "CARD", "STRIPE", "PAYPAL", "SAFEPAY", "PAYFAST"]),
+  paymentMethod: z.enum(["COD", "BANK_TRANSFER", "EASYPAISA", "JAZZCASH", "CARD", "STRIPE", "PAYPAL", "SAFEPAY", "PAYFAST"]),
   couponCode: z.string().trim().max(40).optional().or(z.literal("")),
   customerNote: z.string().trim().max(1000).optional().or(z.literal("")),
 });
@@ -189,6 +189,14 @@ export const couponInputSchema = z.object({
   endsAt: z.string().datetime().optional().nullable(),
 });
 
+/** An Easypaisa / JazzCash mobile number like 0332-5253799 (blank hides that option at checkout). */
+const walletNumber = z
+  .string()
+  .trim()
+  .refine((v) => v === "" || /^0?3\d{9}$/.test(v.replace(/[\s-]/g, "")), "Enter the wallet number as a mobile number, e.g. 0332-5253799.")
+  .optional()
+  .or(z.literal(""));
+
 export const settingsInputSchema = z.object({
   storeName: z.string().trim().min(1).max(80),
   storeEmail: z.string().trim().toLowerCase().email(),
@@ -202,6 +210,12 @@ export const settingsInputSchema = z.object({
   freeShippingThresholdCents: moneyMinor.optional().nullable(),
   flatShippingCents: moneyMinor,
   bankTransferInstructions: z.string().trim().max(2000).optional().or(z.literal("")),
+  easypaisaEnabled: z.boolean(),
+  easypaisaNumber: walletNumber,
+  easypaisaName: z.string().trim().max(80).optional().or(z.literal("")),
+  jazzcashEnabled: z.boolean(),
+  jazzcashNumber: walletNumber,
+  jazzcashName: z.string().trim().max(80).optional().or(z.literal("")),
   // One message per line; the column is VARCHAR(191).
   announcementText: z.string().trim().max(190).optional().or(z.literal("")),
 });

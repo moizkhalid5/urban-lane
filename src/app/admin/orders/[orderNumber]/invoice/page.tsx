@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getBaseCurrency } from "@/lib/settings";
 import { getSiteSettings } from "@/lib/settings";
 import { formatMoney } from "@/lib/money";
+import { paymentLabel } from "@/lib/payments";
 import { PrintButton } from "@/components/admin/PrintButton";
 
 export const dynamic = "force-dynamic";
@@ -78,7 +79,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ orderN
       </div>
 
       <p className="mt-8 text-center text-xs text-ink-muted">
-        Payment method: {order.paymentMethod.replace(/_/g, " ")} · Thank you for shopping with {settings.storeName}.
+        Payment method: {paymentLabel(order.paymentMethod)} · Thank you for shopping with {settings.storeName}.
       </p>
 
       <div className="mt-8 text-center">

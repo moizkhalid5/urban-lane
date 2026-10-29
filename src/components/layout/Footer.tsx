@@ -67,12 +67,8 @@ export function Footer() {
       <div className="border-t border-line">
         <div className="container-site flex flex-col items-center gap-3 py-6 text-center text-sm text-ink-muted">
           <p>
-            We accept <strong className="text-ink">PayPal</strong>,{" "}
-            <strong className="text-ink">Cards</strong>, <strong className="text-ink">Bank Transfer</strong> and{" "}
-            <strong className="text-ink">Cash on Delivery</strong>.
-          </p>
-          <p className="text-xs">
-            PayPal payments accepted in GBP or USD only · Cash on delivery limit Rs 10,000
+            We accept <strong className="text-ink">Cash on Delivery</strong>,{" "}
+            <strong className="text-ink">Easypaisa</strong> and <strong className="text-ink">JazzCash</strong>.
           </p>
         </div>
       </div>
