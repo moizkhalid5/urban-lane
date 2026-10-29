@@ -8,6 +8,9 @@ import { OrderEditForm } from "@/components/admin/OrderEditForm";
 import { ReviewRequestButtons } from "@/components/admin/ReviewRequestButtons";
 import { ensureReviewTables } from "@/lib/reviews/db";
 import { whatsappReviewLink } from "@/lib/reviews/request";
+import { paymentLabel } from "@/lib/payments";
+import { paymentConfirmation } from "@/lib/payments/confirm";
+import { PaymentReceivedTick } from "@/components/admin/PaymentReceivedTick";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +19,9 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ o
   await ensureReviewTables();
   const order = await prisma.order.findUnique({ where: { orderNumber }, include: { items: true, reviewRequest: true } });
   if (!order) notFound();
-  const currency = await getBaseCurrency();
+  const [currency, confirmed] = await Promise.all([getBaseCurrency(), paymentConfirmation(order.id)]);
+  const method = paymentLabel(order.paymentMethod);
+  const total = formatMoney(order.totalCents, currency);
 
   return (
     <div className="space-y-6">
@@ -34,6 +39,28 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ o
           </Link>
         </div>
       </div>
+
+      {order.paymentStatus === "PENDING" ? (
+        <div className="card flex flex-wrap items-center justify-between gap-4 border-amber-200 bg-amber-50 p-4 text-sm">
+          <div>
+            <p className="font-medium">Waiting for payment: {total} by {method}</p>
+            <p className="mt-1 text-ink-soft">
+              {order.paymentMethod === "COD"
+                ? "Tick when the courier has collected the cash."
+                : "When the customer's payment screenshot matches and the money is in your account, tick Payment received."}{" "}
+              The order is marked paid{order.fulfillmentStatus === "UNFULFILLED" ? " and processing" : ""}, and the customer is emailed.
+            </p>
+          </div>
+          <PaymentReceivedTick orderNumber={order.orderNumber} amount={total} method={method} />
+        </div>
+      ) : (
+        order.paymentStatus === "PAID" && (
+          <p className="card border-green-200 bg-green-50 p-4 text-sm text-green-800">
+            Paid: {total} by {method}
+            {confirmed && <> · confirmed {confirmed.at.toLocaleString()}{confirmed.by ? ` by ${confirmed.by}` : ""}</>}
+          </p>
+        )
+      )}
 
       <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
         <div className="space-y-6">
@@ -105,6 +132,8 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ o
         </div>
 
         <OrderEditForm
+          // Starts again from the saved values after the "Payment received" tick changes them
+          key={`${order.paymentStatus}-${order.fulfillmentStatus}`}
           orderNumber={order.orderNumber}
           initial={{
             paymentStatus: order.paymentStatus,

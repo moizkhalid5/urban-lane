@@ -6,6 +6,7 @@ import { getActiveCurrency } from "@/lib/currency.server";
 import { formatMoney } from "@/lib/money";
 import { paymentLabel } from "@/lib/payments";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { OrderPaymentBox } from "@/components/checkout/OrderPaymentBox";
 import { reviewToken } from "@/lib/reviews/request";
 
 export default async function OrderDetailPage({ params }: { params: Promise<{ orderNumber: string }> }) {
@@ -32,6 +33,8 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ or
           <StatusBadge status={order.fulfillmentStatus} />
         </div>
       </div>
+
+      <OrderPaymentBox order={order} />
 
       {order.fulfillmentStatus === "DELIVERED" && (
         <div className="flex flex-wrap items-center justify-between gap-3 border border-line bg-line-soft p-4 text-sm">

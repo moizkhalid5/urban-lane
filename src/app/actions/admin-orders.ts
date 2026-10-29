@@ -8,6 +8,7 @@ import { logAudit } from "@/lib/audit";
 import { sendEmail } from "@/lib/email";
 import { orderStatusTemplate, shippingConfirmationTemplate } from "@/lib/email/templates";
 import { emailReviewRequest } from "@/lib/reviews/request";
+import { confirmPaymentReceived, emailPaymentReceived } from "@/lib/payments/confirm";
 
 export type OrderActionResult = { ok: boolean; message?: string };
 
@@ -30,6 +31,11 @@ export async function updateOrder(orderNumber: string, input: unknown): Promise<
       adminNote: d.adminNote !== undefined ? d.adminNote || null : undefined,
     },
   });
+
+  // Marked paid here instead of with the "Payment received" tick: the customer still gets the email.
+  if (d.paymentStatus === "PAID" && existing.paymentStatus !== "PAID") {
+    await emailPaymentReceived(updated, false);
+  }
 
   // Notify the customer when fulfillment status changes.
   if (d.fulfillmentStatus && d.fulfillmentStatus !== existing.fulfillmentStatus) {
@@ -57,4 +63,13 @@ export async function updateOrder(orderNumber: string, input: unknown): Promise<
   revalidatePath(`/admin/orders/${orderNumber}`);
   revalidatePath("/admin/orders");
   return { ok: true, message: "Order updated." };
+}
+
+/** The "Payment received" tick in Admin → Orders (lib/payments/confirm.ts). */
+export async function confirmPayment(orderNumber: string): Promise<OrderActionResult> {
+  const user = await requireStaff();
+  const res = await confirmPaymentReceived(orderNumber, user.id);
+  revalidatePath(`/admin/orders/${orderNumber}`);
+  revalidatePath("/admin/orders");
+  return res;
 }

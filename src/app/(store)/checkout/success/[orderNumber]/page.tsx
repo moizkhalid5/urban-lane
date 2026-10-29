@@ -4,11 +4,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getActiveCurrency } from "@/lib/currency.server";
 import { formatMoney } from "@/lib/money";
-import { getBaseCurrency, getSiteSettings } from "@/lib/settings";
-import { paymentLabel } from "@/lib/payments";
-import { walletAccount } from "@/lib/payments/available";
-import { getPaymentSettings } from "@/lib/payments/settings";
-import { STORE_PHONE, STORE_PHONE_TEL } from "@/components/layout/SocialContact";
+import { OrderPaymentBox } from "@/components/checkout/OrderPaymentBox";
 
 export const metadata: Metadata = { title: "Order confirmed", robots: { index: false } };
 
@@ -20,20 +16,7 @@ export default async function OrderSuccessPage({ params }: { params: Promise<{ o
   });
   if (!order) notFound();
 
-  const [currency, base, settings, wallets] = await Promise.all([getActiveCurrency(), getBaseCurrency(), getSiteSettings(), getPaymentSettings()]);
-
-  // Wallet and bank payments are made in rupees, so the amount to send is always in the base currency
-  const amount = formatMoney(order.totalCents, base);
-  const wallet = walletAccount(order.paymentMethod, wallets);
-  const label = paymentLabel(order.paymentMethod);
-  const paymentNote: Record<string, string> = {
-    COD: `Please keep ${amount} ready in cash for delivery.`,
-    BANK_TRANSFER: settings.bankTransferInstructions
-      ? `${settings.bankTransferInstructions}\nAmount: ${amount}. Reference: ${order.orderNumber}.`
-      : "Please complete your bank transfer using your order number as the reference.",
-  };
-  const receiptMessage = `Hi Urban Lane, I've sent ${amount} by ${label} for order ${order.orderNumber}. Here is the screenshot of the payment:`;
-  const receiptUrl = `https://wa.me/${STORE_PHONE_TEL.replace(/\D/g, "")}?text=${encodeURIComponent(receiptMessage)}`;
+  const currency = await getActiveCurrency();
 
   return (
     <div className="container-site max-w-2xl py-16">
@@ -87,32 +70,7 @@ export default async function OrderSuccessPage({ params }: { params: Promise<{ o
         </dl>
       </div>
 
-      {wallet ? (
-        <div className="mt-6 border border-ink p-6 text-sm">
-          <h2 className="text-sm font-medium uppercase tracking-wide">Pay by {label}</h2>
-          <ol className="mt-4 list-decimal space-y-3 pl-5 text-ink-soft">
-            <li>
-              Send <span className="font-medium text-ink">{amount}</span> to our {label} account{" "}
-              <span className="whitespace-nowrap text-base font-medium tracking-wide text-ink">{wallet.number}</span>
-              {wallet.name && <> ({wallet.name})</>}.
-            </li>
-            <li>
-              Send a screenshot of the payment with your order number{" "}
-              <span className="font-medium text-ink">{order.orderNumber}</span> on WhatsApp to {STORE_PHONE}.
-            </li>
-          </ol>
-          <a href={receiptUrl} target="_blank" rel="noopener noreferrer" className="btn-primary mt-5 w-full sm:w-auto">
-            Send payment screenshot on WhatsApp
-          </a>
-          <p className="mt-4 text-xs text-ink-muted">We&apos;ll confirm your order as soon as the payment arrives.</p>
-        </div>
-      ) : (
-        paymentNote[order.paymentMethod] && (
-          <p className="mt-6 whitespace-pre-line border border-line bg-line-soft p-4 text-sm text-ink-soft">
-            {paymentNote[order.paymentMethod]}
-          </p>
-        )
-      )}
+      <OrderPaymentBox order={order} className="mt-6" />
 
       <div className="mt-10 flex justify-center gap-4">
         <Link href="/" className="btn-secondary">Continue shopping</Link>

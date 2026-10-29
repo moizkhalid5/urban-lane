@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { getBaseCurrency } from "@/lib/settings";
 import { formatMoney } from "@/lib/money";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { paymentLabel } from "@/lib/payments";
+import { PaymentReceivedTick } from "@/components/admin/PaymentReceivedTick";
 
 export const dynamic = "force-dynamic";
 
@@ -28,7 +30,11 @@ export default async function AdminOrdersPage({
       { email: { contains: q } },
     ];
   }
-  if (status === "pending") {
+  if (status === "awaiting-payment") {
+    // Paid in advance (Easypaisa, JazzCash, bank transfer) but not yet confirmed
+    where.paymentStatus = "PENDING";
+    where.paymentMethod = { not: "COD" };
+  } else if (status === "pending") {
     where.OR = [{ paymentStatus: "PENDING" }, { fulfillmentStatus: "UNFULFILLED" }];
   } else if (FULFILLMENT.includes(status.toUpperCase())) {
     where.fulfillmentStatus = status.toUpperCase() as FulfillmentStatus;
@@ -54,6 +60,7 @@ export default async function AdminOrdersPage({
         <input name="q" defaultValue={q} placeholder="Search order # or email" className="input max-w-xs" />
         <select name="status" defaultValue={status} className="input max-w-[12rem]">
           <option value="">All</option>
+          <option value="awaiting-payment">Awaiting payment</option>
           <option value="pending">Pending / unfulfilled</option>
           {FULFILLMENT.map((f) => (
             <option key={f} value={f.toLowerCase()}>{f.charAt(0) + f.slice(1).toLowerCase()}</option>
@@ -82,7 +89,15 @@ export default async function AdminOrdersPage({
                 </td>
                 <td className="p-3">{o.firstName} {o.lastName}<br /><span className="text-xs text-ink-muted">{o.email}</span></td>
                 <td className="p-3 text-ink-muted">{o.createdAt.toLocaleDateString()}</td>
-                <td className="p-3"><StatusBadge status={o.paymentStatus} /></td>
+                <td className="p-3">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <StatusBadge status={o.paymentStatus} />
+                    {o.paymentStatus === "PENDING" && (
+                      <PaymentReceivedTick orderNumber={o.orderNumber} amount={formatMoney(o.totalCents, currency)} method={paymentLabel(o.paymentMethod)} compact />
+                    )}
+                  </div>
+                  <span className="mt-1 block text-xs text-ink-muted">{paymentLabel(o.paymentMethod)}</span>
+                </td>
                 <td className="p-3"><StatusBadge status={o.fulfillmentStatus} /></td>
                 <td className="p-3 text-right">{formatMoney(o.totalCents, currency)}</td>
               </tr>
