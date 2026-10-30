@@ -8,49 +8,62 @@ export type PageHero = {
   alt: string;
   /** The artwork behind the menu: "dark" → white menu text, "light" → dark menu text. */
   tone: "dark" | "light";
-  /** Tailwind aspect-ratio classes per screen size. */
+  /** Tailwind aspect-ratio classes for tablets and computers. */
   aspect: string;
   /**
-   * Phones (below md): show this picture instead, at its own shape. `image` and `aspect` are then only
-   * used on tablets and computers.
+   * Phones (below md) get this tall picture instead, filling the screen (.phone-frame in globals.css).
+   * `focus`: the part to keep when the screen's shape differs a little from the picture's: [x, y], each 0–1.
+   * `ratio`: its width / height, if it isn't the usual 941x1672.
    */
-  small?: { image: string; aspect: string };
+  small: { image: string; focus?: [number, number]; ratio?: number };
   /**
    * Keep the menu row off the artwork: a band of this colour (the artwork's own background) the height
    * of the menu row sits above the image, so the menu never covers the picture. Leave out to let the
    * image run under the menu.
    */
   menuBand?: string;
+  /**
+   * For a tall `image`: on tablets and computers it stops at the bottom of the screen (.fit-screen in
+   * globals.css). `ratio`: its width / height; `focus`: where to trim, 0 keeps the top, 1 the bottom.
+   */
+  wide?: { ratio: number; focus: number };
   /** Where the banner (or its painted button, see lib/banner-buttons.ts) leads. */
   link?: string;
   label?: string;
+  /** Shown on the banner, in place of the empty listing, while the collection has no products. */
+  comingSoon?: { title: string; text: string };
 };
 
 /** Collection banners, by collection slug. */
 export const COLLECTION_HEROES: Record<string, PageHero> = {
   outlet: {
-    image: "/images/banners/outlet-coming-soon.jpg",
-    alt: "Urban Lane Outlet: coming soon",
-    tone: "dark",
-    // 3:1 on desktop like the artwork; taller crops on tablets and phones so it isn't a thin strip.
-    aspect: "aspect-video md:aspect-[21/9] lg:aspect-[3/1]",
+    image: "/images/banners/outlet-desktop-v1.webp",
+    alt: "Urban Lane Outlet store",
+    tone: "light",
+    // The ceiling lights at the top of the picture would run through the menu words.
+    menuBand: "#ffffff",
+    aspect: "md:aspect-[1916/821]",
+    small: { image: "/images/banners/outlet-phone-v1.webp", focus: [0.5, 0] },
+    comingSoon: { title: "Coming soon", text: "We aren't available at the moment, but we'll be here soon." },
   },
   // Department banners (from Banners/<department>/banner), the same shape as the homepage slider
-  // (1916x821) and always the complete picture, never cropped. Men and Women are shown whole at every
-  // screen size; Kids' plain cream background is extended at the sides to that shape (phones get the
-  // original), with a cream strip under the menu so it doesn't cover the painted lettering.
+  // (1916x821) and always the complete picture, never cropped, on tablets and computers. Kids' plain cream
+  // background is extended at the sides to that shape, with a cream strip under the menu so it doesn't
+  // cover the painted lettering. Phones get the tall full-screen pictures (scripts/build_phone_banners.py).
   // Lossless WebP, shown as is (not re-compressed by next/image), so they keep the original quality.
   men: {
     image: "/images/banners/men-edit-full.webp",
     alt: "Urban Lane Men's Edit: refined layers for the modern man",
     tone: "dark",
-    aspect: "aspect-[1897/829]",
+    aspect: "md:aspect-[1897/829]",
+    small: { image: "/images/banners/men-phone-v2.webp", focus: [0.5, 0], ratio: 941 / 1782 },
   },
   women: {
     image: "/images/banners/women-edit-full.webp",
     alt: "Urban Lane Women's Edit: soft textures for a modern muse",
     tone: "dark",
-    aspect: "aspect-[1916/821]",
+    aspect: "md:aspect-[1916/821]",
+    small: { image: "/images/banners/women-phone-v1.webp", focus: [0.5, 0] },
   },
   kids: {
     image: "/images/banners/kids-edit-wide.webp",
@@ -58,15 +71,27 @@ export const COLLECTION_HEROES: Record<string, PageHero> = {
     tone: "light",
     aspect: "md:aspect-[2196/941]",
     menuBand: "#fbf7ed",
-    small: { image: "/images/banners/kids.webp", aspect: "aspect-video" },
+    small: { image: "/images/banners/kids-phone-v1.webp", focus: [0.5, 0] },
+  },
+  // Beauty keeps the artwork's own 16:9 shape on tablets and computers, up to the screen's height (the plain
+  // top is trimmed first). Its Shop Now goes to the products below.
+  beauty: {
+    image: "/images/banners/beauty-desktop-v1.webp",
+    alt: "Discover your beauty: glow softly, shine confidently",
+    tone: "light",
+    aspect: "md:aspect-[1672/941]",
+    wide: { ratio: 1672 / 941, focus: 0.3 },
+    small: { image: "/images/banners/beauty-phone-v1.webp", focus: [0.5, 0.4] },
+    link: "/collections/beauty#products",
+    label: "Shop beauty",
   },
 };
 
 /**
- * Homepage hero slider (components/home/HomeHeroSlider.tsx). Images: scripts/build_home_banners.py, from
- * the originals in Banners/:
- * - tablets and computers: the main banner's shape (2.334:1), `desktop` (+ a 960px version);
- * - phones: a taller 3:2 cut, `phone` (1200x800).
+ * Homepage hero slider (components/home/HomeHeroSlider.tsx), from the originals in Banners/:
+ * - tablets and computers: the main banner's shape (2.334:1), `desktop` (+ a 960px version),
+ *   scripts/build_home_banners.py;
+ * - phones: `phone`, a tall picture filling the screen, scripts/build_phone_banners.py.
  * The pictures run up under the see-through menu; `tone` picks the menu text colour over their top edge
  * ("dark" → white text on a soft shade). Painted buttons: lib/banner-buttons.ts (keyed by file).
  */
@@ -77,6 +102,8 @@ export type HomeSlide = {
   width: number;
   height: number;
   phone: string;
+  /** The part of `phone` to keep when the screen's shape differs a little from the picture's: [x, y], each 0–1. */
+  phoneFocus?: [number, number];
   alt: string;
   link: string;
   label: string;
@@ -92,18 +119,18 @@ const slide = (
   key,
   desktop: `/images/banners/home/${key}-${width}.webp`,
   desktopSmall: `/images/banners/home/${key}-960.webp`,
-  phone: `/images/banners/home/${key}-m-1200.webp`,
+  phone: `/images/banners/home/${key}-phone-v1.webp`,
   width,
   height,
   ...rest,
 });
 
 export const HOME_SLIDES: HomeSlide[] = [
-  slide("urban-lane", 1916, 821, { alt: "Urban Lane", link: "/collections/women", label: "Shop now", tone: "light" }),
-  slide("men-winter", 1897, 813, { alt: "Urban Lane men's winter collection: 30% sale", link: "/collections/winter?gender=men&save=1", label: "Shop the men's winter sale", tone: "dark" }),
-  slide("women", 1862, 798, { alt: "Urban Lane online sale on womenswear", link: "/offers?gender=women", label: "Shop the womenswear sale", tone: "dark" }),
+  slide("urban-lane", 1916, 821, { phoneFocus: [0.5, 0.4], alt: "Urban Lane", link: "/collections/women", label: "Shop now", tone: "light" }),
+  slide("men-winter", 1897, 813, { phoneFocus: [0.5, 0], alt: "Urban Lane men's winter collection: 30% sale", link: "/collections/winter?gender=men&save=1", label: "Shop the men's winter sale", tone: "dark" }),
+  slide("women", 1862, 798, { phoneFocus: [0.5, 0], alt: "Urban Lane online sale on womenswear", link: "/offers?gender=women", label: "Shop the womenswear sale", tone: "dark" }),
   slide("kids-summer", 2406, 1031, { alt: "Summer kids collection", link: "/collections/kids", label: "Discover kidswear", tone: "light" }),
-  slide("sale-season", 1960, 840, { alt: "New season: 30% off, limited time offer", link: "/offers?save=25-35&gender=men,women,kids", label: "Shop the sale", tone: "dark" }),
+  slide("sale-season", 1960, 840, { phoneFocus: [0, 0.3], alt: "New season: 30% off, limited time offer", link: "/offers?save=25-35&gender=men,women,kids", label: "Shop the sale", tone: "dark" }),
 ];
 
 /** A full-width banner inside a page: a wide cut for tablets and computers, the whole picture for phones. */

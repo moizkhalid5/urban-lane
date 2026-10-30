@@ -14,7 +14,7 @@ export function ProductCard({ product, currency }: { product: ProductCardData; c
       href={`/products/${product.slug}`}
       className="group flex h-full flex-col overflow-hidden rounded-lg border border-line bg-white transition-shadow hover:shadow-[0_2px_14px_rgba(0,0,0,0.07)]"
     >
-      <div className="relative aspect-[4/5] overflow-hidden bg-line-soft">
+      <div data-product-photo className="relative aspect-[4/5] overflow-hidden bg-line-soft">
         {product.image ? (
           <ProductCardImages image={product.image} secondImage={product.secondImage} alt={product.title} />
         ) : (

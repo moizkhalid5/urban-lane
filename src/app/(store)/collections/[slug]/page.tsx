@@ -12,9 +12,11 @@ import { feedFilter, FEED_BATCH } from "@/lib/queries/product-feed";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { KidsLanding } from "@/components/collection/KidsLanding";
 import { DepartmentLanding, hasDepartmentLanding } from "@/components/collection/DepartmentLanding";
+import { BeautyLanding, BeautyTheme } from "@/components/collection/BeautyLanding";
 import { AGE_BANDS } from "@/lib/kids-age";
 import { collectionHeroFor } from "@/lib/collection-heroes";
 import { PageHeroBanner } from "@/components/ui/PageHeroBanner";
+import { cn } from "@/lib/utils";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -56,7 +58,8 @@ export default async function CollectionPage({ params, searchParams }: PageProps
   const unfiltered = Object.keys(sp).length === 0;
   const showKidsLanding = category.slug === "kids" && unfiltered;
   const showDepartmentLanding = hasDepartmentLanding(category.slug) && unfiltered;
-  const showLanding = showKidsLanding || showDepartmentLanding;
+  const showBeautyLanding = category.slug === "beauty" && unfiltered;
+  const showLanding = showKidsLanding || showDepartmentLanding || showBeautyLanding;
   const activeAges = AGE_BANDS.filter((a) => filter.ages?.includes(a.key));
   /** This page's link without one query param (for the ✕ chips). */
   const without = (key: string) => {
@@ -80,8 +83,9 @@ export default async function CollectionPage({ params, searchParams }: PageProps
 
       {showKidsLanding && <KidsLanding />}
       {showDepartmentLanding && <DepartmentLanding slug={category.slug} />}
+      {showBeautyLanding && <BeautyLanding categories={children} currency={currency} />}
 
-      <header className={showLanding ? "mt-16" : "mt-4"}>
+      <header id="products" className={cn("scroll-mt-28", showLanding ? "mt-16" : "mt-4")}>
         <h1 className="text-3xl font-medium md:text-4xl">
           {showLanding
             ? `Shop all ${category.name.toLowerCase()}`
@@ -180,11 +184,22 @@ export default async function CollectionPage({ params, searchParams }: PageProps
 
   // Collections with a full-width banner (e.g. Outlet): banner first, edge to edge, then the listing.
   const hero = collectionHeroFor(category.slug);
-  if (!hero) return listing;
-  return (
+  // A collection that hasn't opened yet: the message on the banner instead of an empty listing.
+  const content = !hero ? (
+    listing
+  ) : hero.comingSoon && total === 0 && unfiltered ? (
+    <PageHeroBanner hero={hero} comingSoon={hero.comingSoon} />
+  ) : (
     <>
-      <PageHeroBanner hero={hero} />
+      {/* The full-screen phone banner would push filtered results out of sight. */}
+      <div className={unfiltered ? undefined : "hidden md:block"}>
+        <PageHeroBanner hero={hero} />
+      </div>
       {listing}
     </>
   );
+
+  // Beauty and its sub-categories share one look.
+  const isBeauty = category.slug === "beauty" || ancestors.some((a) => a.slug === "beauty");
+  return isBeauty ? <BeautyTheme>{content}</BeautyTheme> : content;
 }

@@ -43,6 +43,55 @@
 }
 
 @layer components {
+  /* Phones: a banner fills the screen in one frame, from under the black strip (--header-strip, set by the
+     header) to the bottom edge. Very short screens (landscape, old phones) would trim too much of the
+     picture, so it never gets shorter than 156% of the screen's width. */
+  @media (max-width: 767px) {
+    .phone-frame {
+      height: calc(100vh - var(--header-strip, 56px));
+      height: calc(100svh - var(--header-strip, 56px));
+      min-height: 156vw;
+      container-type: size;
+    }
+  }
+
+  /* Tablets and computers: a tall banner stops at the bottom of the screen instead of running past it, trimmed
+     to fit (.phone-cover) but never to less than a wide strip. --wide-ratio, --wide-focus-y: as below. */
+  @media (min-width: 768px) {
+    .fit-screen {
+      width: 100%;
+      max-height: calc(100vh - var(--header-strip, 36px));
+      max-height: calc(100svh - var(--header-strip, 36px));
+      min-height: 42vw;
+      container-type: size;
+    }
+
+    .fit-screen .phone-cover {
+      --art-ratio: var(--wide-ratio) !important;
+      --focus-y: var(--wide-focus-y) !important;
+    }
+  }
+
+  /* Inside .phone-frame or .fit-screen: a box the picture's own shape that covers the frame, like object-fit:
+     cover but with the whole picture laid out, so links placed on it in % stay on what's painted there however
+     it's trimmed. --art-ratio: the picture's width / height; --focus-x, --focus-y: the part to keep, each 0–1. */
+  .phone-cover {
+    position: absolute;
+    inset: 0;
+  }
+
+  @container (min-width: 1px) {
+    .phone-cover {
+      --cover-w: max(100cqw, 100cqh * var(--art-ratio));
+      --cover-h: calc(var(--cover-w) / var(--art-ratio));
+      inset: auto;
+      width: var(--cover-w);
+      height: var(--cover-h);
+      left: calc((100cqw - var(--cover-w)) * var(--focus-x, 0.5));
+      top: calc((100cqh - var(--cover-h)) * var(--focus-y, 0.5));
+    }
+  }
+
   .container-site {
     @apply mx-auto w-full max-w-site px-site-x;
   }
@@ -63,6 +112,70 @@
 
   .btn-ghost {
     @apply btn border-line bg-white text-ink hover:border-ink;
+  }
+
+  /* Beauty pages: soft peach background, serif headings and rounded rose buttons, taken from the banner.
+     Product cards stay as they are everywhere else. (components/collection/BeautyLanding.tsx) */
+  .beauty-theme {
+    --beauty-peach: #f8e3d4;
+    --beauty-rose: #a8644b;
+    background-color: #fdf3ec;
+  }
+
+  .beauty-theme h1,
+  .beauty-theme h2,
+  .beauty-serif {
+    font-family: var(--font-beauty-serif), Georgia, serif;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .beauty-theme .bg-line-soft,
+  .beauty-tile {
+    background-color: var(--beauty-peach);
+  }
+
+  /* Product photos sit on the peach like the category tiles: whole, with white backgrounds melting away. The
+     hover photo replaces the first, as blended photos would show through each other. */
+  .beauty-theme [data-product-photo] img {
+    padding: 1rem;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+
+  .beauty-theme [data-product-photo] img:has(+ img) {
+    transition: opacity 500ms;
+  }
+
+  .beauty-theme .group:hover [data-product-photo] img:has(+ img) {
+    opacity: 0;
+  }
+
+  .beauty-theme .btn-primary,
+  .beauty-theme .btn-secondary {
+    border-radius: 9999px;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .beauty-theme .btn-primary {
+    background-color: var(--beauty-rose);
+    color: white;
+  }
+
+  .beauty-theme .btn-primary:hover {
+    background-color: #8f5240;
+  }
+
+  .beauty-theme .btn-secondary {
+    border-color: var(--beauty-rose);
+    background-color: transparent;
+    color: var(--beauty-rose);
+  }
+
+  .beauty-theme .btn-secondary:hover {
+    background-color: var(--beauty-rose);
+    color: white;
   }
 
   .input {

@@ -35,6 +35,16 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
   // The homepage slider publishes the current slide's tone (data-tone) as it changes.
   const [heroTone, setHeroTone] = useState(pageHero?.tone);
   const menuRow = useRef<HTMLDivElement>(null);
+  const strip = useRef<HTMLDivElement>(null);
+
+  // The black strip's height, for banners that fill the phone screen under it (.phone-frame in globals.css).
+  useEffect(() => {
+    const el = strip.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => document.documentElement.style.setProperty("--header-strip", `${el.offsetHeight}px`));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -77,7 +87,7 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
   return (
     <header className="sticky top-0 z-40">
       {/* Black strip: phone (left), announcement (centre), Instagram + TikTok (right); stacked on phones. */}
-      <div className="bg-ink text-xs tracking-wide text-white">
+      <div ref={strip} className="bg-ink text-xs tracking-wide text-white">
         <div className="container-site flex flex-wrap items-center justify-center gap-x-5 gap-y-1 py-2 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:gap-4">
           <PhoneLink className="order-2 sm:order-none sm:justify-self-start" />
           <AnnouncementTicker
