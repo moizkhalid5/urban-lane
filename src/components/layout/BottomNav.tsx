@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { heroForPath } from "@/lib/collection-heroes";
 import { cn } from "@/lib/utils";
 
 type Tab = { key: string; href: string; label: string; icon: (on: boolean) => React.ReactNode; badge?: number; match: (path: string) => boolean };
@@ -12,7 +13,8 @@ const SLOTS = 5; // four tabs + the scroll ring
 /**
  * Phone-only bottom bar: Home, Wishlist, Orders, Account and a ring showing how far down the page you are
  * (tap it to go back to the top). Frosted white glass, so colours behind it show through softly. The current
- * tab gets a soft grey pill (which glides between tabs) and a filled icon. Hidden at checkout.
+ * tab gets a soft grey pill (which glides between tabs) and a filled icon. Hidden at checkout, and on pages
+ * with a full-screen banner until the shopper scrolls, so it doesn't cover the banner's painted button.
  */
 export function BottomNav({ isAuthed, wishlistCount }: { isAuthed: boolean; wishlistCount: number }) {
   const pathname = usePathname() ?? "/";
@@ -29,14 +31,18 @@ export function BottomNav({ isAuthed, wishlistCount }: { isAuthed: boolean; wish
     },
   ];
   const active = tabs.findIndex((t) => t.match(pathname));
-  const progress = useScrollProgress();
+  const { progress, atTop } = useScrollProgress();
+  const hidden = atTop && !!heroForPath(pathname);
 
   if (pathname.startsWith("/checkout")) return null;
 
   return (
     <nav
       aria-label="Quick links"
-      className="fixed inset-x-3 z-40 mx-auto max-w-md md:hidden"
+      className={cn(
+        "fixed inset-x-3 z-40 mx-auto max-w-md transition-[transform,opacity] duration-300 ease-premium motion-reduce:transition-none md:hidden",
+        hidden && "pointer-events-none translate-y-24 opacity-0",
+      )}
       style={{ bottom: "max(12px, env(safe-area-inset-bottom))" }}
     >
       <div className="relative h-16">
@@ -92,15 +98,17 @@ export function BottomNav({ isAuthed, wishlistCount }: { isAuthed: boolean; wish
   );
 }
 
-/** How far down the page the shopper has scrolled, 0–1. */
-function useScrollProgress(): number {
+/** How far down the page the shopper has scrolled (0–1), and whether they're still at the very top. */
+function useScrollProgress() {
   const [value, setValue] = useState(0);
+  const [atTop, setAtTop] = useState(true);
   const frame = useRef(0);
   useEffect(() => {
     const measure = () => {
       frame.current = 0;
       const max = document.documentElement.scrollHeight - window.innerHeight;
       setValue(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
+      setAtTop(window.scrollY < 8);
     };
     const onScroll = () => {
       if (!frame.current) frame.current = requestAnimationFrame(measure);
@@ -114,7 +122,7 @@ function useScrollProgress(): number {
       cancelAnimationFrame(frame.current);
     };
   }, []);
-  return value;
+  return { progress: value, atTop };
 }
 
 function ProgressRing({ value }: { value: number }) {
