@@ -5,6 +5,11 @@ import { prisma } from "@/lib/prisma";
 import { getActiveCurrency } from "@/lib/currency.server";
 import { formatMoney } from "@/lib/money";
 import { OrderPaymentBox } from "@/components/checkout/OrderPaymentBox";
+import { TrackEvent } from "@/components/analytics/TrackEvent";
+import { ANALYTICS_CURRENCY, rupees } from "@/lib/analytics/track";
+
+/** Only an order placed in the last day counts as a purchase here (not an old link opened again later). */
+const PURCHASE_WINDOW_MS = 24 * 60 * 60 * 1000;
 
 export const metadata: Metadata = { title: "Order confirmed", robots: { index: false } };
 
@@ -17,9 +22,34 @@ export default async function OrderSuccessPage({ params }: { params: Promise<{ o
   if (!order) notFound();
 
   const currency = await getActiveCurrency();
+  const isNew = Date.now() - order.createdAt.getTime() < PURCHASE_WINDOW_MS;
 
   return (
     <div className="container-site max-w-2xl py-16">
+      {isNew && (
+        <TrackEvent
+          event="purchase"
+          once={`purchase:${order.orderNumber}`}
+          params={{
+            transaction_id: order.orderNumber,
+            currency: ANALYTICS_CURRENCY,
+            // Revenue from the products; delivery is sent on its own.
+            value: rupees(order.subtotalCents - order.discountCents),
+            shipping: rupees(order.shippingCents),
+            tax: 0,
+            ...(order.couponCode && { coupon: order.couponCode }),
+            payment_type: order.paymentMethod,
+            items: order.items.map((it) => ({
+              item_id: it.productId ?? it.sku ?? it.productTitle,
+              item_name: it.productTitle,
+              ...(it.brandName && { item_brand: it.brandName }),
+              ...(it.variantLabel && { item_variant: it.variantLabel }),
+              price: rupees(it.unitPriceCents),
+              quantity: it.quantity,
+            })),
+          }}
+        />
+      )}
       <div className="text-center">
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-success/10 text-success">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

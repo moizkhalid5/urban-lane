@@ -4,6 +4,8 @@ import { SettingsForm } from "@/components/admin/SettingsForm";
 import { GbpRateForm } from "@/components/admin/GbpRateForm";
 import { getGbpToPkr } from "@/lib/pricing/uk-price";
 import { getPaymentSettings } from "@/lib/payments/settings";
+import { AnalyticsForm } from "@/components/admin/AnalyticsForm";
+import { getAnalyticsIds } from "@/lib/analytics/settings";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +14,7 @@ const major = (cents: number | null | undefined) => (cents == null ? "" : String
 export default async function AdminSettingsPage() {
   await requireAdmin(); // settings are ADMIN-only
   const wallets = await getPaymentSettings(); // first, as it sets up the payment settings the first time
-  const [s, gbpToPkr] = await Promise.all([getSiteSettings(), getGbpToPkr()]);
+  const [s, gbpToPkr, analytics] = await Promise.all([getSiteSettings(), getGbpToPkr(), getAnalyticsIds()]);
 
   return (
     <div className="space-y-6">
@@ -41,6 +43,9 @@ export default async function AdminSettingsPage() {
         }}
       />
       <GbpRateForm initial={gbpToPkr} />
+      <AnalyticsForm
+        initial={{ gaMeasurementId: analytics.gaMeasurementId ?? "", clarityProjectId: analytics.clarityProjectId ?? "" }}
+      />
     </div>
   );
 }

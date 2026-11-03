@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { NewsletterForm } from "./NewsletterForm";
+import { CookieSettingsButton } from "@/components/analytics/Analytics";
 import { InstagramLink, PhoneLink, SocialLinks, TikTokLink, WhatsAppLink } from "./SocialContact";
 
 const shopLinks = [
@@ -26,7 +27,8 @@ const aboutLinks = [
   { name: "Terms & Conditions", href: "/terms" },
 ];
 
-export function Footer() {
+/** `cookieSettings`: show "Cookie settings" (while analytics is on). */
+export function Footer({ cookieSettings = false }: { cookieSettings?: boolean }) {
   return (
     <footer className="mt-20 border-t border-line bg-white">
       {/* newsletter band */}
@@ -60,7 +62,11 @@ export function Footer() {
         </div>
         <FooterCol title="Shop" links={shopLinks} />
         <FooterCol title="Help" links={helpLinks} />
-        <FooterCol title="Company" links={aboutLinks} />
+        <FooterCol
+          title="Company"
+          links={aboutLinks}
+          extra={cookieSettings && <CookieSettingsButton className="text-sm text-ink-muted transition-colors hover:text-ink" />}
+        />
       </div>
 
       {/* payment band (issues doc) */}
@@ -87,7 +93,7 @@ export function Footer() {
   );
 }
 
-function FooterCol({ title, links }: { title: string; links: { name: string; href: string }[] }) {
+function FooterCol({ title, links, extra }: { title: string; links: { name: string; href: string }[]; extra?: React.ReactNode }) {
   return (
     <div>
       <h4 className="mb-3 text-xs font-medium uppercase tracking-wide text-ink">{title}</h4>
@@ -99,6 +105,7 @@ function FooterCol({ title, links }: { title: string; links: { name: string; hre
             </Link>
           </li>
         ))}
+        {extra && <li>{extra}</li>}
       </ul>
     </div>
   );

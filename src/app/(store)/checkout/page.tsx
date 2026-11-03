@@ -11,6 +11,8 @@ import { formatMoney } from "@/lib/money";
 import { availablePaymentMethods } from "@/lib/payments/available";
 import { getPaymentSettings } from "@/lib/payments/settings";
 import { CheckoutForm } from "@/components/checkout/CheckoutForm";
+import { TrackEvent } from "@/components/analytics/TrackEvent";
+import { cartLineItem } from "@/lib/analytics/track";
 
 export const metadata: Metadata = { title: "Checkout", robots: { index: false } };
 
@@ -52,9 +54,11 @@ export default async function CheckoutPage() {
     }
   }
 
+  const analyticsItems = cart.lines.map((l) => cartLineItem(l));
   return (
     <div className="container-site py-10">
       <h1 className="text-3xl font-medium">Checkout</h1>
+      <TrackEvent event="begin_checkout" items={analyticsItems} />
 
       <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_400px]">
         <div>
@@ -62,6 +66,7 @@ export default async function CheckoutPage() {
             paymentMethods={methods.map((m) => ({ method: m.method, label: m.label, account: m.account }))}
             bankInstructions={settings.bankTransferInstructions}
             prefill={prefill}
+            analyticsItems={analyticsItems}
           />
         </div>
 

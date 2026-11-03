@@ -6,6 +6,7 @@ import { useActionState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { loginUser, type LoginResult } from "@/app/actions/session";
 import { registerUser, forgotPassword, resetPassword, type FormResult } from "@/app/actions/auth";
+import { track } from "@/lib/analytics/track";
 
 const initLogin: LoginResult = { ok: false, message: "" };
 const initForm: FormResult = { ok: false, message: "" };
@@ -27,13 +28,14 @@ export function LoginForm() {
 
   useEffect(() => {
     if (state.ok) {
+      track("login", { method: "email" });
       router.push(callbackUrl);
       router.refresh();
     }
   }, [state.ok, callbackUrl, router]);
 
   return (
-    <form action={action} className="space-y-4">
+    <form action={action} data-clarity-mask="True" className="space-y-4">
       <Alert ok={state.ok}>{state.message}</Alert>
       <div>
         <label className="label" htmlFor="email">Email</label>
@@ -59,8 +61,11 @@ export function LoginForm() {
 
 export function RegisterForm() {
   const [state, action, pending] = useActionState(registerUser, initForm);
+  useEffect(() => {
+    if (state.ok) track("sign_up", { method: "email" });
+  }, [state.ok]);
   return (
-    <form action={action} className="space-y-4">
+    <form action={action} data-clarity-mask="True" className="space-y-4">
       <Alert ok={state.ok}>{state.message}</Alert>
       {!state.ok && (
         <>
@@ -97,7 +102,7 @@ export function RegisterForm() {
 export function ForgotPasswordForm() {
   const [state, action, pending] = useActionState(forgotPassword, initForm);
   return (
-    <form action={action} className="space-y-4">
+    <form action={action} data-clarity-mask="True" className="space-y-4">
       <Alert ok={state.ok}>{state.message}</Alert>
       <div>
         <label className="label" htmlFor="email">Email</label>
@@ -116,7 +121,7 @@ export function ForgotPasswordForm() {
 export function ResetPasswordForm({ token }: { token: string }) {
   const [state, action, pending] = useActionState(resetPassword, initForm);
   return (
-    <form action={action} className="space-y-4">
+    <form action={action} data-clarity-mask="True" className="space-y-4">
       <Alert ok={state.ok}>{state.message}</Alert>
       <input type="hidden" name="token" value={token} />
       {state.ok ? (

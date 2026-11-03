@@ -8,6 +8,7 @@ import { updateCartItem, removeCartItem } from "@/app/actions/cart";
 import { formatMoney, type DisplayCurrency } from "@/lib/money";
 import type { CartLine } from "@/lib/cart";
 import { cn } from "@/lib/utils";
+import { cartLineItem, trackItems } from "@/lib/analytics/track";
 
 export function CartLineItem({ line, currency }: { line: CartLine; currency: DisplayCurrency }) {
   const router = useRouter();
@@ -17,13 +18,16 @@ export function CartLineItem({ line, currency }: { line: CartLine; currency: Dis
 
   function setQty(quantity: number) {
     startTransition(async () => {
-      await updateCartItem({ itemId: line.id, quantity });
+      const res = await updateCartItem({ itemId: line.id, quantity });
+      const change = quantity - line.quantity;
+      if (res.ok && change) trackItems(change > 0 ? "add_to_cart" : "remove_from_cart", [cartLineItem(line, Math.abs(change))]);
       router.refresh();
     });
   }
   function remove() {
     startTransition(async () => {
-      await removeCartItem(line.id);
+      const res = await removeCartItem(line.id);
+      if (res.ok) trackItems("remove_from_cart", [cartLineItem(line, line.quantity)]);
       router.refresh();
     });
   }
