@@ -4,16 +4,20 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toggleWishlist } from "@/app/actions/account";
 import { cn } from "@/lib/utils";
+import { trackItems, type AnalyticsItem } from "@/lib/analytics/track";
 
 /** Heart button. No login needed: guests' wishlists are kept on their device (lib/wishlist). */
 export function WishlistButton({
   productId,
   initial,
   variant = "button",
+  analyticsItem,
 }: {
   productId: string;
   initial: boolean;
   variant?: "button" | "icon";
+  /** the product, for the add_to_wishlist analytics event */
+  analyticsItem?: AnalyticsItem;
 }) {
   const router = useRouter();
   const [wishlisted, setWishlisted] = useState(initial);
@@ -27,6 +31,7 @@ export function WishlistButton({
       if (!res.ok) setWishlisted(prev);
       else {
         setWishlisted(res.wishlisted);
+        if (res.wishlisted) trackItems("add_to_wishlist", [analyticsItem ?? { item_id: productId, item_name: productId }]);
         router.refresh(); // updates the wishlist count in the bottom bar
       }
     });

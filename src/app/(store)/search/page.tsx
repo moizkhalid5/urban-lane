@@ -7,6 +7,7 @@ import { Filters } from "@/components/collection/Filters";
 import { SortSelect } from "@/components/collection/SortSelect";
 import { ProductFeed } from "@/components/collection/ProductFeed";
 import { feedFilter, FEED_BATCH } from "@/lib/queries/product-feed";
+import { TrackEvent } from "@/components/analytics/TrackEvent";
 
 export const metadata: Metadata = { title: "Search", robots: { index: false } };
 
@@ -32,6 +33,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
 
   return (
     <div className="container-site py-8">
+      {q && <TrackEvent event="search" params={{ search_term: q }} fireKey={q} />}
       <h1 className="text-3xl font-medium">
         {q ? <>Search results for &ldquo;{q}&rdquo;</> : "Search"}
       </h1>

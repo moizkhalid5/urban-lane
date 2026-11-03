@@ -6,6 +6,7 @@ import { addToCart } from "@/app/actions/cart";
 import { cn } from "@/lib/utils";
 import { swatchFor } from "@/lib/colors";
 import { compareSizes, normalizeSize } from "@/lib/sizes";
+import { trackItems, type AnalyticsItem } from "@/lib/analytics/track";
 
 export type VariantOption = {
   id: string;
@@ -15,7 +16,8 @@ export type VariantOption = {
   stock: number;
 };
 
-export function AddToCart({ variants: raw }: { variants: VariantOption[] }) {
+/** `analyticsItem`: the product, for the add_to_cart analytics event. */
+export function AddToCart({ variants: raw, analyticsItem }: { variants: VariantOption[]; analyticsItem?: AnalyticsItem }) {
   // Show one tidy label per size ("LARGE", "Large" → "L"); the variant ids added to the cart are unchanged.
   const variants = useMemo(() => raw.map((v) => ({ ...v, size: v.size ? normalizeSize(v.size) : null })), [raw]);
   const router = useRouter();
@@ -55,6 +57,10 @@ export function AddToCart({ variants: raw }: { variants: VariantOption[] }) {
       const res = await addToCart({ variantId: selected.id, quantity: qty });
       setMessage({ ok: res.ok, text: res.message ?? (res.ok ? "Added to bag." : "Could not add to bag.") });
       if (res.ok) {
+        if (analyticsItem) {
+          const variant = [selected.size, selected.color].filter(Boolean).join(" / ");
+          trackItems("add_to_cart", [{ ...analyticsItem, ...(variant && { item_variant: variant }), quantity: qty }]);
+        }
         router.refresh();
         if (buyNow) router.push("/cart");
       }

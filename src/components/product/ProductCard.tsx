@@ -4,14 +4,23 @@ import { ProductCardImages } from "./ProductCardImages";
 import type { DisplayCurrency } from "@/lib/money";
 import { Price } from "@/components/ui/Price";
 import { Stars } from "@/components/reviews/Stars";
+import { rupees, type AnalyticsItem } from "@/lib/analytics/track";
 
 /** A product in a grid or row, in a thin rounded box: photo, then brand, name, rating, price and colours. */
 export function ProductCard({ product, currency }: { product: ProductCardData; currency: DisplayCurrency }) {
   const onSale = !!product.compareAtCents && product.compareAtCents > product.priceCents;
+  const analyticsItem: AnalyticsItem = {
+    item_id: product.id,
+    item_name: product.title,
+    ...(product.brand && { item_brand: product.brand }),
+    price: rupees(product.priceCents),
+    ...(onSale && { discount: rupees(product.compareAtCents! - product.priceCents) }),
+  };
 
   return (
     <Link
       href={`/products/${product.slug}`}
+      data-analytics-item={JSON.stringify(analyticsItem)}
       className="group flex h-full flex-col overflow-hidden rounded-lg border border-line bg-white transition-shadow hover:shadow-[0_2px_14px_rgba(0,0,0,0.07)]"
     >
       <div data-product-photo className="relative aspect-[4/5] overflow-hidden bg-line-soft">

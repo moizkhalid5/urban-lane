@@ -20,6 +20,8 @@ import { ProductReviews } from "@/components/reviews/ProductReviews";
 import { Stars } from "@/components/reviews/Stars";
 import { ukComparisonsFor } from "@/lib/pricing/uk-price";
 import { UkFlag } from "@/components/ui/UkFlag";
+import { TrackEvent } from "@/components/analytics/TrackEvent";
+import { rupees, type AnalyticsItem } from "@/lib/analytics/track";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -114,12 +116,21 @@ export default async function ProductPage({ params }: PageProps) {
   };
 
   const details = (product.details ?? "").split("\n").filter(Boolean);
+  const analyticsItem: AnalyticsItem = {
+    item_id: product.id,
+    item_name: product.title,
+    ...(product.brand && { item_brand: product.brand.name }),
+    ...(primaryCategory && { item_category: primaryCategory.name }),
+    price: rupees(product.priceCents),
+    ...(product.compareAtCents && product.compareAtCents > product.priceCents && { discount: rupees(product.compareAtCents - product.priceCents) }),
+  };
 
   return (
     <div className="container-site py-8">
       <JsonLd data={jsonLd} />
       <JsonLd data={breadcrumbLd} />
       <TrackRecentlyViewed productId={product.id} />
+      <TrackEvent event="view_item" items={[analyticsItem]} />
 
       <Breadcrumbs items={crumbs} />
 
@@ -167,11 +178,11 @@ export default async function ProductPage({ params }: PageProps) {
           </div>
 
           <div className="mt-8">
-            <AddToCart variants={variantOptions} />
+            <AddToCart variants={variantOptions} analyticsItem={analyticsItem} />
           </div>
 
           <div className="mt-4">
-            <WishlistButton productId={product.id} initial={wishlisted} />
+            <WishlistButton productId={product.id} initial={wishlisted} analyticsItem={analyticsItem} />
           </div>
 
           {product.description && (

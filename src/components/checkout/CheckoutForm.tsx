@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { placeOrder } from "@/app/actions/checkout";
+import { trackItems, type AnalyticsItem } from "@/lib/analytics/track";
 import { cn } from "@/lib/utils";
 import { STORE_PHONE } from "@/components/layout/SocialContact";
 
@@ -29,7 +30,10 @@ export function CheckoutForm({
   paymentMethods,
   bankInstructions,
   prefill,
+  analyticsItems = [],
 }: {
+  /** the bag, for the add_shipping_info and add_payment_info analytics events */
+  analyticsItems?: AnalyticsItem[];
   paymentMethods: PaymentOption[];
   bankInstructions?: string | null;
   prefill?: Prefill;
@@ -45,6 +49,9 @@ export function CheckoutForm({
     setError(null);
     const fd = new FormData(e.currentTarget);
     const payload = Object.fromEntries(fd.entries());
+    const coupon = String(fd.get("couponCode") ?? "").trim();
+    trackItems("add_shipping_info", analyticsItems, { shipping_tier: String(fd.get("shippingMethod") ?? ""), ...(coupon && { coupon }) });
+    trackItems("add_payment_info", analyticsItems, { payment_type: String(fd.get("paymentMethod") ?? ""), ...(coupon && { coupon }) });
 
     startTransition(async () => {
       const res = await placeOrder(payload);
@@ -67,7 +74,8 @@ export function CheckoutForm({
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-10">
+    // data-clarity-mask: nothing typed here appears in Clarity recordings.
+    <form onSubmit={onSubmit} data-clarity-mask="True" className="space-y-10">
       {error && <p className="border border-sale bg-sale/5 p-3 text-sm text-sale">{error}</p>}
 
       <fieldset>

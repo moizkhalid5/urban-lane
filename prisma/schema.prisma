@@ -751,3 +751,14 @@ model PaymentSettings {
   jazzcashName     String?
   updatedAt        DateTime @updatedAt
 }
+
+/// Google Analytics and Microsoft Clarity (Admin → Settings → Analytics). Created at runtime by
+/// src/lib/analytics/settings.ts, because the host's deploy doesn't run migrations.
+model AnalyticsSettings {
+  id               String   @id @default("singleton")
+  /// GA4 measurement ID, "G-XXXXXXXXXX"; empty = Google Analytics off
+  gaMeasurementId  String?  @db.VarChar(20)
+  /// Microsoft Clarity project ID, e.g. "abcd1234ef"; empty = Clarity off
+  clarityProjectId String?  @db.VarChar(20)
+  updatedAt        DateTime @updatedAt
+}

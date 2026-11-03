@@ -6,6 +6,8 @@ import { getSiteSettings } from "@/lib/settings";
 import { computeTotals } from "@/lib/totals";
 import { formatMoney } from "@/lib/money";
 import { CartLineItem } from "@/components/cart/CartLineItem";
+import { TrackEvent } from "@/components/analytics/TrackEvent";
+import { cartLineItem } from "@/lib/analytics/track";
 
 export const metadata: Metadata = { title: "Your Bag", robots: { index: false } };
 
@@ -36,6 +38,7 @@ export default async function CartPage() {
   return (
     <div className="container-site py-10">
       <h1 className="text-3xl font-medium">Your Bag</h1>
+      <TrackEvent event="view_cart" items={cart.lines.map((l) => cartLineItem(l))} />
 
       <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_360px]">
         {/* line items */}
