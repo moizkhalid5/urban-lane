@@ -7,6 +7,10 @@ import { cn } from "@/lib/utils";
 import { swatchFor } from "@/lib/colors";
 import { compareSizes, normalizeSize } from "@/lib/sizes";
 import { trackItems, type AnalyticsItem } from "@/lib/analytics/track";
+import type { DisplayCurrency } from "@/lib/money";
+import type { BundleConfig } from "@/lib/bundle-rule";
+import { useColourSelection } from "./ColourSelection";
+import { ColourBundle } from "./ColourBundle";
 
 export type VariantOption = {
   id: string;
@@ -14,10 +18,26 @@ export type VariantOption = {
   color: string | null;
   colorHex: string | null;
   stock: number;
+  /** the variant's own price (minor units), or null for the product price */
+  priceCents?: number | null;
 };
 
-/** `analyticsItem`: the product, for the add_to_cart analytics event. */
-export function AddToCart({ variants: raw, analyticsItem }: { variants: VariantOption[]; analyticsItem?: AnalyticsItem }) {
+/** Colour bundles on this product: the settings, plus what the shopper needs to see prices. */
+export type BundleOffer = { config: BundleConfig; productPriceCents: number; currency: DisplayCurrency };
+
+/**
+ * `analyticsItem`: the product, for the add_to_cart analytics event.
+ * `bundle`: shows the colour-bundle box when the product comes in enough colours.
+ */
+export function AddToCart({
+  variants: raw,
+  analyticsItem,
+  bundle,
+}: {
+  variants: VariantOption[];
+  analyticsItem?: AnalyticsItem;
+  bundle?: BundleOffer;
+}) {
   // Show one tidy label per size ("LARGE", "Large" → "L"); the variant ids added to the cart are unchanged.
   const variants = useMemo(() => raw.map((v) => ({ ...v, size: v.size ? normalizeSize(v.size) : null })), [raw]);
   const router = useRouter();
@@ -29,7 +49,11 @@ export function AddToCart({ variants: raw, analyticsItem }: { variants: VariantO
 
   // Auto-select when there is only one option (no forced selection for single-option products).
   const [size, setSize] = useState<string | null>(sizes.length === 1 ? sizes[0] : null);
-  const [color, setColor] = useState<string | null>(colors.length === 1 ? colors[0].name : null);
+  // On a product page the colour is shared with the photos (ColourSelection), so the photo follows it.
+  const shared = useColourSelection();
+  const [ownColor, setOwnColor] = useState<string | null>(colors.length === 1 ? colors[0].name : null);
+  const color = shared ? shared.colour : ownColor;
+  const setColor = shared ? shared.setColour : setOwnColor;
   const [qty, setQty] = useState(1);
 
   const needsSize = sizes.length > 1 && !size;
@@ -160,6 +184,16 @@ export function AddToCart({ variants: raw, analyticsItem }: { variants: VariantO
         <p className={cn("text-sm", message.ok ? "text-success" : "text-sale")} role="status">
           {message.text}
         </p>
+      )}
+
+      {bundle && (
+        <ColourBundle
+          variants={variants}
+          size={size}
+          needsSize={sizes.length > 1}
+          offer={bundle}
+          analyticsItem={analyticsItem}
+        />
       )}
     </div>
   );

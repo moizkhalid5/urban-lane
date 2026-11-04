@@ -762,3 +762,22 @@ model AnalyticsSettings {
   clarityProjectId String?  @db.VarChar(20)
   updatedAt        DateTime @updatedAt
 }
+
+/// Colour bundles: buying at least `minColours` different colours of the same product takes `percentOff`
+/// off those items (src/lib/bundles). Edited in Admin → Settings. Created on first use.
+model BundleSettings {
+  id         String   @id @default("singleton")
+  enabled    Boolean  @default(true)
+  minColours Int      @default(3)
+  percentOff Int      @default(10)
+  updatedAt  DateTime @updatedAt
+}
+
+/// The colour-bundle saving on an order (part of Order.discountCents), so order pages can name it.
+model OrderBundle {
+  orderId   String   @id
+  cents     Int
+  /// e.g. "Hype Men T-Shirts: Red, White, Blue"
+  detail    String   @db.VarChar(1000)
+  createdAt DateTime @default(now())
+}

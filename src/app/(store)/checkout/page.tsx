@@ -7,6 +7,8 @@ import { getSiteSettings } from "@/lib/settings";
 import { getCurrentUser } from "@/lib/auth/guards";
 import { prisma } from "@/lib/prisma";
 import { computeTotals } from "@/lib/totals";
+import { bagBundle } from "@/lib/bundles";
+import { BundleRows } from "@/components/cart/BundleRows";
 import { formatMoney } from "@/lib/money";
 import { availablePaymentMethods } from "@/lib/payments/available";
 import { getPaymentSettings } from "@/lib/payments/settings";
@@ -28,7 +30,8 @@ export default async function CheckoutPage() {
     getCurrentUser(),
   ]);
 
-  const totals = computeTotals(cart.subtotalCents, settings);
+  const bundle = await bagBundle(cart);
+  const totals = computeTotals(cart.subtotalCents, settings, null, bundle.cents);
   const methods = availablePaymentMethods(settings, wallets, totals.totalCents);
 
   // Prefill from the user's default address when signed in.
@@ -94,6 +97,7 @@ export default async function CheckoutPage() {
               <dt className="text-ink-soft">Subtotal</dt>
               <dd>{formatMoney(totals.subtotalCents, currency)}</dd>
             </div>
+            <BundleRows groups={bundle.groups} percentOff={bundle.config.percentOff} currency={currency} />
             <div className="flex justify-between">
               <dt className="text-ink-soft">Shipping</dt>
               <dd>{totals.shippingCents === 0 ? "Free" : formatMoney(totals.shippingCents, currency)}</dd>

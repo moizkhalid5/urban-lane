@@ -4,6 +4,8 @@ import { getCart } from "@/lib/cart";
 import { getActiveCurrency } from "@/lib/currency.server";
 import { getSiteSettings } from "@/lib/settings";
 import { computeTotals } from "@/lib/totals";
+import { bagBundle } from "@/lib/bundles";
+import { BundleRows, BundleHints } from "@/components/cart/BundleRows";
 import { formatMoney } from "@/lib/money";
 import { CartLineItem } from "@/components/cart/CartLineItem";
 import { TrackEvent } from "@/components/analytics/TrackEvent";
@@ -30,7 +32,8 @@ export default async function CartPage() {
     );
   }
 
-  const totals = computeTotals(cart.subtotalCents, settings);
+  const bundle = await bagBundle(cart);
+  const totals = computeTotals(cart.subtotalCents, settings, null, bundle.cents);
   const hasStockIssue = cart.lines.some((l) => l.quantity > l.stock || l.stock <= 0);
   const threshold = settings.freeShippingThresholdCents;
   const remainingForFree = threshold != null ? threshold - cart.subtotalCents : 0;
@@ -58,15 +61,18 @@ export default async function CartPage() {
             </p>
           )}
 
+          <BundleHints hints={bundle.hints} percentOff={bundle.config.percentOff} />
+
           <dl className="mt-5 space-y-3 text-sm">
             <Row label="Subtotal" value={formatMoney(totals.subtotalCents, currency)} />
+            <BundleRows groups={bundle.groups} percentOff={bundle.config.percentOff} currency={currency} />
             <Row
               label="Shipping (estimate)"
               value={totals.shippingCents === 0 ? "Free" : formatMoney(totals.shippingCents, currency)}
             />
             <div className="flex justify-between text-ink-muted">
-              <dt>Discount</dt>
-              <dd>Applied at checkout</dd>
+              <dt>Discount code</dt>
+              <dd>Added at checkout</dd>
             </div>
             <div className="flex justify-between border-t border-line pt-3 text-base font-medium">
               <dt>Estimated total</dt>

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { saveProduct } from "@/app/actions/admin-products";
+import { cn } from "@/lib/utils";
 
 type BrandOpt = { id: string; name: string };
 type CatOpt = { id: string; name: string; level: number };
@@ -181,7 +182,14 @@ export function ProductEditor({
                   )}
                   <button
                     type="button"
-                    onClick={() => set("images", data.images.filter((_, idx) => idx !== i))}
+                    onClick={() =>
+                      // A removed photo is also taken off any colour that used it.
+                      setData((d) => ({
+                        ...d,
+                        images: d.images.filter((_, idx) => idx !== i),
+                        variants: d.variants.map((v) => (v.image === img.url ? { ...v, image: "" } : v)),
+                      }))
+                    }
                     className="absolute right-0 top-0 bg-ink px-1.5 text-xs text-white"
                   >
                     ×
@@ -221,6 +229,16 @@ export function ProductEditor({
                 </div>
               ))}
               <button type="button" onClick={addVariant} className="btn-ghost">+ Add variant</button>
+              <ColourPhotos
+                variants={data.variants}
+                images={data.images}
+                onPick={(colour, url) =>
+                  setData((d) => ({
+                    ...d,
+                    variants: d.variants.map((v) => (v.color.trim() === colour ? { ...v, image: url } : v)),
+                  }))
+                }
+              />
               <p className="text-xs text-ink-muted">
                 Leave size/colour empty for a single-variant product (customers won&apos;t be asked to choose).
               </p>
@@ -332,6 +350,68 @@ function Mini({ label, value, onChange, placeholder }: { label: string; value: s
     <div>
       <label className="mb-1 block text-[10px] uppercase tracking-wide text-ink-muted">{label}</label>
       <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className="w-full border border-line px-2 py-1.5 text-sm focus:border-ink focus:outline-none" />
+    </div>
+  );
+}
+
+/**
+ * Variants → "Photo for each colour": which product photo shows when a shopper picks a colour on the shop
+ * (and the photo in their bag). Saved on every variant of that colour.
+ */
+function ColourPhotos({
+  variants,
+  images,
+  onPick,
+}: {
+  variants: VariantRow[];
+  images: { url: string }[];
+  onPick: (colour: string, url: string) => void;
+}) {
+  const colours = [...new Set(variants.map((v) => v.color.trim()).filter(Boolean))];
+  if (colours.length < 2) return null;
+  return (
+    <div className="border-t border-line pt-4">
+      <h3 className="text-sm font-medium">Photo for each colour</h3>
+      <p className="mt-0.5 text-xs text-ink-muted">
+        Pick the photo that shows each colour. On the shop, choosing a colour then shows its photo. Add photos
+        under Media first.
+      </p>
+      {images.length === 0 ? (
+        <p className="mt-2 text-xs text-sale">No photos yet.</p>
+      ) : (
+        <div className="mt-3 space-y-3">
+          {colours.map((colour) => {
+            const current = variants.find((v) => v.color.trim() === colour && v.image)?.image ?? "";
+            return (
+              <div key={colour} className="flex flex-wrap items-center gap-2">
+                <span className="w-28 shrink-0 truncate text-sm" title={colour}>
+                  {colour}
+                </span>
+                {images.map((img, i) => {
+                  const on = img.url === current;
+                  return (
+                    <button
+                      key={img.url}
+                      type="button"
+                      onClick={() => onPick(colour, on ? "" : img.url)}
+                      aria-pressed={on}
+                      aria-label={`${colour}: photo ${i + 1}`}
+                      title={on ? "Chosen. Click again to clear" : `Use photo ${i + 1} for ${colour}`}
+                      className={cn(
+                        "relative h-14 w-11 overflow-hidden border",
+                        on ? "border-ink ring-2 ring-ink ring-offset-1" : "border-line opacity-70 hover:opacity-100",
+                      )}
+                    >
+                      <Image src={img.url} alt="" fill sizes="44px" className="object-cover" />
+                    </button>
+                  );
+                })}
+                {!current && <span className="text-xs text-ink-muted">Not set</span>}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

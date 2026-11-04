@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getActiveCurrency } from "@/lib/currency.server";
 import { formatMoney } from "@/lib/money";
+import { getOrderBundle } from "@/lib/bundles";
 import { OrderPaymentBox } from "@/components/checkout/OrderPaymentBox";
 import { TrackEvent } from "@/components/analytics/TrackEvent";
 import { ANALYTICS_CURRENCY, rupees } from "@/lib/analytics/track";
@@ -20,6 +21,9 @@ export default async function OrderSuccessPage({ params }: { params: Promise<{ o
     include: { items: true },
   });
   if (!order) notFound();
+  // The colour-bundle part of the discount (lib/bundles.ts); the rest is the discount code.
+  const bundle = await getOrderBundle(order.id);
+  const otherDiscount = order.discountCents - (bundle?.cents ?? 0);
 
   const currency = await getActiveCurrency();
   const isNew = Date.now() - order.createdAt.getTime() < PURCHASE_WINDOW_MS;
@@ -83,10 +87,19 @@ export default async function OrderSuccessPage({ params }: { params: Promise<{ o
             <dt className="text-ink-soft">Subtotal</dt>
             <dd>{formatMoney(order.subtotalCents, currency)}</dd>
           </div>
-          {order.discountCents > 0 && (
+          {bundle && (
+            <div className="flex justify-between gap-4 text-success">
+              <dt>
+                Colour bundle
+                <span className="block text-xs text-ink-muted">{bundle.detail}</span>
+              </dt>
+              <dd className="shrink-0">−{formatMoney(bundle.cents, currency)}</dd>
+            </div>
+          )}
+          {otherDiscount > 0 && (
             <div className="flex justify-between text-success">
               <dt>Discount{order.couponCode ? ` (${order.couponCode})` : ""}</dt>
-              <dd>−{formatMoney(order.discountCents, currency)}</dd>
+              <dd>−{formatMoney(otherDiscount, currency)}</dd>
             </div>
           )}
           <div className="flex justify-between">

@@ -13,6 +13,8 @@ export type CartLine = {
   title: string;
   brand: string | null;
   variantLabel: string | null;
+  /** the variant's colour, for colour bundles (lib/bundle-rule.ts) */
+  color: string | null;
   image: string | null;
   unitPriceCents: number;
   quantity: number;
@@ -73,6 +75,7 @@ export async function getCart(): Promise<CartView> {
       title: p.title,
       brand: p.brand?.name ?? null,
       variantLabel: v.label,
+      color: v.color,
       image: v.image ?? p.images[0]?.url ?? null,
       unitPriceCents: unit,
       quantity: item.quantity,
