@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getBaseCurrency } from "@/lib/settings";
 import { formatMoney } from "@/lib/money";
+import { getOrderBundle } from "@/lib/bundles";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { OrderEditForm } from "@/components/admin/OrderEditForm";
 import { ReviewRequestButtons } from "@/components/admin/ReviewRequestButtons";
@@ -19,6 +20,9 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ o
   await ensureReviewTables();
   const order = await prisma.order.findUnique({ where: { orderNumber }, include: { items: true, reviewRequest: true } });
   if (!order) notFound();
+  // The colour-bundle part of the discount (lib/bundles.ts); the rest is the discount code.
+  const bundle = await getOrderBundle(order.id);
+  const otherDiscount = order.discountCents - (bundle?.cents ?? 0);
   const [currency, confirmed] = await Promise.all([getBaseCurrency(), paymentConfirmation(order.id)]);
   const method = paymentLabel(order.paymentMethod);
   const total = formatMoney(order.totalCents, currency);
@@ -82,7 +86,8 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ o
             </table>
             <dl className="space-y-1 border-t border-line p-4 text-sm">
               <Row label="Subtotal" value={formatMoney(order.subtotalCents, currency)} />
-              {order.discountCents > 0 && <Row label={`Discount${order.couponCode ? ` (${order.couponCode})` : ""}`} value={`−${formatMoney(order.discountCents, currency)}`} />}
+              {bundle && <Row label={`Colour bundle (${bundle.detail})`} value={`−${formatMoney(bundle.cents, currency)}`} />}
+              {otherDiscount > 0 && <Row label={`Discount${order.couponCode ? ` (${order.couponCode})` : ""}`} value={`−${formatMoney(otherDiscount, currency)}`} />}
               <Row label="Shipping" value={order.shippingCents === 0 ? "Free" : formatMoney(order.shippingCents, currency)} />
               <div className="flex justify-between border-t border-line pt-2 font-medium">
                 <dt>Total</dt><dd>{formatMoney(order.totalCents, currency)}</dd>

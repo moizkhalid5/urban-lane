@@ -22,6 +22,9 @@ import { ukComparisonsFor } from "@/lib/pricing/uk-price";
 import { UkFlag } from "@/components/ui/UkFlag";
 import { TrackEvent } from "@/components/analytics/TrackEvent";
 import { rupees, type AnalyticsItem } from "@/lib/analytics/track";
+import { ColourSelectionProvider } from "@/components/product/ColourSelection";
+import { getBundleConfig } from "@/lib/bundles";
+import { colourKey } from "@/lib/bundle-rule";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -60,10 +63,11 @@ export default async function ProductPage({ params }: PageProps) {
     { name: product.title, href: `/products/${product.slug}` },
   ];
 
-  const [related, reviews, ukPrices] = await Promise.all([
+  const [related, reviews, ukPrices, bundleConfig] = await Promise.all([
     getRelatedProducts(product.id, primaryCategory?.id, 4),
     getProductReviews(product.id, product.salesCount),
     ukComparisonsFor([product]),
+    getBundleConfig(),
   ]);
   const ukPrice = ukPrices.get(product.id);
 
@@ -77,7 +81,22 @@ export default async function ProductPage({ params }: PageProps) {
     color: v.color,
     colorHex: v.colorHex,
     stock: v.stock,
+    priceCents: v.priceCents,
   }));
+
+  // Colours: the photo of each (Admin → Products → Variants), and whether enough are in stock for a bundle.
+  const colourNames = [...new Set(product.variants.map((v) => v.color).filter((c): c is string => !!c?.trim()))];
+  const colourPhotos = colourNames.flatMap((colour) => {
+    const url = product.variants.find((v) => v.color === colour && v.image)?.image;
+    if (!url) return [];
+    const own = product.images.find((img) => img.url === url);
+    return [{ colour, photo: { url, alt: own?.alt ?? `${product.title} in ${colour}` } }];
+  });
+  const coloursInStock = new Set(product.variants.filter((v) => v.color?.trim() && v.stock > 0).map((v) => colourKey(v.color!)));
+  const bundleOffer =
+    bundleConfig.enabled && coloursInStock.size >= bundleConfig.minColours
+      ? { config: bundleConfig, productPriceCents: product.priceCents, currency }
+      : undefined;
 
   const inStock = product.variants.some((v) => v.stock > 0);
 
@@ -136,98 +155,100 @@ export default async function ProductPage({ params }: PageProps) {
 
       {/* grid-cols-1 caps the phone column at the screen width (minmax(0,1fr)); without it the
           gallery's thumbnail strip widened the page and phones zoomed the whole page out. */}
-      <div className="mt-6 grid grid-cols-1 gap-10 md:grid-cols-2 lg:gap-16">
-        <ProductGallery images={product.images} title={product.title} />
+      <ColourSelectionProvider initial={colourNames.length === 1 ? colourNames[0] : null}>
+        <div className="mt-6 grid grid-cols-1 gap-10 md:grid-cols-2 lg:gap-16">
+          <ProductGallery images={product.images} title={product.title} colourPhotos={colourPhotos} />
 
-        <div className="md:py-2">
-          {product.brand && (
-            <p className="text-sm uppercase tracking-wide text-ink-muted">{product.brand.name}</p>
-          )}
-          <h1 className="mt-1 text-2xl font-medium md:text-3xl">{product.title}</h1>
-
-          {(reviews.showStars || reviews.sold) && (
-            <div className="mt-2 flex flex-wrap items-center gap-x-2 text-sm text-ink-muted">
-              {reviews.showStars && (
-                <a href="#reviews" className="flex items-center gap-2 hover:text-ink">
-                  <Stars value={reviews.summary.average} size={16} />
-                  <span>
-                    {reviews.summary.average.toFixed(1)} ({reviews.summary.count}{" "}
-                    {reviews.summary.count === 1 ? "review" : "reviews"})
-                  </span>
-                </a>
-              )}
-              {reviews.showStars && reviews.sold && <span aria-hidden>·</span>}
-              {reviews.sold && <span>{reviews.sold} sold</span>}
-            </div>
-          )}
-
-          <div className="mt-4">
-            <Price
-              cents={product.priceCents}
-              compareAtCents={product.compareAtCents}
-              uk={ukPrice}
-              currency={currency}
-              size="lg"
-            />
-            {ukPrice && !(product.compareAtCents && product.compareAtCents > product.priceCents) && (
-              <p className="mt-1 flex items-center gap-1.5 text-xs text-ink-muted">
-                <UkFlag /> Crossed-out price: this item&apos;s retail price in the UK, converted to rupees.
-              </p>
+          <div className="md:py-2">
+            {product.brand && (
+              <p className="text-sm uppercase tracking-wide text-ink-muted">{product.brand.name}</p>
             )}
-            <p className="mt-1 text-xs text-ink-muted">Tax included. Shipping calculated at checkout.</p>
-          </div>
+            <h1 className="mt-1 text-2xl font-medium md:text-3xl">{product.title}</h1>
 
-          <div className="mt-8">
-            <AddToCart variants={variantOptions} analyticsItem={analyticsItem} />
-          </div>
+            {(reviews.showStars || reviews.sold) && (
+              <div className="mt-2 flex flex-wrap items-center gap-x-2 text-sm text-ink-muted">
+                {reviews.showStars && (
+                  <a href="#reviews" className="flex items-center gap-2 hover:text-ink">
+                    <Stars value={reviews.summary.average} size={16} />
+                    <span>
+                      {reviews.summary.average.toFixed(1)} ({reviews.summary.count}{" "}
+                      {reviews.summary.count === 1 ? "review" : "reviews"})
+                    </span>
+                  </a>
+                )}
+                {reviews.showStars && reviews.sold && <span aria-hidden>·</span>}
+                {reviews.sold && <span>{reviews.sold} sold</span>}
+              </div>
+            )}
 
-          <div className="mt-4">
-            <WishlistButton productId={product.id} initial={wishlisted} analyticsItem={analyticsItem} />
-          </div>
+            <div className="mt-4">
+              <Price
+                cents={product.priceCents}
+                compareAtCents={product.compareAtCents}
+                uk={ukPrice}
+                currency={currency}
+                size="lg"
+              />
+              {ukPrice && !(product.compareAtCents && product.compareAtCents > product.priceCents) && (
+                <p className="mt-1 flex items-center gap-1.5 text-xs text-ink-muted">
+                  <UkFlag /> Crossed-out price: this item&apos;s retail price in the UK, converted to rupees.
+                </p>
+              )}
+              <p className="mt-1 text-xs text-ink-muted">Tax included. Shipping calculated at checkout.</p>
+            </div>
 
-          {product.description && (
-            <p className="mt-8 text-sm leading-relaxed text-ink-soft">{product.description}</p>
-          )}
+            <div className="mt-8">
+              <AddToCart variants={variantOptions} analyticsItem={analyticsItem} bundle={bundleOffer} />
+            </div>
 
-          <div className="mt-8">
-            <Accordion
-              items={[
-                {
-                  title: "Details",
-                  content:
-                    details.length > 0 ? (
-                      <ul className="list-disc space-y-1 pl-5">
-                        {details.map((d, i) => (
-                          <li key={i}>{d}</li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p>Premium quality, designed for everyday wear.</p>
+            <div className="mt-4">
+              <WishlistButton productId={product.id} initial={wishlisted} analyticsItem={analyticsItem} />
+            </div>
+
+            {product.description && (
+              <p className="mt-8 text-sm leading-relaxed text-ink-soft">{product.description}</p>
+            )}
+
+            <div className="mt-8">
+              <Accordion
+                items={[
+                  {
+                    title: "Details",
+                    content:
+                      details.length > 0 ? (
+                        <ul className="list-disc space-y-1 pl-5">
+                          {details.map((d, i) => (
+                            <li key={i}>{d}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>Premium quality, designed for everyday wear.</p>
+                      ),
+                  },
+                  {
+                    title: "Size Guide",
+                    content: (
+                      <p>
+                        Refer to the {product.brand?.name ?? "brand"} size chart for this item. If you are between sizes,
+                        we recommend sizing up. Contact us for help choosing your fit.
+                      </p>
                     ),
-                },
-                {
-                  title: "Size Guide",
-                  content: (
-                    <p>
-                      Refer to the {product.brand?.name ?? "brand"} size chart for this item. If you are between sizes,
-                      we recommend sizing up. Contact us for help choosing your fit.
-                    </p>
-                  ),
-                },
-                {
-                  title: "Shipping & Returns",
-                  content: (
-                    <p>
-                      Free shipping on orders over {formatMoney(1500000, currency)}. Standard delivery in 3–5 working
-                      days. Easy 14-day returns — see our returns policy for details.
-                    </p>
-                  ),
-                },
-              ]}
-            />
+                  },
+                  {
+                    title: "Shipping & Returns",
+                    content: (
+                      <p>
+                        Free shipping on orders over {formatMoney(1500000, currency)}. Standard delivery in 3–5 working
+                        days. Easy 14-day returns — see our returns policy for details.
+                      </p>
+                    ),
+                  },
+                ]}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </ColourSelectionProvider>
 
       <ProductReviews productId={product.id} data={reviews} />
 

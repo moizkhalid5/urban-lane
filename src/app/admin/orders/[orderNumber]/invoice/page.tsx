@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getBaseCurrency } from "@/lib/settings";
 import { getSiteSettings } from "@/lib/settings";
 import { formatMoney } from "@/lib/money";
+import { getOrderBundle } from "@/lib/bundles";
 import { paymentLabel } from "@/lib/payments";
 import { PrintButton } from "@/components/admin/PrintButton";
 
@@ -16,6 +17,9 @@ export default async function InvoicePage({ params }: { params: Promise<{ orderN
     getSiteSettings(),
   ]);
   if (!order) notFound();
+  // The colour-bundle part of the discount (lib/bundles.ts); the rest is the discount code.
+  const bundle = await getOrderBundle(order.id);
+  const otherDiscount = order.discountCents - (bundle?.cents ?? 0);
 
   return (
     <div className="mx-auto max-w-2xl bg-white p-8 text-sm text-ink">
@@ -71,7 +75,8 @@ export default async function InvoicePage({ params }: { params: Promise<{ orderN
 
       <div className="mt-4 ml-auto w-56 space-y-1">
         <Row label="Subtotal" value={formatMoney(order.subtotalCents, currency)} />
-        {order.discountCents > 0 && <Row label="Discount" value={`−${formatMoney(order.discountCents, currency)}`} />}
+        {bundle && <Row label="Colour bundle" value={`−${formatMoney(bundle.cents, currency)}`} />}
+        {otherDiscount > 0 && <Row label="Discount" value={`−${formatMoney(otherDiscount, currency)}`} />}
         <Row label="Shipping" value={order.shippingCents === 0 ? "Free" : formatMoney(order.shippingCents, currency)} />
         <div className="flex justify-between border-t border-line pt-1 font-medium">
           <span>Total</span><span>{formatMoney(order.totalCents, currency)}</span>

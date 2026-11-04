@@ -8,6 +8,7 @@ import { auth } from "@/auth";
 import { getCart, CART_COOKIE } from "@/lib/cart";
 import { getSiteSettings } from "@/lib/settings";
 import { computeTotals } from "@/lib/totals";
+import { bagBundle, ensureBundleTables, saveOrderBundle } from "@/lib/bundles";
 import { checkoutSchema } from "@/lib/validation";
 import { generateOrderNumber } from "@/lib/order-number";
 import { availablePaymentMethods, walletAccount } from "@/lib/payments/available";
@@ -51,7 +52,10 @@ export async function placeOrder(raw: unknown): Promise<PlaceOrderResult> {
   // Server-authoritative subtotal (never trust the client).
   const subtotalCents = cart.lines.reduce((s, l) => s + l.unitPriceCents * l.quantity, 0);
   const coupon = await resolveCoupon(data.couponCode || undefined, subtotalCents);
-  const totals = computeTotals(subtotalCents, settings, coupon);
+  // Colour bundles: 3+ colours of one design (lib/bundle-rule.ts), worked out again here from the bag.
+  const bundle = await bagBundle(cart);
+  if (bundle.cents > 0) await ensureBundleTables();
+  const totals = computeTotals(subtotalCents, settings, coupon, bundle.cents);
 
   // Payment method must be currently offered (respects settings + COD limit + gateway availability).
   const allowed = availablePaymentMethods(settings, wallets, totals.totalCents);
@@ -82,7 +86,7 @@ export async function placeOrder(raw: unknown): Promise<PlaceOrderResult> {
         }
       }
 
-      await tx.order.create({
+      const order = await tx.order.create({
         data: {
           orderNumber,
           userId: session?.user?.id ?? null,
@@ -121,6 +125,8 @@ export async function placeOrder(raw: unknown): Promise<PlaceOrderResult> {
           },
         },
       });
+
+      await saveOrderBundle(tx, order.id, totals.bundleCents, bundle.groups);
 
       // Decrement stock + bump sales counters.
       for (const line of cart.lines) {
