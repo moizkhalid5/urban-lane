@@ -760,7 +760,50 @@ model AnalyticsSettings {
   gaMeasurementId  String?  @db.VarChar(20)
   /// Microsoft Clarity project ID, e.g. "abcd1234ef"; empty = Clarity off
   clarityProjectId String?  @db.VarChar(20)
+  /// For the reports in Admin → Analytics: the GA4 property number, and a read-only service account key
+  /// and a Clarity data export token, both encrypted (lib/analytics/secrets.ts)
+  gaPropertyId     String?  @db.VarChar(20)
+  gaServiceKey     String?  @db.Text
+  clarityApiToken  String?  @db.Text
   updatedAt        DateTime @updatedAt
+}
+
+/// Saved report responses, so Clarity's 10 exports a day aren't used up and pages stay fast (lib/analytics/cache.ts).
+model AnalyticsCache {
+  key       String   @id @db.VarChar(191)
+  data      String   @db.LongText
+  fetchedAt DateTime
+}
+
+/// Admin → Analytics → Heatmaps: one click or tap on a shop page. The spot is kept against the element that was
+/// clicked (a CSS path and the position inside it, 0–1000), with the spot on the page as a fallback.
+/// No visitor ID is kept. Rows older than 90 days are removed. Tables are made on first use (lib/analytics/heatmap.ts).
+model HeatmapClick {
+  id       BigInt   @id @default(autoincrement())
+  day      DateTime @db.Date
+  path     String   @db.VarChar(191)
+  device   String   @db.VarChar(8)
+  selector String   @db.VarChar(512)
+  rx       Int      @db.SmallInt
+  ry       Int      @db.SmallInt
+  x        Int      @db.SmallInt
+  y        Int
+  label    String?  @db.VarChar(80)
+
+  @@index([path, device, day])
+  @@index([day])
+}
+
+/// Admin → Analytics → Heatmaps: one page view, with how far down the page it got (0–100%).
+model HeatmapView {
+  id     BigInt   @id @default(autoincrement())
+  day    DateTime @db.Date
+  path   String   @db.VarChar(191)
+  device String   @db.VarChar(8)
+  depth  Int      @db.TinyInt
+
+  @@index([path, device, day])
+  @@index([day])
 }
 
 /// Colour bundles: buying at least `minColours` different colours of the same product takes `percentOff`

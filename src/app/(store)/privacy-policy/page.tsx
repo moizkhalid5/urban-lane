@@ -16,6 +16,7 @@ export default function PrivacyPolicyPage() {
       <p>We use your information to process orders, provide customer support, send transactional emails and — with your consent — marketing updates. We never sell your personal data.</p>
       <h2>Cookies and analytics</h2>
       <p>We use Google Analytics and Microsoft Clarity to understand how our shop is used: which pages and products are viewed, what is added to the bag and bought, and how visitors move around a page (Clarity records clicks, taps and scrolling as anonymous replays and heatmaps). Text you type into forms is hidden from these recordings. Both tools use cookies.</p>
+      <p>We also keep our own simple record of where on a page visitors click or tap and how far down they scroll, so we can see which parts of a page are used. It holds no name, account, IP address or anything you type, is only made when analytics cookies are allowed, and is deleted after 90 days.</p>
       <p>If you are in the UK, the EEA or Switzerland, we only use these cookies after you accept them. Wherever you are, you can accept or reject them at any time under &ldquo;Cookie settings&rdquo; at the bottom of every page. We do not use advertising cookies.</p>
       <h2>Payments</h2>
       <p>We do not store card details. Card payments are processed by our payment providers under their own secure systems.</p>
