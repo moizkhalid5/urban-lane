@@ -5,6 +5,7 @@ import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { track, type AnalyticsItem } from "@/lib/analytics/track";
+import { HeatmapRecorder } from "@/components/analytics/HeatmapRecorder";
 
 /**
  * Google Analytics 4 and Microsoft Clarity on the shop (not the admin), with Google Consent Mode v2. Only
@@ -15,6 +16,7 @@ import { track, type AnalyticsItem } from "@/lib/analytics/track";
  * - Page views: GA4 counts them itself, including pages opened without a full reload.
  * - Product lists: every product card that comes into view is reported (view_item_list), and clicking one
  *   (select_item). Cards say what they show in data-analytics-item (components/product/ProductCard.tsx).
+ * - Heatmaps: clicks and scroll depth for Admin → Analytics, kept by the shop itself (HeatmapRecorder).
  * Other shop events are sent where they happen (lib/analytics/track.ts).
  */
 
@@ -76,6 +78,15 @@ function savedChoice(): Choice | null {
   } catch {
     return null;
   }
+}
+
+/**
+ * Whether this visitor is measured: they accepted, or they haven't chosen and aren't asked first (the same
+ * rule Google applies by region, here by time zone, as for the banner).
+ */
+function measuring() {
+  const c = savedChoice();
+  return c === "granted" || (c === null && !onEuropeanClock());
 }
 
 /** What kind of page this is, for filtering Clarity recordings. */
@@ -209,8 +220,10 @@ export function Analytics({ gaMeasurementId, clarityProjectId }: { gaMeasurement
       {gaMeasurementId && (
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} strategy="afterInteractive" />
       )}
+      <HeatmapRecorder allowed={measuring} />
       {banner && (
         <div
+          data-heatmap-ignore
           role="dialog"
           aria-label="Cookies"
           className="fixed inset-x-4 bottom-24 z-[60] border border-line bg-white p-5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] md:bottom-6 md:left-6 md:right-auto md:max-w-sm"

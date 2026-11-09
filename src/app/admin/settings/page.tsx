@@ -7,7 +7,8 @@ import { BundleForm } from "@/components/admin/BundleForm";
 import { getBundleConfig } from "@/lib/bundles";
 import { getPaymentSettings } from "@/lib/payments/settings";
 import { AnalyticsForm } from "@/components/admin/AnalyticsForm";
-import { getAnalyticsIds } from "@/lib/analytics/settings";
+import { ReportAccessForm } from "@/components/admin/ReportAccessForm";
+import { getAnalyticsIds, getReportAccessSummary } from "@/lib/analytics/settings";
 
 export const dynamic = "force-dynamic";
 
@@ -16,11 +17,12 @@ const major = (cents: number | null | undefined) => (cents == null ? "" : String
 export default async function AdminSettingsPage() {
   await requireAdmin(); // settings are ADMIN-only
   const wallets = await getPaymentSettings(); // first, as it sets up the payment settings the first time
-  const [s, gbpToPkr, bundles, analytics] = await Promise.all([
+  const [s, gbpToPkr, bundles, analytics, reportAccess] = await Promise.all([
     getSiteSettings(),
     getGbpToPkr(),
     getBundleConfig(),
     getAnalyticsIds(),
+    getReportAccessSummary(),
   ]);
 
   return (
@@ -54,6 +56,7 @@ export default async function AdminSettingsPage() {
       <AnalyticsForm
         initial={{ gaMeasurementId: analytics.gaMeasurementId ?? "", clarityProjectId: analytics.clarityProjectId ?? "" }}
       />
+      <ReportAccessForm initial={reportAccess} />
     </div>
   );
 }
