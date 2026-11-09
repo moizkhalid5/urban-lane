@@ -1,5 +1,14 @@
+import "server-only";
+import nodemailer from "nodemailer";
+import type SMTPTransport from "nodemailer/lib/smtp-transport";
+import { addressFor, mailboxFor, MAIL_SERVER, type Mailbox, type MailRole } from "@/lib/mail/accounts";
+
 /**
- * Provider-agnostic transactional email.
+ * The shop's email.
+ *
+ * Each email goes out from the mailbox that does its job (`from`: orders, support, marketing, admin or
+ * finance; see lib/mail/accounts), over Hostinger's SMTP with Nodemailer, once that mailbox's password is
+ * saved in Admin → Settings → Email. Until then it falls back to EMAIL_PROVIDER:
  *
  * EMAIL_PROVIDER:
  *   "console" (default in dev) — logs the email to the server console.
@@ -15,9 +24,14 @@ export type EmailMessage = {
   html: string;
   text?: string;
   replyTo?: string;
+  /** which mailbox sends it (default: orders, i.e. no-reply@) */
+  from?: MailRole;
+  headers?: Record<string, string>;
+  inReplyTo?: string;
+  references?: string;
 };
 
-const FROM = process.env.EMAIL_FROM || "Urban Lane <no-reply@urbanelane.com>";
+const FROM = process.env.EMAIL_FROM || "Urban Lane <no-reply@urbanlane.uk>";
 
 async function sendViaResend(msg: EmailMessage): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
@@ -43,16 +57,6 @@ async function sendViaResend(msg: EmailMessage): Promise<void> {
 }
 
 async function sendViaSmtp(msg: EmailMessage): Promise<void> {
-  // Lazy, optional import so `nodemailer` is only required when SMTP is actually
-  // used. The non-literal specifier keeps it out of static type resolution, so the
-  // project type-checks without the optional dependency installed.
-  // Enable with: `npm i nodemailer`.
-  const moduleName = "nodemailer";
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mod: any = await import(/* webpackIgnore: true */ moduleName).catch(() => {
-    throw new Error("SMTP provider selected but `nodemailer` is not installed. Run: npm i nodemailer");
-  });
-  const nodemailer = mod.default ?? mod; // CommonJS package loaded via import()
   const transport = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT || 587),
@@ -67,7 +71,53 @@ async function sendViaSmtp(msg: EmailMessage): Promise<void> {
     html: msg.html,
     text: msg.text,
     replyTo: msg.replyTo,
+    headers: msg.headers,
+    inReplyTo: msg.inReplyTo,
+    references: msg.references,
   });
+}
+
+// ── the shop's own mailboxes ───────────────────────────────────────────────────
+
+/** One reusable SMTP connection pool per mailbox (a campaign sends many emails through one login). */
+const transports = new Map<string, nodemailer.Transporter<SMTPTransport.SentMessageInfo>>();
+export function mailboxTransport(box: Mailbox) {
+  const key = `${box.address}:${box.password}`;
+  let t = transports.get(key);
+  if (!t) {
+    t = nodemailer.createTransport({
+      host: MAIL_SERVER.smtpHost,
+      port: MAIL_SERVER.smtpPort,
+      secure: MAIL_SERVER.smtpSecure,
+      auth: { user: box.address, pass: box.password! },
+      pool: true,
+      maxConnections: 2,
+    } as SMTPTransport.Options);
+    for (const [k, old] of transports) if (k.startsWith(`${box.address}:`)) { old.close(); transports.delete(k); }
+    transports.set(key, t);
+  }
+  return t;
+}
+
+/** Sends from the mailbox that does `msg.from`'s job. Throws on failure; false when that mailbox isn't set up. */
+async function sendViaMailbox(msg: EmailMessage): Promise<boolean> {
+  const role = msg.from ?? "orders";
+  const box = await mailboxFor(role);
+  if (!box) return false;
+  // Customers' replies to order emails go to the customer-questions mailbox, not to no-reply@.
+  const replyTo = msg.replyTo ?? (role === "orders" || role === "admin" ? await addressFor("support") : undefined);
+  await mailboxTransport(box).sendMail({
+    from: { name: box.displayName, address: box.address },
+    to: msg.to,
+    subject: msg.subject,
+    html: msg.html,
+    text: msg.text,
+    replyTo: replyTo && replyTo !== box.address ? replyTo : undefined,
+    headers: msg.headers,
+    inReplyTo: msg.inReplyTo,
+    references: msg.references,
+  });
+  return true;
 }
 
 function logToConsole(msg: EmailMessage): void {
@@ -75,7 +125,7 @@ function logToConsole(msg: EmailMessage): void {
   console.log(
     [
       "\n──────── 📧  EMAIL (console provider) ────────",
-      `From:    ${FROM}`,
+      `From:    ${msg.from ?? "orders"} mailbox (not set up, so only logged here)`,
       `To:      ${msg.to}`,
       `Subject: ${msg.subject}`,
       msg.replyTo ? `Reply-To: ${msg.replyTo}` : "",
@@ -88,24 +138,31 @@ function logToConsole(msg: EmailMessage): void {
   );
 }
 
-/** Send an email through the configured provider. Never throws in console mode. */
+/**
+ * Sends an email from the shop: from its mailbox when set up, otherwise through EMAIL_PROVIDER.
+ * Never throws: a failed email must not break a checkout or registration (it is logged).
+ */
 export async function sendEmail(msg: EmailMessage): Promise<void> {
-  const provider = (process.env.EMAIL_PROVIDER || "console").toLowerCase();
   try {
-    switch (provider) {
-      case "resend":
-        return await sendViaResend(msg);
-      case "smtp":
-        return await sendViaSmtp(msg);
-      default:
-        return logToConsole(msg);
-    }
+    await sendEmailOrThrow(msg);
   } catch (err) {
-    // Never let a transactional email failure break a checkout/registration flow.
-    // eslint-disable-next-line no-console
     console.error("[email] send failed:", err);
   }
 }
 
-export const STORE_NOTIFICATIONS_EMAIL =
-  process.env.STORE_NOTIFICATIONS_EMAIL || "orders@urbanelane.com";
+/** Like sendEmail, but a failure throws, for screens that must say whether it went (campaigns, replies). */
+export async function sendEmailOrThrow(msg: EmailMessage): Promise<void> {
+  if (await sendViaMailbox(msg)) return;
+  const provider = (process.env.EMAIL_PROVIDER || "console").toLowerCase();
+  switch (provider) {
+    case "resend":
+      return await sendViaResend(msg);
+    case "smtp":
+      return await sendViaSmtp(msg);
+    default:
+      return logToConsole(msg);
+  }
+}
+
+/** The team's mailbox for a job, e.g. teamAddress("admin") for a new-order alert. */
+export const teamAddress = (role: MailRole) => addressFor(role);

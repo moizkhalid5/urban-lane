@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { contactSchema, refundSchema } from "@/lib/validation";
-import { sendEmail, STORE_NOTIFICATIONS_EMAIL } from "@/lib/email";
+import { sendEmail, teamAddress } from "@/lib/email";
 import { contactNotificationTemplate, refundNotificationTemplate } from "@/lib/email/templates";
 import { rateLimit, clientKey } from "@/lib/rate-limit";
 
@@ -29,7 +29,8 @@ export async function submitContact(_prev: FormState, formData: FormData): Promi
 
   // Notify the store; reply-to is the customer (issues doc: messages must reach the official address).
   const tpl = contactNotificationTemplate(d.name, d.email, d.subject || "", d.message);
-  await sendEmail({ to: STORE_NOTIFICATIONS_EMAIL, ...tpl, replyTo: d.email });
+  // To the customer-questions mailbox (info@); replying there answers the customer.
+  await sendEmail({ to: await teamAddress("support"), ...tpl, replyTo: d.email });
 
   return { ok: true, message: "Thanks for reaching out — we'll get back to you shortly." };
 }
@@ -63,7 +64,8 @@ export async function submitRefund(_prev: FormState, formData: FormData): Promis
   });
 
   const tpl = refundNotificationTemplate(d.email, d.subject, d.reason, d.orderNumber || undefined);
-  await sendEmail({ to: STORE_NOTIFICATIONS_EMAIL, ...tpl, replyTo: d.email });
+  // Refunds are money matters: to the payments & finance mailbox (manager@).
+  await sendEmail({ to: await teamAddress("finance"), ...tpl, replyTo: d.email });
 
   return { ok: true, message: "Your return/refund request has been submitted. Our team will be in touch." };
 }

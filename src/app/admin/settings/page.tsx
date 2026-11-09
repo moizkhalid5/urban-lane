@@ -5,6 +5,8 @@ import { GbpRateForm } from "@/components/admin/GbpRateForm";
 import { getGbpToPkr } from "@/lib/pricing/uk-price";
 import { BundleForm } from "@/components/admin/BundleForm";
 import { getBundleConfig } from "@/lib/bundles";
+import { MailSettingsForm } from "@/components/admin/MailSettingsForm";
+import { getRoles, mailboxesForSettings, MAIL_SERVER, ROLES } from "@/lib/mail/accounts";
 import { getPaymentSettings } from "@/lib/payments/settings";
 import { AnalyticsForm } from "@/components/admin/AnalyticsForm";
 import { ReportAccessForm } from "@/components/admin/ReportAccessForm";
@@ -17,12 +19,14 @@ const major = (cents: number | null | undefined) => (cents == null ? "" : String
 export default async function AdminSettingsPage() {
   await requireAdmin(); // settings are ADMIN-only
   const wallets = await getPaymentSettings(); // first, as it sets up the payment settings the first time
-  const [s, gbpToPkr, bundles, analytics, reportAccess] = await Promise.all([
+  const [s, gbpToPkr, bundles, analytics, reportAccess, mailboxes, mailRoles] = await Promise.all([
     getSiteSettings(),
     getGbpToPkr(),
     getBundleConfig(),
     getAnalyticsIds(),
     getReportAccessSummary(),
+    mailboxesForSettings(),
+    getRoles(),
   ]);
 
   return (
@@ -51,6 +55,7 @@ export default async function AdminSettingsPage() {
           announcementText: s.announcementText ?? "",
         }}
       />
+      <MailSettingsForm mailboxes={mailboxes} roles={ROLES} assigned={mailRoles} webmail={MAIL_SERVER.webmail} />
       <GbpRateForm initial={gbpToPkr} />
       <BundleForm initial={bundles} />
       <AnalyticsForm

@@ -2,7 +2,7 @@ import "server-only";
 import type { Order } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { logAudit } from "@/lib/audit";
-import { sendEmail } from "@/lib/email";
+import { sendEmailOrThrow } from "@/lib/email";
 import { paymentReceivedTemplate } from "@/lib/email/templates";
 import { formatMoney } from "@/lib/money";
 import { getBaseCurrency } from "@/lib/settings";
@@ -44,8 +44,10 @@ export async function emailPaymentReceived(order: Order, preparing: boolean): Pr
     const base = await getBaseCurrency();
     // Guests have no account, so their link is the order's confirmation page
     const orderUrl = order.userId ? `${APP_URL}/account/orders/${order.orderNumber}` : `${APP_URL}/checkout/success/${order.orderNumber}`;
-    await sendEmail({
+    // Money matters go out from the payments & finance mailbox (manager@).
+    await sendEmailOrThrow({
       to: order.email,
+      from: "finance",
       ...paymentReceivedTemplate({
         orderNumber: order.orderNumber,
         customerName: order.firstName,

@@ -25,7 +25,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <p className="mt-0.5 text-xs text-ink-muted">Admin</p>
           </div>
           <div className="flex-1 p-3">
-            <AdminNav />
+            <AdminNav isAdmin={user.role === "ADMIN"} />
           </div>
           <div className="border-t border-line p-4 text-sm">
             <p className="truncate text-ink-muted">{user.email}</p>
