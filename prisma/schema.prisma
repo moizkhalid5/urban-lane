@@ -824,3 +824,83 @@ model OrderBundle {
   detail    String   @db.VarChar(1000)
   createdAt DateTime @default(now())
 }
+
+/// The shop's mailboxes (Hostinger): each one's password, encrypted with a key made from AUTH_SECRET
+/// (src/lib/mail). Edited in Admin → Settings → Email. Created on first use.
+model MailAccount {
+  address     String    @id @db.VarChar(191)
+  displayName String    @default("Urban Lane") @db.VarChar(80)
+  password    String?   @db.Text
+  /// the newest message read into Admin → Inbox, and the folder's UIDVALIDITY it belongs to
+  lastUid     Int       @default(0)
+  uidValidity BigInt    @default(0)
+  lastSyncAt  DateTime?
+  lastError   String?   @db.VarChar(500)
+  updatedAt   DateTime  @updatedAt
+}
+
+/// Which mailbox does which job (orders, support, marketing, admin, finance), as JSON. Singleton.
+model MailSettings {
+  id        String   @id @default("singleton")
+  roles     String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+/// A copy of each email received in the shop's mailboxes, for Admin → Inbox (kept in sync over IMAP).
+model MailMessage {
+  id          String   @id @default(cuid())
+  mailbox     String   @db.VarChar(191)
+  uid         Int
+  messageId   String?  @db.VarChar(500)
+  fromName    String?  @db.VarChar(200)
+  fromAddress String   @db.VarChar(320)
+  /// where replies go when the sender asked for elsewhere (the shop's own contact-form and order alerts)
+  replyTo     String?  @db.VarChar(320)
+  toList      String   @db.VarChar(1000)
+  subject     String   @db.VarChar(500)
+  date        DateTime
+  snippet     String   @db.VarChar(300)
+  text        String?  @db.MediumText
+  html        String?  @db.MediumText
+  attachments String?  @db.Text
+  isRead      Boolean  @default(false)
+  repliedAt   DateTime?
+  createdAt   DateTime @default(now())
+
+  @@unique([mailbox, uid])
+  @@index([date])
+  @@index([isRead])
+}
+
+/// An email campaign written in Admin → Marketing and sent from the marketing mailbox.
+model MarketingCampaign {
+  id         String    @id @default(cuid())
+  subject    String    @db.VarChar(200)
+  preheader  String?   @db.VarChar(200)
+  heading    String    @db.VarChar(200)
+  body       String    @db.Text
+  imageUrl   String?   @db.VarChar(500)
+  buttonText String?   @db.VarChar(60)
+  buttonUrl  String?   @db.VarChar(500)
+  /// "subscribers" (newsletter), "customers" (accounts that ticked marketing emails) or "both"
+  audience   String    @default("both") @db.VarChar(20)
+  status     String    @default("DRAFT") @db.VarChar(20)
+  sentCount  Int       @default(0)
+  failCount  Int       @default(0)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  sentAt     DateTime?
+}
+
+/// One recipient of a campaign: queued when sending starts, then SENT or FAILED.
+model MarketingSend {
+  id         String   @id @default(cuid())
+  campaignId String
+  email      String   @db.VarChar(320)
+  status     String   @default("QUEUED") @db.VarChar(10)
+  error      String?  @db.VarChar(300)
+  updatedAt  DateTime @updatedAt
+
+  @@unique([campaignId, email])
+  @@index([campaignId, status])
+}

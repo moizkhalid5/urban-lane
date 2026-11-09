@@ -14,7 +14,7 @@ import { generateOrderNumber } from "@/lib/order-number";
 import { availablePaymentMethods, walletAccount } from "@/lib/payments/available";
 import { getPaymentSettings } from "@/lib/payments/settings";
 import { getGateway } from "@/lib/payments";
-import { sendEmail, STORE_NOTIFICATIONS_EMAIL } from "@/lib/email";
+import { sendEmail, teamAddress } from "@/lib/email";
 import { orderConfirmationTemplate } from "@/lib/email/templates";
 import { formatMoney } from "@/lib/money";
 import { getBaseCurrency } from "@/lib/settings";
@@ -182,8 +182,9 @@ export async function placeOrder(raw: unknown): Promise<PlaceOrderResult> {
     })),
   });
   await sendEmail({ to: data.email, ...confirmation });
+  // The team's alert goes to the admin-portal mailbox (admin@).
   await sendEmail({
-    to: STORE_NOTIFICATIONS_EMAIL,
+    to: await teamAddress("admin"),
     subject: `New order ${orderNumber}`,
     html: confirmation.html,
     text: confirmation.text,

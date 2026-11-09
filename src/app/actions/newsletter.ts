@@ -22,7 +22,7 @@ export async function subscribeNewsletter(_prev: ActionState, formData: FormData
   });
 
   const tpl = newsletterWelcomeTemplate();
-  await sendEmail({ to: email, ...tpl });
+  await sendEmail({ to: email, ...tpl, from: "marketing" });
 
   return { ok: true, message: "Thank you for subscribing! Check your inbox for a welcome email." };
 }
