@@ -16,6 +16,8 @@ import { FeaturedSplit } from "@/components/home/FeaturedSplit";
 import { getFeaturedPickIds } from "@/lib/featured";
 import { getProductsByIds } from "@/lib/queries/product-detail";
 import { getHomepageRail } from "@/lib/rail/queries";
+import { SalePoster } from "@/components/home/SalePoster";
+import { SALE, activeSale } from "@/lib/sale";
 
 function SectionHeading({ title, href, cta }: { title: string; href?: string; cta?: string }) {
   return (
@@ -59,7 +61,7 @@ const FEATURED_ROWS = [
 export default async function HomePage() {
   const currency = await getActiveCurrency();
 
-  const [featuredRows, newArrivals, outlet, tiles, brands, homepageReviews, rail] = await Promise.all([
+  const [featuredRows, newArrivals, outlet, tiles, brands, homepageReviews, rail, sale] = await Promise.all([
     // Products chosen in Admin → Homepage featured, or else the department's featured products
     getFeaturedPickIds().then((picks) =>
       Promise.all(
@@ -82,6 +84,7 @@ export default async function HomePage() {
     prisma.brand.findMany({ where: { isFeatured: true }, orderBy: { position: "asc" } }),
     getHomepageReviews(15),
     getHomepageRail(),
+    activeSale(),
   ]);
 
   // Hanging rail (Admin → Homepage rail), at the place chosen there
@@ -91,7 +94,10 @@ export default async function HomePage() {
   return (
     <>
       {/* Full-width banner slider under the transparent menu (slides: lib/collection-heroes.ts) */}
-      <HomeHeroSlider slides={HOME_SLIDES} />
+      <HomeHeroSlider slides={HOME_SLIDES} sale={sale && { maxPct: sale.maxPct, href: SALE.href, name: SALE.name }} />
+
+      {/* During the 11.11 sale: its poster pops up once per visitor at the rail (lib/sale.ts) */}
+      {sale && <SalePoster name={SALE.name} href={SALE.href} poster={SALE.poster} storageKey="sale-1111-poster-seen" />}
 
       {railAt("after-hero")}
 

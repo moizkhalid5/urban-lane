@@ -41,6 +41,8 @@ export type ProductFilter = {
   maxCents?: number;
   inStockOnly?: boolean;
   saleOnly?: boolean;
+  /** only products the shop has discounted: a compare-at price above the price (the 11.11 sale, lib/sale.ts) */
+  discountedOnly?: boolean;
   gender?: string;
   /** several departments at once, e.g. the sale banner → Men, Women and Kids */
   genders?: string[];
@@ -119,6 +121,7 @@ async function buildWhere(f: ProductFilter): Promise<Prisma.ProductWhereInput> {
   if (f.gender) where.gender = f.gender;
   else if (f.genders?.length) where.gender = { in: f.genders };
   if (f.saleOnly) where.isOutlet = true;
+  if (f.discountedOnly) and.push({ compareAtCents: { gt: prisma.product.fields.priceCents } });
   if (f.brandSlugs?.length) and.push({ brand: { slug: { in: f.brandSlugs } } });
 
   if (f.minCents != null || f.maxCents != null) {

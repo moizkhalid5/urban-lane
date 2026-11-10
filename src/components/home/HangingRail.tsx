@@ -10,6 +10,9 @@ import { cn } from "@/lib/utils";
 
 const display = Anton({ weight: "400", subsets: ["latin"], display: "swap" });
 
+/** id of the rail's section: the sale poster (components/home/SalePoster.tsx) opens when it comes into view. */
+export const RAIL_ELEMENT_ID = "hanging-rail";
+
 /** Rail photos are portrait 4:5 (garment on a hanger, hook at the top centre). */
 const RATIO = 0.8;
 /** Width of a sideways garment's spot on the rail, as a share of the front-facing one. */
@@ -30,7 +33,7 @@ export function HangingRail({ collections, currency, heading }: { collections: R
   const [tab, setTab] = useState(0);
   const current = collections[Math.min(tab, collections.length - 1)];
   return (
-    <section aria-label={heading || "On the rail"} className="overflow-hidden bg-white pb-10 pt-8">
+    <section id={RAIL_ELEMENT_ID} aria-label={heading || "On the rail"} className="overflow-hidden bg-white pb-10 pt-8">
       <div className="container-site">
         {heading && <h2 className="mb-4 text-center text-2xl font-medium md:text-3xl">{heading}</h2>}
         {collections.length > 1 && (
