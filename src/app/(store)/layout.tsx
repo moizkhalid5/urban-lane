@@ -48,7 +48,6 @@ export default async function StoreLayout({ children }: { children: React.ReactN
         isAuthed={!!user}
         isStaff={isStaff}
         cartCount={cartCount}
-        sale={sale ? { name: SALE.name, href: SALE.href } : null}
       />
       <main className="flex-1">{children}</main>
       <Footer cookieSettings={measure} />
