@@ -7,12 +7,14 @@ import sharp from "sharp";
  * - shrinks it so the longest side is at most MAX_EDGE px (never enlarges, never crops or stretches),
  * - saves it as WebP at QUALITY, which keeps transparency and drops hidden data (camera, GPS).
  *
- * 1600px is enough for the sharpest place a product photo is shown (the product page gallery on a
- * retina screen). Typical results: a 1.5MB AI-generated PNG becomes ~70KB; a large phone photo ~100KB.
+ * 2000px and quality 94 keep the photo looking like the original even when a shopper zooms in on the
+ * product page (ProductZoom): a typical 1.2–1.8MB product photo is saved at ~160–420KB (photos on a plain
+ * background come out smaller, with no loss). The pages themselves send screen-sized copies
+ * (lib/images.ts), so this size isn't what shoppers download for each card.
  * If the photo can't be processed, the original is kept, so an upload never fails because of this.
  */
-export const MAX_EDGE = 1600;
-export const QUALITY = 88;
+export const MAX_EDGE = 2000;
+export const QUALITY = 94;
 
 export type OptimizedImage = { buffer: Buffer; name: string; width?: number; height?: number; compressed: boolean };
 

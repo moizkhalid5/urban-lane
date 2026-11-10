@@ -28,7 +28,11 @@ const nextConfig = {
       { protocol: "https", hostname: "picsum.photos" },
       { protocol: "https", hostname: "fastly.picsum.photos" },
     ],
-    formats: ["image/avif", "image/webp"],
+    // WebP only: AVIF at the same quality smudged fine detail (prints, knits) on product photos, and takes
+    // the server much longer to make.
+    formats: ["image/webp"],
+    // 90 for product photos (lib/images.ts → PHOTO_QUALITY), 75 (the default) for everything else
+    qualities: [75, 90],
     // Keep resized images for a year instead of the default 60 seconds. Image files never change
     // in place (admin uploads get unique names), so re-processing them only slows pages down.
     minimumCacheTTL: 31536000,

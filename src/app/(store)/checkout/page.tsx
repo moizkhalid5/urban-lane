@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import { PHOTO_QUALITY } from "@/lib/images";
 import { getCart } from "@/lib/cart";
 import { getActiveCurrency } from "@/lib/currency.server";
 import { getSiteSettings } from "@/lib/settings";
@@ -80,7 +81,7 @@ export default async function CheckoutPage() {
             {cart.lines.map((l) => (
               <li key={l.id} className="flex gap-3 py-3">
                 <div className="relative h-16 w-12 shrink-0 overflow-hidden bg-line-soft">
-                  {l.image && <Image src={l.image} alt={l.title} fill sizes="48px" className="object-cover" />}
+                  {l.image && <Image src={l.image} alt={l.title} fill sizes="48px" quality={PHOTO_QUALITY} className="object-cover" />}
                 </div>
                 <div className="flex-1 text-sm">
                   <p className="font-medium">{l.title}</p>

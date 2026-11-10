@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { PHOTO_QUALITY } from "@/lib/images";
 
 const SIZES = "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw";
 
@@ -18,7 +19,7 @@ export function ProductCardImages({ image, secondImage, alt }: { image: string; 
   if (!primary) return null;
   return (
     <>
-      <Image key={primary} src={primary} alt={alt} fill sizes={SIZES} className="object-cover" onError={() => markFailed(primary)} />
+      <Image key={primary} src={primary} alt={alt} fill sizes={SIZES} quality={PHOTO_QUALITY} className="object-cover" onError={() => markFailed(primary)} />
       {/* Fades in over the first image, so a slow second image never leaves the card blank. */}
       {hover && (
         <Image
@@ -26,6 +27,7 @@ export function ProductCardImages({ image, secondImage, alt }: { image: string; 
           alt={alt}
           fill
           sizes={SIZES}
+          quality={PHOTO_QUALITY}
           className="object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           onError={() => markFailed(hover)}
         />
