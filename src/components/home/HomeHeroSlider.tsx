@@ -3,10 +3,16 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { HERO_ELEMENT_ID, type HomeSlide } from "@/lib/collection-heroes";
 import { ArtworkBannerLinks } from "@/components/ui/ArtworkBannerLinks";
+import { SaleBannerText } from "@/components/home/SaleBannerText";
 import { cn } from "@/lib/utils";
 
 const PHONE_WIDTH = 941;
 const PHONE_HEIGHT = 1672;
+
+/** The slide that carries the sale wording during a sale, and whose Shop Now then leads to the sale. */
+const SALE_SLIDE = "urban-lane";
+
+export type HeroSale = { maxPct: number; href: string; name: string };
 
 /**
  * Homepage hero: full-width slider of artwork banners. Tablets and computers show the 2.334:1 banners,
@@ -21,7 +27,12 @@ const PHONE_HEIGHT = 1672;
  * and sit on top of each other, so only the current slide and its neighbours are loaded.
  * On phones the slide dots sit in the corner, clear of the painted buttons.
  */
-export function HomeHeroSlider({ slides }: { slides: HomeSlide[] }) {
+export function HomeHeroSlider({ slides: baseSlides, sale }: { slides: HomeSlide[]; sale?: HeroSale | null }) {
+  const slides = sale
+    ? baseSlides.map((s) =>
+        s.key === SALE_SLIDE ? { ...s, link: sale.href, label: `Shop the ${sale.name} sale, up to ${sale.maxPct}% off` } : s,
+      )
+    : baseSlides;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const touchX = useRef<number | null>(null);
@@ -90,6 +101,7 @@ export function HomeHeroSlider({ slides }: { slides: HomeSlide[] }) {
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                 )}
+                {sale && s.key === SALE_SLIDE && <SaleBannerText maxPct={sale.maxPct} phone />}
                 <ArtworkBannerLinks image={s.phone} href={s.link} label={s.label} />
               </div>
             </div>
@@ -108,6 +120,7 @@ export function HomeHeroSlider({ slides }: { slides: HomeSlide[] }) {
                 decoding="async"
                 className="absolute inset-0 h-full w-full object-cover"
               />
+              {sale && s.key === SALE_SLIDE && <SaleBannerText maxPct={sale.maxPct} />}
               <ArtworkBannerLinks image={s.desktop} href={s.link} label={s.label} />
             </div>
           </div>

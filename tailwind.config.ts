@@ -46,10 +46,15 @@ const config: Config = {
           from: { transform: "translateX(100%)" },
           to: { transform: "translateX(0)" },
         },
+        "poster-in": {
+          from: { opacity: "0", transform: "scale(0.94)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
       },
       animation: {
         "fade-in": "fade-in 0.3s var(--tw-ease, ease) both",
         "drawer-in": "drawer-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "poster-in": "poster-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both",
       },
     },
   },

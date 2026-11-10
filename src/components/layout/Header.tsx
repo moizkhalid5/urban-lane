@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { PhoneLink, SocialLinks } from "./SocialContact";
 import { AnnouncementTicker } from "./AnnouncementTicker";
 import { HERO_ELEMENT_ID, heroForPath } from "@/lib/collection-heroes";
+import { isRedNavItem } from "@/lib/sale-nav";
 
 type Props = {
   nav: NavItem[];
@@ -18,9 +19,11 @@ type Props = {
   isAuthed: boolean;
   isStaff: boolean;
   cartCount: number;
+  /** the 11.11 sale while it's on (lib/sale.ts): also a red link beside the menu button on phones */
+  sale?: { name: string; href: string } | null;
 };
 
-export function Header({ nav, currencies, activeCurrency, announcement, isAuthed, isStaff, cartCount }: Props) {
+export function Header({ nav, currencies, activeCurrency, announcement, isAuthed, isStaff, cartCount, sale }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -125,6 +128,20 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
             <MenuIcon />
           </button>
 
+          {/* Phones and tablets: the sale's red link stays in sight beside the menu button */}
+          {sale && (
+            <Link
+              href={sale.href}
+              aria-label={`${sale.name} sale`}
+              className={cn(
+                "-ml-1 text-sm font-bold tracking-wide lg:hidden",
+                whiteText ? "text-[#ff8f8f]" : "text-sale",
+              )}
+            >
+              {sale.name}
+            </Link>
+          )}
+
           <Link
             href="/"
             className="absolute left-1/2 shrink-0 -translate-x-1/2 text-lg font-semibold uppercase tracking-[0.18em] lg:static lg:mr-6 lg:translate-x-0 lg:text-xl lg:tracking-[0.2em]"
@@ -144,7 +161,7 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
                   href={item.href}
                   className={cn(
                     "px-3 py-2 text-sm font-medium uppercase tracking-wide transition-colors",
-                    item.slug === "outlet"
+                    isRedNavItem(item.slug)
                       ? whiteText
                         ? "text-[#ff8f8f] hover:text-[#ffb3b3]"
                         : "text-sale hover:text-sale/80"
@@ -318,7 +335,7 @@ function MobileNav({
                   onClick={onClose}
                   className={cn(
                     "py-3 text-sm font-medium uppercase tracking-wide",
-                    item.slug === "outlet" ? "text-sale" : "text-ink",
+                    isRedNavItem(item.slug) ? "text-sale" : "text-ink",
                   )}
                 >
                   {item.name}

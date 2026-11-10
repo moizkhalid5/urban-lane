@@ -9,6 +9,7 @@ import { getWishlistCount } from "@/lib/wishlist";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { Analytics } from "@/components/analytics/Analytics";
 import { getAnalyticsIds } from "@/lib/analytics/settings";
+import { SALE, SALE_NAV_SLUG, activeSale } from "@/lib/sale";
 
 // The storefront renders per request (cart, currency cookie, session) and reads
 // the database in this layout. Forcing dynamic rendering keeps the production
@@ -17,7 +18,7 @@ import { getAnalyticsIds } from "@/lib/analytics/settings";
 export const dynamic = "force-dynamic";
 
 export default async function StoreLayout({ children }: { children: React.ReactNode }) {
-  const [nav, currencies, active, settings, user, cartCount, wishlistCount, analytics] = await Promise.all([
+  const [navTree, currencies, active, settings, user, cartCount, wishlistCount, analytics, sale] = await Promise.all([
     getNavTree(),
     getCurrencies(),
     getActiveCurrency(),
@@ -26,7 +27,12 @@ export default async function StoreLayout({ children }: { children: React.ReactN
     getCartCount(),
     getWishlistCount(),
     getAnalyticsIds(),
+    activeSale(),
   ]);
+  // During the 11.11 sale, a red "11.11" leads the menu (lib/sale.ts).
+  const nav = sale
+    ? [{ name: SALE.name, slug: SALE_NAV_SLUG, href: SALE.href, isVirtual: false, columns: [] }, ...navTree]
+    : navTree;
   const isStaff = user?.role === "ADMIN" || user?.role === "STAFF";
   // Analytics leaves out the shop's own team, so their browsing doesn't count as shoppers'.
   const measure = !isStaff && !!(analytics.gaMeasurementId || analytics.clarityProjectId);
@@ -42,6 +48,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
         isAuthed={!!user}
         isStaff={isStaff}
         cartCount={cartCount}
+        sale={sale ? { name: SALE.name, href: SALE.href } : null}
       />
       <main className="flex-1">{children}</main>
       <Footer cookieSettings={measure} />
