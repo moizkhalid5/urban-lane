@@ -16,7 +16,7 @@ import sharp from "sharp";
  * so this is sharp on retina screens). Typical size: 60–150KB.
  */
 export const MAX_HEIGHT = 1200;
-const QUALITY = 86;
+const QUALITY = 92;
 /** colour distance (0–255, largest channel difference) treated as background, and where the soft edge ends */
 const BG_FULL = 8;
 const BG_EDGE = 26;

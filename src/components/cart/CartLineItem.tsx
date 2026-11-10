@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { PHOTO_QUALITY } from "@/lib/images";
 import Link from "next/link";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
@@ -35,7 +36,7 @@ export function CartLineItem({ line, currency }: { line: CartLine; currency: Dis
   return (
     <div className={cn("flex gap-4 py-6", pending && "opacity-60")}>
       <Link href={`/products/${line.slug}`} className="relative aspect-[4/5] w-24 shrink-0 overflow-hidden bg-line-soft">
-        {line.image && <Image src={line.image} alt={line.title} fill sizes="96px" className="object-cover" />}
+        {line.image && <Image src={line.image} alt={line.title} fill sizes="96px" quality={PHOTO_QUALITY} className="object-cover" />}
       </Link>
 
       <div className="flex flex-1 flex-col">
