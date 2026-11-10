@@ -161,6 +161,9 @@ export function collectionHeroFor(slug: string): PageHero | null {
 /** Whether a page starts with a banner, and the menu text colour over it (first slide on the homepage). */
 export function heroForPath(pathname: string | null): Pick<PageHero, "tone"> | null {
   if (pathname === "/") return { tone: HOME_SLIDES[0].tone };
+  // the 11.11 sale page's banner (components/sale/SaleBanner.tsx); while the sale is off there's no banner,
+  // and the header, finding none, stays white
+  if (pathname === "/sale") return { tone: "dark" };
   const slug = pathname?.match(/^\/collections\/([^/?#]+)\/?$/)?.[1];
   return slug ? collectionHeroFor(slug) : null;
 }

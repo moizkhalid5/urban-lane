@@ -19,11 +19,9 @@ type Props = {
   isAuthed: boolean;
   isStaff: boolean;
   cartCount: number;
-  /** the 11.11 sale while it's on (lib/sale.ts): also a red link beside the menu button on phones */
-  sale?: { name: string; href: string } | null;
 };
 
-export function Header({ nav, currencies, activeCurrency, announcement, isAuthed, isStaff, cartCount, sale }: Props) {
+export function Header({ nav, currencies, activeCurrency, announcement, isAuthed, isStaff, cartCount }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -127,20 +125,6 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
           >
             <MenuIcon />
           </button>
-
-          {/* Phones and tablets: the sale's red link stays in sight beside the menu button */}
-          {sale && (
-            <Link
-              href={sale.href}
-              aria-label={`${sale.name} sale`}
-              className={cn(
-                "-ml-1 text-sm font-bold tracking-wide lg:hidden",
-                whiteText ? "text-[#ff8f8f]" : "text-sale",
-              )}
-            >
-              {sale.name}
-            </Link>
-          )}
 
           <Link
             href="/"
