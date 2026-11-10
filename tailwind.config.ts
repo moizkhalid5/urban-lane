@@ -55,6 +55,7 @@ const config: Config = {
         "fade-in": "fade-in 0.3s var(--tw-ease, ease) both",
         "drawer-in": "drawer-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) both",
         "poster-in": "poster-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "spin-slow": "spin 24s linear infinite",
       },
     },
   },

@@ -8,6 +8,7 @@ import { SortSelect } from "@/components/collection/SortSelect";
 import { ProductFeed } from "@/components/collection/ProductFeed";
 import { feedFilter, FEED_BATCH } from "@/lib/queries/product-feed";
 import { SALE, activeSale } from "@/lib/sale";
+import { SaleBanner } from "@/components/sale/SaleBanner";
 
 export const metadata: Metadata = {
   title: SALE.title,
@@ -74,8 +75,10 @@ export default async function SalePage({ searchParams }: { searchParams: Promise
   const department = filter.gender ? DEPARTMENT_POSSESSIVE[filter.gender] : null;
 
   return (
-    <div className="container-site py-8">
-      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sale">Until {SALE.lastDay}</p>
+    <div className="container-site pb-8 md:pt-6">
+      <SaleBanner href="#products" label={`See the ${SALE.title} products`} />
+
+      <p id="products" className="mt-8 scroll-mt-28 text-sm font-semibold uppercase tracking-[0.2em] text-sale">Until {SALE.lastDay}</p>
       <h1 className="mt-1 text-3xl font-medium md:text-4xl">
         {department ? `${department} ${SALE.title}` : SALE.title}
       </h1>
