@@ -37,7 +37,10 @@ export default async function SalePage({ searchParams }: { searchParams: Promise
         <p className="mt-3 max-w-md text-ink-muted">
           {new Date() < SALE.starts
             ? `The ${SALE.title} starts on 11 November. See you then!`
-            : `The ${SALE.title} has ended. Thank you for shopping with us.`}
+            : new Date() >= SALE.ends
+              ? `The ${SALE.title} has ended. Thank you for shopping with us.`
+              : // during the sale, before any product has its sale price
+                `The ${SALE.title} prices are being added. Please check back shortly.`}
         </p>
         <Link href="/offers" className="btn-secondary mt-6">
           See today&apos;s offers
