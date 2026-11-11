@@ -33,9 +33,14 @@ export default async function MarketingPage() {
           <h1 className="text-2xl font-medium">Marketing</h1>
           <p className="mt-1 text-sm text-ink-muted">Email campaigns, sent from {sender}.</p>
         </div>
-        <Link href="/admin/marketing/new" className="btn-primary">
-          New campaign
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/admin/marketing/social" className="btn-ghost px-4">
+            Social pack (Instagram)
+          </Link>
+          <Link href="/admin/marketing/new" className="btn-primary">
+            New campaign
+          </Link>
+        </div>
       </div>
 
       {!ready && (
