@@ -1,4 +1,11 @@
 /** Store phone, WhatsApp, Instagram and TikTok, shown in the top strip and the footer. Change them here only. */
+
+/**
+ * Instagram and TikTok are hidden on the shop for now (top strip and footer). Set to true to show them again;
+ * the links and handles below are kept for that.
+ */
+export const SHOW_INSTAGRAM_TIKTOK = false;
+
 export const STORE_PHONE = "0332-5253799";
 export const STORE_PHONE_TEL = "+923325253799"; // international form for tap-to-call
 /** Opens a WhatsApp chat with the store number, with a greeting already typed. */
@@ -72,13 +79,13 @@ export function WhatsAppLink({ className, size = 16, label = false }: { classNam
   );
 }
 
-/** WhatsApp + Instagram + TikTok side by side. */
+/** WhatsApp, plus Instagram and TikTok while they're shown (SHOW_INSTAGRAM_TIKTOK), side by side. */
 export function SocialLinks({ className, size = 16 }: { className?: string; size?: number }) {
   return (
     <span className={`inline-flex items-center gap-3 ${className ?? ""}`}>
       <WhatsAppLink size={size} />
-      <InstagramLink size={size} />
-      <TikTokLink size={size} />
+      {SHOW_INSTAGRAM_TIKTOK && <InstagramLink size={size} />}
+      {SHOW_INSTAGRAM_TIKTOK && <TikTokLink size={size} />}
     </span>
   );
 }
