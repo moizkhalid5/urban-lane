@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { NewsletterForm } from "./NewsletterForm";
 import { CookieSettingsButton } from "@/components/analytics/Analytics";
-import { InstagramLink, PhoneLink, SocialLinks, TikTokLink, WhatsAppLink } from "./SocialContact";
+import { InstagramLink, PhoneLink, SHOW_INSTAGRAM_TIKTOK, SocialLinks, TikTokLink, WhatsAppLink } from "./SocialContact";
 
 const shopLinks = [
   { name: "Women", href: "/collections/women" },
@@ -56,8 +56,8 @@ export function Footer({ cookieSettings = false }: { cookieSettings?: boolean })
           <div className="mt-5 flex flex-col items-start gap-3 text-sm text-ink-soft">
             <PhoneLink />
             <WhatsAppLink size={18} label />
-            <InstagramLink size={18} label />
-            <TikTokLink size={18} label />
+            {SHOW_INSTAGRAM_TIKTOK && <InstagramLink size={18} label />}
+            {SHOW_INSTAGRAM_TIKTOK && <TikTokLink size={18} label />}
           </div>
         </div>
         <FooterCol title="Shop" links={shopLinks} />

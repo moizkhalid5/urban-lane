@@ -87,7 +87,7 @@ export function Header({ nav, currencies, activeCurrency, announcement, isAuthed
 
   return (
     <header className="sticky top-0 z-40">
-      {/* Black strip: phone (left), announcement (centre), Instagram + TikTok (right); stacked on phones. */}
+      {/* Black strip: phone (left), announcement (centre), WhatsApp (+ Instagram, TikTok when shown) (right); stacked on phones. */}
       <div ref={strip} className="bg-ink text-xs tracking-wide text-white">
         <div className="container-site flex flex-wrap items-center justify-center gap-x-5 gap-y-1 py-2 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:gap-4">
           <PhoneLink className="order-2 sm:order-none sm:justify-self-start" />
