@@ -1,12 +1,13 @@
 """
 The 11.11 sale page banner (src/components/sale/SaleBanner.tsx), from the originals in Banners/11.11:
-  banner.png                         computers and tablets, 1672x941
-  11.11 Sale Fashion Editorial.png   phones, 941x1672
+  banner.png                             computers and tablets, 1672x941
+  updated 11.11 mobile view image.png    phones, 941x1671 (replaced 11.11 Sale Fashion Editorial.png)
 
 Each banner has a ring of "11.11 SALE ·" lettering around "UP TO 70% OFF". To make the ring turn on the
 page, it is split into two lossless WebP images:
-  sale-banner-<kind>-v1.webp       the banner with the ring's lettering removed (black grain filled back in)
-  sale-banner-<kind>-ring-v1.webp  just the ring's lettering, on a transparent square centred on the ring
+  sale-banner-<kind>-<version>.webp       the banner with the ring's lettering removed (black grain filled back in)
+  sale-banner-<kind>-ring-<version>.webp  just the ring's lettering, on a transparent square centred on the ring
+(a new version number whenever an artwork is replaced, so browsers don't keep showing the old one)
 The centre text stays in the banner. The script prints the ring's and the painted Shop Now button's position
 in % of the picture, for SaleBanner.tsx and lib/banner-buttons.ts.
 
@@ -23,8 +24,9 @@ OUT = ROOT / "public" / "images" / "sale"
 
 BANNERS = {
     # kind: (file, rough ring centre, rough ring radius, a plain patch of background (x0, y0, x1, y1), button area)
-    "desktop": ("banner.png", (641, 645), 160, (20, 850, 520, 935), (40, 742, 440, 850)),
-    "phone": ("11.11 Sale Fashion Editorial.png", (269, 1180), 150, (10, 420, 85, 1000), (205, 1488, 735, 1630)),
+    "desktop": ("banner.png", (641, 645), 160, (20, 850, 520, 935), (40, 742, 440, 850), "v1"),
+    # phones: the updated artwork (no "URBAN LANE" line at the top), saved as -v2
+    "phone": ("updated 11.11 mobile view image.png", (269, 1180), 150, (10, 420, 85, 1000), (205, 1488, 735, 1630), "v2"),
 }
 
 
@@ -32,7 +34,7 @@ def lum(a):
     return 0.299 * a[..., 0] + 0.587 * a[..., 1] + 0.114 * a[..., 2]
 
 
-def build(kind, file, guess, r_guess, patch, button_box):
+def build(kind, file, guess, r_guess, patch, button_box, version):
     img = Image.open(SRC / file).convert("RGB")
     a = np.asarray(img).astype(np.float32)
     h, w = a.shape[:2]
@@ -72,7 +74,7 @@ def build(kind, file, guess, r_guess, patch, button_box):
     # keep the soft blend inside the ground only, so nothing outside it changes
     m = m * ring[..., None]
     base = a * (1 - m) + fill * m
-    Image.fromarray(np.clip(base, 0, 255).astype(np.uint8)).save(OUT / f"sale-banner-{kind}-v1.webp", "WEBP", lossless=True, method=6)
+    Image.fromarray(np.clip(base, 0, 255).astype(np.uint8)).save(OUT / f"sale-banner-{kind}-{version}.webp", "WEBP", lossless=True, method=6)
 
     # 2) the lettering alone: its colour, with transparency from how bright each pixel is over the black
     colour = np.median(a[text & (L > np.percentile(L[text], 60))], axis=0)
@@ -84,7 +86,7 @@ def build(kind, file, guess, r_guess, patch, button_box):
     rgba = np.zeros((size, size, 4), np.uint8)
     rgba[..., :3] = colour.astype(np.uint8)
     rgba[..., 3] = (alpha[y0:y0 + size, x0:x0 + size] * 255).astype(np.uint8)
-    Image.fromarray(rgba, "RGBA").save(OUT / f"sale-banner-{kind}-ring-v1.webp", "WEBP", lossless=True, method=6)
+    Image.fromarray(rgba, "RGBA").save(OUT / f"sale-banner-{kind}-ring-{version}.webp", "WEBP", lossless=True, method=6)
 
     # 3) the painted Shop Now button (the light pill)
     bx0, by0, bx1, by1 = button_box

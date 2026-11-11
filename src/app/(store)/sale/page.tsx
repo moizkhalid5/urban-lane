@@ -14,6 +14,7 @@ import { ProductFeed } from "@/components/collection/ProductFeed";
 import { feedFilter, FEED_BATCH } from "@/lib/queries/product-feed";
 import { SALE, activeSale } from "@/lib/sale";
 import { SaleBanner } from "@/components/sale/SaleBanner";
+import { SaleCountdown } from "@/components/sale/SaleCountdown";
 
 export const metadata: Metadata = {
   title: SALE.title,
@@ -103,19 +104,25 @@ export default async function SalePage({
         hideOnPhones={Object.keys(sp).some((k) => k !== "page")}
       />
       <div className="container-site pb-8">
-        <p
+        {/* Title on the left; the countdown on the right (below the title on phones) */}
+        <div
           id="products"
-          className="mt-8 scroll-mt-28 text-sm font-semibold uppercase tracking-[0.2em] text-sale"
+          className="mt-8 flex scroll-mt-28 flex-col gap-6 md:flex-row md:items-start md:justify-between"
         >
-          Until {SALE.lastDay}
-        </p>
-        <h1 className="mt-1 text-3xl font-medium md:text-4xl">
-          {department ? `${department} ${SALE.title}` : SALE.title}
-        </h1>
-        <p className="mt-2 max-w-2xl text-ink-muted">
-          Up to {sale.maxPct}% off. The original price is crossed out on every item, with
-          the sale price next to it.
-        </p>
+          <div className="min-w-0">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sale">
+              Until {SALE.lastDay}
+            </p>
+            <h1 className="mt-1 text-3xl font-medium md:text-4xl">
+              {department ? `${department} ${SALE.title}` : SALE.title}
+            </h1>
+            <p className="mt-2 max-w-2xl text-ink-muted">
+              Up to {sale.maxPct}% off. The original price is crossed out on every item,
+              with the sale price next to it.
+            </p>
+          </div>
+          <SaleCountdown ends={SALE.ends.getTime()} now={Date.now()} />
+        </div>
 
         <div className="mt-5 flex flex-wrap gap-2">
           {DEPARTMENTS.map((d) => {

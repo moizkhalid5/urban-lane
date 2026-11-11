@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
  * see-through over it with white text (lib/collection-heroes.ts → heroForPath). A black strip the height of
  * the menu row sits above the picture, so the menu never covers its lettering.
  *
- * Phones get the tall picture (941x1672) filling the screen; tablets and computers the 16:9 one (1672x941),
+ * Phones get the tall picture (941x1671) filling the screen; tablets and computers the 16:9 one (1672x941),
  * whole and as big as the screen allows, its black ground running out to the screen's edges (.sale-frame,
  * .sale-art in globals.css). One <picture>, so only the one for the screen is downloaded.
  *
@@ -24,9 +24,10 @@ const DESKTOP = {
   ringBox: { left: 27.63, top: 49.63, width: 21.53 },
 };
 const PHONE = {
-  image: "/images/sale/sale-banner-phone-v1.webp",
-  ring: "/images/sale/sale-banner-phone-ring-v1.webp",
-  ringBox: { left: 11.05, top: 60.83, width: 34.86 },
+  // updated artwork (Banners/11.11/updated 11.11 mobile view image.png), 941x1671
+  image: "/images/sale/sale-banner-phone-v2.webp",
+  ring: "/images/sale/sale-banner-phone-ring-v2.webp",
+  ringBox: { left: 10.95, top: 60.74, width: 35.07 },
 };
 
 const ALT = "Urban Lane 11.11 Sale: best deals of the season, up to 70% off on select styles";

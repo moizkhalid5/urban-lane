@@ -66,7 +66,7 @@
     min-height: 150vw;
   }
   .sale-art {
-    --r: calc(941 / 1672);
+    --r: calc(941 / 1671);
     position: absolute;
     width: max(100cqw, 100cqh * var(--r));
     height: calc(max(100cqw, 100cqh * var(--r)) / var(--r));
