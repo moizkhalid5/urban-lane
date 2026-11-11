@@ -46,7 +46,7 @@ export function ProductGallery({
 
   const shown = images.filter((img) => !failed.has(img.url));
   if (shown.length === 0) {
-    return <div className="aspect-[4/5] bg-line-soft" />;
+    return <div className="aspect-square rounded-2xl bg-line-soft" />;
   }
   // A new colour picked: show its photo (state adjusted during render, as React recommends over an effect).
   const picked = selection?.colour ?? null;
@@ -77,8 +77,10 @@ export function ProductGallery({
   // Phones: main photo, then a thumbnail strip that scrolls sideways inside the page width.
   // Desktop: a 5rem thumbnail column beside the photo. The column adds no height to the row
   // (h-0) and fills the photo's height (min-h-full), scrolling when there are more thumbnails
-  // than fit, so the photo always keeps its 4:5 shape. self-start stops the gallery stretching
+  // than fit, so the photo always keeps its square shape. self-start stops the gallery stretching
   // to the height of the product details column.
+  // The frame is square and shows the whole photo (product photos are square), on white with rounded
+  // corners; before, a 4:5 frame cut off the photo's sides and zoomed in.
   return (
     <div
       className={cn(
@@ -95,7 +97,7 @@ export function ProductGallery({
               aria-label={`Photo ${i + 1}${colourPhotos.some((c) => c.photo.url === img.url) ? `: ${colourPhotos.filter((c) => c.photo.url === img.url).map((c) => c.colour).join(", ")}` : ""}`}
               className={cn(
                 // md:w-full: fills the 5rem column, or the space beside its scrollbar when it scrolls.
-                "relative aspect-[4/5] w-16 shrink-0 overflow-hidden border md:w-full",
+                "relative aspect-square w-16 shrink-0 overflow-hidden rounded-md border bg-white md:w-full",
                 i === current ? "border-ink" : "border-line hover:border-ink-muted",
               )}
             >
@@ -105,7 +107,7 @@ export function ProductGallery({
                 fill
                 sizes="80px"
                 quality={PHOTO_QUALITY}
-                className="object-cover"
+                className="object-contain"
                 onError={() => markFailed(img.url)}
               />
             </button>
@@ -113,7 +115,7 @@ export function ProductGallery({
         </div>
       )}
       <div
-        className="relative aspect-[4/5] min-w-0 flex-1 cursor-zoom-in overflow-hidden bg-line-soft"
+        className="relative aspect-square min-w-0 flex-1 cursor-zoom-in overflow-hidden rounded-2xl border border-line-soft bg-white"
         onPointerMove={moveLens}
         onPointerLeave={() => setLens(null)}
         onClick={() => {
@@ -129,7 +131,7 @@ export function ProductGallery({
           priority
           sizes="(max-width: 768px) 100vw, 50vw"
           quality={PHOTO_QUALITY}
-          className="animate-fade-in object-cover"
+          className="animate-fade-in object-contain"
           onError={() => markFailed(shown[current].url)}
         />
         {/* Computers: the stored photo at full size, magnified around the mouse */}
@@ -139,7 +141,7 @@ export function ProductGallery({
             src={shown[current].url}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute inset-0 h-full w-full bg-white object-cover"
+            className="pointer-events-none absolute inset-0 h-full w-full bg-white object-contain"
             style={{ transform: `scale(${HOVER_ZOOM})`, transformOrigin: `${lens.x}% ${lens.y}%` }}
           />
         )}
