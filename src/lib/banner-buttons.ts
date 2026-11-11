@@ -45,8 +45,8 @@ export const BANNER_BUTTONS: Record<string, BannerButton> = {
   "/images/banners/beauty-desktop-v1.webp": { left: 6.7, top: 68.54, width: 18.72, height: 8.29, shape: "pill", tone: "dark", label: "Shop now", rest: "lift" },
   "/images/banners/beauty-phone-v1.webp": { left: 27.31, top: 85.41, width: 45.38, height: 6.4, shape: "pill", tone: "dark", label: "Shop now", rest: "lift" },
   // 11.11 sale page banner (scripts/build_sale_banner.py): computers and phones
-  "/images/sale/sale-banner-desktop-v1.webp": { left: 4.67, top: 79.6, width: 19.14, height: 7.65, shape: "pill", tone: "light", label: "Shop now", rest: "lift" },
-  "/images/sale/sale-banner-phone-v2.webp": { left: 23.17, top: 89.65, width: 53.88, height: 6.76, shape: "pill", tone: "light", label: "Shop now", rest: "lift" },
+  "/images/sale/sale-banner-desktop-v2.webp": { left: 4.67, top: 79.6, width: 19.15, height: 7.65, shape: "pill", tone: "light", label: "Shop now", rest: "lift" },
+  "/images/sale/sale-banner-phone-v3.webp": { left: 23.06, top: 89.76, width: 54.09, height: 6.89, shape: "pill", tone: "light", label: "Shop now", rest: "lift" },
   // Homepage winter banner (new artwork, Banners/winter_new.png): wide cut and phone version
   "/images/banners/home/winter-wide-1916.webp": { left: 71.4, top: 73.21, width: 11.59, height: 7.74, shape: "rect", tone: "dark", label: "Discover now" },
   "/images/banners/home/winter-1916.webp": { left: 71.4, top: 53.47, width: 11.59, height: 4.75, shape: "rect", tone: "dark", label: "Discover now" },

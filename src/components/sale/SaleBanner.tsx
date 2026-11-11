@@ -6,11 +6,11 @@ import { cn } from "@/lib/utils";
 /**
  * The 11.11 sale page's banner (artwork: Banners/11.11, split by scripts/build_sale_banner.py), edge to edge
  * at the top of the page like the collection banners: it slides up under the header's menu row, which is
- * see-through over it with white text (lib/collection-heroes.ts → heroForPath). A black strip the height of
- * the menu row sits above the picture, so the menu never covers its lettering.
+ * see-through over it with dark text (white artwork; lib/collection-heroes.ts → heroForPath). A strip of the
+ * banner's white the height of the menu row sits above the picture, so the menu never covers its lettering.
  *
- * Phones get the tall picture (941x1671) filling the screen; tablets and computers the 16:9 one (1672x941),
- * whole and as big as the screen allows, its black ground running out to the screen's edges (.sale-frame,
+ * Phones get the tall picture (941x1670) filling the screen; tablets and computers the 16:9 one (1671x941),
+ * whole and as big as the screen allows, its white ground running out to the screen's edges (.sale-frame,
  * .sale-art in globals.css). One <picture>, so only the one for the screen is downloaded.
  *
  * The round "11.11 SALE ·" lettering is a separate transparent image laid exactly over its place and slowly
@@ -18,28 +18,29 @@ import { cn } from "@/lib/utils";
  * painted Shop Now (lib/banner-buttons.ts) leads to the products below. Lossless WebP, shown as is.
  */
 const DESKTOP = {
-  image: "/images/sale/sale-banner-desktop-v1.webp",
-  ring: "/images/sale/sale-banner-desktop-ring-v1.webp",
+  // white artwork: Banners/11.11/Urban Lane monochrome 11.11 sale banner.png, 1671x941
+  image: "/images/sale/sale-banner-desktop-v2.webp",
+  ring: "/images/sale/sale-banner-desktop-ring-v2.webp",
   // the ring's square, in % of the picture (printed by the script)
-  ringBox: { left: 27.63, top: 49.63, width: 21.53 },
+  ringBox: { left: 27.65, top: 49.63, width: 21.54 },
 };
 const PHONE = {
-  // updated artwork (Banners/11.11/updated 11.11 mobile view image.png), 941x1671
-  image: "/images/sale/sale-banner-phone-v2.webp",
-  ring: "/images/sale/sale-banner-phone-ring-v2.webp",
-  ringBox: { left: 10.95, top: 60.74, width: 35.07 },
+  // white artwork: Banners/11.11/Inverted 11.11 fashion sale banner.png, 941x1670
+  image: "/images/sale/sale-banner-phone-v3.webp",
+  ring: "/images/sale/sale-banner-phone-ring-v3.webp",
+  ringBox: { left: 10.95, top: 60.84, width: 35.07 },
 };
 
 const ALT = "Urban Lane 11.11 Sale: best deals of the season, up to 70% off on select styles";
 const MD = "(min-width: 768px)";
-/** The banner's own black, so the strip under the menu and the screen's edges join it without a seam. */
-const GROUND = "#030303";
+/** The banner's own white, so the strip under the menu and the screen's edges join it without a seam. */
+const GROUND = "#fefefe";
 
 export function SaleBanner({ href, label, hideOnPhones }: { href: string; label: string; hideOnPhones?: boolean }) {
   return (
     <section
       id={HERO_ELEMENT_ID}
-      data-tone="dark"
+      data-tone="light"
       aria-label="11.11 Sale"
       // -mt / pt: the menu row's height plus its 1px border (48px on phones and tablets, 64px from lg)
       className={cn("relative -mt-[49px] w-full overflow-hidden pt-[49px] lg:-mt-[65px] lg:pt-[65px]", hideOnPhones && "hidden md:block")}
@@ -55,7 +56,7 @@ export function SaleBanner({ href, label, hideOnPhones }: { href: string; label:
               alt={ALT}
               fetchPriority="high"
               decoding="async"
-              // on wide screens the picture's left and right edges fade into the black around it
+              // on wide screens the picture's left and right edges fade into the white around it
               className="absolute inset-0 h-full w-full md:[mask-image:linear-gradient(to_right,transparent,black_1.5%,black_98.5%,transparent)]"
             />
           </picture>

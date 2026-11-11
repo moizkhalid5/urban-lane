@@ -57,7 +57,7 @@
 
   /* The 11.11 sale banner (components/sale/SaleBanner.tsx), under a black strip the height of the menu row.
      Phones: the tall picture fills the rest of the screen, trimmed like .phone-cover. Tablets and computers: the
-     16:9 picture is shown whole, as big as the screen allows, and its black ground runs out to the edges. */
+     16:9 picture is shown whole, as big as the screen allows, and its ground runs out to the edges. */
   .sale-frame {
     position: relative;
     container-type: size;
@@ -66,7 +66,7 @@
     min-height: 150vw;
   }
   .sale-art {
-    --r: calc(941 / 1671);
+    --r: calc(941 / 1670);
     position: absolute;
     width: max(100cqw, 100cqh * var(--r));
     height: calc(max(100cqw, 100cqh * var(--r)) / var(--r));
@@ -75,11 +75,11 @@
   }
   @media (min-width: 768px) {
     .sale-frame {
-      height: min(calc(100svh - var(--header-strip, 36px) - 49px), calc(100vw * 941 / 1672));
+      height: min(calc(100svh - var(--header-strip, 36px) - 49px), calc(100vw * 941 / 1671));
       min-height: 0;
     }
     .sale-art {
-      --r: calc(1672 / 941);
+      --r: calc(1671 / 941);
       width: min(100cqw, 100cqh * var(--r));
       height: calc(min(100cqw, 100cqh * var(--r)) / var(--r));
       left: calc((100cqw - min(100cqw, 100cqh * var(--r))) / 2);
@@ -88,7 +88,7 @@
   }
   @media (min-width: 1024px) {
     .sale-frame {
-      height: min(calc(100svh - var(--header-strip, 36px) - 65px), calc(100vw * 941 / 1672));
+      height: min(calc(100svh - var(--header-strip, 36px) - 65px), calc(100vw * 941 / 1671));
     }
   }
 
