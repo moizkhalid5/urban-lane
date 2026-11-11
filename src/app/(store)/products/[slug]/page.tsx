@@ -151,12 +151,17 @@ export default async function ProductPage({ params }: PageProps) {
       <TrackRecentlyViewed productId={product.id} />
       <TrackEvent event="view_item" items={[analyticsItem]} />
 
-      <Breadcrumbs items={crumbs} />
+      {/* Computers only: on phones the trail took a row above the photo for little use (the menu and the
+          back button do that job); search engines still get it from the BreadcrumbList data above. */}
+      <div className="hidden md:block">
+        <Breadcrumbs items={crumbs} />
+      </div>
 
       {/* grid-cols-1 caps the phone column at the screen width (minmax(0,1fr)); without it the
           gallery's thumbnail strip widened the page and phones zoomed the whole page out. */}
       <ColourSelectionProvider initial={colourNames.length === 1 ? colourNames[0] : null}>
-        <div className="mt-6 grid grid-cols-1 gap-10 md:grid-cols-2 lg:gap-16">
+        {/* Photo a little wider than the details, like a square photo beside a column of text */}
+        <div className="grid grid-cols-1 gap-10 md:mt-6 md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-16">
           <ProductGallery images={product.images} title={product.title} colourPhotos={colourPhotos} />
 
           <div className="md:py-2">
