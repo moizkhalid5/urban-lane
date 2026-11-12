@@ -2,13 +2,12 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Anton } from "next/font/google";
+import { anton as display } from "@/fonts";
 import type { DisplayCurrency } from "@/lib/money";
 import type { RailCard, RailTab } from "@/lib/rail/queries";
 import { Price } from "@/components/ui/Price";
 import { cn } from "@/lib/utils";
 
-const display = Anton({ weight: "400", subsets: ["latin"], display: "swap" });
 
 /** id of the rail's section: the sale poster (components/home/SalePoster.tsx) opens when it comes into view. */
 export const RAIL_ELEMENT_ID = "hanging-rail";

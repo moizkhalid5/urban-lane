@@ -1,12 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Playfair_Display } from "next/font/google";
+import { playfair as serif } from "@/fonts";
 import { listProducts } from "@/lib/queries/products";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ScrollRail } from "@/components/ui/ScrollRail";
 import type { DisplayCurrency } from "@/lib/money";
 
-const serif = Playfair_Display({ subsets: ["latin"], variable: "--font-beauty-serif", display: "swap" });
 
 /** The Beauty pages' soft peach look: background, serif headings, rounded rose buttons (.beauty-theme in globals.css). */
 export function BeautyTheme({ children }: { children: React.ReactNode }) {
