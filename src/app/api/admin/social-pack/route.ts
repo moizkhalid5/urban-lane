@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { buildPack, MAX_POSTS, type Order } from "@/lib/social/pack";
+import { buildPack, MAX_POSTS, type Order, type PerPost } from "@/lib/social/pack";
 
 export const dynamic = "force-dynamic";
 
@@ -18,12 +18,15 @@ export async function POST(req: Request) {
     .map((m) => `${m[1].padStart(2, "0")}:${m[2]}`);
   const order = (["sale", "newest", "popular"] as Order[]).includes(str("order") as Order) ? (str("order") as Order) : "sale";
 
-  const { csv, count } = await buildPack(
+  const { csv, count, first } = await buildPack(
     {
       start,
       days: Math.min(Math.max(1, Number(str("days")) || 30), MAX_POSTS),
       times: times.length ? [...new Set(times)].sort() : ["13:00", "18:00", "21:00"],
       photos: Math.min(Math.max(1, Number(str("photos")) || 1), 10),
+      perPost: (str("perPost") === "product" ? "product" : "collection") as PerPost,
+      maxPosts: Math.min(Math.max(1, Number(str("maxPosts")) || MAX_POSTS), MAX_POSTS),
+      continueAfterLast: f.get("continueAfterLast") === "on",
       order,
       mix: f.get("mix") === "on",
       hashtags: str("hashtags").slice(0, 400),
@@ -36,7 +39,7 @@ export async function POST(req: Request) {
   return new Response(csv, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": `attachment; filename="urbanlane-social-pack-${start}-${count}-posts.csv"`,
+      "Content-Disposition": `attachment; filename="urbanlane-social-pack-${first ? first.label.slice(0, 10).replace(/\//g, "-") : start}-${count}-posts.csv"`,
       "Cache-Control": "no-store",
     },
   });
