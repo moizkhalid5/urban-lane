@@ -1,12 +1,6 @@
-import { Playfair_Display } from "next/font/google";
+import { playfair as serif } from "@/fonts";
 import { cn } from "@/lib/utils";
 
-const serif = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
 
 /** The burnt orange of the sale wording, picked to sit with the coat in the main banner. */
 const RUST = "#a4532a";

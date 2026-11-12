@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Inter } from "next/font/google";
+import { inter } from "@/fonts";
 import { requireStaff } from "@/lib/auth/guards";
 import { AdminNav } from "@/components/admin/AdminNav";
 import { LogoutButton } from "@/components/account/LogoutButton";
 import "../globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 
 export const metadata: Metadata = { title: "Admin — Urban Lane", robots: { index: false, follow: false } };
 
