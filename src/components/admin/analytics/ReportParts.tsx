@@ -10,8 +10,8 @@ const count = new Intl.NumberFormat("en-PK");
 
 export function Panel({ title, note, children, className }: { title: string; note?: React.ReactNode; children: React.ReactNode; className?: string }) {
   return (
-    <section className={cn("card p-5", className)}>
-      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+    <section className={cn("min-w-0 rounded-xl border border-line bg-white p-5 shadow-[0_1px_2px_rgba(17,17,17,0.04)]", className)}>
+      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <h2 className="text-[15px] font-semibold">{title}</h2>
         {note && <span className="text-xs text-ink-muted">{note}</span>}
       </div>

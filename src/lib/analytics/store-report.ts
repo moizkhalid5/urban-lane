@@ -31,11 +31,13 @@ export type StoreReport = {
   breakdown: Breakdown;
   previousBreakdown: Breakdown;
   byPayment: { method: string; orders: number; cents: number }[];
-  topProducts: { productId: string | null; title: string; units: number; cents: number }[];
+  topProducts: { productId: string | null; title: string; units: number; cents: number; image: string | null }[];
   byCategory: Share[];
   byCity: { name: string; cents: number; orders: number }[];
   /** orders placed in the period, by where they are now */
   fulfilment: { status: FulfillmentStatus; orders: number }[];
+  /** orders in the period by weekday (0 = Monday) and hour, Pakistan time */
+  byHour: number[][];
 };
 
 type Row = { createdAt: Date; totalCents: number; email: string };
@@ -123,7 +125,14 @@ export async function storeReport(range: ReportRange): Promise<StoreReport> {
         productTitle: true,
         quantity: true,
         unitPriceCents: true,
-        product: { select: { gender: true, categories: { select: { categoryId: true } } } },
+        image: true,
+        product: {
+          select: {
+            gender: true,
+            categories: { select: { categoryId: true } },
+            images: { orderBy: { position: "asc" }, take: 1, select: { url: true } },
+          },
+        },
       },
     }),
     prisma.order.findMany({ where, select: { shipCity: true, totalCents: true } }),
@@ -155,12 +164,14 @@ export async function storeReport(range: ReportRange): Promise<StoreReport> {
     };
   });
 
-  const products = new Map<string, { productId: string | null; title: string; units: number; cents: number }>();
+  const products = new Map<string, StoreReport["topProducts"][number]>();
   const categories = new Map<string, Share>();
   for (const it of items) {
     const cents = it.quantity * it.unitPriceCents;
     const k = it.productId ?? it.productTitle;
-    const v = products.get(k) ?? { productId: it.productId, title: it.productTitle, units: 0, cents: 0 };
+    const v = products.get(k) ?? { productId: it.productId, title: it.productTitle, units: 0, cents: 0, image: null as string | null };
+    // the product's current main photo; the one saved with the order if the product is gone
+    v.image ??= it.product?.images[0]?.url ?? it.image;
     v.units += it.quantity;
     v.cents += cents;
     products.set(k, v);
@@ -181,6 +192,13 @@ export async function storeReport(range: ReportRange): Promise<StoreReport> {
     cityTotals.set(name, v);
   }
 
+  // weekday × hour: Pakistan is UTC+5 all year
+  const byHour = Array.from({ length: 7 }, () => Array<number>(24).fill(0));
+  for (const o of cur.rows) {
+    const t = new Date(o.createdAt.getTime() + 5 * 3600_000);
+    byHour[(t.getUTCDay() + 6) % 7][t.getUTCHours()] += 1;
+  }
+
   const ORDER: FulfillmentStatus[] = ["UNFULFILLED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "RETURNED"];
   const strip = ({ rows: _rows, ...t }: Awaited<ReturnType<typeof totals>>): StoreTotals => t;
   return {
@@ -196,5 +214,6 @@ export async function storeReport(range: ReportRange): Promise<StoreReport> {
     byCategory: [...categories.values()].sort((a, b) => b.cents - a.cents).slice(0, 10),
     byCity: [...cityTotals.values()].sort((a, b) => b.cents - a.cents).slice(0, 10),
     fulfilment: ORDER.map((status) => ({ status, orders: fulfilment.find((f) => f.fulfillmentStatus === status)?._count._all ?? 0 })),
+    byHour,
   };
 }

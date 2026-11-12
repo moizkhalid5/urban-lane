@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 
 /**
  * Admin → Analytics: one measure over the days of a period, against the period before (same position, so
@@ -8,15 +8,56 @@ import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } fr
  */
 export type TrendPoint = { date: string; previousDate: string | null; current: number; previous: number };
 
-const CURRENT = "#2a78d6";
+const CURRENT = "#6250d6";
 const PREVIOUS = "#b3b1aa";
 const GRID = "#ecebe7";
-const H = 220;
+const H = 260;
 const M = { top: 12, right: 12, bottom: 26, left: 52 };
 
 const compact = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 });
 const full = new Intl.NumberFormat("en-PK", { maximumFractionDigits: 0 });
 const day = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+
+/**
+ * A smooth line through the points that never overshoots them (monotone cubic, Fritsch–Carlson), so a day
+ * with no sales still sits on zero.
+ */
+function smoothPath(pts: [number, number][]) {
+  const n = pts.length;
+  if (n < 3) return pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)},${y.toFixed(1)}`).join("");
+  const dx: number[] = [];
+  const m: number[] = [];
+  for (let i = 0; i < n - 1; i++) {
+    dx[i] = pts[i + 1][0] - pts[i][0];
+    m[i] = (pts[i + 1][1] - pts[i][1]) / dx[i];
+  }
+  const t: number[] = [m[0]];
+  for (let i = 1; i < n - 1; i++) t[i] = m[i - 1] * m[i] <= 0 ? 0 : (m[i - 1] + m[i]) / 2;
+  t[n - 1] = m[n - 2];
+  for (let i = 0; i < n - 1; i++) {
+    if (m[i] === 0) {
+      t[i] = 0;
+      t[i + 1] = 0;
+      continue;
+    }
+    const a = t[i] / m[i];
+    const b = t[i + 1] / m[i];
+    const s = a * a + b * b;
+    if (s > 9) {
+      const k = 3 / Math.sqrt(s);
+      t[i] = k * a * m[i];
+      t[i + 1] = k * b * m[i];
+    }
+  }
+  let d = `M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+  for (let i = 0; i < n - 1; i++) {
+    const [x0, y0] = pts[i];
+    const [x1, y1] = pts[i + 1];
+    const h = dx[i] / 3;
+    d += `C${(x0 + h).toFixed(1)},${(y0 + t[i] * h).toFixed(1)} ${(x1 - h).toFixed(1)},${(y1 - t[i + 1] * h).toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)}`;
+  }
+  return d;
+}
 
 /** Rounded steps for the axis: 0, then 4 or 5 clean values above the highest point. */
 function ticks(max: number) {
@@ -44,6 +85,7 @@ export function TrendChart({
   previousLabel?: string;
 }) {
   const box = useRef<HTMLDivElement>(null);
+  const gradientId = `trend-${useId().replace(/:/g, "")}`;
   const [width, setWidth] = useState(600);
   const [active, setActive] = useState<number | null>(null);
 
@@ -71,7 +113,7 @@ export function TrendChart({
   const ih = H - M.top - M.bottom;
   const x = (i: number) => M.left + (i / (points.length - 1)) * iw;
   const y = (v: number) => M.top + ih - (v / yMax) * ih;
-  const line = (key: "current" | "previous") => points.map((p, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(p[key]).toFixed(1)}`).join("");
+  const line = (key: "current" | "previous") => smoothPath(points.map((p, i) => [x(i), y(p[key])]));
   const area = `${line("current")}L${x(points.length - 1)},${y(0)}L${x(0)},${y(0)}Z`;
   const xLabels = [0, Math.floor((points.length - 1) / 2), points.length - 1];
 
@@ -127,9 +169,15 @@ export function TrendChart({
             {day(points[i].date)}
           </text>
         ))}
-        <path d={area} fill={CURRENT} fillOpacity={0.1} />
+        <defs>
+          <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={CURRENT} stopOpacity={0.32} />
+            <stop offset="100%" stopColor={CURRENT} stopOpacity={0.02} />
+          </linearGradient>
+        </defs>
+        <path d={area} fill={`url(#${gradientId})`} />
         <path d={line("previous")} fill="none" stroke={PREVIOUS} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
-        <path d={line("current")} fill="none" stroke={CURRENT} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+        <path d={line("current")} fill="none" stroke={CURRENT} strokeWidth={2.5} strokeLinejoin="round" strokeLinecap="round" />
         {a && active !== null && (
           <g>
             <line x1={x(active)} x2={x(active)} y1={M.top} y2={M.top + ih} stroke="#8a8984" strokeWidth={1} />
@@ -166,25 +214,27 @@ export function TrendChart({
         </div>
       )}
       {/* The same figures as a table, for screen readers. */}
-      <table className="sr-only">
-        <caption>{label}</caption>
-        <thead>
-          <tr>
-            <th>Day</th>
-            <th>{currentLabel}</th>
-            <th>{previousLabel}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {points.map((p) => (
-            <tr key={p.date}>
-              <td>{day(p.date)}</td>
-              <td>{money(p.current)}</td>
-              <td>{money(p.previous)}</td>
+      <div className="sr-only">
+        <table>
+          <caption>{label}</caption>
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>{currentLabel}</th>
+              <th>{previousLabel}</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {points.map((p) => (
+              <tr key={p.date}>
+                <td>{day(p.date)}</td>
+                <td>{money(p.current)}</td>
+                <td>{money(p.previous)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
