@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { TrendChart, type TrendPoint } from "@/components/admin/analytics/TrendChart";
 
@@ -14,14 +14,29 @@ export type ChartSeries = { key: string; tab: string; unit?: string; points: Tre
 const full = new Intl.NumberFormat("en-PK", { maximumFractionDigits: 0 });
 const day = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 
-export function ChartCard({ series, currentLabel, previousLabel }: { series: ChartSeries[]; currentLabel: string; previousLabel: string }) {
+export function ChartCard({
+  series,
+  currentLabel,
+  previousLabel,
+  title,
+  footer,
+  className,
+}: {
+  series: ChartSeries[];
+  currentLabel: string;
+  previousLabel: string;
+  title?: ReactNode;
+  footer?: ReactNode;
+  className?: string;
+}) {
   const [active, setActive] = useState(series[0].key);
   const [asTable, setAsTable] = useState(false);
   const s = series.find((x) => x.key === active) ?? series[0];
   const fmt = (v: number) => (s.unit ? `${s.unit} ${full.format(v)}` : full.format(v));
 
   return (
-    <section className="card p-5">
+    <section className={cn("min-w-0 rounded-xl border border-line bg-white p-5 shadow-[0_1px_2px_rgba(17,17,17,0.04)]", className)}>
+      {title}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap gap-1" role="tablist" aria-label="Measure">
           {series.map((x) => (
@@ -34,8 +49,8 @@ export function ChartCard({ series, currentLabel, previousLabel }: { series: Cha
               title={x.unavailable}
               onClick={() => setActive(x.key)}
               className={cn(
-                "rounded px-3 py-1.5 text-sm transition-colors",
-                x.key === s.key ? "bg-line-soft font-semibold text-ink" : "text-ink-soft hover:bg-line-soft",
+                "rounded-full px-3.5 py-1.5 text-sm transition-colors",
+                x.key === s.key ? "bg-[#ece9fb] font-semibold text-[#4a3aa7]" : "text-ink-soft hover:bg-line-soft",
                 x.unavailable && "cursor-not-allowed text-ink-muted/60 hover:bg-transparent",
               )}
             >
@@ -74,6 +89,7 @@ export function ChartCard({ series, currentLabel, previousLabel }: { series: Cha
       ) : (
         <TrendChart key={s.key} label={`${s.tab}, per day`} unit={s.unit} points={s.points} currentLabel={currentLabel} previousLabel={previousLabel} />
       )}
+      {footer}
     </section>
   );
 }
