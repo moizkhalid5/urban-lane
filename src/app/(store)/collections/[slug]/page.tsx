@@ -17,23 +17,34 @@ import { AGE_BANDS } from "@/lib/kids-age";
 import { collectionHeroFor } from "@/lib/collection-heroes";
 import { PageHeroBanner } from "@/components/ui/PageHeroBanner";
 import { cn } from "@/lib/utils";
+import { getSiteSettings } from "@/lib/settings";
+import { categoryMetadata } from "@/lib/seo/meta";
+import { categoryStats } from "@/lib/seo/stats";
+import { categoryLabel } from "@/lib/seo/copy";
+import { CATEGORY_GUIDES } from "@/lib/seo/content";
+import { isCatchAllCategory } from "@/lib/seo/indexing";
+import { breadcrumbLd } from "@/lib/seo/structured-data";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { ListingGuide, guideIntro } from "@/components/seo/ListingGuide";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<RawSearchParams>;
 };
 
+/**
+ * Search title and description from the category's full name and its live catalogue ("Imported Women's
+ * Dresses in Pakistan | Next"; lib/seo/meta.ts). Empty, virtual and catch-all ("Other") categories stay
+ * reachable but are marked noindex, so Google spends its time on pages that can rank.
+ */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const data = await getCategoryWithAncestors(slug);
   if (!data) return { title: "Collection" };
-  const { category } = data;
-  return {
-    title: category.seoTitle || category.name,
-    description: category.seoDescription || `Shop ${category.name} at Urban Lane.`,
-    alternates: { canonical: `/collections/${category.slug}` },
-    openGraph: { title: category.name, url: `/collections/${category.slug}` },
-  };
+  const { category, ancestors } = data;
+  const [stats, settings] = await Promise.all([categoryStats(category.slug), getSiteSettings()]);
+  const indexable = category.isActive && !category.isVirtual && stats.count > 0 && !isCatchAllCategory(category.name);
+  return categoryMetadata(category, [...ancestors.map((a) => a.name), category.name], stats, settings, indexable);
 }
 
 export default async function CollectionPage({ params, searchParams }: PageProps) {
@@ -48,10 +59,17 @@ export default async function CollectionPage({ params, searchParams }: PageProps
   const filter = parseFilters(sp, currency);
 
   const feedSource = { kind: "category" as const, slug: category.slug };
-  const [{ products, total }, facetData] = await Promise.all([
+  const [{ products, total }, facetData, stats, settings] = await Promise.all([
     listProducts({ ...feedFilter(feedSource, sp, currency), page: 1, pageSize: FEED_BATCH }),
     getFacets(category.slug),
+    categoryStats(category.slug),
+    getSiteSettings(),
   ]);
+  // The category's full name ("Baby Girls' Tops (0–24 Months)" rather than "Tops") and its buying guide.
+  const path = [...ancestors.map((a) => a.name), category.name];
+  const label = categoryLabel(path);
+  const guide = CATEGORY_GUIDES[category.slug];
+  const intro = category.description || guideIntro(guide, stats, settings);
 
   // Department landing sections (banner, shop-by tiles) show on the plain Kids / Men / Women
   // pages; any filter or sort goes straight to the products.
@@ -80,6 +98,7 @@ export default async function CollectionPage({ params, searchParams }: PageProps
   const listing = (
     <div className="container-site py-8">
       <Breadcrumbs items={[...ancestors, { name: category.name, href: `/collections/${category.slug}` }]} />
+      <JsonLd data={breadcrumbLd([{ name: "Home", href: "/" }, ...ancestors, { name: category.name, href: `/collections/${category.slug}` }])} />
 
       {showKidsLanding && <KidsLanding />}
       {showDepartmentLanding && <DepartmentLanding slug={category.slug} />}
@@ -88,12 +107,12 @@ export default async function CollectionPage({ params, searchParams }: PageProps
       <header id="products" className={cn("scroll-mt-28", showLanding ? "mt-16" : "mt-4")}>
         <h1 className="text-3xl font-medium md:text-4xl">
           {showLanding
-            ? `Shop all ${category.name.toLowerCase()}`
+            ? `Shop all ${label.toLowerCase()}`
             : filter.gender
               ? `${DEPARTMENT_POSSESSIVE[filter.gender]} ${category.name}`
-              : category.name}
+              : label}
         </h1>
-        {category.description && <p className="mt-2 max-w-2xl text-ink-muted">{category.description}</p>}
+        {intro && <p className="mt-2 max-w-2xl text-ink-muted">{intro}</p>}
       </header>
 
       {/* Sub-category buttons on phones; on desktop they are in the filter panel's "Category" row. */}
@@ -179,6 +198,21 @@ export default async function CollectionPage({ params, searchParams }: PageProps
           )}
         </div>
       </div>
+
+      {/* Buying guide, brands and questions: on the plain page only, not on filtered results. */}
+      {unfiltered && (
+        <ListingGuide
+          label={label}
+          guide={guide}
+          stats={stats}
+          shop={settings}
+          brandLinks={stats.brands.slice(0, 10).map((b) => ({ name: b.name, href: `/brands/${b.slug}` }))}
+          sectionLinks={[
+            ...children.map((c) => ({ name: categoryLabel([...path, c.name]), href: `/collections/${c.slug}` })),
+            ...(ancestors.length ? [{ name: `All ${categoryLabel(ancestors.map((a) => a.name)).toLowerCase()}`, href: ancestors[ancestors.length - 1].href }] : []),
+          ]}
+        />
+      )}
     </div>
   );
 
