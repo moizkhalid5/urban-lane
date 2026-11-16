@@ -20,6 +20,8 @@ export const metadata: Metadata = {
     url: APP_URL,
   },
   robots: { index: true, follow: true },
+  // Google Search Console ownership (HTML-tag method). Public by design; keep it, or Search Console loses access.
+  verification: { google: "OY6N6rVdZdPkiSvkNuG655RMVcESuBA7YhN_cwzbo5E" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
