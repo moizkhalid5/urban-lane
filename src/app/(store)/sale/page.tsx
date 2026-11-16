@@ -16,10 +16,16 @@ import { SALE, activeSale } from "@/lib/sale";
 import { SaleBanner } from "@/components/sale/SaleBanner";
 import { SaleCountdown } from "@/components/sale/SaleCountdown";
 
-export const metadata: Metadata = {
-  title: SALE.title,
-  description: `The Urban Lane ${SALE.title}: discounted clothing, shoes and accessories, until ${SALE.lastDay}.`,
-};
+/** "11.11 Sale Pakistan: Up to 63% Off UK Brands", with the real top discount while the sale runs. */
+export async function generateMetadata(): Promise<Metadata> {
+  const sale = await activeSale();
+  const off = sale?.maxPct ? `Up to ${sale.maxPct}% Off` : "Discounts on";
+  return {
+    title: `${SALE.title} Pakistan: ${off} UK Brands`,
+    description: `The Urban Lane ${SALE.title}: ${sale?.maxPct ? `up to ${sale.maxPct}% off ` : ""}original UK high-street clothing and makeup, until ${SALE.lastDay}. Cash on delivery across Pakistan.`,
+    alternates: { canonical: SALE.href },
+  };
+}
 
 const DEPARTMENTS = [
   { key: "", label: "All" },

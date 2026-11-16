@@ -8,14 +8,15 @@ import { APP_URL } from "@/lib/site";
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
   title: {
-    default: "Urban Lane — Premium Fashion & Lifestyle",
+    default: "Urban Lane: Original UK Brands Online in Pakistan",
     template: "%s | Urban Lane",
   },
   description:
-    "Urban Lane — premium fashion, beauty and lifestyle. Women, men, kids, beauty and jewellery with fast delivery.",
+    "Original UK high-street brands in Pakistan: clothing for women, men and kids, and original makeup. Cash on delivery, Easypaisa and JazzCash.",
   openGraph: {
     type: "website",
     siteName: "Urban Lane",
+    locale: "en_PK",
     url: APP_URL,
   },
   robots: { index: true, follow: true },

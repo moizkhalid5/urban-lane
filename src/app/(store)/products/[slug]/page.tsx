@@ -12,6 +12,9 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Price } from "@/components/ui/Price";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbLd, productLd } from "@/lib/seo/structured-data";
+import { productMetadata } from "@/lib/seo/meta";
+import { getSiteSettings } from "@/lib/settings";
 import { TrackRecentlyViewed } from "@/components/product/TrackRecentlyViewed";
 import { WishlistButton } from "@/components/product/WishlistButton";
 import { isWishlisted } from "@/lib/wishlist";
@@ -28,24 +31,16 @@ import { colourKey } from "@/lib/bundle-rule";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
-import { APP_URL } from "@/lib/site";
 
+/**
+ * "Next Teal Dress Price in Pakistan | Urban Lane" with a description that sells: price (and saving), sizes
+ * in stock, cash on delivery and free delivery (lib/seo/meta.ts). A title or description set in the admin wins.
+ */
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product) return { title: "Product not found" };
-  const image = product.images[0]?.url;
-  return {
-    title: product.seoTitle || product.title,
-    description: product.seoDescription || product.description?.slice(0, 160) || `Shop ${product.title} at Urban Lane.`,
-    alternates: { canonical: `/products/${product.slug}` },
-    openGraph: {
-      title: product.title,
-      url: `/products/${product.slug}`,
-      images: image ? [image] : undefined,
-      type: "website",
-    },
-  };
+  return productMetadata(product, await getSiteSettings());
 }
 
 export default async function ProductPage({ params }: PageProps) {
@@ -54,7 +49,12 @@ export default async function ProductPage({ params }: PageProps) {
   if (!product) notFound();
 
   const currency = await getActiveCurrency();
-  const primaryCategory = product.categories[0]?.category;
+  // The most specific category (e.g. Men › Tops › Shirts › Formal rather than just Men): a precise breadcrumb
+  // trail, related products and search title.
+  const primaryCategory = product.categories
+    .map((c) => c.category)
+    .filter((c) => !c.isVirtual)
+    .sort((a, b) => b.level - a.level)[0];
   const catData = primaryCategory ? await getCategoryWithAncestors(primaryCategory.slug) : null;
 
   const crumbs = [
@@ -63,11 +63,12 @@ export default async function ProductPage({ params }: PageProps) {
     { name: product.title, href: `/products/${product.slug}` },
   ];
 
-  const [related, reviews, ukPrices, bundleConfig] = await Promise.all([
+  const [related, reviews, ukPrices, bundleConfig, settings] = await Promise.all([
     getRelatedProducts(product.id, primaryCategory?.id, 4),
     getProductReviews(product.id, product.salesCount),
     ukComparisonsFor([product]),
     getBundleConfig(),
+    getSiteSettings(),
   ]);
   const ukPrice = ukPrices.get(product.id);
 
@@ -98,41 +99,11 @@ export default async function ProductPage({ params }: PageProps) {
       ? { config: bundleConfig, productPriceCents: product.priceCents, currency }
       : undefined;
 
-  const inStock = product.variants.some((v) => v.stock > 0);
-
   const wishlisted = await isWishlisted(product.id);
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.title,
-    image: product.images.map((i) => i.url),
-    description: product.description ?? undefined,
-    sku: product.sku ?? undefined,
-    brand: product.brand ? { "@type": "Brand", name: product.brand.name } : undefined,
-    offers: {
-      "@type": "Offer",
-      priceCurrency: currency.code,
-      price: (product.priceCents / 100) * currency.rate,
-      availability: inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-      url: `${APP_URL}/products/${product.slug}`,
-    },
-    // Real (non-sample) approved reviews only.
-    aggregateRating:
-      reviews.realSummary.count > 0
-        ? { "@type": "AggregateRating", ratingValue: reviews.realSummary.average, reviewCount: reviews.realSummary.count }
-        : undefined,
-  };
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: crumbs.map((c, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: c.name,
-      item: `${APP_URL}${c.href}`,
-    })),
-  };
+  // Google merchant listing + breadcrumb trail (lib/seo/structured-data.ts). Real (non-sample) approved reviews only.
+  const jsonLd = productLd(product, settings, reviews.realSummary);
+  const crumbsLd = breadcrumbLd([{ name: "Home", href: "/" }, ...crumbs]);
 
   const details = (product.details ?? "").split("\n").filter(Boolean);
   const analyticsItem: AnalyticsItem = {
@@ -147,7 +118,7 @@ export default async function ProductPage({ params }: PageProps) {
   return (
     <div className="container-site py-8">
       <JsonLd data={jsonLd} />
-      <JsonLd data={breadcrumbLd} />
+      <JsonLd data={crumbsLd} />
       <TrackRecentlyViewed productId={product.id} />
       <TrackEvent event="view_item" items={[analyticsItem]} />
 
