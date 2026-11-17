@@ -133,7 +133,7 @@ export function productMetadata(p: MetaProduct, shop: ShopFacts): Metadata {
       `Buy original ${name} in Pakistan for ${rupees(p.priceCents)}${onSale ? ` (was ${rupees(p.compareAtCents!)}, ${pct}% off)` : ""}.`,
       sizeLine,
       serviceLine(shop),
-      "14-day returns.",
+      "Free 14-day returns.",
     ]);
   const image = p.images[0]?.url;
   return {

@@ -13,7 +13,7 @@ const faqs = [
   { title: "What payment methods do you accept?", content: "We accept Cash on Delivery, Easypaisa and JazzCash. For Easypaisa or JazzCash, send the order total to the number shown at checkout, then send us a screenshot of the payment with your order number on WhatsApp. We confirm your order as soon as the payment arrives." },
   { title: "How long does delivery take?", content: "Standard delivery takes 3–5 working days. Express delivery (where available) takes 1–2 working days." },
   { title: "Do you offer free shipping?", content: "Yes — orders over the free-shipping threshold qualify for free standard delivery. The threshold is shown in your cart." },
-  { title: "What is your return policy?", content: "We offer easy 14-day returns on most items. Submit a request via our returns page and our team will guide you through the process." },
+  { title: "What is your return policy?", content: "Returns are free within 14 days of delivery on most items. Submit a request via our returns page and our team will guide you through the process." },
   { title: "How do I choose the right size?", content: "Each product page includes a size guide. If you're between sizes, we generally recommend sizing up, or contact us for help." },
 ];
 

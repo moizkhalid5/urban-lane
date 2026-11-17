@@ -17,7 +17,7 @@ const SHIPPING_ID = `${APP_URL}/#shipping`;
 /** Delivery, from the Shipping Policy page: processed within a working day, 3–5 working days in transit. */
 const HANDLING_DAYS = { min: 0, max: 1 };
 const TRANSIT_DAYS = { min: 3, max: 5 };
-/** Returns, from the Returns page: 14 days from delivery, sent back by courier. */
+/** Returns, from the Returns page: 14 days from delivery, sent back by courier, free (as in Merchant Center). */
 const RETURN_DAYS = 14;
 
 export type ShippingSettings = { flatShippingCents: number; freeShippingThresholdCents: number | null; baseCurrency: string };
@@ -34,6 +34,7 @@ const returnPolicy = {
   returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
   merchantReturnDays: RETURN_DAYS,
   returnMethod: "https://schema.org/ReturnByMail",
+  returnFees: "https://schema.org/FreeReturn",
 };
 
 /** The shop itself (homepage): who it is, how to reach it, and its shop-wide shipping and returns. */

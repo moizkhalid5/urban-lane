@@ -13,7 +13,7 @@ export default function ReturnsPage() {
       <div className="mx-auto max-w-3xl">
         <h1 className="text-3xl font-medium md:text-4xl">Returns &amp; Refunds</h1>
         <p className="mt-3 text-ink-muted">
-          Not quite right? You have 14 days from delivery to request a return. Items must be unworn, with tags
+          Not quite right? Returns are free: you have 14 days from delivery to request one. Items must be unworn, with tags
           attached and in their original packaging.
         </p>
 
