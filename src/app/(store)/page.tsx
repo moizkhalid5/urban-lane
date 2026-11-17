@@ -212,7 +212,7 @@ export default async function HomePage() {
                 Shop women&apos;s dresses, tops and lingerie; men&apos;s shirts, chinos, jeans and suits; kids&apos; and baby clothes from newborn to
                 8 years; and original makeup. Pay cash on delivery or with Easypaisa or JazzCash. Delivery takes 3–5 working days
                 {settings.freeShippingThresholdCents != null ? ` and is free on orders over ${rupees(settings.freeShippingThresholdCents)}` : ""}, and
-                you have 14 days to return anything that isn&apos;t right.
+                returns are free within 14 days.
               </p>
             </div>
           </div>
@@ -255,7 +255,7 @@ export default async function HomePage() {
         <div className="container-site grid gap-6 py-12 text-center sm:grid-cols-3">
           {[
             { t: "Free shipping", d: "On orders over Rs 15,000" },
-            { t: "Easy returns", d: "14-day hassle-free returns" },
+            { t: "Free returns", d: "Within 14 days of delivery" },
             { t: "Easy payment", d: "Cash on delivery, Easypaisa & JazzCash" },
           ].map((v) => (
             <div key={v.t}>

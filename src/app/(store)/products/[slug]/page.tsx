@@ -215,7 +215,7 @@ export default async function ProductPage({ params }: PageProps) {
                     content: (
                       <p>
                         Free shipping on orders over {formatMoney(1500000, currency)}. Standard delivery in 3–5 working
-                        days. Easy 14-day returns — see our returns policy for details.
+                        days. Free returns within 14 days — see our returns policy for details.
                       </p>
                     ),
                   },

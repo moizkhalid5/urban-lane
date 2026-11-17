@@ -60,7 +60,7 @@ function shopFaqs(t: Tokens, shop: ShopPolicy) {
     },
     {
       q: "Can I return something?",
-      a: "Yes, within 14 days of delivery, as long as it's unworn, with its tags attached and in its original packaging. Start a return from the Returns page.",
+      a: "Yes, and returns are free: within 14 days of delivery, as long as it's unworn, with its tags attached and in its original packaging. Start a return from the Returns page.",
     },
   ];
 }
