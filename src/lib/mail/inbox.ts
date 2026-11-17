@@ -179,7 +179,7 @@ export async function setSeen(id: string, seen: boolean): Promise<void> {
 }
 
 /** Puts a copy of a sent email in the mailbox's Sent folder, so it shows in Webmail. Best-effort. */
-async function saveToSent(box: Mailbox, raw: Buffer): Promise<void> {
+export async function saveToSent(box: Mailbox, raw: Buffer): Promise<void> {
   const imap = client(box);
   try {
     await imap.connect();

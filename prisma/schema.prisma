@@ -904,3 +904,75 @@ model MarketingSend {
   @@unique([campaignId, email])
   @@index([campaignId, status])
 }
+
+/// Admin → Wholesale: a store or brand we pitch our stock to in bulk (imported from the research sheet or
+/// added by hand), with where the conversation stands.
+model WholesaleProspect {
+  id             String              @id @default(cuid())
+  /// the row number in the research sheet, if it came from there
+  ref            Int?
+  name           String              @db.VarChar(200)
+  website        String?             @db.VarChar(300)
+  segments       String?             @db.VarChar(300)
+  stockType      String?             @db.VarChar(120)
+  shopType       String?             @db.VarChar(60)
+  city           String?             @db.VarChar(120)
+  address        String?             @db.VarChar(500)
+  phone          String?             @db.VarChar(60)
+  whatsapp       String?             @db.VarChar(200)
+  email          String?             @db.VarChar(320)
+  instagram      String?             @db.VarChar(300)
+  facebook       String?             @db.VarChar(300)
+  tiktok         String?             @db.VarChar(300)
+  otherContacts  String?             @db.Text
+  /// our brands they already sell, comma-separated
+  ourBrands      String?             @db.Text
+  brandsInCommon Int                 @default(0)
+  unitsInBrands  Int                 @default(0)
+  /// High | Medium | Low | Check first
+  priority       String              @default("Medium") @db.VarChar(20)
+  pitchAngle     String?             @db.VarChar(120)
+  stockToOffer   String?             @db.Text
+  pitch          String?             @db.Text
+  theirBrands    String?             @db.Text
+  whatTheySell   String?             @db.Text
+  notes          String?             @db.Text
+  caution        String?             @db.Text
+  evidence       String?             @db.Text
+  /// NEW | CONTACTED | REPLIED | NEGOTIATING | WON | LOST
+  stage          String              @default("NEW") @db.VarChar(20)
+  nextStep       String?             @db.VarChar(300)
+  followUpAt     DateTime?
+  lastContactAt  DateTime?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  activities     WholesaleActivity[]
+
+  @@index([stage])
+  @@index([followUpAt])
+}
+
+/// One entry in a prospect's conversation: a WhatsApp message, email, call or note, sent (OUT) or received (IN).
+model WholesaleActivity {
+  id         String            @id @default(cuid())
+  prospectId String
+  prospect   WholesaleProspect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+  /// WHATSAPP | EMAIL | CALL | NOTE | STAGE
+  kind       String            @db.VarChar(20)
+  /// OUT | IN | NONE
+  direction  String            @default("NONE") @db.VarChar(4)
+  subject    String?           @db.VarChar(300)
+  body       String            @db.Text
+  messageId  String?           @db.VarChar(500)
+  author     String?           @db.VarChar(191)
+  createdAt  DateTime          @default(now())
+
+  @@index([prospectId, createdAt])
+}
+
+/// Admin → Wholesale settings (your name and number for pitches, discount tiers, sending mailbox), as JSON.
+model WholesaleSettings {
+  id        String   @id @default("singleton")
+  data      String   @db.Text
+  updatedAt DateTime @updatedAt
+}
