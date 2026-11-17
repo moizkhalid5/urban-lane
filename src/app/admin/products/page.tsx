@@ -73,6 +73,7 @@ export default async function AdminProductsPage({
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-medium">Products</h1>
         <div className="flex flex-wrap gap-2">
+          <Link href="/admin/products/descriptions" className="btn-secondary">Descriptions</Link>
           <Link href="/admin/products/uk-prices" className="btn-secondary">Import UK prices</Link>
           <Link href="/admin/products/new" className="btn-primary">Add product</Link>
         </div>

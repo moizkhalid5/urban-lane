@@ -181,8 +181,22 @@ export default async function ProductPage({ params }: PageProps) {
               <WishlistButton productId={product.id} initial={wishlisted} analyticsItem={analyticsItem} />
             </div>
 
-            {product.description && (
-              <p className="mt-8 text-sm leading-relaxed text-ink-soft">{product.description}</p>
+            {/* The description in paragraphs (blank lines), keeping single line breaks; a "Product Details"
+                heading copied from a brand site is left out. */}
+            {product.description?.trim() && (
+              <div className="mt-8 space-y-3 text-sm leading-relaxed text-ink-soft">
+                {product.description
+                  .replace(/\r\n?/g, "\n")
+                  .replace(/^\s*product details\s*:?\s*\n/i, "")
+                  .split(/\n\s*\n/)
+                  .map((para) => para.trim())
+                  .filter(Boolean)
+                  .map((para, i) => (
+                    <p key={i} className="whitespace-pre-line">
+                      {para}
+                    </p>
+                  ))}
+              </div>
             )}
 
             <div className="mt-8">
