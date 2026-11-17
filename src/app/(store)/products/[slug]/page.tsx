@@ -212,7 +212,17 @@ export default async function ProductPage({ params }: PageProps) {
                           ))}
                         </ul>
                       ) : (
-                        <p>Premium quality, designed for everyday wear.</p>
+                        // No details written yet: the facts the shop has, rather than filler text.
+                        <ul className="list-disc space-y-1 pl-5">
+                          {product.brand && <li>Brand: {product.brand.name}</li>}
+                          {colourNames.length > 0 && (
+                            <li>
+                              {colourNames.length === 1 ? "Colour" : "Colours"}: {colourNames.join(", ")}
+                            </li>
+                          )}
+                          {product.sku && <li>Product code: {product.sku}</li>}
+                          <li>Sold new, with free returns within 14 days</li>
+                        </ul>
                       ),
                   },
                   {

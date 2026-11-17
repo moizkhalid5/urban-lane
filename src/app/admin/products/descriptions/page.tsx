@@ -35,7 +35,7 @@ async function upload(form: FormData) {
 async function approve(form: FormData) {
   "use server";
   await requireAdmin();
-  await approveDraft(String(form.get("productId")), String(form.get("text") ?? ""));
+  await approveDraft(String(form.get("productId")), String(form.get("text") ?? ""), String(form.get("details") ?? ""));
   revalidatePath(PATH);
 }
 
@@ -83,9 +83,9 @@ export default async function DescriptionsPage({ searchParams }: { searchParams:
         </Link>
         <h1 className="mt-2 text-2xl font-medium">Product descriptions</h1>
         <p className="mt-1 max-w-3xl text-sm text-ink-muted">
-          New descriptions wait here for your OK. Read each one next to what the product says now, edit it if you like, then
-          approve it: it goes live on the product page and in Google straight away. Nothing changes until you approve, and an
-          approval can be undone.
+          New descriptions and Details lists wait here for your OK. Read each one next to what the product says now, edit it if
+          you like, then approve it: it goes live on the product page and in Google straight away. Nothing changes until you
+          approve, and an approval can be undone.
         </p>
       </div>
 
@@ -142,7 +142,7 @@ export default async function DescriptionsPage({ searchParams }: { searchParams:
                   <p className="mt-1 line-clamp-6 whitespace-pre-line text-ink-soft">{now || <em className="text-ink-muted">No description</em>}</p>
                   {d.product.details && (
                     <>
-                      <p className="mt-3 text-xs font-medium uppercase tracking-wide text-ink-muted">Details (unchanged)</p>
+                      <p className="mt-3 text-xs font-medium uppercase tracking-wide text-ink-muted">Details now</p>
                       <p className="mt-1 line-clamp-4 whitespace-pre-line text-xs text-ink-muted">{d.product.details}</p>
                     </>
                   )}
@@ -151,7 +151,17 @@ export default async function DescriptionsPage({ searchParams }: { searchParams:
                   <label className="text-xs font-medium uppercase tracking-wide text-ink-muted" htmlFor={`t-${d.productId}`}>
                     New description
                   </label>
-                  <textarea id={`t-${d.productId}`} name="text" defaultValue={d.proposed} rows={9} className="input mt-1 flex-1 text-sm leading-relaxed" />
+                  <textarea id={`t-${d.productId}`} name="text" defaultValue={d.proposed} rows={10} className="input mt-1 text-sm leading-relaxed" />
+                  <label className="mt-4 text-xs font-medium uppercase tracking-wide text-ink-muted" htmlFor={`d-${d.productId}`}>
+                    New details <span className="font-normal normal-case tracking-normal">(one point per line; leave empty to keep the current details)</span>
+                  </label>
+                  <textarea
+                    id={`d-${d.productId}`}
+                    name="details"
+                    defaultValue={d.details ?? ""}
+                    rows={Math.min(10, Math.max(4, (d.details ?? "").split("\n").length + 1))}
+                    className="input mt-1 text-sm leading-relaxed"
+                  />
                   <div className="mt-3 flex items-center gap-3">
                     <button className="btn-primary">Approve</button>
                     <button formAction={skip} className="text-sm text-ink-muted underline underline-offset-4 hover:text-ink">
