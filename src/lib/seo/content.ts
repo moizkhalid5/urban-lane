@@ -61,7 +61,7 @@ export const CATEGORY_GUIDES: Record<string, Guide> = {
       {
         heading: "Imported kids' and baby clothes in Pakistan",
         paragraphs: [
-          "Soft cotton bodysuits, T-shirts, sets, leggings and shorts from Next, H&M, Tu Clothing, M&S and other UK high-street brands, for babies (0–24 months) and children (2–8 years). Many come in multipacks, which is where UK brands are best value: three or five pieces for the price of one or two.",
+          "Soft cotton bodysuits, T-shirts, sets, leggings and shorts from Next, H&M, Tu Clothing, M&S and other UK high-street brands, for babies (0–24 months) and young children. Many come in multipacks, which is where UK brands are best value: three or five pieces for the price of one or two.",
           "Look at the product photos for prints and colours, and the details for fabric: many baby and kids' basics are 100% cotton, which is comfortable in Pakistan's heat.",
         ],
       },
@@ -98,11 +98,12 @@ export const CATEGORY_GUIDES: Record<string, Guide> = {
       },
     ],
   },
+  // keyed by the category's web address, which stays the same when its name (and age range) changes
   "kids-girls-2-8-yrs": {
-    intro: "Tops, sets and bottoms for girls aged 2–8 from {brands}, from {from}.",
+    intro: "Tops, sets and bottoms for girls from {brands}, from {from}.",
     sections: [
       {
-        heading: "Girls' clothes (2–8 years)",
+        heading: "Girls' clothes from UK brands",
         paragraphs: [
           "T-shirts, tops, leggings, shorts and two-piece sets for girls from UK high-street brands. Expect bright prints, soft cotton and practical fits for school days, play and family occasions.",
           KIDS_SIZES,
@@ -111,10 +112,10 @@ export const CATEGORY_GUIDES: Record<string, Guide> = {
     ],
   },
   "kids-boys-2-8-yrs": {
-    intro: "Tops, sets and bottoms for boys aged 2–8 from {brands}, from {from}.",
+    intro: "Tops, sets and bottoms for boys from {brands}, from {from}.",
     sections: [
       {
-        heading: "Boys' clothes (2–8 years)",
+        heading: "Boys' clothes from UK brands",
         paragraphs: [
           "T-shirts, polos, shorts, joggers and sets for boys from Next, H&M and Tu Clothing: hard-wearing cotton made for running about, in sizes by age.",
           KIDS_SIZES,

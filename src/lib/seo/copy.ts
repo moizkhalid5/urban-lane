@@ -45,21 +45,20 @@ export function clip(s: string, max: number): string {
   return `${cut.slice(0, Math.max(cut.lastIndexOf(" "), max * 0.6)).replace(/[\s,;:–-]+$/, "")}…`;
 }
 
-const POSSESSIVE: Record<string, string> = {
-  women: "Women's",
-  men: "Men's",
-  kids: "Kids'",
-  "boys 2-8 yrs": "Boys'",
-  "girls 2-8 yrs": "Girls'",
-  "baby girls 0-24m": "Baby Girls'",
-  "baby boys 0-24m": "Baby Boys'",
-};
-const AGE_NOTE: Record<string, string> = {
-  "boys 2-8 yrs": "(2–8 Years)",
-  "girls 2-8 yrs": "(2–8 Years)",
-  "baby girls 0-24m": "(0–24 Months)",
-  "baby boys 0-24m": "(0–24 Months)",
-};
+const POSSESSIVE: Record<string, string> = { women: "Women's", men: "Men's", kids: "Kids'" };
+
+/**
+ * A kids' age group, however the admin writes it: "Boys 1-8 YRS", "Girls 2–8 Years", "Baby Girls 0-24M",
+ * "Baby Boys 0-24 months" → who it's for ("Boys'", "Baby Girls'") and the ages ("(1–8 Years)").
+ */
+function ageGroup(name: string): { owner: string; note: string } | null {
+  const m = name.trim().match(/^(baby\s+)?(girls?|boys?)(?:\s+(\d+)\s*[-–]\s*(\d+)\s*(yrs?|years?|y|m|mths?|months?)?)?$/i);
+  if (!m) return null;
+  const who = `${m[1] ? "Baby " : ""}${m[2].toLowerCase().startsWith("g") ? "Girls" : "Boys"}'`;
+  if (!m[3]) return { owner: who, note: "" };
+  const months = m[5] ? /^m/i.test(m[5]) : !!m[1];
+  return { owner: who, note: `(${m[3]}–${m[4]} ${months ? "Months" : "Years"})` };
+}
 
 /**
  * A category's full name for titles and headings, from its path: ["Women","Dresses"] → "Women's Dresses",
@@ -79,10 +78,10 @@ export function categoryLabel(path: string[]): string {
   let owner = POSSESSIVE[rootKey] ?? root;
   let note = "";
   let parts = rest;
-  const group = rest[0].toLowerCase();
-  if (POSSESSIVE[group]) {
-    owner = POSSESSIVE[group];
-    note = AGE_NOTE[group] ?? "";
+  const group = ageGroup(rest[0]);
+  if (group) {
+    owner = group.owner;
+    note = group.note;
     parts = rest.slice(1);
     if (!parts.length) return `${owner} Clothing ${note}`.trim();
   }
@@ -93,6 +92,9 @@ export function categoryLabel(path: string[]): string {
   const l = leaf.toLowerCase();
   let thing = leaf;
   if (l === "other" && parent) thing = `Other ${parent}`;
+  else if (/^multi ?packs?$/.test(l)) thing = "Multipacks";
+  else if (/^rompers? (&|and) bodysuits?$/.test(l)) thing = "Rompers & Bodysuits";
+  else if (p === "bras" && l === "crop top") thing = "Crop Top Bras";
   else if (p === "activewear" || (p === "nightwear" && /^(tops|shorts)$/.test(l))) thing = `${parent} ${leaf}`;
   else if (p === "suits" && /^(jackets|trousers)$/.test(l)) thing = `Suit ${leaf}`;
   else if (p === "bras" && !/bra/.test(l)) thing = `${leaf} Bras`;

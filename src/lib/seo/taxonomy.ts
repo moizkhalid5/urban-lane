@@ -10,6 +10,7 @@ const RULES: [RegExp, number][] = [
   [/socks/, 209], // > Socks
   [/nightwear|loungewear|pyjama|slips/, 208], // Sleepwear & Loungewear
   [/activewear/, 5322], // Activewear
+  [/romper|bodysuit|sleepsuit/, 5411], // Baby One-Pieces
   [/kids-baby-.*-(tops)/, 5410], // Baby & Toddler Tops
   [/kids-baby-.*-(trousers|shorts)/, 5408], // Baby & Toddler Bottoms
   [/kids-baby-.*-sets|kids-baby/, 5622], // Baby & Toddler Outfits
