@@ -11,6 +11,7 @@ const items = [
   { href: "/admin/orders", label: "Orders" },
   { href: "/admin/inbox", label: "Inbox", adminOnly: true },
   { href: "/admin/marketing", label: "Marketing", adminOnly: true },
+  { href: "/admin/wholesale", label: "Wholesale", adminOnly: true },
   { href: "/admin/analytics", label: "Analytics" },
   { href: "/admin/categories", label: "Categories" },
   { href: "/admin/inventory", label: "Inventory" },
