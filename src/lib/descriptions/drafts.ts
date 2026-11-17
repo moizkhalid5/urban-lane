@@ -3,16 +3,19 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 /**
- * Admin → Products → Descriptions: new product descriptions waiting for a person's OK. Batches arrive as a
- * JSON file ({ "batch": "…", "drafts": [{ "slug": "…", "description": "…" }] }), are reviewed one by one
- * (edit, approve or skip), and only an approval changes the product. The text it replaced is kept, so an
- * approval can be undone. Table created on first use (the host runs no migrations).
+ * Admin → Products → Descriptions: new product descriptions (and Details lists) waiting for a person's OK.
+ * Batches arrive as a JSON file ({ "batch": "…", "drafts": [{ "slug": "…", "description": "…",
+ * "details": ["…", "…"] }] }), are reviewed one by one (edit, approve or skip), and only an approval changes
+ * the product. The text it replaced is kept, so an approval can be undone. Table created on first use, and
+ * columns added later are added on first use too (the host runs no migrations).
  */
 
 export const DRAFTS_TABLE = `CREATE TABLE IF NOT EXISTS \`ProductCopyDraft\` (
     \`productId\` VARCHAR(191) NOT NULL,
     \`proposed\` TEXT NOT NULL,
     \`previous\` TEXT NULL,
+    \`details\` TEXT NULL,
+    \`previousDetails\` TEXT NULL,
     \`status\` VARCHAR(16) NOT NULL DEFAULT 'pending',
     \`batch\` VARCHAR(64) NULL,
     \`createdAt\` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -21,9 +24,22 @@ export const DRAFTS_TABLE = `CREATE TABLE IF NOT EXISTS \`ProductCopyDraft\` (
     INDEX \`ProductCopyDraft_status_idx\` (\`status\`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`;
 
+/** Columns added after the table first shipped (Nov 2026): added to an existing table on first use. */
+const LATER_COLUMNS: [string, string][] = [
+  ["details", "TEXT NULL"],
+  ["previousDetails", "TEXT NULL"],
+];
+
+async function setUp() {
+  await prisma.$executeRawUnsafe(DRAFTS_TABLE);
+  const cols = await prisma.$queryRaw<{ name: string }[]>`SELECT COLUMN_NAME AS name FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'ProductCopyDraft'`;
+  const have = new Set(cols.map((c) => c.name));
+  for (const [name, type] of LATER_COLUMNS) if (!have.has(name)) await prisma.$executeRawUnsafe(`ALTER TABLE \`ProductCopyDraft\` ADD COLUMN \`${name}\` ${type}`);
+}
+
 let ready: Promise<unknown> | null = null;
 export function ensureDraftsTable() {
-  ready ??= prisma.$executeRawUnsafe(DRAFTS_TABLE).catch((err) => {
+  ready ??= setUp().catch((err) => {
     ready = null;
     throw err;
   });
@@ -31,7 +47,26 @@ export function ensureDraftsTable() {
 }
 
 export type DraftStatus = "pending" | "approved" | "skipped";
-type Row = { productId: string; proposed: string; previous: string | null; status: DraftStatus; batch: string | null; createdAt: Date; reviewedAt: Date | null };
+type Row = {
+  productId: string;
+  proposed: string;
+  previous: string | null;
+  details: string | null;
+  previousDetails: string | null;
+  status: DraftStatus;
+  batch: string | null;
+  createdAt: Date;
+  reviewedAt: Date | null;
+};
+
+/** Details as stored on the product: one point per line, without bullets or empty lines. */
+export const tidyDetails = (d: unknown): string | null => {
+  const lines = (Array.isArray(d) ? d.map(String) : typeof d === "string" ? d.split("\n") : [])
+    .map((l) => l.replace(/^\s*[•\-–*]\s*/, "").trim())
+    .filter(Boolean)
+    .slice(0, 20);
+  return lines.length ? lines.join("\n") : null;
+};
 
 /** A description shorter than this (or none) counts as thin: "100% Cotton", a single line copied from a brand site. */
 export const THIN_CHARS = 120;
@@ -72,8 +107,12 @@ export async function importDrafts(json: unknown) {
   const data = json as { batch?: unknown; drafts?: unknown };
   if (!data || !Array.isArray(data.drafts)) throw new Error('The file needs a "drafts" list.');
   const batch = typeof data.batch === "string" ? data.batch.slice(0, 64) : null;
-  const drafts = (data.drafts as { slug?: unknown; sku?: unknown; description?: unknown }[])
-    .map((d) => ({ key: String(d.slug ?? d.sku ?? "").trim(), text: typeof d.description === "string" ? tidy(d.description) : "" }))
+  const drafts = (data.drafts as { slug?: unknown; sku?: unknown; description?: unknown; details?: unknown }[])
+    .map((d) => ({
+      key: String(d.slug ?? d.sku ?? "").trim(),
+      text: typeof d.description === "string" ? tidy(d.description) : "",
+      details: tidyDetails(d.details),
+    }))
     .filter((d) => d.key && d.text.length >= 40 && d.text.length <= 5000);
 
   const keys = drafts.map((d) => d.key);
@@ -94,12 +133,12 @@ export async function importDrafts(json: unknown) {
       continue;
     }
     const prev = existing.find((e) => e.productId === p.id);
-    if (prev && prev.proposed === d.text && prev.status !== "skipped") {
+    if (prev && prev.proposed === d.text && (prev.details ?? null) === d.details && prev.status !== "skipped") {
       unchanged += 1;
       continue;
     }
-    await prisma.$executeRaw`INSERT INTO ProductCopyDraft (productId, proposed, status, batch) VALUES (${p.id}, ${d.text}, 'pending', ${batch})
-      ON DUPLICATE KEY UPDATE proposed = VALUES(proposed), status = 'pending', batch = VALUES(batch), createdAt = CURRENT_TIMESTAMP(3), reviewedAt = NULL`;
+    await prisma.$executeRaw`INSERT INTO ProductCopyDraft (productId, proposed, details, status, batch) VALUES (${p.id}, ${d.text}, ${d.details}, 'pending', ${batch})
+      ON DUPLICATE KEY UPDATE proposed = VALUES(proposed), details = VALUES(details), status = 'pending', batch = VALUES(batch), createdAt = CURRENT_TIMESTAMP(3), reviewedAt = NULL`;
     added += 1;
   }
   return { added, unchanged, unknown, ignored: (data.drafts as unknown[]).length - drafts.length };
@@ -129,16 +168,24 @@ export async function listDrafts(status: DraftStatus, take = 30) {
   });
 }
 
-/** Saves the (possibly edited) text on the product and records the old one for undo. */
-export async function approveDraft(productId: string, text: string) {
+/**
+ * Saves the (possibly edited) description and Details on the product and records the old ones for undo.
+ * `details` undefined = keep the draft's own list (used by "approve all"); an empty edit keeps the product's.
+ */
+export async function approveDraft(productId: string, text: string, details?: string) {
   await ensureDraftsTable();
   const clean = tidy(text);
   if (clean.length < 40) throw new Error("That description is too short.");
-  const product = await prisma.product.findUnique({ where: { id: productId }, select: { description: true } });
+  const [product, [row]] = await Promise.all([
+    prisma.product.findUnique({ where: { id: productId }, select: { description: true, details: true } }),
+    prisma.$queryRaw<Row[]>`SELECT * FROM ProductCopyDraft WHERE productId = ${productId}`,
+  ]);
   if (!product) throw new Error("That product no longer exists.");
+  const newDetails = details === undefined ? (row?.details ?? null) : tidyDetails(details);
   await prisma.$transaction([
-    prisma.product.update({ where: { id: productId }, data: { description: clean } }),
-    prisma.$executeRaw`UPDATE ProductCopyDraft SET proposed = ${clean}, previous = ${product.description}, status = 'approved', reviewedAt = CURRENT_TIMESTAMP(3) WHERE productId = ${productId}`,
+    prisma.product.update({ where: { id: productId }, data: { description: clean, ...(newDetails && { details: newDetails }) } }),
+    prisma.$executeRaw`UPDATE ProductCopyDraft SET proposed = ${clean}, details = ${newDetails}, previous = ${product.description}, previousDetails = ${product.details},
+      status = 'approved', reviewedAt = CURRENT_TIMESTAMP(3) WHERE productId = ${productId}`,
   ]);
 }
 
@@ -153,7 +200,8 @@ export async function undoDraft(productId: string) {
   const [row] = await prisma.$queryRaw<Row[]>`SELECT * FROM ProductCopyDraft WHERE productId = ${productId} AND status = 'approved'`;
   if (!row) return;
   await prisma.$transaction([
-    prisma.product.update({ where: { id: productId }, data: { description: row.previous } }),
+    // Details only go back if this approval changed them (approvals from before Details existed did not).
+    prisma.product.update({ where: { id: productId }, data: { description: row.previous, ...(row.details !== null && { details: row.previousDetails }) } }),
     prisma.$executeRaw`UPDATE ProductCopyDraft SET status = 'pending', reviewedAt = NULL WHERE productId = ${productId}`,
   ]);
 }
