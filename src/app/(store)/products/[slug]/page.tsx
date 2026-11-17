@@ -28,6 +28,9 @@ import { rupees, type AnalyticsItem } from "@/lib/analytics/track";
 import { ColourSelectionProvider } from "@/components/product/ColourSelection";
 import { getBundleConfig } from "@/lib/bundles";
 import { colourKey } from "@/lib/bundle-rule";
+import { SizeGuide } from "@/components/product/SizeGuide";
+import { sizeGuideFor } from "@/lib/sizing/charts";
+import { departmentOf } from "@/lib/seo/copy";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -106,6 +109,15 @@ export default async function ProductPage({ params }: PageProps) {
   const crumbsLd = breadcrumbLd([{ name: "Home", href: "/" }, ...crumbs]);
 
   const details = (product.details ?? "").split("\n").filter(Boolean);
+  const categorySlugs = product.categories.map((c) => c.category.slug);
+  const sizeLabels = [...new Set(product.variants.map((v) => v.size?.trim()).filter((s): s is string => !!s))];
+  const sizeGuide = sizeGuideFor({
+    brand: product.brand?.name ?? null,
+    categorySlugs,
+    department: departmentOf(product.gender, categorySlugs),
+    title: product.title,
+    sizes: sizeLabels,
+  });
   const analyticsItem: AnalyticsItem = {
     item_id: product.id,
     item_name: product.title,
@@ -225,15 +237,8 @@ export default async function ProductPage({ params }: PageProps) {
                         </ul>
                       ),
                   },
-                  {
-                    title: "Size Guide",
-                    content: (
-                      <p>
-                        Refer to the {product.brand?.name ?? "brand"} size chart for this item. If you are between sizes,
-                        we recommend sizing up. Contact us for help choosing your fit.
-                      </p>
-                    ),
-                  },
+                  // The brand's own size chart for this kind of product; none for makeup and other unsized items.
+                  ...(sizeGuide ? [{ title: "Size Guide", content: <SizeGuide guide={sizeGuide} sizes={sizeLabels} /> }] : []),
                   {
                     title: "Shipping & Returns",
                     content: (
