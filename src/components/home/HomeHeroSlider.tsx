@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { preload } from "react-dom";
 import { HERO_ELEMENT_ID, type HomeSlide } from "@/lib/collection-heroes";
 import { ArtworkBannerLinks } from "@/components/ui/ArtworkBannerLinks";
 import { SaleBannerText } from "@/components/home/SaleBannerText";
@@ -8,6 +9,11 @@ import { cn } from "@/lib/utils";
 
 const PHONE_WIDTH = 941;
 const PHONE_HEIGHT = 1672;
+
+/** Phones and computers each get their own picture; this blank stands in for the other one, so it isn't downloaded. */
+const BLANK = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAACH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+const PHONE_MEDIA = "(max-width: 767px)";
+const WIDE_MEDIA = "(min-width: 768px)";
 
 /** The slide that carries the sale wording during a sale, and whose Shop Now then leads to the sale. */
 const SALE_SLIDE = "urban-lane";
@@ -23,8 +29,10 @@ export type HeroSale = { maxPct: number; href: string; name: string };
  * scrolled away. The slide's `tone` is published on the section (data-tone) so the header picks dark or
  * white text; behind white text a soft shade runs down from the top edge.
  *
- * Images are served as they are (high-quality WebP, no further compression). The phone pictures are large
- * and sit on top of each other, so only the current slide and its neighbours are loaded.
+ * Images are served as they are (WebP at quality 94, made by scripts/encode-banners.cjs; no further
+ * compression). Each screen downloads only its own picture (phone or wide). The first slide is preloaded
+ * and loads first; the neighbouring slides follow once the page has finished loading, and the slider
+ * starts turning only then, so the first banner never waits for the others.
  * On phones the slide dots sit in the corner, clear of the painted buttons.
  */
 export function HomeHeroSlider({ slides: baseSlides, sale }: { slides: HomeSlide[]; sale?: HeroSale | null }) {
@@ -38,16 +46,37 @@ export function HomeHeroSlider({ slides: baseSlides, sale }: { slides: HomeSlide
   const touchX = useRef<number | null>(null);
   const count = slides.length;
   const go = useCallback((i: number) => setIndex(((i % count) + count) % count), [count]);
+  // false until the page has loaded: until then only the first slide's picture is fetched
+  const [warm, setWarm] = useState(false);
   const loaded = useRef(new Set<number>());
-  for (const step of [-1, 0, 1]) loaded.current.add((index + step + count) % count);
+  for (const step of warm ? [-1, 0, 1] : [0]) loaded.current.add((index + step + count) % count);
 
   useEffect(() => {
-    if (count <= 1 || paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const go = () => setWarm(true);
+    if (document.readyState === "complete") {
+      const t = setTimeout(go, 300);
+      return () => clearTimeout(t);
+    }
+    window.addEventListener("load", go, { once: true });
+    return () => window.removeEventListener("load", go);
+  }, []);
+
+  useEffect(() => {
+    if (!warm || count <= 1 || paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const t = setInterval(() => setIndex((i) => (i + 1) % count), 6000);
     return () => clearInterval(t);
-  }, [count, paused]);
+  }, [warm, count, paused]);
 
   if (count === 0) return null;
+  // Start the first banner's download straight away, from the page's <head> (one for each kind of screen)
+  preload(slides[0].phone, { as: "image", fetchPriority: "high", media: PHONE_MEDIA });
+  preload(slides[0].desktop, {
+    as: "image",
+    fetchPriority: "high",
+    imageSrcSet: `${slides[0].desktopSmall} 960w, ${slides[0].desktop} ${slides[0].width}w`,
+    imageSizes: "100vw",
+    media: WIDE_MEDIA,
+  });
   const current = slides[index];
 
   return (
@@ -89,17 +118,19 @@ export function HomeHeroSlider({ slides: baseSlides, sale }: { slides: HomeSlide
                 style={{ "--art-ratio": PHONE_WIDTH / PHONE_HEIGHT, "--focus-x": s.phoneFocus?.[0], "--focus-y": s.phoneFocus?.[1] } as CSSProperties}
               >
                 {loaded.current.has(i) && (
-                  // eslint-disable-next-line @next/next/no-img-element -- pre-optimised artwork, served as is
-                  <img
-                    src={s.phone}
-                    alt={s.alt}
-                    width={PHONE_WIDTH}
-                    height={PHONE_HEIGHT}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    fetchPriority={i === 0 ? "high" : "auto"}
-                    decoding="async"
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
+                  <picture>
+                    <source media={WIDE_MEDIA} srcSet={BLANK} />
+                    {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised artwork, served as is */}
+                    <img
+                      src={s.phone}
+                      alt={s.alt}
+                      width={PHONE_WIDTH}
+                      height={PHONE_HEIGHT}
+                      fetchPriority={i === 0 ? "high" : "low"}
+                      decoding={i === 0 ? "sync" : "async"}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  </picture>
                 )}
                 {sale && s.key === SALE_SLIDE && <SaleBannerText maxPct={sale.maxPct} phone />}
                 <ArtworkBannerLinks image={s.phone} href={s.link} label={s.label} />
@@ -107,19 +138,23 @@ export function HomeHeroSlider({ slides: baseSlides, sale }: { slides: HomeSlide
             </div>
             {/* Tablets and computers: 2.334:1 banner */}
             <div className="absolute inset-0 hidden md:block">
-              {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised artwork, served as is */}
-              <img
-                src={s.desktop}
-                srcSet={`${s.desktopSmall} 960w, ${s.desktop} ${s.width}w`}
-                sizes="100vw"
-                alt={s.alt}
-                width={s.width}
-                height={s.height}
-                loading={i === 0 ? "eager" : "lazy"}
-                fetchPriority={i === 0 ? "high" : "auto"}
-                decoding="async"
-                className="absolute inset-0 h-full w-full object-cover"
-              />
+              {loaded.current.has(i) && (
+                <picture>
+                  <source media={PHONE_MEDIA} srcSet={BLANK} />
+                  {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised artwork, served as is */}
+                  <img
+                    src={s.desktop}
+                    srcSet={`${s.desktopSmall} 960w, ${s.desktop} ${s.width}w`}
+                    sizes="100vw"
+                    alt={s.alt}
+                    width={s.width}
+                    height={s.height}
+                    fetchPriority={i === 0 ? "high" : "low"}
+                    decoding={i === 0 ? "sync" : "async"}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </picture>
+              )}
               {sale && s.key === SALE_SLIDE && <SaleBannerText maxPct={sale.maxPct} />}
               <ArtworkBannerLinks image={s.desktop} href={s.link} label={s.label} />
             </div>

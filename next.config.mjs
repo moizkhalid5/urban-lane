@@ -16,6 +16,10 @@ const nextConfig = {
     webpackBuildWorker: false,
     cpus: 1,
     workerThreads: false,
+    // Put the site's stylesheet (about 15 KB compressed) inside each page instead of a separate file the
+    // browser must fetch before it can draw anything: on a slow phone connection that request alone
+    // held the first paint back by about a second (PageSpeed: "render-blocking requests").
+    inlineCss: true,
   },
   images: {
     // Local images live under /public/uploads.
@@ -50,6 +54,17 @@ const nextConfig = {
             value: "camera=(), microphone=(), geolocation=()",
           },
         ],
+      },
+      {
+        // Pictures in /public (banners, rail photos, category tiles) and uploaded photos. Without this the
+        // browser re-checked every picture on every visit. Kept for 30 days; a replaced picture must get a
+        // new file name (banners: -v2, -v3…; uploads already get unique names).
+        source: "/images/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }],
+      },
+      {
+        source: "/uploads/products/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }],
       },
       {
         // Homepage brand film. Cached for a week; give a replacement video a new file name.

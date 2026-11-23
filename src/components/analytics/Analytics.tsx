@@ -39,7 +39,9 @@ function startUpScript(gaId: string | null, clarityId: string | null) {
   ];
   if (clarityId) {
     lines.push(
-      `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script",${JSON.stringify(clarityId)});`,
+      // calls queue up straight away; Clarity's own script is fetched once the page has loaded
+      `window.clarity = window.clarity || function(){ (clarity.q = clarity.q || []).push(arguments); };`,
+      `(function(){ function add(){ var t = document.createElement("script"); t.async = 1; t.src = "https://www.clarity.ms/tag/" + ${JSON.stringify(clarityId)}; document.head.appendChild(t); } if (document.readyState === "complete") add(); else window.addEventListener("load", add, { once: true }); })();`,
       `if (choice) clarity("consentv2", { ad_Storage: "denied", analytics_Storage: v });`,
     );
   }
@@ -218,7 +220,8 @@ export function Analytics({ gaMeasurementId, clarityProjectId }: { gaMeasurement
         {startUpScript(gaMeasurementId, clarityProjectId)}
       </Script>
       {gaMeasurementId && (
-        <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} strategy="afterInteractive" />
+        // after the page has loaded: events wait in dataLayer until then, and the shop's own pictures come first
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} strategy="lazyOnload" />
       )}
       <HeatmapRecorder allowed={measuring} />
       {banner && (
