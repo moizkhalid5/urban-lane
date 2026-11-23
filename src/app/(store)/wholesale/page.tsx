@@ -45,22 +45,46 @@ export default async function WholesalePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="bg-ink text-white">
-        <div className="container-site py-14 md:py-20">
-          <p className="text-xs font-medium uppercase tracking-[0.25em] text-white/60">Urban Lane wholesale</p>
-          <h1 className="mt-3 max-w-3xl text-3xl font-medium leading-tight text-white md:text-5xl">Original UK high-street stock, in bulk, for your shop</h1>
-          <p className="mt-4 max-w-2xl text-white/75 md:text-lg">
+      {/* Hero: the wholesale banner. On computers the text sits on the banner's dark left side (which already
+          reads "URBANLANE WHOLESALE"); on phones and tablets a crop showing the clothes sits above the text. */}
+      <section className="relative overflow-hidden bg-[#1a1512] text-white lg:min-h-[33.4vw]">
+        <div className="relative aspect-[1272/724] w-full lg:absolute lg:inset-x-0 lg:top-0 lg:aspect-[2172/724]">
+          <picture>
+            <source media="(min-width: 1024px)" type="image/avif" srcSet="/images/banners/wholesale-desktop-v2.avif" />
+            <source media="(min-width: 1024px)" type="image/webp" srcSet="/images/banners/wholesale-desktop-v2.webp" />
+            <source type="image/avif" srcSet="/images/banners/wholesale-phone-v2.avif" />
+            {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised artwork, served as is */}
+            <img
+              src="/images/banners/wholesale-phone-v2.webp"
+              alt="Clothes on a rail: Urban Lane wholesale"
+              width={1272}
+              height={724}
+              fetchPriority="high"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover object-center"
+            />
+          </picture>
+          {/* the photo fades into the brown below it */}
+          <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#1a1512] to-transparent" />
+          {/* computers: keeps the text readable where it reaches the clothes on wide screens */}
+          <div aria-hidden className="absolute inset-0 hidden bg-gradient-to-r from-[#1a1512]/60 via-[#1a1512]/20 to-transparent lg:block" />
+        </div>
+        <div className="container-site relative pb-14 pt-6 md:pb-20 lg:pt-[max(7rem,7vw)]">
+          <p className="text-xs font-medium uppercase tracking-[0.25em] text-white/60 lg:hidden">Urban Lane wholesale</p>
+          <h1 className="mt-3 max-w-3xl text-3xl font-medium leading-tight text-white md:text-5xl lg:mt-0 lg:max-w-xl">
+            Original UK high-street stock, in bulk, for your shop
+          </h1>
+          <p className="mt-4 max-w-2xl text-white/75 md:text-lg lg:max-w-xl">
             {topBrands}, for shops and resellers across Pakistan. See exactly what we have and how many pieces, then send your order on
             WhatsApp.
           </p>
-          <dl className="mt-10 grid max-w-3xl grid-cols-3 gap-3">
+          <dl className="mt-10 grid max-w-3xl grid-cols-3 gap-3 lg:max-w-xl">
             {[
               [fmt(stock.pieces), "pieces in stock"],
               [fmt(stock.styles), "styles"],
               [fmt(stock.brands.length), "brands"],
             ].map(([n, label]) => (
-              <div key={label} className="rounded-xl bg-white/10 p-4">
+              <div key={label} className="rounded-xl bg-white/10 p-4 backdrop-blur-sm">
                 <dt className="sr-only">{label}</dt>
                 <dd className="text-2xl font-semibold tabular-nums md:text-4xl">{n}</dd>
                 <dd className="mt-1 text-xs text-white/70 md:text-sm">{label}</dd>
