@@ -2,11 +2,13 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { getImageProps } from "next/image";
 import { anton as display } from "@/fonts";
 import type { DisplayCurrency } from "@/lib/money";
 import type { RailCard, RailTab } from "@/lib/rail/queries";
 import { Price } from "@/components/ui/Price";
 import { cn } from "@/lib/utils";
+import { PHOTO_QUALITY } from "@/lib/images";
 
 
 /** id of the rail's section: the sale poster (components/home/SalePoster.tsx) opens when it comes into view. */
@@ -20,6 +22,16 @@ const SIDE = 0.4;
 const HOOK = 0.022;
 /** Space above the bar for the ceiling rods. */
 const TOP = 56;
+
+/**
+ * A rail photo at the size it's shown (at most 352px wide on phones, 448px on bigger screens), through the
+ * image optimiser at product-photo quality, instead of the 960px original. Only for photos stored on the site.
+ */
+function railPhoto(src: string) {
+  if (!src.startsWith("/")) return { src };
+  const { props } = getImageProps({ src, alt: "", width: 960, height: 1200, quality: PHOTO_QUALITY, sizes: "(max-width: 639px) 352px, 448px" });
+  return { src: props.src, srcSet: props.srcSet, sizes: props.sizes };
+}
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
@@ -78,6 +90,8 @@ function RailStage({ items, currency }: { items: RailCard[]; currency: DisplayCu
   const [active, setActive] = useState(Math.floor((n - 1) / 2));
   const [width, setWidth] = useState(0);
   const [entered, setEntered] = useState(false);
+  // Photos are fetched only once the rail is close to the screen, so they don't hold up the banner above it
+  const [near, setNear] = useState(false);
   const [shown, setShown] = useState(active); // what the word and details show (changes after a short fade)
   const [fading, setFading] = useState(false);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -98,6 +112,21 @@ function RailStage({ items, currency }: { items: RailCard[]; currency: DisplayCu
     const ro = new ResizeObserver(measure);
     ro.observe(el);
     return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return setNear(true);
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        setNear(true);
+      },
+      { rootMargin: "400px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   const swing = useCallback((i: number, amount: number) => {
@@ -300,7 +329,7 @@ function RailStage({ items, currency }: { items: RailCard[]; currency: DisplayCu
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={g.front}
+                      {...(near ? railPhoto(g.front) : {})}
                       alt=""
                       loading="lazy"
                       draggable={false}
@@ -315,7 +344,7 @@ function RailStage({ items, currency }: { items: RailCard[]; currency: DisplayCu
                     />
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={g.side}
+                      {...(near ? railPhoto(g.side) : {})}
                       alt=""
                       loading="lazy"
                       draggable={false}

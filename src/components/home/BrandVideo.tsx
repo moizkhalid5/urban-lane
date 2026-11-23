@@ -11,12 +11,13 @@ const PHONE_QUERY = "(max-width: 767px)";
 /**
  * Homepage brand film, in the same centred column as the other sections.
  * Silent, looping and muted so browsers allow autoplay. Nothing is downloaded until the film
- * scrolls near the screen, and it pauses while off screen. Visitors who ask for reduced motion
+ * scrolls near the screen (not even the poster picture), and it pauses while off screen. Visitors who ask for reduced motion
  * get the poster with a play button instead of autoplay.
  */
 export function BrandVideo() {
   const video = useRef<HTMLVideoElement>(null);
   const [poster, setPoster] = useState(WIDE.poster);
+  const [near, setNear] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [userPaused, setUserPaused] = useState(false);
   const userPausedRef = useRef(false);
@@ -24,6 +25,18 @@ export function BrandVideo() {
 
   useEffect(() => {
     if (window.matchMedia(PHONE_QUERY).matches) setPoster(PHONE.poster);
+    const el = video.current;
+    if (!el || typeof IntersectionObserver === "undefined") return setNear(true);
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        setNear(true);
+      },
+      { rootMargin: "600px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   useEffect(() => {
@@ -65,7 +78,7 @@ export function BrandVideo() {
         <video
           ref={video}
           className="block aspect-video w-full object-cover md:aspect-[12/5]"
-          poster={poster}
+          poster={near ? poster : undefined}
           muted
           loop
           playsInline

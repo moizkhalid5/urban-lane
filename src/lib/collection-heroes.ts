@@ -37,13 +37,13 @@ export type PageHero = {
 /** Collection banners, by collection slug. */
 export const COLLECTION_HEROES: Record<string, PageHero> = {
   outlet: {
-    image: "/images/banners/outlet-desktop-v1.webp",
+    image: "/images/banners/outlet-desktop-v2.webp",
     alt: "Urban Lane Outlet store",
     tone: "light",
     // The ceiling lights at the top of the picture would run through the menu words.
     menuBand: "#ffffff",
     aspect: "md:aspect-[1916/821]",
-    small: { image: "/images/banners/outlet-phone-v1.webp", focus: [0.5, 0] },
+    small: { image: "/images/banners/outlet-phone-v2.webp", focus: [0.5, 0] },
     comingSoon: { title: "Coming soon", text: "We aren't available at the moment, but we'll be here soon." },
   },
   // Department banners (from Banners/<department>/banner), the same shape as the homepage slider
@@ -52,36 +52,36 @@ export const COLLECTION_HEROES: Record<string, PageHero> = {
   // cover the painted lettering. Phones get the tall full-screen pictures (scripts/build_phone_banners.py).
   // Lossless WebP, shown as is (not re-compressed by next/image), so they keep the original quality.
   men: {
-    image: "/images/banners/men-edit-full.webp",
+    image: "/images/banners/men-edit-full-v2.webp",
     alt: "Urban Lane Men's Edit: refined layers for the modern man",
     tone: "dark",
     aspect: "md:aspect-[1897/829]",
-    small: { image: "/images/banners/men-phone-v2.webp", focus: [0.5, 0], ratio: 941 / 1782 },
+    small: { image: "/images/banners/men-phone-v3.webp", focus: [0.5, 0], ratio: 941 / 1782 },
   },
   women: {
-    image: "/images/banners/women-edit-full.webp",
+    image: "/images/banners/women-edit-full-v2.webp",
     alt: "Urban Lane Women's Edit: soft textures for a modern muse",
     tone: "dark",
     aspect: "md:aspect-[1916/821]",
-    small: { image: "/images/banners/women-phone-v1.webp", focus: [0.5, 0] },
+    small: { image: "/images/banners/women-phone-v2.webp", focus: [0.5, 0] },
   },
   kids: {
-    image: "/images/banners/kids-edit-wide.webp",
+    image: "/images/banners/kids-edit-wide-v2.webp",
     alt: "Urban Lane kids",
     tone: "light",
     aspect: "md:aspect-[2196/941]",
     menuBand: "#fbf7ed",
-    small: { image: "/images/banners/kids-phone-v1.webp", focus: [0.5, 0] },
+    small: { image: "/images/banners/kids-phone-v2.webp", focus: [0.5, 0] },
   },
   // Beauty keeps the artwork's own 16:9 shape on tablets and computers, up to the screen's height (the plain
   // top is trimmed first). Its Shop Now goes to the products below.
   beauty: {
-    image: "/images/banners/beauty-desktop-v1.webp",
+    image: "/images/banners/beauty-desktop-v2.webp",
     alt: "Discover your beauty: glow softly, shine confidently",
     tone: "light",
     aspect: "md:aspect-[1672/941]",
     wide: { ratio: 1672 / 941, focus: 0.3 },
-    small: { image: "/images/banners/beauty-phone-v1.webp", focus: [0.5, 0.4] },
+    small: { image: "/images/banners/beauty-phone-v2.webp", focus: [0.5, 0.4] },
     link: "/collections/beauty#products",
     label: "Shop beauty",
   },
@@ -117,9 +117,9 @@ const slide = (
   rest: Omit<HomeSlide, "key" | "desktop" | "desktopSmall" | "phone" | "width" | "height">,
 ): HomeSlide => ({
   key,
-  desktop: `/images/banners/home/${key}-${width}.webp`,
+  desktop: `/images/banners/home/${key}-${width}-v2.webp`,
   desktopSmall: `/images/banners/home/${key}-960.webp`,
-  phone: `/images/banners/home/${key}-phone-v1.webp`,
+  phone: `/images/banners/home/${key}-phone-v2.webp`,
   width,
   height,
   ...rest,
