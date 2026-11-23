@@ -42,6 +42,9 @@ export default async function WholesalePage({ searchParams }: { searchParams: Pr
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
+          <a href="/wholesale" target="_blank" rel="noopener" className="btn-secondary">
+            Wholesale page ↗
+          </a>
           <Link href="/admin/wholesale/guide" className="btn-secondary">
             Pitch guide &amp; settings
           </Link>

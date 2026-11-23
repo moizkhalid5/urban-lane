@@ -7,6 +7,7 @@ import { getMailboxes, mailboxFor } from "@/lib/mail/accounts";
 import { ensureMailTables } from "@/lib/mail/db";
 import { saveToSent } from "@/lib/mail/inbox";
 import { ensureWholesaleTables } from "./db";
+import { APP_URL } from "@/lib/site";
 
 /**
  * Admin → Wholesale: the stores and brands we pitch our stock to in bulk, and every conversation with them.
@@ -79,12 +80,17 @@ export async function wholesaleMailbox() {
 
 /* ---------- pitches and links ---------- */
 
+/** The wholesale list link for messages: the one in settings, else our own wholesale page (/wholesale). */
+export function wholesaleListUrl(s: WholesaleSettings) {
+  return s.listUrl.trim() || `${APP_URL}/wholesale`;
+}
+
 /** The pitch with your name, WhatsApp number and list link filled in (placeholders stay if not set). */
 export function personalise(text: string, s: WholesaleSettings) {
   let out = text;
   if (s.yourName.trim()) out = out.replace(/\[Your name\]/gi, s.yourName.trim());
   if (s.yourWhatsApp.trim()) out = out.replace(/\[Your WhatsApp number\]/gi, s.yourWhatsApp.trim());
-  if (s.listUrl.trim()) out = out.replace(/\[(Wholesale|Our wholesale) list link\]/gi, s.listUrl.trim());
+  out = out.replace(/\[(Wholesale|Our wholesale) list link\]/gi, wholesaleListUrl(s));
   return out;
 }
 

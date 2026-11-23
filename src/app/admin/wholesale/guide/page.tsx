@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth/guards";
 import { getMailboxes, mailboxFor } from "@/lib/mail/accounts";
-import { getWholesaleSettings } from "@/lib/wholesale/prospects";
+import { getWholesaleSettings, wholesaleListUrl } from "@/lib/wholesale/prospects";
 import { importAction, saveSettingsAction } from "../actions";
 import { PITCH_GUIDE } from "./content";
 
@@ -46,8 +46,8 @@ export default async function GuidePage({ searchParams }: { searchParams: Promis
               ))}
             </select>
           </Field>
-          <Field label="Wholesale list link" hint="Google Drive / Dropbox / PDF link, used in the 'Send the wholesale list' message">
-            <input name="listUrl" defaultValue={s.listUrl} placeholder="https://…" className="input w-full" />
+          <Field label="Wholesale list link" hint="Used in the messages. Leave empty to use our wholesale page (/wholesale), which shows live stock and prices.">
+            <input name="listUrl" defaultValue={s.listUrl} placeholder={wholesaleListUrl({ ...s, listUrl: "" })} className="input w-full" />
           </Field>
           <Field label="Follow up after (days)" hint="After a first message, the store is due again after this many days">
             <input type="number" name="followUpDays" min={1} max={30} defaultValue={s.followUpDays} className="input w-32" />
@@ -56,7 +56,10 @@ export default async function GuidePage({ searchParams }: { searchParams: Promis
 
         <div>
           <h2 className="text-[15px] font-semibold">Bulk discount tiers</h2>
-          <p className="mt-1 text-xs text-ink-muted">Example only (set your own): Tier 1 = 50 pieces, 15%; Tier 2 = 200 pieces, 25%; Tier 3 = 500 pieces, 35%. They appear in the "Send the wholesale list" message.</p>
+          <p className="mt-1 text-xs text-ink-muted">
+            Leave all empty to use the wholesale page&apos;s offer (40% off; flat 50% off on 100+ pieces) in the messages. Tiers filled in here
+            replace it in the messages only; the wholesale page always shows 40% / 50%.
+          </p>
           <div className="mt-3 overflow-x-auto">
             <table className="w-full min-w-[560px] text-sm">
               <thead className="text-left text-xs text-ink-muted">

@@ -1,5 +1,6 @@
 import type { WholesaleProspect } from "@prisma/client";
-import { defaultPitch, personalise, type WholesaleSettings } from "@/lib/wholesale/prospects";
+import { defaultPitch, personalise, wholesaleListUrl, type WholesaleSettings } from "@/lib/wholesale/prospects";
+import { offerText } from "@/lib/wholesale/offer";
 
 /**
  * Ready-made messages for each step of the Pitch Guide ("send the pitch; call after 2 days; send photos of
@@ -28,9 +29,10 @@ export function templatesFor(p: WholesaleProspect, s: WholesaleSettings): Templa
   const brandNames = (p.ourBrands ?? "").split(",").map((b) => b.trim()).filter(Boolean);
   const top = brandNames.slice(0, 3).join(", ") || "UK high-street brands";
   const best = theySell[0]?.replace(/\s*\(.*$/, "") ?? brandNames[0] ?? "our best-selling brand";
-  const tiers = tiersText(s);
+  // the tiers set in Pitch guide & settings, else the wholesale page's offer (lib/wholesale/offer.ts)
+  const tiers = tiersText(s) ?? offerText();
   const sign = "[Your name] | Urban Lane | [Your WhatsApp number]";
-  const list = s.listUrl ? `Here's our wholesale list with photos and prices: ${s.listUrl}` : "I'll share our wholesale list with photos and prices.";
+  const list = `Here's our wholesale stock with photos, pieces and prices: ${wholesaleListUrl(s)}`;
 
   const raw: Template[] = [
     { key: "pitch", label: "First pitch", subject: "Wholesale: original UK brands for " + p.name, body: p.pitch?.trim() || defaultPitch(p) },
