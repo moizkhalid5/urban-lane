@@ -248,7 +248,8 @@ function RailStage({ items, currency }: { items: RailCard[]; currency: DisplayCu
             transform: `translate(-50%, ${fading ? "-46%" : "-50%"})`,
           }}
         >
-          {word}
+          {/* only once the rail is near: its font (Anton) is then fetched, not while the banner above loads */}
+          {near && word}
         </p>
 
         {/* Ceiling rods and bar */}

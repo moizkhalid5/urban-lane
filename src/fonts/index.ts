@@ -24,6 +24,9 @@ export const playfair = localFont({
   ],
   variable: "--font-beauty-serif",
   display: "swap",
+  // Not fetched up front on every page (only Beauty and sale wording use it): on a slow connection the two
+  // files (77 KB) competed with the first banner. Browsers fetch it when a heading needs it.
+  preload: false,
 });
 
 /** The homepage rail's tall display lettering. */
@@ -32,4 +35,6 @@ export const anton = localFont({
   weight: "400",
   style: "normal",
   display: "swap",
+  // The rail is further down the page; fetched when it is drawn, not up front.
+  preload: false,
 });

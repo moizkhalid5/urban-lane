@@ -37,51 +37,52 @@ export type PageHero = {
 /** Collection banners, by collection slug. */
 export const COLLECTION_HEROES: Record<string, PageHero> = {
   outlet: {
-    image: "/images/banners/outlet-desktop-v2.webp",
+    image: "/img/banners/outlet-desktop-v2.webp",
     alt: "Urban Lane Outlet store",
     tone: "light",
     // The ceiling lights at the top of the picture would run through the menu words.
     menuBand: "#ffffff",
     aspect: "md:aspect-[1916/821]",
-    small: { image: "/images/banners/outlet-phone-v2.webp", focus: [0.5, 0] },
+    small: { image: "/img/banners/outlet-phone-v2.webp", focus: [0.5, 0] },
     comingSoon: { title: "Coming soon", text: "We aren't available at the moment, but we'll be here soon." },
   },
   // Department banners (from Banners/<department>/banner), the same shape as the homepage slider
   // (1916x821) and always the complete picture, never cropped, on tablets and computers. Kids' plain cream
   // background is extended at the sides to that shape, with a cream strip under the menu so it doesn't
   // cover the painted lettering. Phones get the tall full-screen pictures (scripts/build_phone_banners.py).
-  // Lossless WebP, shown as is (not re-compressed by next/image), so they keep the original quality.
+  // Web copies of the lossless originals (scripts/encode-banners.cjs), shown as is (not re-compressed by
+  // next/image). Served from /img (app/img), which browsers may keep for a year.
   men: {
-    image: "/images/banners/men-edit-full-v2.webp",
+    image: "/img/banners/men-edit-full-v2.webp",
     alt: "Urban Lane Men's Edit: refined layers for the modern man",
     tone: "dark",
     aspect: "md:aspect-[1897/829]",
-    small: { image: "/images/banners/men-phone-v3.webp", focus: [0.5, 0], ratio: 941 / 1782 },
+    small: { image: "/img/banners/men-phone-v3.webp", focus: [0.5, 0], ratio: 941 / 1782 },
   },
   women: {
-    image: "/images/banners/women-edit-full-v2.webp",
+    image: "/img/banners/women-edit-full-v2.webp",
     alt: "Urban Lane Women's Edit: soft textures for a modern muse",
     tone: "dark",
     aspect: "md:aspect-[1916/821]",
-    small: { image: "/images/banners/women-phone-v2.webp", focus: [0.5, 0] },
+    small: { image: "/img/banners/women-phone-v2.webp", focus: [0.5, 0] },
   },
   kids: {
-    image: "/images/banners/kids-edit-wide-v2.webp",
+    image: "/img/banners/kids-edit-wide-v2.webp",
     alt: "Urban Lane kids",
     tone: "light",
     aspect: "md:aspect-[2196/941]",
     menuBand: "#fbf7ed",
-    small: { image: "/images/banners/kids-phone-v2.webp", focus: [0.5, 0] },
+    small: { image: "/img/banners/kids-phone-v2.webp", focus: [0.5, 0] },
   },
   // Beauty keeps the artwork's own 16:9 shape on tablets and computers, up to the screen's height (the plain
   // top is trimmed first). Its Shop Now goes to the products below.
   beauty: {
-    image: "/images/banners/beauty-desktop-v2.webp",
+    image: "/img/banners/beauty-desktop-v2.webp",
     alt: "Discover your beauty: glow softly, shine confidently",
     tone: "light",
     aspect: "md:aspect-[1672/941]",
     wide: { ratio: 1672 / 941, focus: 0.3 },
-    small: { image: "/images/banners/beauty-phone-v2.webp", focus: [0.5, 0.4] },
+    small: { image: "/img/banners/beauty-phone-v2.webp", focus: [0.5, 0.4] },
     link: "/collections/beauty#products",
     label: "Shop beauty",
   },
@@ -95,6 +96,23 @@ export const COLLECTION_HEROES: Record<string, PageHero> = {
  * The pictures run up under the see-through menu; `tone` picks the menu text colour over their top edge
  * ("dark" → white text on a soft shade). Painted buttons: lib/banner-buttons.ts (keyed by file).
  */
+/**
+ * The AVIF copies of a tall phone banner as a srcset (scripts/encode-banners.cjs makes them next to each
+ * phone WebP): 780px and the full 941px wide, about half the WebP's size. Phones that can't show AVIF get
+ * the WebP. Use with PHONE_BANNER_SIZES.
+ */
+export function avifSrcSetOf(src: string): string | null {
+  if (!/^\/img\/banners\/.*-phone-v\d+\.webp$/.test(src)) return null;
+  const base = src.replace(/\.webp$/, "");
+  return `${base}-780.avif 780w, ${base}.avif 941w`;
+}
+
+/**
+ * How wide a phone banner is drawn: the screen's width, or wider when the screen is taller than the picture
+ * (.phone-cover fills the height under the menu strip, about 56px; the picture is 941:1672).
+ */
+export const PHONE_BANNER_SIZES = "max(100vw, calc((100vh - 56px) * 0.5628))";
+
 export type HomeSlide = {
   key: string;
   desktop: string;
@@ -102,6 +120,9 @@ export type HomeSlide = {
   width: number;
   height: number;
   phone: string;
+  /** Tiny blurred previews shown while the pictures download (first slide only; lib/banner-art.ts). */
+  phonePlaceholder?: string;
+  desktopPlaceholder?: string;
   /** The part of `phone` to keep when the screen's shape differs a little from the picture's: [x, y], each 0–1. */
   phoneFocus?: [number, number];
   alt: string;
@@ -117,9 +138,9 @@ const slide = (
   rest: Omit<HomeSlide, "key" | "desktop" | "desktopSmall" | "phone" | "width" | "height">,
 ): HomeSlide => ({
   key,
-  desktop: `/images/banners/home/${key}-${width}-v2.webp`,
-  desktopSmall: `/images/banners/home/${key}-960.webp`,
-  phone: `/images/banners/home/${key}-phone-v2.webp`,
+  desktop: `/img/banners/home/${key}-${width}-v2.webp`,
+  desktopSmall: `/img/banners/home/${key}-960.webp`,
+  phone: `/img/banners/home/${key}-phone-v2.webp`,
   width,
   height,
   ...rest,
@@ -147,8 +168,8 @@ export const HOME_WINTER: WideBannerConfig = {
   alt: "Winter collection: new season, higher ground. Modern style for a colder world.",
   link: "/collections/winter",
   label: "Discover the winter collection",
-  wide: { full: "/images/banners/home/winter-wide-1916.webp", small: "/images/banners/home/winter-wide-960.webp", width: 1916, height: 504 },
-  phone: { full: "/images/banners/home/winter-1916.webp", small: "/images/banners/home/winter-960.webp", width: 1916, height: 821 },
+  wide: { full: "/img/banners/home/winter-wide-1916.webp", small: "/img/banners/home/winter-wide-960.webp", width: 1916, height: 504 },
+  phone: { full: "/img/banners/home/winter-1916.webp", small: "/img/banners/home/winter-960.webp", width: 1916, height: 821 },
 };
 
 /** id of the banner element, so the header can tell when it has scrolled past it. */

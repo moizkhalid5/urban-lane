@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useNear } from "@/components/ui/NearImage";
 
 export type BrandSlide = { name: string; slug: string; banner: string | null };
 
@@ -15,6 +16,8 @@ export function BrandSlider({ brands }: { brands: BrandSlide[] }) {
   const scroller = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState(0);
   const [pages, setPages] = useState(1);
+  // the brand pictures are fetched once the slider is near the screen, all together (so swiping never waits)
+  const near = useNear(scroller);
 
   const measure = useCallback(() => {
     const el = scroller.current;
@@ -61,13 +64,15 @@ export function BrandSlider({ brands }: { brands: BrandSlide[] }) {
               aria-label={`Shop ${b.name}`}
               className="group relative aspect-[2/3] shrink-0 basis-[calc((100%-0.75rem)/2)] snap-start overflow-hidden rounded-2xl bg-line-soft md:basis-[calc((100%-2rem)/3)] lg:basis-[calc((100%-4rem)/5)]"
             >
-              <Image
-                src={b.banner!}
-                alt={b.name}
-                fill
-                sizes="(max-width:768px) 50vw, (max-width:1024px) 33vw, 20vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
+              {near && (
+                <Image
+                  src={b.banner!}
+                  alt={b.name}
+                  fill
+                  sizes="(max-width:768px) 50vw, (max-width:1024px) 33vw, 20vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              )}
               {/* Arrow badge sits top-right so it never covers the logo at the bottom of the artwork. */}
               <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-ink shadow-sm transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
                 <svg

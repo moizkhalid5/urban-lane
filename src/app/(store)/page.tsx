@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { NearImage } from "@/components/ui/NearImage";
 import { prisma } from "@/lib/prisma";
 import { listProducts } from "@/lib/queries/products";
 import { getActiveCurrency } from "@/lib/currency.server";
@@ -10,6 +10,7 @@ import { CustomerReviewsCarousel } from "@/components/reviews/CustomerReviewsCar
 import { getHomepageReviews } from "@/lib/reviews/queries";
 import { HomeHeroSlider } from "@/components/home/HomeHeroSlider";
 import { HOME_SLIDES, HOME_WINTER } from "@/lib/collection-heroes";
+import { withPlaceholders } from "@/lib/banner-art";
 import { WideBanner } from "@/components/home/WideBanner";
 import { HangingRail } from "@/components/home/HangingRail";
 import { FeaturedSplit } from "@/components/home/FeaturedSplit";
@@ -124,7 +125,7 @@ export default async function HomePage() {
       <JsonLd data={websiteLd(settings.storeName)} />
 
       {/* Full-width banner slider under the transparent menu (slides: lib/collection-heroes.ts) */}
-      <HomeHeroSlider slides={HOME_SLIDES} sale={sale && { maxPct: sale.maxPct, href: SALE.href, name: SALE.name }} />
+      <HomeHeroSlider slides={withPlaceholders(HOME_SLIDES)} sale={sale && { maxPct: sale.maxPct, href: SALE.href, name: SALE.name }} />
 
       {/* The page's main heading: the banners are pictures, so this line says in words what the shop is. */}
       <div className="container-site pt-10 text-center">
@@ -142,7 +143,7 @@ export default async function HomePage() {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {tiles.map((cat) => (
             <Link key={cat.id} href={`/collections/${cat.slug}`} className="group relative aspect-[3/4] overflow-hidden bg-line-soft">
-              <Image
+              <NearImage
                 src={cat.image ?? `https://picsum.photos/seed/cat-${cat.slug}/600/800`}
                 alt={cat.name}
                 fill

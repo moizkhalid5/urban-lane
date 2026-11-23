@@ -16,10 +16,9 @@ const nextConfig = {
     webpackBuildWorker: false,
     cpus: 1,
     workerThreads: false,
-    // Put the site's stylesheet (about 15 KB compressed) inside each page instead of a separate file the
-    // browser must fetch before it can draw anything: on a slow phone connection that request alone
-    // held the first paint back by about a second (PageSpeed: "render-blocking requests").
-    inlineCss: true,
+    // No `inlineCss`: tried in Nov 2026, but Next.js then sends the stylesheet twice in every page (in a
+    // <style> tag and again in the page data), ~29 KB more per page, which cost more than the one stylesheet
+    // request it saved. The stylesheet is a separate file, cached for a year.
   },
   images: {
     // Local images live under /public/uploads.
@@ -40,6 +39,11 @@ const nextConfig = {
     // Keep resized images for a year instead of the default 60 seconds. Image files never change
     // in place (admin uploads get unique names), so re-processing them only slows pages down.
     minimumCacheTTL: 31536000,
+    // Fewer widths to choose from (default: 16 sizes). Every photo on a page lists each width in its srcset,
+    // and the homepage has ~110 photos, so the long lists made the page itself ~10% bigger. These cover phones
+    // (640/828/1080), tablets and computers (1200/1920) and small tiles (64–384).
+    deviceSizes: [640, 828, 1080, 1200, 1920],
+    imageSizes: [64, 96, 128, 256, 384],
   },
   async headers() {
     return [

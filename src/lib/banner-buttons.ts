@@ -55,5 +55,6 @@ export const BANNER_BUTTONS: Record<string, BannerButton> = {
 };
 
 export function bannerButtonFor(image?: string | null): BannerButton | undefined {
-  return image ? BANNER_BUTTONS[image.split("?")[0]] : undefined;
+  // banners are served from /img (app/img) but listed here by their file in /images
+  return image ? BANNER_BUTTONS[image.split("?")[0].replace(/^\/img\//, "/images/")] : undefined;
 }

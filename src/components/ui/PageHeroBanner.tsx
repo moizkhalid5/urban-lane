@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
-import { HERO_ELEMENT_ID, type PageHero } from "@/lib/collection-heroes";
+import { HERO_ELEMENT_ID, PHONE_BANNER_SIZES, avifSrcSetOf, type PageHero } from "@/lib/collection-heroes";
+import { placeholderOf } from "@/lib/banner-art";
 import { ArtworkBannerLinks } from "@/components/ui/ArtworkBannerLinks";
 import { cn } from "@/lib/utils";
 
@@ -35,8 +36,13 @@ export function PageHeroBanner({ hero, comingSoon }: { hero: PageHero; comingSoo
             } as CSSProperties
           }
         >
+          <Preview src={placeholderOf(hero.small.image)} className="md:hidden" />
+          <Preview src={placeholderOf(hero.image)} className="hidden md:block" />
           <picture>
             <source media="(min-width: 768px)" srcSet={hero.image} />
+            {avifSrcSetOf(hero.small.image) && (
+              <source type="image/avif" srcSet={avifSrcSetOf(hero.small.image)!} sizes={PHONE_BANNER_SIZES} />
+            )}
             {/* eslint-disable-next-line @next/next/no-img-element -- full-quality artwork, shown as is */}
             <img src={hero.small.image} alt={hero.alt} fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover object-center" />
           </picture>
@@ -66,5 +72,17 @@ export function PageHeroBanner({ hero, comingSoon }: { hero: PageHero; comingSoo
         )}
       </div>
     </section>
+  );
+}
+
+/** The banner's tiny blurred preview, under the picture until it has downloaded (lib/banner-art.ts). */
+function Preview({ src, className }: { src?: string; className: string }) {
+  if (!src) return null;
+  return (
+    <div
+      aria-hidden
+      className={cn("absolute inset-0 scale-110 bg-cover bg-center blur-xl", className)}
+      style={{ backgroundImage: `url(${src})` }}
+    />
   );
 }

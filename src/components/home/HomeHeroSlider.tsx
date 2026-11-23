@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { preload } from "react-dom";
-import { HERO_ELEMENT_ID, type HomeSlide } from "@/lib/collection-heroes";
+import { HERO_ELEMENT_ID, PHONE_BANNER_SIZES, avifSrcSetOf, type HomeSlide } from "@/lib/collection-heroes";
 import { ArtworkBannerLinks } from "@/components/ui/ArtworkBannerLinks";
 import { SaleBannerText } from "@/components/home/SaleBannerText";
 import { cn } from "@/lib/utils";
@@ -68,8 +68,21 @@ export function HomeHeroSlider({ slides: baseSlides, sale }: { slides: HomeSlide
   }, [warm, count, paused]);
 
   if (count === 0) return null;
-  // Start the first banner's download straight away, from the page's <head> (one for each kind of screen)
-  preload(slides[0].phone, { as: "image", fetchPriority: "high", media: PHONE_MEDIA });
+  // Start the first banner's download straight away, from the page's <head> (one for each kind of screen;
+  // phones that can show AVIF fetch the AVIF at their screen's size, the others the WebP)
+  const firstAvif = avifSrcSetOf(slides[0].phone);
+  if (firstAvif) {
+    preload(slides[0].phone.replace(/\.webp$/, ".avif"), {
+      as: "image",
+      type: "image/avif",
+      fetchPriority: "high",
+      imageSrcSet: firstAvif,
+      imageSizes: PHONE_BANNER_SIZES,
+      media: PHONE_MEDIA,
+    });
+  } else {
+    preload(slides[0].phone, { as: "image", fetchPriority: "high", media: PHONE_MEDIA });
+  }
   preload(slides[0].desktop, {
     as: "image",
     fetchPriority: "high",
@@ -117,9 +130,13 @@ export function HomeHeroSlider({ slides: baseSlides, sale }: { slides: HomeSlide
                 className="phone-cover"
                 style={{ "--art-ratio": PHONE_WIDTH / PHONE_HEIGHT, "--focus-x": s.phoneFocus?.[0], "--focus-y": s.phoneFocus?.[1] } as CSSProperties}
               >
+                {s.phonePlaceholder && <Preview src={s.phonePlaceholder} />}
                 {loaded.current.has(i) && (
                   <picture>
                     <source media={WIDE_MEDIA} srcSet={BLANK} />
+                    {avifSrcSetOf(s.phone) && (
+                      <source type="image/avif" srcSet={avifSrcSetOf(s.phone)!} sizes={PHONE_BANNER_SIZES} />
+                    )}
                     {/* eslint-disable-next-line @next/next/no-img-element -- pre-optimised artwork, served as is */}
                     <img
                       src={s.phone}
@@ -138,6 +155,7 @@ export function HomeHeroSlider({ slides: baseSlides, sale }: { slides: HomeSlide
             </div>
             {/* Tablets and computers: 2.334:1 banner */}
             <div className="absolute inset-0 hidden md:block">
+              {s.desktopPlaceholder && <Preview src={s.desktopPlaceholder} />}
               {loaded.current.has(i) && (
                 <picture>
                   <source media={PHONE_MEDIA} srcSet={BLANK} />
@@ -211,5 +229,16 @@ export function HomeHeroSlider({ slides: baseSlides, sale }: { slides: HomeSlide
         )}
       </div>
     </section>
+  );
+}
+
+/** A banner's tiny blurred preview, under the picture until it has downloaded. */
+function Preview({ src }: { src: string }) {
+  return (
+    <div
+      aria-hidden
+      className="absolute inset-0 scale-110 bg-cover bg-center blur-xl"
+      style={{ backgroundImage: `url(${src})` }}
+    />
   );
 }
