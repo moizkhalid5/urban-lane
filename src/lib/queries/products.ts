@@ -5,6 +5,7 @@ import { decorateCards } from "@/lib/queries/decorate-cards";
 import { sizesMatchAges } from "@/lib/kids-age";
 import { compareSizes, normalizeSize } from "@/lib/sizes";
 import { productIdsWithDiscount } from "@/lib/pricing/uk-price";
+import { discountPercent } from "@/lib/money";
 
 export type ProductCard = {
   id: string;
@@ -43,6 +44,8 @@ export type ProductFilter = {
   saleOnly?: boolean;
   /** only products the shop has discounted: a compare-at price above the price (the 11.11 sale, lib/sale.ts) */
   discountedOnly?: boolean;
+  /** with discountedOnly: only products discounted by more than this % (as shown, rounded), e.g. 20 for Black Friday */
+  discountAbove?: number;
   gender?: string;
   /** several departments at once, e.g. the sale banner → Men, Women and Kids */
   genders?: string[];
@@ -57,6 +60,15 @@ export type ProductFilter = {
 };
 
 const DEFAULT_PAGE_SIZE = 12;
+
+/** Live products whose own discount (compare-at price, rounded % as shown on the card) is above `pct`. */
+async function productIdsDiscountedAbove(pct: number): Promise<string[]> {
+  const rows = await prisma.product.findMany({
+    where: { status: "ACTIVE", compareAtCents: { gt: prisma.product.fields.priceCents } },
+    select: { id: true, priceCents: true, compareAtCents: true },
+  });
+  return rows.filter((r) => (discountPercent(r.priceCents, r.compareAtCents) ?? 0) > pct).map((r) => r.id);
+}
 
 /** Every stored spelling of the selected (normalised) sizes, e.g. "L" → ["L", "Large", "LARGE"]. */
 async function rawSizesFor(selected: string[]): Promise<string[]> {
@@ -122,6 +134,7 @@ async function buildWhere(f: ProductFilter): Promise<Prisma.ProductWhereInput> {
   else if (f.genders?.length) where.gender = { in: f.genders };
   if (f.saleOnly) where.isOutlet = true;
   if (f.discountedOnly) and.push({ compareAtCents: { gt: prisma.product.fields.priceCents } });
+  if (f.discountedOnly && f.discountAbove) and.push({ id: { in: await productIdsDiscountedAbove(f.discountAbove) } });
   if (f.brandSlugs?.length) and.push({ brand: { slug: { in: f.brandSlugs } } });
 
   if (f.minCents != null || f.maxCents != null) {

@@ -8,10 +8,10 @@ import { SaleCountdown } from "@/components/sale/SaleCountdown";
 
 const E = BLACK_FRIDAY;
 
-/** The biggest discount in the shop now (the same compare-at prices as 11.11), or 0. */
+/** The biggest discount in the sale now (the same compare-at prices as 11.11), or 0. */
 async function topDiscount() {
   try {
-    return (await saleStats()).maxPct;
+    return (await saleStats(E.above ?? 0)).maxPct;
   } catch {
     return 0;
   }
@@ -59,7 +59,7 @@ export default async function BlackFridayPage({ searchParams }: { searchParams: 
         <h1 className="text-3xl font-medium md:text-4xl">{E.title}</h1>
         <p className="mt-3 max-w-md text-ink-muted">
           {before
-            ? `Starts ${E.firstDay} and runs until Monday ${E.lastDay}${pct ? `: up to ${pct}% off original UK high-street brands` : ""}.`
+            ? `Starts ${E.firstDay} and runs until Monday ${E.lastDay}: everything in it more than ${E.above}% off${pct ? `, up to ${pct}%` : ""}.`
             : now >= E.ends
               ? `The ${E.title} has ended. Thank you for shopping with us.`
               : // during the sale, before any product has its sale price
