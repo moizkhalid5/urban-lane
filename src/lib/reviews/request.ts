@@ -5,6 +5,7 @@ import { APP_URL } from "@/lib/site";
 import { sendEmail } from "@/lib/email";
 import { reviewRequestTemplate } from "@/lib/email/templates";
 import { ensureReviewTables } from "./db";
+import { isPlaceholderEmail } from "@/lib/orders/placeholders";
 
 /**
  * "How was your order?" review requests. Each delivered order gets a private link,
@@ -58,7 +59,7 @@ export async function emailReviewRequest(orderId: string): Promise<boolean> {
     where: { id: orderId },
     select: { id: true, orderNumber: true, email: true, firstName: true, fulfillmentStatus: true, items: { select: { productTitle: true } } },
   });
-  if (!order || order.fulfillmentStatus !== "DELIVERED" || !order.email) return false;
+  if (!order || order.fulfillmentStatus !== "DELIVERED" || !order.email || isPlaceholderEmail(order.email)) return false;
   const items = [...new Set(order.items.map((i) => i.productTitle))];
   await sendEmail({ to: order.email, ...reviewRequestTemplate(order.firstName, order.orderNumber, items, reviewLink(order.orderNumber)) });
   await prisma.reviewRequest.upsert({

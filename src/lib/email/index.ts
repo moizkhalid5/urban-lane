@@ -2,6 +2,7 @@ import "server-only";
 import nodemailer from "nodemailer";
 import type SMTPTransport from "nodemailer/lib/smtp-transport";
 import { addressFor, mailboxFor, MAIL_SERVER, type Mailbox, type MailRole } from "@/lib/mail/accounts";
+import { isPlaceholderEmail } from "@/lib/orders/placeholders";
 
 /**
  * The shop's email.
@@ -152,6 +153,12 @@ export async function sendEmail(msg: EmailMessage): Promise<void> {
 
 /** Like sendEmail, but a failure throws, for screens that must say whether it went (campaigns, replies). */
 export async function sendEmailOrThrow(msg: EmailMessage): Promise<void> {
+  // Customers added by the admin without an email, and made-up sales, have a `.invalid` address
+  // (lib/orders/placeholders.ts): there is nobody to send to.
+  if (isPlaceholderEmail(msg.to)) {
+    console.info(`[email] Not sent to ${msg.to} (no real email address): ${msg.subject}`);
+    return;
+  }
   if (await sendViaMailbox(msg)) return;
   const provider = (process.env.EMAIL_PROVIDER || "console").toLowerCase();
   switch (provider) {

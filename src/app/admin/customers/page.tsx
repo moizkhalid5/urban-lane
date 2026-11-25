@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { shownEmail } from "@/lib/orders/placeholders";
 
 export const dynamic = "force-dynamic";
 
@@ -13,21 +14,24 @@ export default async function AdminCustomersPage({
   const q = sp.q?.trim() ?? "";
 
   const where: Prisma.UserWhereInput = { role: "CUSTOMER" };
-  if (q) where.OR = [{ email: { contains: q } }, { name: { contains: q } }];
+  if (q) where.OR = [{ email: { contains: q } }, { name: { contains: q } }, { profile: { phone: { contains: q } } }];
 
   const customers = await prisma.user.findMany({
     where,
     orderBy: { createdAt: "desc" },
     take: 100,
-    include: { _count: { select: { orders: true } } },
+    include: { _count: { select: { orders: true } }, profile: { select: { phone: true } } },
   });
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-medium">Customers</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-medium">Customers</h1>
+        <Link href="/admin/customers/new" className="btn-primary">Add customer</Link>
+      </div>
 
       <form className="flex gap-3" action="/admin/customers">
-        <input name="q" defaultValue={q} placeholder="Search name or email" className="input max-w-xs" />
+        <input name="q" defaultValue={q} placeholder="Search name, email or phone" className="input max-w-xs" />
         <button className="btn-secondary">Search</button>
       </form>
 
@@ -37,6 +41,7 @@ export default async function AdminCustomersPage({
             <tr>
               <th className="p-3">Name</th>
               <th className="p-3">Email</th>
+              <th className="p-3">Phone</th>
               <th className="p-3">Verified</th>
               <th className="p-3">Joined</th>
               <th className="p-3 text-right">Orders</th>
@@ -48,14 +53,15 @@ export default async function AdminCustomersPage({
                 <td className="p-3">
                   <Link href={`/admin/customers/${c.id}`} className="font-medium hover:underline">{c.name ?? "—"}</Link>
                 </td>
-                <td className="p-3 text-ink-muted">{c.email}</td>
+                <td className="p-3 text-ink-muted">{shownEmail(c.email)}</td>
+                <td className="p-3 text-ink-muted">{c.profile?.phone ?? "—"}</td>
                 <td className="p-3">{c.emailVerified ? "✓" : "—"}</td>
                 <td className="p-3 text-ink-muted">{c.createdAt.toLocaleDateString()}</td>
                 <td className="p-3 text-right">{c._count.orders}</td>
               </tr>
             ))}
             {customers.length === 0 && (
-              <tr><td colSpan={5} className="p-8 text-center text-ink-muted">No customers found.</td></tr>
+              <tr><td colSpan={6} className="p-8 text-center text-ink-muted">No customers found.</td></tr>
             )}
           </tbody>
         </table>

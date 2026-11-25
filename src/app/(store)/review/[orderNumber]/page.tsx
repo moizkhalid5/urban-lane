@@ -3,6 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { ensureReviewTables } from "@/lib/reviews/db";
 import { isValidReviewToken } from "@/lib/reviews/request";
+import { isMadeUpEmail } from "@/lib/orders/placeholders";
 import { OrderReviewForm } from "@/components/reviews/OrderReviewForm";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +30,8 @@ export default async function OrderReviewPage({ params, searchParams }: PageProp
       })
     : null;
 
-  if (!order) {
+  // made-up sales (Admin → Orders → Made-up sales) can never be reviewed
+  if (!order || isMadeUpEmail(order.email)) {
     return (
       <Message title="This link doesn't work">
         Please use the link from your email or WhatsApp message exactly as it was sent. If it still doesn&apos;t

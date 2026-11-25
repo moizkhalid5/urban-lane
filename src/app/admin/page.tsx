@@ -24,7 +24,14 @@ export default async function AdminDashboard() {
         take: 8,
         include: { product: { select: { title: true, slug: true, lowStockThreshold: true } } },
       }),
-      prisma.product.findMany({ orderBy: { salesCount: "desc" }, take: 5, select: { id: true, title: true, slug: true, salesCount: true } }),
+      // pieces sold in orders (not cancelled or returned), including orders created in the admin
+      prisma.orderItem.groupBy({
+        by: ["productId"],
+        where: { productId: { not: null }, order: { fulfillmentStatus: { notIn: ["CANCELLED", "RETURNED"] } } },
+        _sum: { quantity: true },
+        orderBy: { _sum: { quantity: "desc" } },
+        take: 5,
+      }),
       prisma.user.count({ where: { role: "CUSTOMER" } }),
       findProductsWithMissingImages().catch(() => []),
       uploadFolderStatus(),
@@ -34,6 +41,14 @@ export default async function AdminDashboard() {
     ]);
 
   const revenue = revenueAgg._sum.totalCents ?? 0;
+  const topIds = topProducts.map((t) => t.productId!).filter(Boolean);
+  const topInfo = new Map(
+    (await prisma.product.findMany({ where: { id: { in: topIds } }, select: { id: true, title: true, slug: true } })).map((p) => [p.id, p]),
+  );
+  const top = topProducts.flatMap((t) => {
+    const p = t.productId ? topInfo.get(t.productId) : undefined;
+    return p ? [{ ...p, sold: t._sum.quantity ?? 0 }] : [];
+  });
 
   return (
     <div className="space-y-8">
@@ -142,12 +157,13 @@ export default async function AdminDashboard() {
             <h2 className="font-medium">Top products</h2>
           </div>
           <ul className="divide-y divide-line-soft">
-            {topProducts.map((p) => (
+            {top.map((p) => (
               <li key={p.id} className="flex items-center justify-between p-3 text-sm">
                 <Link href={`/products/${p.slug}`} className="truncate hover:underline">{p.title}</Link>
-                <span className="ml-2 shrink-0 text-ink-muted">{p.salesCount} sold</span>
+                <span className="ml-2 shrink-0 text-ink-muted">{p.sold} sold</span>
               </li>
             ))}
+            {top.length === 0 && <li className="p-3 text-sm text-ink-muted">No sales yet.</li>}
           </ul>
         </section>
       </div>

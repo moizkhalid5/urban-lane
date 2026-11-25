@@ -6,6 +6,8 @@ import { formatMoney } from "@/lib/money";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { paymentLabel } from "@/lib/payments";
 import { PaymentReceivedTick } from "@/components/admin/PaymentReceivedTick";
+import { isMadeUpEmail, shownEmail } from "@/lib/orders/placeholders";
+import { MADE_UP } from "@/lib/orders/admin-orders";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +30,9 @@ export default async function AdminOrdersPage({
     where.OR = [
       { orderNumber: { contains: q } },
       { email: { contains: q } },
+      { phone: { contains: q } },
+      { firstName: { contains: q } },
+      { lastName: { contains: q } },
     ];
   }
   if (status === "awaiting-payment") {
@@ -40,7 +45,7 @@ export default async function AdminOrdersPage({
     where.fulfillmentStatus = status.toUpperCase() as FulfillmentStatus;
   }
 
-  const [orders, total] = await Promise.all([
+  const [orders, total, madeUp] = await Promise.all([
     prisma.order.findMany({
       where,
       orderBy: { createdAt: "desc" },
@@ -49,15 +54,24 @@ export default async function AdminOrdersPage({
       include: { items: { select: { id: true } } },
     }),
     prisma.order.count({ where }),
+    prisma.order.count({ where: MADE_UP }),
   ]);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-medium">Orders</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-medium">Orders</h1>
+        <div className="flex flex-wrap gap-2">
+          <Link href="/admin/orders/made-up" className="btn-ghost">
+            Made-up sales{madeUp > 0 ? ` (${madeUp})` : ""}
+          </Link>
+          <Link href="/admin/orders/new" className="btn-primary">Create order</Link>
+        </div>
+      </div>
 
       <form className="flex flex-wrap gap-3" action="/admin/orders">
-        <input name="q" defaultValue={q} placeholder="Search order # or email" className="input max-w-xs" />
+        <input name="q" defaultValue={q} placeholder="Search order #, name, email or phone" className="input max-w-xs" />
         <select name="status" defaultValue={status} className="input max-w-[12rem]">
           <option value="">All</option>
           <option value="awaiting-payment">Awaiting payment</option>
@@ -86,8 +100,9 @@ export default async function AdminOrdersPage({
               <tr key={o.id} className="border-b border-line-soft last:border-0 hover:bg-line-soft">
                 <td className="p-3">
                   <Link href={`/admin/orders/${o.orderNumber}`} className="font-medium hover:underline">{o.orderNumber}</Link>
+                  {isMadeUpEmail(o.email) && <span className="ml-2 rounded bg-line-soft px-1.5 py-0.5 text-[11px] text-ink-muted">Made-up</span>}
                 </td>
-                <td className="p-3">{o.firstName} {o.lastName}<br /><span className="text-xs text-ink-muted">{o.email}</span></td>
+                <td className="p-3">{o.firstName} {o.lastName}<br /><span className="text-xs text-ink-muted">{isMadeUpEmail(o.email) ? "" : shownEmail(o.email)}</span></td>
                 <td className="p-3 text-ink-muted">{o.createdAt.toLocaleDateString()}</td>
                 <td className="p-3">
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1">

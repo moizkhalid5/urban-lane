@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getBaseCurrency } from "@/lib/settings";
 import { formatMoney } from "@/lib/money";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { shownEmail } from "@/lib/orders/placeholders";
 
 export const dynamic = "force-dynamic";
 
@@ -26,10 +27,13 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
 
   return (
     <div className="space-y-6">
-      <div>
-        <Link href="/admin/customers" className="text-sm text-ink-muted hover:text-ink">← Customers</Link>
-        <h1 className="mt-1 text-2xl font-medium">{customer.name ?? customer.email}</h1>
-        <p className="text-sm text-ink-muted">{customer.email}{customer.profile?.phone ? ` · ${customer.profile.phone}` : ""}</p>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <Link href="/admin/customers" className="text-sm text-ink-muted hover:text-ink">← Customers</Link>
+          <h1 className="mt-1 text-2xl font-medium">{customer.name ?? shownEmail(customer.email)}</h1>
+          <p className="text-sm text-ink-muted">{shownEmail(customer.email)}{customer.profile?.phone ? ` · ${customer.profile.phone}` : ""}</p>
+        </div>
+        <Link href={`/admin/orders/new?customer=${customer.id}`} className="btn-primary">Create order for this customer</Link>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
