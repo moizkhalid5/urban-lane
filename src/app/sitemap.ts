@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { APP_URL } from "@/lib/site";
-import { activeSale, SALE } from "@/lib/sale";
+import { activeSale } from "@/lib/sale";
 import { brandProductCounts, indexableCategoryIds } from "@/lib/seo/indexing";
 
 // Generated at request time, not at build (the build has no DATABASE_URL).
@@ -40,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       brandProductCounts(),
       activeSale(),
     ]);
-    if (sale) pages.push({ url: `${APP_URL}${SALE.href}` });
+    if (sale) pages.push({ url: `${APP_URL}${sale.event.href}` });
     pages.push(
       ...categories.filter((c) => indexable.has(c.id)).map((c) => ({ url: `${APP_URL}/collections/${c.slug}`, lastModified: c.updatedAt })),
       ...brands.filter((b) => counts.get(b.id)).map((b) => ({ url: `${APP_URL}/brands/${b.slug}`, lastModified: b.updatedAt })),

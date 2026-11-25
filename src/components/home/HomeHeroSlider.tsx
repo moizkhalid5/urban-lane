@@ -132,7 +132,7 @@ export function HomeHeroSlider({ slides: baseSlides, sale }: { slides: HomeSlide
                     />
                   </picture>
                 )}
-                {sale && s.key === SALE_SLIDE && <SaleBannerText maxPct={sale.maxPct} phone />}
+                {sale && s.key === SALE_SLIDE && <SaleBannerText name={sale.name} maxPct={sale.maxPct} phone />}
                 <ArtworkBannerLinks image={s.phone} href={s.link} label={s.label} />
               </div>
             </div>
@@ -155,7 +155,7 @@ export function HomeHeroSlider({ slides: baseSlides, sale }: { slides: HomeSlide
                   />
                 </picture>
               )}
-              {sale && s.key === SALE_SLIDE && <SaleBannerText maxPct={sale.maxPct} />}
+              {sale && s.key === SALE_SLIDE && <SaleBannerText name={sale.name} maxPct={sale.maxPct} />}
               <ArtworkBannerLinks image={s.desktop} href={s.link} label={s.label} />
             </div>
           </div>

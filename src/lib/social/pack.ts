@@ -2,7 +2,7 @@ import "server-only";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { APP_URL } from "@/lib/site";
-import { SALE } from "@/lib/sale";
+import { saleOn } from "@/lib/sale";
 import { discountPercent } from "@/lib/money";
 
 /**
@@ -204,7 +204,8 @@ function posts(products: Product[], o: PackOptions): Product[][] {
 /** The caption. Sale prices only on posts during the sale; after it, the regular price. */
 function caption(p: Product, at: Date, o: PackOptions) {
   const onSale = !!p.compareAtCents && p.compareAtCents > p.priceCents;
-  const inSale = onSale && at < SALE.ends;
+  const sale = saleOn(at);
+  const inSale = onSale && !!sale;
   const pct = discountPercent(p.priceCents, p.compareAtCents);
   const sizes = [...new Set(p.variants.filter((v) => v.stock > 0 && v.size).map((v) => v.size!))];
   const colours = [...new Set(p.variants.filter((v) => v.color).map((v) => v.color!))];
@@ -215,7 +216,7 @@ function caption(p: Product, at: Date, o: PackOptions) {
     p.brand ? `by ${p.brand.name}` : null,
     "",
     inSale
-      ? `${SALE.title}: ${rupees(p.priceCents)} (was ${rupees(p.compareAtCents!)}, ${pct}% off) until ${SALE.lastDay}`
+      ? `${sale!.title}: ${rupees(p.priceCents)} (was ${rupees(p.compareAtCents!)}, ${pct}% off) until ${sale!.lastDay}`
       : rupees(onSale ? p.compareAtCents! : p.priceCents),
     sizes.length ? `Sizes: ${sizes.join(", ")}` : null,
     colours.length > 1 ? `Colours: ${colours.join(", ")}` : null,
@@ -225,14 +226,15 @@ function caption(p: Product, at: Date, o: PackOptions) {
     "",
     `Shop it at ${APP_URL.replace(/^https?:\/\//, "")} 🛍️`,
     "",
-    [o.hashtags.trim(), p.brand ? hashtag(p.brand.name) : "", dept?.tag ?? "", inSale ? "#1111Sale" : ""].filter(Boolean).join(" "),
+    [o.hashtags.trim(), p.brand ? hashtag(p.brand.name) : "", dept?.tag ?? "", inSale ? sale!.hashtag : ""].filter(Boolean).join(" "),
   ];
   return lines.filter((l) => l !== null).join("\n");
 }
 
 /** The caption of a collection: a numbered list of the products, in the order of the pictures. */
 function collectionCaption(items: Product[], at: Date, o: PackOptions) {
-  const inSale = at < SALE.ends && items.some((p) => !!p.compareAtCents && p.compareAtCents > p.priceCents);
+  const sale = saleOn(at);
+  const inSale = !!sale && items.some((p) => !!p.compareAtCents && p.compareAtCents > p.priceCents);
   const dept = deptOf(items[0]);
   const price = (p: Product) => {
     const onSale = !!p.compareAtCents && p.compareAtCents > p.priceCents;
@@ -242,17 +244,17 @@ function collectionCaption(items: Product[], at: Date, o: PackOptions) {
   const brands = [...new Set(items.map((p) => (p.brand ? hashtag(p.brand.name) : "")).filter(Boolean))].slice(0, 5);
 
   return [
-    `${dept?.emoji ?? "🛍️"} ${inSale ? `${SALE.title}: ` : ""}${dept?.picks ?? "Our picks"} (swipe →)`,
+    `${dept?.emoji ?? "🛍️"} ${inSale ? `${sale!.title}: ` : ""}${dept?.picks ?? "Our picks"} (swipe →)`,
     "",
     ...items.map((p, i) => `${i + 1}. ${p.title} · ${price(p)}`),
     "",
-    inSale ? `Sale prices until ${SALE.lastDay}.` : null,
+    inSale ? `Sale prices until ${sale!.lastDay}.` : null,
     "✔ Cash on delivery · Easypaisa & JazzCash",
     "✔ Free shipping over Rs 15,000 · Free 14-day returns",
     "",
     `Shop them all at ${APP_URL.replace(/^https?:\/\//, "")} 🛍️`,
     "",
-    [o.hashtags.trim(), dept?.tag ?? "", ...brands, inSale ? "#1111Sale" : ""].filter(Boolean).join(" "),
+    [o.hashtags.trim(), dept?.tag ?? "", ...brands, inSale ? sale!.hashtag : ""].filter(Boolean).join(" "),
   ]
     .filter((l) => l !== null)
     .join("\n");
@@ -283,13 +285,14 @@ async function plan(o: PackOptions) {
       const single = items.length === 1;
       const p = items[0];
       const photos = single ? p.images.slice(0, Math.max(1, Math.min(10, o.photos))).map((im) => picture(im, p)) : items.map((q) => picture(q.images[0], q));
-      const inSale = slot.at < SALE.ends && items.some((q) => !!q.compareAtCents && q.compareAtCents > q.priceCents);
+      const slotSale = saleOn(slot.at);
+      const inSale = !!slotSale && items.some((q) => !!q.compareAtCents && q.compareAtCents > q.priceCents);
       return {
         slot,
         products: items,
         caption: single ? caption(p, slot.at, o) : collectionCaption(items, slot.at, o),
         photos,
-        labels: [deptOf(p)?.label, inSale ? SALE.name : null].filter(Boolean).join(", "),
+        labels: [deptOf(p)?.label, inSale ? slotSale!.name : null].filter(Boolean).join(", "),
       };
     });
 }

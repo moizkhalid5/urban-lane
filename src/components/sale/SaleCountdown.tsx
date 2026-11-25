@@ -18,7 +18,7 @@ function left(ms: number) {
  * (lib/sale.ts). The first render uses the server's clock (`now`), so the page arrives with the right numbers;
  * the browser then keeps it ticking, re-checking every second so each minute turns over on time.
  */
-export function SaleCountdown({ ends, now }: { ends: number; now: number }) {
+export function SaleCountdown({ ends, now, label = "Sale ends" }: { ends: number; now: number; label?: string }) {
   const [current, setCurrent] = useState(now);
   useEffect(() => {
     setCurrent(Date.now());
@@ -29,11 +29,11 @@ export function SaleCountdown({ ends, now }: { ends: number; now: number }) {
   const parts = left(ends - current);
   const labels = ["days", "hours", "minutes"];
   const [d, h, m] = parts.map(Number);
-  const spoken = `Sale ends in ${d} ${d === 1 ? "day" : "days"}, ${h} ${h === 1 ? "hour" : "hours"} and ${m} ${m === 1 ? "minute" : "minutes"}`;
+  const spoken = `${label === "Sale ends" ? "Sale ends in" : label} ${d} ${d === 1 ? "day" : "days"}, ${h} ${h === 1 ? "hour" : "hours"} and ${m} ${m === 1 ? "minute" : "minutes"}`;
 
   return (
     <div className="w-fit rounded-2xl border border-line bg-white px-5 py-4 shadow-[0_6px_24px_rgba(0,0,0,0.06)]">
-      <p className="text-sm font-semibold uppercase tracking-[0.12em]">Sale ends</p>
+      <p className="text-sm font-semibold uppercase tracking-[0.12em]">{label}</p>
       {/* read out once as a sentence, not tile by tile, and not every minute */}
       <p className="sr-only">{spoken}</p>
       <div aria-hidden className="mt-3 flex items-start gap-1.5">
