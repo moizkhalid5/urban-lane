@@ -9,7 +9,7 @@ import { getWishlistCount } from "@/lib/wishlist";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { Analytics } from "@/components/analytics/Analytics";
 import { getAnalyticsIds } from "@/lib/analytics/settings";
-import { SALE, SALE_NAV_SLUG, activeSale } from "@/lib/sale";
+import { SALE_NAV_SLUG, activeSale } from "@/lib/sale";
 
 // The storefront renders per request (cart, currency cookie, session) and reads
 // the database in this layout. Forcing dynamic rendering keeps the production
@@ -29,9 +29,9 @@ export default async function StoreLayout({ children }: { children: React.ReactN
     getAnalyticsIds(),
     activeSale(),
   ]);
-  // During the 11.11 sale, a red "11.11" leads the menu (lib/sale.ts).
+  // During a sale, its name leads the menu in red, e.g. "11.11" or "Black Friday" (lib/sale.ts).
   const nav = sale
-    ? [{ name: SALE.name, slug: SALE_NAV_SLUG, href: SALE.href, isVirtual: false, columns: [] }, ...navTree]
+    ? [{ name: sale.event.name, slug: SALE_NAV_SLUG, href: sale.event.href, isVirtual: false, columns: [] }, ...navTree]
     : navTree;
   const isStaff = user?.role === "ADMIN" || user?.role === "STAFF";
   // Analytics leaves out the shop's own team, so their browsing doesn't count as shoppers'.

@@ -164,6 +164,8 @@ export function heroForPath(pathname: string | null): Pick<PageHero, "tone"> | n
   // the 11.11 sale page's banner (components/sale/SaleBanner.tsx); while the sale is off there's no banner,
   // and the header, finding none, stays white
   if (pathname === "/sale") return { tone: "light" };
+  // the Black Friday film (components/sale/BlackFridayHero.tsx), dark: white menu text
+  if (pathname === "/black-friday") return { tone: "dark" };
   const slug = pathname?.match(/^\/collections\/([^/?#]+)\/?$/)?.[1];
   return slug ? collectionHeroFor(slug) : null;
 }

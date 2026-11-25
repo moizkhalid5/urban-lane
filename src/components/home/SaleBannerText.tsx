@@ -6,13 +6,15 @@ import { cn } from "@/lib/utils";
 const RUST = "#a4532a";
 
 /**
- * "11.11 SALE · UP TO N% OFF" laid over the homepage's main "Urban Lane" banner during the sale (lib/sale.ts),
+ * "11.11 SALE · UP TO N% OFF" (or "Black Friday · UP TO N% OFF": the running sale's `name`, lib/sale.ts) laid over the homepage's main "Urban Lane" banner during the sale (lib/sale.ts),
  * in its empty space: under "LANE" on tablets and computers, on a cream card above the painted Shop Now on
  * phones. The card is placed by its bottom edge (4% of the picture above the button, which starts at 85.6%),
  * so however tall its text runs on a phone it grows upwards, never onto the button. Real text, not painted, so the artwork keeps its quality and the wording goes when the sale ends.
  * Placed inside the banner's picture-shaped box; it doesn't catch clicks (the banner link is under it).
  */
-export function SaleBannerText({ maxPct, phone }: { maxPct: number; phone?: boolean }) {
+export function SaleBannerText({ name, maxPct, phone }: { name: string; maxPct: number; phone?: boolean }) {
+  // a short name ("11.11") is set large with "Sale" beside it; a long one ("Black Friday") smaller, on its own
+  const long = name.length > 6;
   if (phone) {
     return (
       <div
@@ -23,12 +25,14 @@ export function SaleBannerText({ maxPct, phone }: { maxPct: number; phone?: bool
         )}
       >
         <div className="flex items-baseline gap-[0.35em] leading-none">
-          <span className="text-[11vw] font-bold italic" style={{ color: RUST }}>
-            11.11
+          <span className={cn("font-bold italic", long ? "whitespace-nowrap text-[8vw]" : "text-[11vw]")} style={{ color: RUST }}>
+            {name}
           </span>
-          <span className="border-b border-ink/70 pb-[0.1em] text-[5vw] uppercase italic tracking-[0.16em]">
-            Sale
-          </span>
+          {!long && (
+            <span className="border-b border-ink/70 pb-[0.1em] text-[5vw] uppercase italic tracking-[0.16em]">
+              Sale
+            </span>
+          )}
         </div>
         <div className="mt-[0.4em] flex items-baseline gap-[0.3em] leading-none">
           <span className="text-[2.7vw] uppercase tracking-[0.2em]">Up to</span>
@@ -50,12 +54,14 @@ export function SaleBannerText({ maxPct, phone }: { maxPct: number; phone?: bool
       )}
     >
       <div className="flex items-baseline gap-[0.3em] leading-none">
-        <span className="text-[6.4vw] font-bold italic" style={{ color: RUST }}>
-          11.11
+        <span className={cn("font-bold italic", long ? "whitespace-nowrap text-[3.6vw]" : "text-[6.4vw]")} style={{ color: RUST }}>
+          {name}
         </span>
-        <span className="border-b-2 border-ink/80 pb-[0.12em] text-[2.6vw] uppercase italic tracking-[0.18em]">
-          Sale
-        </span>
+        {!long && (
+          <span className="border-b-2 border-ink/80 pb-[0.12em] text-[2.6vw] uppercase italic tracking-[0.18em]">
+            Sale
+          </span>
+        )}
       </div>
       <div className="mt-[0.5vw] flex items-baseline gap-[0.6vw] leading-none">
         <span className="text-[1.05vw] uppercase tracking-[0.22em]">Up to</span>

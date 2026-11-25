@@ -17,7 +17,7 @@ import { getFeaturedPickIds } from "@/lib/featured";
 import { getProductsByIds } from "@/lib/queries/product-detail";
 import { getHomepageRail } from "@/lib/rail/queries";
 import { SalePoster } from "@/components/home/SalePoster";
-import { SALE, activeSale } from "@/lib/sale";
+import { activeSale } from "@/lib/sale";
 import type { Metadata } from "next";
 import { getSiteSettings } from "@/lib/settings";
 import { homeMetadata, rupees } from "@/lib/seo/meta";
@@ -124,7 +124,7 @@ export default async function HomePage() {
       <JsonLd data={websiteLd(settings.storeName)} />
 
       {/* Full-width banner slider under the transparent menu (slides: lib/collection-heroes.ts) */}
-      <HomeHeroSlider slides={HOME_SLIDES} sale={sale && { maxPct: sale.maxPct, href: SALE.href, name: SALE.name }} />
+      <HomeHeroSlider slides={HOME_SLIDES} sale={sale && { maxPct: sale.maxPct, href: sale.event.href, name: sale.event.name }} />
 
       {/* The page's main heading: the banners are pictures, so this line says in words what the shop is. */}
       <div className="container-site pt-10 text-center">
@@ -132,7 +132,7 @@ export default async function HomePage() {
       </div>
 
       {/* During the 11.11 sale: its poster pops up once per visitor at the rail (lib/sale.ts) */}
-      {sale && <SalePoster name={SALE.name} href={SALE.href} poster={SALE.poster} storageKey="sale-1111-poster-seen" />}
+      {sale?.event.poster && <SalePoster name={sale.event.name} href={sale.event.href} poster={sale.event.poster} storageKey="sale-1111-poster-seen" />}
 
       {railAt("after-hero")}
 
