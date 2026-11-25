@@ -24,7 +24,7 @@ const DEPARTMENTS = [
 export async function SaleListing({ event, maxPct, sp }: { event: SaleEvent; maxPct: number; sp: RawSearchParams }) {
   const currency = await getActiveCurrency();
   const filter = parseFilters(sp, currency);
-  const feedSource = { kind: "sale" as const };
+  const feedSource = { kind: "sale" as const, above: event.above };
   const [{ products, total }, facetData] = await Promise.all([
     listProducts({ ...feedFilter(feedSource, sp, currency), page: 1, pageSize: FEED_BATCH }),
     getFacets(undefined),
@@ -58,7 +58,8 @@ export async function SaleListing({ event, maxPct, sp }: { event: SaleEvent; max
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-sale">Until {event.lastDay}</p>
           <h1 className="mt-1 text-3xl font-medium md:text-4xl">{department ? `${department} ${event.title}` : event.title}</h1>
           <p className="mt-2 max-w-2xl text-ink-muted">
-            Up to {maxPct}% off. The original price is crossed out on every item, with the sale price next to it.
+            {event.above ? `Everything here is more than ${event.above}% off, up to ${maxPct}%.` : `Up to ${maxPct}% off.`} The original
+            price is crossed out on every item, with the sale price next to it.
           </p>
         </div>
         <SaleCountdown ends={event.ends.getTime()} now={Date.now()} />

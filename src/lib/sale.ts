@@ -21,6 +21,11 @@ export type SaleEvent = {
   firstDay: string;
   lastDay: string;
   hashtag: string;
+  /**
+   * Only products whose discount (as shoppers see it, rounded) is above this %, e.g. 20 for Black Friday.
+   * Without it, every discounted product is in the sale.
+   */
+  above?: number;
   /** the poster that pops up once per visitor at the homepage rail */
   poster?: { src: string; width: number; height: number };
 };
@@ -49,6 +54,8 @@ export const BLACK_FRIDAY: SaleEvent = {
   firstDay: "Friday 27 November",
   lastDay: "30 November",
   hashtag: "#BlackFriday",
+  // every product discounted by more than 20%
+  above: 20,
 };
 
 export const SALES: SaleEvent[] = [ELEVEN_ELEVEN, BLACK_FRIDAY];
@@ -56,6 +63,12 @@ export const SALES: SaleEvent[] = [ELEVEN_ELEVEN, BLACK_FRIDAY];
 export const SALE = ELEVEN_ELEVEN;
 
 export { SALE_NAV_SLUG } from "@/lib/sale-nav";
+
+/** Whether a product with these prices is in the sale: discounted, and by more than the sale's `above`. */
+export function inSaleEvent(event: SaleEvent, priceCents: number, compareAtCents: number | null | undefined) {
+  const pct = discountPercent(priceCents, compareAtCents);
+  return pct != null && pct > (event.above ?? 0);
+}
 
 /** The sale running at `now`, if any. */
 export function saleOn(now = new Date()): SaleEvent | null {
@@ -68,15 +81,18 @@ export function saleDatesOn(now = new Date()) {
 
 export type SaleStats = { count: number; maxPct: number };
 
-/** How many products are discounted, and the biggest discount. Refreshed when products are saved (tag "nav"). */
+/**
+ * How many products are discounted (by more than `above` %), and the biggest discount. Refreshed when products
+ * are saved (tag "nav").
+ */
 export const saleStats = unstable_cache(
-  async (): Promise<SaleStats> => {
+  async (above = 0): Promise<SaleStats> => {
     const rows = await prisma.product.findMany({
       where: { status: "ACTIVE", compareAtCents: { gt: prisma.product.fields.priceCents } },
       select: { priceCents: true, compareAtCents: true },
     });
-    const pcts = rows.map((r) => discountPercent(r.priceCents, r.compareAtCents) ?? 0);
-    return { count: rows.length, maxPct: pcts.length ? Math.max(...pcts) : 0 };
+    const pcts = rows.map((r) => discountPercent(r.priceCents, r.compareAtCents) ?? 0).filter((p) => p > above);
+    return { count: pcts.length, maxPct: pcts.length ? Math.max(...pcts) : 0 };
   },
   ["sale-stats"],
   { tags: ["nav"], revalidate: 300 },
@@ -89,7 +105,7 @@ export async function activeSale(): Promise<ActiveSale | null> {
   const event = saleOn();
   if (!event) return null;
   try {
-    const stats = await saleStats();
+    const stats = await saleStats(event.above ?? 0);
     return stats.count > 0 ? { ...stats, event } : null;
   } catch (err) {
     console.error("[sale] Couldn't load the sale's products.", err);

@@ -12,7 +12,8 @@ export type FeedSource =
   | { kind: "category"; slug: string }
   | { kind: "brand"; slug: string }
   | { kind: "offers" }
-  | { kind: "sale" }
+  /** `above`: only products discounted by more than this % (Black Friday: 20) */
+  | { kind: "sale"; above?: number }
   | { kind: "search" };
 
 /** Products per batch: six rows of four on computers. */
@@ -29,8 +30,8 @@ export function feedFilter(source: FeedSource, sp: RawSearchParams, currency: Di
       // Every product that shows a discount, unless a range was chosen
       return { ...filter, save: filter.save ?? { min: 1, max: 100 } };
     case "sale":
-      // The 11.11 sale: products discounted in Admin (lib/sale.ts)
-      return { ...filter, discountedOnly: true };
+      // A sale (lib/sale.ts): products discounted in Admin, by more than `above` % if given
+      return { ...filter, discountedOnly: true, discountAbove: source.above };
     case "search": {
       const q = Array.isArray(sp.q) ? sp.q[0] : sp.q;
       return { ...filter, q: q?.trim() ?? "" };

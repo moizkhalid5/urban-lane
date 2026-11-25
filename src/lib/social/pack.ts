@@ -2,7 +2,7 @@ import "server-only";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { APP_URL } from "@/lib/site";
-import { saleOn } from "@/lib/sale";
+import { inSaleEvent, saleOn } from "@/lib/sale";
 import { discountPercent } from "@/lib/money";
 
 /**
@@ -205,7 +205,7 @@ function posts(products: Product[], o: PackOptions): Product[][] {
 function caption(p: Product, at: Date, o: PackOptions) {
   const onSale = !!p.compareAtCents && p.compareAtCents > p.priceCents;
   const sale = saleOn(at);
-  const inSale = onSale && !!sale;
+  const inSale = onSale && !!sale && inSaleEvent(sale, p.priceCents, p.compareAtCents);
   const pct = discountPercent(p.priceCents, p.compareAtCents);
   const sizes = [...new Set(p.variants.filter((v) => v.stock > 0 && v.size).map((v) => v.size!))];
   const colours = [...new Set(p.variants.filter((v) => v.color).map((v) => v.color!))];
@@ -234,11 +234,11 @@ function caption(p: Product, at: Date, o: PackOptions) {
 /** The caption of a collection: a numbered list of the products, in the order of the pictures. */
 function collectionCaption(items: Product[], at: Date, o: PackOptions) {
   const sale = saleOn(at);
-  const inSale = !!sale && items.some((p) => !!p.compareAtCents && p.compareAtCents > p.priceCents);
+  const inSale = !!sale && items.some((p) => inSaleEvent(sale, p.priceCents, p.compareAtCents));
   const dept = deptOf(items[0]);
   const price = (p: Product) => {
     const onSale = !!p.compareAtCents && p.compareAtCents > p.priceCents;
-    if (onSale && inSale) return `${rupees(p.priceCents)} (was ${rupees(p.compareAtCents!)}, ${discountPercent(p.priceCents, p.compareAtCents)}% off)`;
+    if (onSale && inSale && inSaleEvent(sale!, p.priceCents, p.compareAtCents)) return `${rupees(p.priceCents)} (was ${rupees(p.compareAtCents!)}, ${discountPercent(p.priceCents, p.compareAtCents)}% off)`;
     return rupees(onSale ? p.compareAtCents! : p.priceCents);
   };
   const brands = [...new Set(items.map((p) => (p.brand ? hashtag(p.brand.name) : "")).filter(Boolean))].slice(0, 5);
@@ -286,7 +286,7 @@ async function plan(o: PackOptions) {
       const p = items[0];
       const photos = single ? p.images.slice(0, Math.max(1, Math.min(10, o.photos))).map((im) => picture(im, p)) : items.map((q) => picture(q.images[0], q));
       const slotSale = saleOn(slot.at);
-      const inSale = !!slotSale && items.some((q) => !!q.compareAtCents && q.compareAtCents > q.priceCents);
+      const inSale = !!slotSale && items.some((q) => inSaleEvent(slotSale, q.priceCents, q.compareAtCents));
       return {
         slot,
         products: items,
