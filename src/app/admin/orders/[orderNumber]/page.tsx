@@ -12,6 +12,7 @@ import { whatsappReviewLink } from "@/lib/reviews/request";
 import { paymentLabel } from "@/lib/payments";
 import { paymentConfirmation } from "@/lib/payments/confirm";
 import { PaymentReceivedTick } from "@/components/admin/PaymentReceivedTick";
+import { isMadeUpEmail, shownEmail } from "@/lib/orders/placeholders";
 
 export const dynamic = "force-dynamic";
 
@@ -26,6 +27,7 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ o
   const [currency, confirmed] = await Promise.all([getBaseCurrency(), paymentConfirmation(order.id)]);
   const method = paymentLabel(order.paymentMethod);
   const total = formatMoney(order.totalCents, currency);
+  const madeUp = isMadeUpEmail(order.email);
 
   return (
     <div className="space-y-6">
@@ -43,6 +45,13 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ o
           </Link>
         </div>
       </div>
+
+      {madeUp && (
+        <p className="card border-line bg-line-soft p-4 text-sm text-ink-soft">
+          This is a made-up sale (Admin → Orders → <Link href="/admin/orders/made-up" className="underline">Made-up sales</Link>), not a real
+          order. It only counts in the Dashboard and Analytics. Nothing needs sending.
+        </p>
+      )}
 
       {order.paymentStatus === "PENDING" ? (
         <div className="card flex flex-wrap items-center justify-between gap-4 border-amber-200 bg-amber-50 p-4 text-sm">
@@ -99,7 +108,7 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ o
             <div className="card p-4 text-sm">
               <h3 className="mb-2 font-medium">Customer</h3>
               <p>{order.firstName} {order.lastName}</p>
-              <p className="text-ink-muted">{order.email}</p>
+              {!madeUp && <p className="text-ink-muted">{shownEmail(order.email)}</p>}
               {order.phone && <p className="text-ink-muted">{order.phone}</p>}
             </div>
             <div className="card p-4 text-sm">
@@ -112,7 +121,7 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ o
             </div>
           </div>
 
-          {order.fulfillmentStatus === "DELIVERED" && (
+          {order.fulfillmentStatus === "DELIVERED" && !madeUp && (
             <div className="card space-y-2 p-4 text-sm">
               <h3 className="font-medium">Ask for a review</h3>
               <p className="text-ink-muted">

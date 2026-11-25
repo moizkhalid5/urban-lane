@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireStaff } from "@/lib/auth/guards";
 import { ensureReviewTables } from "@/lib/reviews/db";
 import { whatsappReviewLink } from "@/lib/reviews/request";
+import { NOT_MADE_UP } from "@/lib/orders/admin-orders";
 import { EmailAllButton, ReviewRequestButtons } from "@/components/admin/ReviewRequestButtons";
 
 export const dynamic = "force-dynamic";
@@ -16,10 +17,10 @@ export default async function ReviewRequestsPage({ searchParams }: { searchParam
   const page = Math.max(1, Number((await searchParams).page) || 1);
 
   const [total, notAsked, orders] = await Promise.all([
-    prisma.order.count({ where: { fulfillmentStatus: "DELIVERED" } }),
-    prisma.order.count({ where: { fulfillmentStatus: "DELIVERED", reviewRequest: { is: null } } }),
+    prisma.order.count({ where: { ...NOT_MADE_UP, fulfillmentStatus: "DELIVERED" } }),
+    prisma.order.count({ where: { ...NOT_MADE_UP, fulfillmentStatus: "DELIVERED", reviewRequest: { is: null } } }),
     prisma.order.findMany({
-      where: { fulfillmentStatus: "DELIVERED" },
+      where: { ...NOT_MADE_UP, fulfillmentStatus: "DELIVERED" },
       orderBy: { updatedAt: "desc" },
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,

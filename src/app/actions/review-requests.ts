@@ -7,6 +7,8 @@ import { requireStaff } from "@/lib/auth/guards";
 import { logAudit } from "@/lib/audit";
 import { ensureReviewTables, getReviewSettings } from "@/lib/reviews/db";
 import { emailReviewRequest, isValidReviewToken } from "@/lib/reviews/request";
+import { isMadeUpEmail } from "@/lib/orders/placeholders";
+import { NOT_MADE_UP } from "@/lib/orders/admin-orders";
 
 export type RequestResult = { ok: boolean; message?: string };
 
@@ -42,7 +44,9 @@ export async function submitOrderReviews(orderNumber: string, token: string, inp
     where: { orderNumber },
     select: { email: true, userId: true, fulfillmentStatus: true, items: { select: { productId: true, product: { select: { slug: true } } } } },
   });
-  if (!order || order.fulfillmentStatus !== "DELIVERED") return { ok: false, message: "This order can be reviewed once it has been delivered." };
+  // made-up sales (Admin → Orders → Made-up sales) can never be reviewed
+  if (!order || isMadeUpEmail(order.email)) return { ok: false, message: "This review link isn't valid." };
+  if (order.fulfillmentStatus !== "DELIVERED") return { ok: false, message: "This order can be reviewed once it has been delivered." };
 
   const slugs = new Map(order.items.flatMap((i) => (i.productId && i.product ? [[i.productId, i.product.slug] as const] : [])));
   const email = order.email.toLowerCase();
@@ -99,7 +103,7 @@ export async function emailAllNotAsked(limit = 100): Promise<RequestResult> {
   const user = await requireStaff();
   await ensureReviewTables();
   const orders = await prisma.order.findMany({
-    where: { fulfillmentStatus: "DELIVERED", reviewRequest: { is: null } },
+    where: { ...NOT_MADE_UP, fulfillmentStatus: "DELIVERED", reviewRequest: { is: null } },
     orderBy: { updatedAt: "desc" },
     select: { id: true },
     take: Math.min(Math.max(1, limit), 200),
