@@ -7,4 +7,7 @@ export async function register() {
   // Easypaisa / JazzCash and the one-time payment settings fix (lib/payments/settings.ts)
   const { ensurePaymentTables } = await import("@/lib/payments/settings");
   await ensurePaymentTables().catch((err) => console.error("[payments] Couldn't set up the payment settings.", err));
+  // New wholesale prospects (research files) into Admin → Wholesale, once each (lib/wholesale/seed.ts)
+  const { seedWholesaleProspectsOnce } = await import("@/lib/wholesale/seed");
+  await seedWholesaleProspectsOnce();
 }
